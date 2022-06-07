@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TagLib;
+using File = TagLib.File;
 
 namespace MusicLoverHandbook.View
 {
@@ -16,7 +18,6 @@ namespace MusicLoverHandbook.View
         {
             InitializeComponent();
 
-            
         }
     }
 }
