@@ -1,6 +1,4 @@
-﻿
-
-namespace MusicLoverHandbook.View
+﻿namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     partial class MainForm
     {
@@ -36,7 +34,7 @@ namespace MusicLoverHandbook.View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1923, 1043);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);

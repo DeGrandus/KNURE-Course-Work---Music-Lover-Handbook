@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    internal interface ISmartInput
+    internal interface INoteControl : INote
     {
+        new INoteControl InnerContent { get; set; }
     }
 }

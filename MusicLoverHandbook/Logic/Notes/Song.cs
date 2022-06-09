@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicLoverHandbook.Models.Enums
+namespace MusicLoverHandbook.Logic.Notes
 {
-    internal enum InputState
+    internal class Song
     {
-        OK,WARN,ERROR
     }
 }

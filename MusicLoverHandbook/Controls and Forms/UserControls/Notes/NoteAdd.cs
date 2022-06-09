@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MusicLoverHandbook.Controls_and_Forms.Forms
+namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class MainForm : Form
+    public partial class NoteAdd : UserControl
     {
-        public MainForm()
+        public NoteAdd()
         {
             InitializeComponent();
         }

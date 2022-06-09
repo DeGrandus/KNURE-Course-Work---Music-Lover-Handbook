@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+namespace MusicLoverHandbook.Logic
 {
-    internal class SmartInput
+    internal class DragFileHandler
     {
+
     }
 }

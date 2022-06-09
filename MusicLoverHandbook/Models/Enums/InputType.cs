@@ -8,5 +8,6 @@ namespace MusicLoverHandbook.Models.Enums
 {
     internal enum InputType
     {
+        Description,Author,AuthorType,Album,SongName,SongFilePath,SongFileLength,
     }
 }

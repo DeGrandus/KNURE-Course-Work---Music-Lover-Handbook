@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum InputState
+    internal enum NoteType
     {
-        OK,WARN,ERROR
+        Author,Album,SongNote,SongFile
     }
 }

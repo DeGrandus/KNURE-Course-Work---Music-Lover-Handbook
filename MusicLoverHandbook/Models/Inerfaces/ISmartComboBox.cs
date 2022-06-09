@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicLoverHandbook.Models.Enums
+namespace MusicLoverHandbook.Models.Inerfaces
 {
-    internal enum InputState
+    internal interface ISmartComboBox
     {
-        OK,WARN,ERROR
     }
 }
