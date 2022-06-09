@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Model
 {
-    internal class MusicData
+    public class MusicData
     {
     }
 }

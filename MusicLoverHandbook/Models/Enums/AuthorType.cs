@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum AuthorType
+    public enum AuthorType
     {
         Group = 0b01,
         Person = 0b10,

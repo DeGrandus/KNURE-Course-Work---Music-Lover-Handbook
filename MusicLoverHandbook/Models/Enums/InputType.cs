@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum InputType
+    public enum InputType
     {
         Description,Author,AuthorType,Album,SongName,SongFilePath,SongFileLength,
     }

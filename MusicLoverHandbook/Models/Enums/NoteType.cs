@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum NoteType : int
+    public enum NoteType : int
     {
         Author,
         Album,

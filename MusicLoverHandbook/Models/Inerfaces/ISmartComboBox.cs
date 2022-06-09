@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    internal interface ISmartComboBox
+    public interface ISmartComboBox
     {
     }
 }

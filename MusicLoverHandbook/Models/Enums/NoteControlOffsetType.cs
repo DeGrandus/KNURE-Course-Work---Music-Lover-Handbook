@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum NoteControlOffsetType
+    public enum NoteControlOffsetType
     {
         Absolute,Relative
     }

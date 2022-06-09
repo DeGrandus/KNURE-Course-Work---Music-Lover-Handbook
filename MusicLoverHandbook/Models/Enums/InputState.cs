@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum InputState
+    public enum InputState
     {
         OK,WARN,ERROR
     }

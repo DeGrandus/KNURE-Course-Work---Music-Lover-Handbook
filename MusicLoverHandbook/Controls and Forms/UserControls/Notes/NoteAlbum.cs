@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicLoverHandbook.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteAlbum : UserControl
+    public partial class NoteAlbum : NoteControl<NoteSong>
     {
         public NoteAlbum()
         {

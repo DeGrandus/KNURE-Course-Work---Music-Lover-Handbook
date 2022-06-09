@@ -8,14 +8,23 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    internal interface INote
+    public interface INote
     {
         string NoteText { get; set; }
         string NoteDescription { get; set; }
     }
-    internal interface INote<InnerContentType> where InnerContentType : INote
+    public interface INoteParent<InnerNotesType> where InnerNotesType : INote
     { 
-        public IReadOnlyCollection<InnerContentType> InnerContent { get; }
+        public IReadOnlyCollection<InnerNotesType> InnerNotes { get; }
+
+    }
+    public interface INoteChild<ParentNoteType> where ParentNoteType : INote
+    {
+        public ParentNoteType ParentNote { get; }
+
+    }
+    public interface INoteMidder<ParentNoteType, InnerNotesType> : INoteChild<ParentNoteType>, INoteParent<InnerNotesType> where ParentNoteType : INote where InnerNotesType : INote
+    {
 
     }
 }
