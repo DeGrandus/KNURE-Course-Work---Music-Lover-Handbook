@@ -7,17 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TagLib;
-using File = TagLib.File;
 
-namespace MusicLoverHandbook.View
+namespace MusicLoverHandbook.View.Forms
 {
-    public partial class MainForm : Form
+    public partial class Settings : Form
     {
-        public MainForm()
+        public Settings()
         {
             InitializeComponent();
-
         }
     }
 }
