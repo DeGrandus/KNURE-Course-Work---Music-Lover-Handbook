@@ -1,6 +1,6 @@
-﻿namespace MusicLoverHandbook.View.UserControls.Notes
+﻿namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    partial class NoteMusic
+    partial class NoteSongFile
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

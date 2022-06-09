@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    internal enum NoteType : int
+    internal enum NoteControlOffsetType
     {
-        Author,
-        Album,
-        SongNote,
-        SongFile
+        Absolute,Relative
     }
 }

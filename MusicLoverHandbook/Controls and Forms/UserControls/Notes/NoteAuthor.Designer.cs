@@ -1,4 +1,4 @@
-﻿namespace MusicLoverHandbook.View.UserControls
+﻿namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     partial class NoteAuthor
     {
