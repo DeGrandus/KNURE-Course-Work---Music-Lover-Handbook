@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteSongFile : NoteControlChild<NoteSong>
+    public partial class NoteContainer : NoteControlParent<NoteAuthor>
     {
-        public NoteSongFile()
+        public NoteContainer()
         {
             InitializeComponent();
         }

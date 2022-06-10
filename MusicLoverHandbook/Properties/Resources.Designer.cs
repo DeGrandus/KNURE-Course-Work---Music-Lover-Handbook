@@ -22,8 +22,7 @@ namespace MusicLoverHandbook.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    
-    class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -58,6 +57,16 @@ namespace MusicLoverHandbook.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] Datas {
+            get {
+                object obj = ResourceManager.GetObject("Datas", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

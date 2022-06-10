@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteAlbum : NoteControl<NoteSong>
+    public partial class NoteAlbum : NoteControlMidder<NoteAuthor, NoteSong>
     {
         public NoteAlbum()
         {
