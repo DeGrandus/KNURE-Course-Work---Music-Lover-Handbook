@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MusicLoverHandbook.Models.Attributes;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
@@ -23,30 +25,17 @@ namespace MusicLoverHandbook.Models.Enums
         [ErrorState]
         EMPTY_FIELD = 0xF89198
     }
-    public class TextAttribute : Attribute
-    {
-        public string Text { get; }
-        public TextAttribute(string text)
-        {
-            Text = text;
-        }
-    }
-    public class ErrorStateAttribute : Attribute
-    {
-    }
     static class ExtensionMethods
     {
         public static string? GetStringValue(this InputState value)
         {
-            var type = value.GetType();
-            var fieldInfo = type.GetField(value.ToString());
-            TextAttribute[]? attrs = fieldInfo?.GetCustomAttributes(typeof(TextAttribute), false).Cast<TextAttribute>().ToArray();
-            return attrs?.Length > 0 ? attrs[0].Text : null;
+            return value.GetType().GetField(value.ToString())?.GetCustomAttribute<TextAttribute>(false) is TextAttribute attr ? attr.Text : null;
         }
         public static bool? IsError(this InputState value)
         {
-            return value.GetType().GetField(value.ToString())?.GetCustomAttribute<ErrorStateAttribute>() != null;
+            return value.GetType().GetField(value.ToString())?.GetCustomAttribute<ErrorStateAttribute>(false) != null;
         }
+
     }
 
 }

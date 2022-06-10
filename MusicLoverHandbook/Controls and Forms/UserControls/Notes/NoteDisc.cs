@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,9 +12,10 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteAlbum : NoteControlMidder<NoteAuthor, NoteSong>
+    public partial class NoteDisc : NoteControlMidder<NoteAuthor, NoteSong>
     {
-        public NoteAlbum()
+        public override NoteType Type { get; } = NoteType.Disc;
+        public NoteDisc(NoteAuthor author, string text,string description) : base(author, text, description)
         {
             InitializeComponent();
         }

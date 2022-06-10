@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +12,15 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteAdd : UserControl
+    public partial class NoteAdd : NoteControlChild<NoteControlParent<NoteControl>>
     {
-        public NoteAdd()
+        public override NoteType Type { get; } = NoteType.AddButton;
+
+        public NoteAdd(NoteControlParent<NoteControl> parent, string noteText, string noteDescription) : base(parent, noteText, noteDescription)
         {
             InitializeComponent();
+
+            
         }
     }
 }
