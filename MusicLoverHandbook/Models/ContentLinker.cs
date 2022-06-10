@@ -10,12 +10,12 @@ using static System.Windows.Forms.Control;
 
 namespace MusicLoverHandbook.Models
 {
-    public class ContentLinker<InnerNotesType> where InnerNotesType : NoteControl
+    public class ContentLinker<InnerNotesType> where InnerNotesType : INoteControl
     {
         private ControlCollection Controls { get; }
-        public NoteControlParent<InnerNotesType> Note { get; }
+        public INoteControlParent<InnerNotesType> Note { get; }
         public ObservableCollection<InnerNotesType> Observed => Note.InnerNotes;
-        public ContentLinker(NoteControlParent<InnerNotesType> note)
+        public ContentLinker(INoteControlParent<InnerNotesType> note)
         {
             Note = note;
             Controls = Note.Controls;
@@ -46,16 +46,17 @@ namespace MusicLoverHandbook.Models
                     break;
                 case NotifyCollectionChangedAction.Move:
                     if (e.NewItems != null && e.NewItems.Count == 1 && e.NewItems[0] is NoteControl)
-                        Controls.SetChildIndex((NoteControl)e.NewItems[0], e.NewStartingIndex);
+                        Controls.SetChildIndex((e.NewItems[0] as NoteControl), e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     if (sender is ObservableCollection<NoteControl> && e.OldItems != null)
+                        
                         foreach (NoteControl item in e.OldItems)
                         {
-                            Note.SuspendLayout();
+                            (Note as NoteControl)?.SuspendLayout();
                             Controls.Remove(item);
                             Controls.Add(item);
-                            Note.ResumeLayout();
+                            (Note as NoteControl)?.ResumeLayout();
                         }
                     break;
             }

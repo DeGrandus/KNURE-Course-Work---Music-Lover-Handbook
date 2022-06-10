@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models
 {
-    public class NoteControl : UserControl, INote
+    public class NoteControl : UserControl, INote, INoteControl
     {
         public Image? Icon { get; set; }
         public int Offset { get; set; } = 10;
@@ -17,6 +17,8 @@ namespace MusicLoverHandbook.Models
         public Color StripColor { get; set; }
         public string NoteText { get; set; }
         public string NoteDescription { get; set; }
+        ControlCollection INoteControl.Controls => Controls;
+
         protected NoteControl(Color stripColor, string text, string description)
         {
             StripColor = stripColor;
