@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models
 {
-    public class NoteControlParent<InnerNotesType> : NoteControl, INoteParent<InnerNotesType> where InnerNotesType : NoteControl
+    public class NoteControlParent<InnerNotesType> : NoteControl, INoteParent<InnerNotesType>, INoteControlParent<InnerNotesType> where InnerNotesType : NoteControl
     {
         public ObservableCollection<InnerNotesType> InnerNotes { get; set; } = new();
         public ContentLinker<InnerNotesType> Linker { get; }
