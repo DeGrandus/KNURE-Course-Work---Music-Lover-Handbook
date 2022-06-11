@@ -20,14 +20,18 @@ namespace MusicLoverHandbook.Models
             var executing = Assembly.GetExecutingAssembly();
             var fonts = executing
                 .GetManifestResourceNames()
-                .Where(x => Regex.IsMatch(x, @"\.tff|\.otf")).ToList();
+                .Where(x => Regex.IsMatch(x, @"\.tff|\.otf"))
+                .ToList();
             Families = new FontFamily[fonts.Count()];
             for (var i = 0; i < fonts.Count; i++)
             {
                 FontFamily output = FontFamily.GenericSansSerif;
                 try
                 {
-                    try { output = new FontFamily("Mariupol"); }
+                    try
+                    {
+                        output = new FontFamily("Mariupol");
+                    }
                     catch (ArgumentException e)
                     {
                         var font = fonts[i];
@@ -57,14 +61,13 @@ namespace MusicLoverHandbook.Models
                     {
                         output = new FontFamily("Segoe UI");
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
                 finally
                 {
                     Families[i] = output;
-                };
+                }
+                ;
             }
         }
     }

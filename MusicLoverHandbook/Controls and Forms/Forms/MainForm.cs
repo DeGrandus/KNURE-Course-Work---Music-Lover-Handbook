@@ -37,35 +37,63 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private Color[] CreateGradient()
         {
             var step = 10;
-            var colors = new[] { Color.Red, Color.Orange, Color.Gold, Color.Green, Color.SkyBlue, Color.DarkBlue, Color.BlueViolet, Color.Red };
+            var colors = new[]
+            {
+                Color.Red,
+                Color.Orange,
+                Color.Gold,
+                Color.Green,
+                Color.SkyBlue,
+                Color.DarkBlue,
+                Color.BlueViolet,
+                Color.Red
+            };
             var groups = new List<(Color from, Color to)>();
-            colors.Aggregate((c, x) => { groups.Add((c, x)); return x; });
+            colors.Aggregate(
+                (c, x) =>
+                {
+                    groups.Add((c, x));
+                    return x;
+                }
+            );
 
             var gradiented = new List<Color>();
-            groups.ForEach(x =>
-            {
-                int fR = x.from.R, fG = x.from.G, fB = x.from.B;
-                int tR = x.to.R, tG = x.to.G, tB = x.to.B;
-
-                int sR = (tR - fR);
-                int sG = (tG - fG);
-                int sB = (tB - fB);
-
-                step = (Math.Abs(sR) + Math.Abs(sG) + Math.Abs(sB))/4;
-
-                for (double i = 0; i < 1; i += 1.0 / step)
+            groups.ForEach(
+                x =>
                 {
-                    gradiented.Add(Color.FromArgb(255, (int)Math.Round(fR + sR * i), (int)Math.Round(fG + sG * i), (int)Math.Round(fB + sB * i)));
+                    int fR = x.from.R,
+                        fG = x.from.G,
+                        fB = x.from.B;
+                    int tR = x.to.R,
+                        tG = x.to.G,
+                        tB = x.to.B;
+
+                    int sR = (tR - fR);
+                    int sG = (tG - fG);
+                    int sB = (tB - fB);
+
+                    step = (Math.Abs(sR) + Math.Abs(sG) + Math.Abs(sB)) / 4;
+
+                    for (double i = 0; i < 1; i += 1.0 / step)
+                    {
+                        gradiented.Add(
+                            Color.FromArgb(
+                                255,
+                                (int)Math.Round(fR + sR * i),
+                                (int)Math.Round(fG + sG * i),
+                                (int)Math.Round(fB + sB * i)
+                            )
+                        );
+                    }
                 }
-            });
+            );
             return gradiented.ToArray();
         }
+
         private void SetupLayout()
         {
-
             dragInto.BackColor = panelLabel.BackColor;
             createNoteButton.FlatAppearance.BorderSize = 2;
-
 
             var buttonGradientWorker = new BackgroundWorker();
             buttonGradientWorker.DoWork += (sender, e) =>
@@ -74,10 +102,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 var ind = 0;
                 while (true)
                 {
-                    if (ind + 1 >= colors.Length) ind = 1;
+                    if (ind + 1 >= colors.Length)
+                        ind = 1;
                     createNoteButton.FlatAppearance.BorderColor = colors[ind];
-                    createNoteButton.FlatAppearance.MouseDownBackColor = ControlPaint.LightLight(ControlPaint.Light(colors[ind], 1f));
-                    createNoteButton.BackColor = ControlPaint.LightLight(ControlPaint.LightLight(ControlPaint.LightLight(colors[ind])));
+                    createNoteButton.FlatAppearance.MouseDownBackColor = ControlPaint.LightLight(
+                        ControlPaint.Light(colors[ind], 1f)
+                    );
+                    createNoteButton.BackColor = ControlPaint.LightLight(
+                        ControlPaint.LightLight(ControlPaint.LightLight(colors[ind]))
+                    );
                     ind++;
                     Thread.Sleep(1);
                 }
@@ -87,30 +120,39 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 AdaptToSize();
                 BuildDragImage();
-
             };
-            Load += (sender, e) => { AdaptToSize(); BuildDragImage(); };
+            Load += (sender, e) =>
+            {
+                AdaptToSize();
+                BuildDragImage();
+            };
 
             ReassignFonts();
-
         }
+
         private void ReassignFonts()
         {
             title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
 
             createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
+
         private Font GetScaledFontWidthUpscaled()
         {
             var fontfam = FontContainer.Instance.Families[0];
             var font = new Font(fontfam, 12);
-            var pts = (MinimumSize.Width) * 12 / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
+            var pts =
+                (MinimumSize.Width)
+                * 12
+                / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
             return new Font(font.FontFamily, (float)pts);
         }
+
         private Font ConvertToDesiredHeight(Font font, int h)
         {
             return new Font(font.FontFamily, h, font.Style, GraphicsUnit.Pixel);
         }
+
         private void BuildDragImage()
         {
             var image = new Bitmap(dragInto.Width, dragInto.Height);
@@ -128,14 +170,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 var font = GetScaledFontWidthUpscaled();
                 font = new Font(font.FontFamily, font.SizeInPoints - 3, GraphicsUnit.Point);
                 var strMeasure = g.MeasureString(text, font);
-                var pt = (Point)(dragInto.Size / 2 - new Size((int)strMeasure.Width / 2, (int)strMeasure.Height / 2));
+                var pt = (Point)(
+                    dragInto.Size / 2
+                    - new Size((int)strMeasure.Width / 2, (int)strMeasure.Height / 2)
+                );
                 g.DrawString(text, font, textbrush, pt);
             }
             dragInto.BackgroundImage = image;
         }
+
         private void AdaptToSize()
         {
-            if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height) return;
+            if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
+                return;
             SuspendLayout();
             var colSt = tableLayoutPanel1.ColumnStyles;
             var rowSt = tableLayoutPanel1.RowStyles;
@@ -183,7 +230,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
 
             ResumeLayout();
-
         }
     }
 }
