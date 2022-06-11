@@ -1,9 +1,5 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models.Inerfaces;
+﻿using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
-using System.Drawing.Text;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace MusicLoverHandbook.Models
 {

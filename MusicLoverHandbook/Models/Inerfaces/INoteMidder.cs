@@ -4,5 +4,6 @@
         : INoteChild<ParentNoteType>,
           INoteParent<InnerNotesType>
         where ParentNoteType : INote
-        where InnerNotesType : INote { }
+        where InnerNotesType : INote
+    { }
 }

@@ -1,12 +1,5 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using static System.Windows.Forms.Control;
 
 namespace MusicLoverHandbook.Models
 {

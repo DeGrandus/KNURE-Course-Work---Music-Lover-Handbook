@@ -1,6 +1,4 @@
-﻿using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.Models.Inerfaces;
-using System.Windows.Forms;
+﻿using MusicLoverHandbook.Models.Inerfaces;
 
 namespace MusicLoverHandbook.Models
 {

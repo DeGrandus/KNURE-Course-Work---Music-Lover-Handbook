@@ -1,12 +1,5 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models.Enums;
+﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models

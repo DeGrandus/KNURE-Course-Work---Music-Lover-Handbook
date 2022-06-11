@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicLoverHandbook.Models.Attributes
+﻿namespace MusicLoverHandbook.Models.Attributes
 {
     public class EnumColorAttribute : Attribute
     {
