@@ -48,7 +48,7 @@ namespace MusicLoverHandbook.Models
         {
             SuspendLayout();
 
-            var font = FontContainer.Instance.Fonts.Families[0];
+            var font = FontContainer.Instance.Families[0];
             Font = new Font(font, sizeS, FontStyle.Bold, GraphicsUnit.Pixel);
 
             var table = new TableLayoutPanel()

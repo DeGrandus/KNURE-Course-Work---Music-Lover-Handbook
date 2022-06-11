@@ -6,7 +6,7 @@ namespace MusicLoverHandbook.Models
 {
     public class FontContainer
     {
-        public PrivateFontCollection Fonts { get; set; }
+        public FontFamily[] Families { get; }
         public static FontContainer Instance { get; }
 
         static FontContainer()
@@ -16,30 +16,55 @@ namespace MusicLoverHandbook.Models
 
         public FontContainer()
         {
-            Fonts = new PrivateFontCollection();
             var temppath = Path.GetTempPath();
             var executing = Assembly.GetExecutingAssembly();
             var fonts = executing
                 .GetManifestResourceNames()
-                .Where(x => Regex.IsMatch(x, @"\.tff|\.otf"));
-            foreach (var font in fonts)
+                .Where(x => Regex.IsMatch(x, @"\.tff|\.otf")).ToList();
+            Families = new FontFamily[fonts.Count()];
+            for (var i = 0; i < fonts.Count; i++)
             {
-                var fullpath = Path.Combine(temppath, font);
-                if (!File.Exists(fullpath))
+                FontFamily output = FontFamily.GenericSansSerif;
+                try
                 {
-                    var stream = executing.GetManifestResourceStream(font);
-                    if (stream == null)
-                        continue;
+                    try { output = new FontFamily("Mariupol"); }
+                    catch (ArgumentException e)
+                    {
+                        var font = fonts[i];
+                        var fullpath = Path.Combine(temppath, font);
+                        if (!File.Exists(fullpath))
+                        {
+                            var stream = executing.GetManifestResourceStream(font);
+                            if (stream == null)
+                                continue;
 
-                    var bytes = new byte[stream.Length];
-                    stream.Read(bytes, 0, (int)bytes.Length);
-                    stream.Close();
+                            var bytes = new byte[stream.Length];
+                            stream.Read(bytes, 0, (int)bytes.Length);
+                            stream.Close();
 
-                    using (var fileStream = File.OpenWrite(fullpath))
-                    using (var writer = new BinaryWriter(fileStream))
-                        writer.Write(bytes);
+                            using (var fileStream = File.OpenWrite(fullpath))
+                            using (var writer = new BinaryWriter(fileStream))
+                                writer.Write(bytes);
+                        }
+                        var coll = new PrivateFontCollection();
+                        coll.AddFontFile(fullpath);
+                        output = coll.Families[0];
+                    }
                 }
-                Fonts.AddFontFile(fullpath);
+                catch
+                {
+                    try
+                    {
+                        output = new FontFamily("Segoe UI");
+                    }
+                    catch
+                    {
+                    }
+                }
+                finally
+                {
+                    Families[i] = output;
+                };
             }
         }
     }

@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.createNoteButton = new System.Windows.Forms.Button();
+            this.panelContent = new System.Windows.Forms.Panel();
+            this.dragInto = new System.Windows.Forms.Panel();
+            this.panelLabel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,9 +46,10 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel1.Controls.Add(this.button1, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.button2, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.button3, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.createNoteButton, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.panelContent, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.dragInto, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.panelLabel, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -63,40 +65,48 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1541, 980);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // button1
+            // createNoteButton
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.button1, 5);
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(15, 145);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(1511, 400);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.createNoteButton, 3);
+            this.createNoteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.createNoteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.createNoteButton.Location = new System.Drawing.Point(115, 640);
+            this.createNoteButton.Margin = new System.Windows.Forms.Padding(0);
+            this.createNoteButton.Name = "createNoteButton";
+            this.createNoteButton.Size = new System.Drawing.Size(1311, 100);
+            this.createNoteButton.TabIndex = 1;
+            this.createNoteButton.Text = "CreateNewNote";
+            this.createNoteButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // panelContent
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.button2, 3);
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(115, 640);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(1311, 100);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.panelContent.BackColor = System.Drawing.SystemColors.Window;
+            this.tableLayoutPanel1.SetColumnSpan(this.panelContent, 5);
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelContent.Location = new System.Drawing.Point(18, 148);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.Size = new System.Drawing.Size(1505, 394);
+            this.panelContent.TabIndex = 3;
             // 
-            // button3
+            // dragInto
             // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(265, 759);
-            this.button3.Margin = new System.Windows.Forms.Padding(0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(1011, 200);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.dragInto.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.dragInto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dragInto.Location = new System.Drawing.Point(268, 762);
+            this.dragInto.Name = "dragInto";
+            this.dragInto.Size = new System.Drawing.Size(1005, 194);
+            this.dragInto.TabIndex = 4;
+            // 
+            // panelLabel
+            // 
+            this.panelLabel.BackColor = System.Drawing.Color.Beige;
+            this.tableLayoutPanel1.SetColumnSpan(this.panelLabel, 7);
+            this.panelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLabel.Location = new System.Drawing.Point(0, 0);
+            this.panelLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.panelLabel.Name = "panelLabel";
+            this.panelLabel.Size = new System.Drawing.Size(1541, 50);
+            this.panelLabel.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -116,8 +126,9 @@
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button createNoteButton;
+        private Panel panelContent;
+        private Panel dragInto;
+        private Panel panelLabel;
     }
 }
