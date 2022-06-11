@@ -9,9 +9,6 @@ namespace MusicLoverHandbook.Models
         Image? Icon { get; set; }
         string NoteDescription { get; set; }
         string NoteText { get; set; }
-        int Offset { get; set; }
-        NoteControlOffsetType OffsetType { get; set; }
-        int TrueOffset { get; set; }
         Control.ControlCollection Controls { get; }
     }
 }

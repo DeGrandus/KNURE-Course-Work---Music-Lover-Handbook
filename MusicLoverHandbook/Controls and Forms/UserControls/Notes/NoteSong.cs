@@ -12,11 +12,16 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteSong : NoteControlMidder<NoteControlParent<NoteControl>, NoteSongFile>
+    public partial class NoteSong : NoteControlMidder<INoteControlParent<INoteControl>, NoteSongFile>
     {
         public override NoteType Type { get; } = NoteType.Song;
 
-        public NoteSong(NoteControlParent<NoteControl> parent,string text, string description) : base(parent, text, description)
+        [DesignOnly(true)]
+        public NoteSong() : this(null,null,null)
+        {
+
+        }
+        public NoteSong(INoteControlParent<INoteControl> parent,string text, string description) : base(parent, text, description)
         {
             InitializeComponent();
         }

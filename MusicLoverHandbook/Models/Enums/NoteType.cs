@@ -10,8 +10,6 @@ namespace MusicLoverHandbook.Models.Enums
 {
     public enum NoteType
     {
-        [EnumColor(255, 0xFFFFFF)]
-        Container,
         [EnumColor(255, 0xC3A5D9)]
         Author,
         [EnumColor(255, 0xEFEDA3)]

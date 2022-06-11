@@ -6,7 +6,7 @@ namespace MusicLoverHandbook.Models
     public abstract class NoteControlMidder<ParentNoteType, InnerNotesType>
         : NoteControlParent<InnerNotesType>,
           INoteControlMidder<ParentNoteType, InnerNotesType>
-        where ParentNoteType : INoteControl
+        where ParentNoteType : INoteControlParent<INoteControl>
         where InnerNotesType : INoteControl
     {
         public ParentNoteType ParentNote { get; set; }
@@ -20,5 +20,11 @@ namespace MusicLoverHandbook.Models
         {
             ParentNote = parent;
         }
+        public override void UpdateSize()
+        {
+            base.UpdateSize();
+            ParentNote?.UpdateSize();
+        }
+
     }
 }

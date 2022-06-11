@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System;
@@ -14,12 +15,17 @@ using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteContainer : NoteControlParent<NoteAuthor>
+    public partial class NoteContainer : UserControl
     {
-        public override NoteType Type { get; } = NoteType.Container;
-        public NoteContainer(string text, string description) : base(text, description)
-        {
+        public MainForm MainForm { get; }
+        public Panel NotesPanel { get; }
+        public NoteContainer(MainForm form) { 
             InitializeComponent();
+            MainForm = form;
+
+            NotesPanel = new Panel() { Dock = DockStyle.Fill,AutoScroll=true};
+            Controls.Add(NotesPanel);
+            
         }      
     }
 }
