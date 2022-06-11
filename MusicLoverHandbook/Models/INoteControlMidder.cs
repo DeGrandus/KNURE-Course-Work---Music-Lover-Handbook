@@ -6,6 +6,6 @@ namespace MusicLoverHandbook.Models
         : INoteControlChild<ParentNoteType>,
           INoteControlParent<InnerNotesType>,
           INoteMidder<ParentNoteType, InnerNotesType>
-        where ParentNoteType : INoteControl
+        where ParentNoteType : INoteControlParent<INoteControl>
         where InnerNotesType : INoteControl { }
 }

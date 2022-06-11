@@ -19,12 +19,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             MinimumSize = new Size(300, 565);
 
-            var note = new NoteAuthor("Єбать мене в рот", "test");
-            var noteIn = new NoteSong(note, "Ніхуя собі!", "test");
-            var noteIn2 = new NoteSongFile(noteIn, "Да???", "test");
-            var noteIn22 = new NoteSongFile(noteIn, "ПІЗДА!!!", "test");
-            var note2 = new NoteSong(null, "Воно працює!", "test");
-
             var rowSt = tableLayoutPanel1.RowStyles;
             rtitle = rowSt[0].Height;
             rcont = rowSt[2].Height;
@@ -32,6 +26,21 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             rdrag = rowSt[6].Height;
 
             SetupLayout();
+
+            var author = new NoteAuthor("Some Author", null);
+            var disc = new NoteDisc(author, "Some Dics", null);
+            var song = new NoteSong(disc, "Some Song", null);
+            var songFile = new NoteSongFile(song, "Some Song FIle", null);
+            var songIndep = new NoteSong(author, "Some Indep Song", null);
+            var addButton = new NoteAdd(song, "Add Note", null);
+            author.InnerNotes.Add(disc);
+            disc.InnerNotes.Add(song);
+            song.InnerNotes.Add(songFile);
+            song.InnerNotes.Add(addButton);
+            author.InnerNotes.Add(songIndep);
+
+            author.Dock = DockStyle.Top;
+            panelContent.Controls.Add(author);
         }
 
         private Color[] CreateGradient()

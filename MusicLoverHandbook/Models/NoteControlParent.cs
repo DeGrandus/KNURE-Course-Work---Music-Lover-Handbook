@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models
 {
@@ -46,6 +47,7 @@ namespace MusicLoverHandbook.Models
             {
                 if (InnerNotes.Count == 0)
                     return;
+                Debug.WriteLine(isOpened);
                 isOpened = !isOpened;
                 UpdateSize();
             };
@@ -93,6 +95,7 @@ namespace MusicLoverHandbook.Models
                 .Aggregate((c, n) => c + n);
             var baseHeight = TextLabel.Size.Height;
             Size = isOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
+            Debug.WriteLine(Size);
         }
     }
 }

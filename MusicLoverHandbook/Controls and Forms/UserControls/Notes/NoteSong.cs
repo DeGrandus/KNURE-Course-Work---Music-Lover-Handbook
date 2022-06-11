@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public partial class NoteSong
-        : NoteControlMidder<INoteControlParent<INoteControl>, NoteSongFile>
+        : NoteControlMidder<INoteControlParent<INoteControl>,INoteControl>
     {
         public override NoteType Type { get; } = NoteType.Song;
 

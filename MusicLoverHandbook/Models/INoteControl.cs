@@ -2,7 +2,7 @@
 
 namespace MusicLoverHandbook.Models
 {
-    public interface INoteControl : INote
+    public interface INoteControl : INote, IControlTheme
     {
         Image? Icon { get; set; }
         string NoteDescription { get; set; }

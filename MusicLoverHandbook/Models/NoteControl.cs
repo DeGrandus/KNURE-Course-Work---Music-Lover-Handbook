@@ -4,7 +4,7 @@ using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models
 {
-    public abstract class NoteControl : UserControl, INoteControl, IControlTheme
+    public abstract class NoteControl : UserControl, INoteControl
     {
         protected static int sizeS = 50;
         public abstract NoteType Type { get; }
@@ -37,13 +37,16 @@ namespace MusicLoverHandbook.Models
         {
             NoteText = text;
             NoteDescription = description;
-            ThemeColor = Type.GetColor();
 
+            SetupColorTheme(Type);
             BackColor = Color.Transparent;
 
             ConstructLayout();
         }
-
+        protected virtual void SetupColorTheme(NoteType type)
+        {
+            ThemeColor = type.GetColor() ?? Color.Transparent;
+        }
         protected void ConstructLayout()
         {
             SuspendLayout();

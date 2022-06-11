@@ -17,13 +17,12 @@ namespace MusicLoverHandbook.Models.Enums
         [EnumColor(255, 0xCF91A8)]
         SongFile,
 
-        [EnumColor(255, 0x759E8F)]
         AddButton
     }
 
     static class Extensions
     {
-        public static Color GetColor(this NoteType value)
+        public static Color? GetColor(this NoteType value)
         {
             return
                 value
@@ -32,7 +31,7 @@ namespace MusicLoverHandbook.Models.Enums
                     ?.GetCustomAttribute<EnumColorAttribute>(false)
                     is EnumColorAttribute attr
               ? attr.Color
-              : Color.White;
+              : null;
         }
     }
 }
