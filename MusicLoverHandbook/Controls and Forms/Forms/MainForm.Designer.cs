@@ -31,9 +31,13 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.createNoteButton = new System.Windows.Forms.Button();
             this.panelContent = new System.Windows.Forms.Panel();
-            this.dragInto = new System.Windows.Forms.Panel();
             this.panelLabel = new System.Windows.Forms.Panel();
+            this.dragZone = new System.Windows.Forms.Panel();
+            this.dragInto = new System.Windows.Forms.Panel();
+            this.title = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panelLabel.SuspendLayout();
+            this.dragZone.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -48,8 +52,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.Controls.Add(this.createNoteButton, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.panelContent, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.dragInto, 3, 6);
             this.tableLayoutPanel1.Controls.Add(this.panelLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dragZone, 3, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -88,25 +92,45 @@
             this.panelContent.Size = new System.Drawing.Size(1505, 394);
             this.panelContent.TabIndex = 3;
             // 
-            // dragInto
-            // 
-            this.dragInto.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.dragInto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dragInto.Location = new System.Drawing.Point(268, 762);
-            this.dragInto.Name = "dragInto";
-            this.dragInto.Size = new System.Drawing.Size(1005, 194);
-            this.dragInto.TabIndex = 4;
-            // 
             // panelLabel
             // 
             this.panelLabel.BackColor = System.Drawing.Color.Beige;
             this.tableLayoutPanel1.SetColumnSpan(this.panelLabel, 7);
+            this.panelLabel.Controls.Add(this.title);
             this.panelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLabel.Location = new System.Drawing.Point(0, 0);
             this.panelLabel.Margin = new System.Windows.Forms.Padding(0);
             this.panelLabel.Name = "panelLabel";
             this.panelLabel.Size = new System.Drawing.Size(1541, 50);
             this.panelLabel.TabIndex = 5;
+            // 
+            // dragZone
+            // 
+            this.dragZone.Controls.Add(this.dragInto);
+            this.dragZone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dragZone.Location = new System.Drawing.Point(268, 762);
+            this.dragZone.Name = "dragZone";
+            this.dragZone.Size = new System.Drawing.Size(1005, 194);
+            this.dragZone.TabIndex = 6;
+            // 
+            // dragInto
+            // 
+            this.dragInto.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.dragInto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dragInto.Location = new System.Drawing.Point(0, 0);
+            this.dragInto.Name = "dragInto";
+            this.dragInto.Size = new System.Drawing.Size(1005, 194);
+            this.dragInto.TabIndex = 5;
+            // 
+            // title
+            // 
+            this.title.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.title.Location = new System.Drawing.Point(0, 0);
+            this.title.Name = "title";
+            this.title.Size = new System.Drawing.Size(1541, 50);
+            this.title.TabIndex = 0;
+            this.title.Text = "Music Lover Handbook";
+            this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -119,6 +143,8 @@
             this.Name = "MainForm";
             this.Text = "z";
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelLabel.ResumeLayout(false);
+            this.dragZone.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -128,7 +154,9 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Button createNoteButton;
         private Panel panelContent;
-        private Panel dragInto;
         private Panel panelLabel;
+        private Panel dragZone;
+        private Panel dragInto;
+        private Label title;
     }
 }

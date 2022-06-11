@@ -37,7 +37,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private Color[] CreateGradient()
         {
             var step = 10;
-            var colors = new[] { Color.Red, Color.Orange, Color.Gold, Color.Green, Color.LightBlue, Color.DarkBlue, Color.BlueViolet, Color.Red };
+            var colors = new[] { Color.Red, Color.Orange, Color.Gold, Color.Green, Color.SkyBlue, Color.DarkBlue, Color.BlueViolet, Color.Red };
             var groups = new List<(Color from, Color to)>();
             colors.Aggregate((c, x) => { groups.Add((c, x)); return x; });
 
@@ -51,6 +51,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 int sG = (tG - fG);
                 int sB = (tB - fB);
 
+                step = (Math.Abs(sR) + Math.Abs(sG) + Math.Abs(sB))/4;
+
                 for (double i = 0; i < 1; i += 1.0 / step)
                 {
                     gradiented.Add(Color.FromArgb(255, (int)Math.Round(fR + sR * i), (int)Math.Round(fG + sG * i), (int)Math.Round(fB + sB * i)));
@@ -62,10 +64,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
 
             dragInto.BackColor = panelLabel.BackColor;
-
-            var worker = new BackgroundWorker();
             createNoteButton.FlatAppearance.BorderSize = 2;
-            worker.DoWork += (sender, e) =>
+
+
+            var buttonGradientWorker = new BackgroundWorker();
+            buttonGradientWorker.DoWork += (sender, e) =>
             {
                 var colors = CreateGradient();
                 var ind = 0;
@@ -76,34 +79,39 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     createNoteButton.FlatAppearance.MouseDownBackColor = ControlPaint.LightLight(ControlPaint.Light(colors[ind], 1f));
                     createNoteButton.BackColor = ControlPaint.LightLight(ControlPaint.LightLight(ControlPaint.LightLight(colors[ind])));
                     ind++;
-                    Thread.Sleep(100);
+                    Thread.Sleep(1);
                 }
             };
-            worker.RunWorkerAsync();
-
-            ResetFonts();
-
+            buttonGradientWorker.RunWorkerAsync();
             Resize += (sender, e) =>
             {
-                DoResizes();
-                CreateDragNDropImage();
+                AdaptToSize();
+                BuildDragImage();
+
             };
-            Load += (sender, e) => { DoResizes(); CreateDragNDropImage(); };
+            Load += (sender, e) => { AdaptToSize(); BuildDragImage(); };
+
+            ReassignFonts();
 
         }
-        private void ResetFonts()
+        private void ReassignFonts()
         {
-            
-            createNoteButton.Font = GetScaledFont();
+            title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
+
+            createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
-        private Font GetScaledFont()
+        private Font GetScaledFontWidthUpscaled()
         {
             var fontfam = FontContainer.Instance.Families[0];
             var font = new Font(fontfam, 12);
             var pts = (MinimumSize.Width) * 12 / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
             return new Font(font.FontFamily, (float)pts);
         }
-        private void CreateDragNDropImage()
+        private Font ConvertToDesiredHeight(Font font, int h)
+        {
+            return new Font(font.FontFamily, h, font.Style, GraphicsUnit.Pixel);
+        }
+        private void BuildDragImage()
         {
             var image = new Bitmap(dragInto.Width, dragInto.Height);
             var text = "Drop .mp3 file here";
@@ -117,15 +125,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 pen.DashPattern = new[] { 2f, 1 };
                 g.DrawRectangle(pen, new(new(0, 0), image.Size));
-                var font = GetScaledFont();
-                font = new Font(font.FontFamily, font.SizeInPoints-3,GraphicsUnit.Point);
+                var font = GetScaledFontWidthUpscaled();
+                font = new Font(font.FontFamily, font.SizeInPoints - 3, GraphicsUnit.Point);
                 var strMeasure = g.MeasureString(text, font);
                 var pt = (Point)(dragInto.Size / 2 - new Size((int)strMeasure.Width / 2, (int)strMeasure.Height / 2));
                 g.DrawString(text, font, textbrush, pt);
             }
             dragInto.BackgroundImage = image;
         }
-        private void DoResizes()
+        private void AdaptToSize()
         {
             if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height) return;
             SuspendLayout();
@@ -172,18 +180,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 rowSt[1].Height = 25;
                 rowSt[3].Height = 25;
                 rowSt[5].Height = 25;
-            }
-
-            if (dragInto.Height < 20)
-            {
-                
-                dragInto.Visible = true;
-
-            }
-            else
-            {
-                dragInto.Visible = false;
-
             }
 
             ResumeLayout();
