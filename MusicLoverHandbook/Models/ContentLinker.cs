@@ -14,11 +14,13 @@ namespace MusicLoverHandbook.Models
     {
         public NoteControlParent<InnerNotesType> Note { get; }
         public ObservableCollection<InnerNotesType> Observed => Note.InnerNotes;
+
         public ContentLinker(NoteControlParent<InnerNotesType> note)
         {
             Note = note;
             Observed.CollectionChanged += OnCollectionChanged;
         }
+
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -35,10 +37,15 @@ namespace MusicLoverHandbook.Models
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     if (e.OldItems != null && e.NewItems != null)
-                        foreach (var item in Enumerable.Zip((List<NoteControl>)e.OldItems, (List<NoteControl>)e.NewItems))
+                        foreach (
+                            var item in Enumerable.Zip(
+                                (List<NoteControl>)e.OldItems,
+                                (List<NoteControl>)e.NewItems
+                            )
+                        )
                         {
                             var ind = Note.Controls.IndexOf(item.First);
-                            Note.ReplaceNote(item.First,item.Second,ind);
+                            Note.ReplaceNote(item.First, item.Second, ind);
                         }
                     break;
                 case NotifyCollectionChangedAction.Move:

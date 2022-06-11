@@ -2,9 +2,10 @@
 
 namespace MusicLoverHandbook.Models
 {
-    public interface INoteControlMidder<ParentNoteType, InnerNotesType> : INoteControlChild<ParentNoteType>, INoteControlParent<InnerNotesType>, INoteMidder<ParentNoteType, InnerNotesType> where ParentNoteType : INoteControl
-        where InnerNotesType : INoteControl
-    {
-
-    }
+    public interface INoteControlMidder<ParentNoteType, InnerNotesType>
+        : INoteControlChild<ParentNoteType>,
+          INoteControlParent<InnerNotesType>,
+          INoteMidder<ParentNoteType, InnerNotesType>
+        where ParentNoteType : INoteControl
+        where InnerNotesType : INoteControl { }
 }

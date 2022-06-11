@@ -3,7 +3,6 @@ using MusicLoverHandbook.View;
 
 namespace MusicLoverHandbook
 {
-    
     static class Program
     {
         /// <summary>

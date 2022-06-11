@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Controller
 {
-    internal class NoteBuilder
-    {
-    }
+    internal class NoteBuilder { }
 }

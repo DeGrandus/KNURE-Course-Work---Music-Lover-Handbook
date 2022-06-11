@@ -20,6 +20,5 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         {
             InitializeComponent();
         }
-
     }
 }

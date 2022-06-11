@@ -16,7 +16,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     {
         public override NoteType Type { get; } = NoteType.SongFile;
 
-        public NoteSongFile(NoteSong song, string text, string description) : base(song, text, description)
+        public NoteSongFile(NoteSong song, string text, string description)
+            : base(song, text, description)
         {
             InitializeComponent();
         }

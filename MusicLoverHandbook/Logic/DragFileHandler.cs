@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Logic
 {
-    internal class DragFileHandler
-    {
-
-    }
+    internal class DragFileHandler { }
 }

@@ -13,23 +13,28 @@ namespace MusicLoverHandbook.Models
     {
         public PrivateFontCollection Fonts { get; set; }
         public static FontContainer Instance { get; }
+
         static FontContainer()
         {
             Instance = new FontContainer();
         }
+
         public FontContainer()
         {
             Fonts = new PrivateFontCollection();
             var temppath = Path.GetTempPath();
             var executing = Assembly.GetExecutingAssembly();
-            var fonts = executing.GetManifestResourceNames().Where(x => Regex.IsMatch(x, @"\.tff|\.otf"));
+            var fonts = executing
+                .GetManifestResourceNames()
+                .Where(x => Regex.IsMatch(x, @"\.tff|\.otf"));
             foreach (var font in fonts)
             {
                 var fullpath = Path.Combine(temppath, font);
                 if (!File.Exists(fullpath))
                 {
                     var stream = executing.GetManifestResourceStream(font);
-                    if (stream == null) continue;
+                    if (stream == null)
+                        continue;
 
                     var bytes = new byte[stream.Length];
                     stream.Read(bytes, 0, (int)bytes.Length);
@@ -41,7 +46,6 @@ namespace MusicLoverHandbook.Models
                 }
                 Fonts.AddFontFile(fullpath);
             }
-
         }
     }
 }

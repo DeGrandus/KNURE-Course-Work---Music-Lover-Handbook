@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Logic
 {
-    internal class DataHandler
-    {
-    }
+    internal class DataHandler { }
 }

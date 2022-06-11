@@ -19,13 +19,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     {
         public MainForm MainForm { get; }
         public Panel NotesPanel { get; }
-        public NoteContainer(MainForm form) { 
+
+        public NoteContainer(MainForm form)
+        {
             InitializeComponent();
             MainForm = form;
 
-            NotesPanel = new Panel() { Dock = DockStyle.Fill,AutoScroll=true};
+            NotesPanel = new Panel() { Dock = DockStyle.Fill, AutoScroll = true };
             Controls.Add(NotesPanel);
-            
-        }      
+        }
     }
 }

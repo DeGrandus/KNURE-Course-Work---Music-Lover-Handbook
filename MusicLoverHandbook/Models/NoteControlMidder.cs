@@ -12,19 +12,16 @@ namespace MusicLoverHandbook.Models
         public ParentNoteType ParentNote { get; set; }
         ParentNoteType INoteChild<ParentNoteType>.ParentNote => ParentNote;
 
-        protected NoteControlMidder(
-            ParentNoteType parent,
-            string text,
-            string description
-        ) : base(text, description)
+        protected NoteControlMidder(ParentNoteType parent, string text, string description)
+            : base(text, description)
         {
             ParentNote = parent;
         }
+
         public override void UpdateSize()
         {
             base.UpdateSize();
             ParentNote?.UpdateSize();
         }
-
     }
 }

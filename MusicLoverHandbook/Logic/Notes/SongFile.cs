@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
-    internal class SongFile
-    {
-    }
+    internal class SongFile { }
 }

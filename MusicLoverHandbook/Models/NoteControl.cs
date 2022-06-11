@@ -24,12 +24,22 @@ namespace MusicLoverHandbook.Models
 
         public event ThemeChangeEventHandler ColorChanged;
         public Label TextLabel { get; set; }
-        public Color ThemeColor { get => theme; set { theme = value; OnColorChanged(); } }
+        public Color ThemeColor
+        {
+            get => theme;
+            set
+            {
+                theme = value;
+                OnColorChanged();
+            }
+        }
+
         public void OnColorChanged()
         {
             if (ColorChanged != null)
                 ColorChanged(this, new(ThemeColor));
         }
+
         protected NoteControl(string text, string description)
         {
             NoteText = text;
@@ -46,7 +56,7 @@ namespace MusicLoverHandbook.Models
             SuspendLayout();
 
             var font = FontContainer.Instance.Fonts.Families[0];
-            Font = new Font(font, sizeS,FontStyle.Bold,GraphicsUnit.Pixel);
+            Font = new Font(font, sizeS, FontStyle.Bold, GraphicsUnit.Pixel);
 
             var table = new TableLayoutPanel()
             {
@@ -55,41 +65,51 @@ namespace MusicLoverHandbook.Models
                 ColumnCount = 5
             };
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,90));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute,sizeS));
+            table.RowStyles.Add(new RowStyle(SizeType.Absolute, sizeS));
             var panelIcon = new Panel() { BackColor = Color.Red };
             var text = new Panel();
             text.Dock = DockStyle.Fill;
-            TextLabel = new Label() { Text = NoteText, BackColor = ThemeColor, AutoSize = false, TextAlign = ContentAlignment.MiddleLeft, Dock = DockStyle.Fill };
+            TextLabel = new Label()
+            {
+                Text = NoteText,
+                BackColor = ThemeColor,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Dock = DockStyle.Fill
+            };
             text.Controls.Add(TextLabel);
             var desc = new Panel() { BackColor = Color.Blue };
             var del = new Panel() { BackColor = Color.Green };
             var edit = new Panel() { BackColor = Color.Red };
 
-            table.Controls.Add(panelIcon,0,0) ;
-            table.Controls.Add(text, 1,0);
-            table.Controls.Add(desc, 2,0);
-            table.Controls.Add(del, 3,0);
-            table.Controls.Add(edit, 4,0);
+            table.Controls.Add(panelIcon, 0, 0);
+            table.Controls.Add(text, 1, 0);
+            table.Controls.Add(desc, 2, 0);
+            table.Controls.Add(del, 3, 0);
+            table.Controls.Add(edit, 4, 0);
 
             table.MaximumSize = new Size(0, sizeS);
 
-            table.Controls.Cast<Control>().ToList().ForEach(c => {
-                c.Dock = DockStyle.Fill;
-                c.Margin = new Padding(0);
-            });
+            table.Controls
+                .Cast<Control>()
+                .ToList()
+                .ForEach(
+                    c =>
+                    {
+                        c.Dock = DockStyle.Fill;
+                        c.Margin = new Padding(0);
+                    }
+                );
 
-            
             Controls.Add(table);
             Size = new Size(10, sizeS);
 
             table.Size = new Size(1000, sizeS);
             ResumeLayout();
-            
         }
     }
-
 }

@@ -14,7 +14,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class MainForm : Form
     {
-        private float rtitle, rcont, radd, rdrag;
+        private float rtitle,
+            rcont,
+            radd,
+            rdrag;
+
         public MainForm()
         {
             InitializeComponent();
@@ -39,6 +43,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
             Load += (sender, e) => DoResizes();
         }
+
         private void DoResizes()
         {
             var colSt = tableLayoutPanel1.ColumnStyles;
@@ -68,13 +73,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
             if (Height < 800)
             {
-                rowSt[6].Height = rdrag * ((float)Height - MinimumSize.Height) / (800 - MinimumSize.Height);
+                rowSt[6].Height =
+                    rdrag * ((float)Height - MinimumSize.Height) / (800 - MinimumSize.Height);
                 rowSt[5].Height = 0;
                 rowSt[0].Height = 0;
                 rowSt[1].SizeType = SizeType.Absolute;
                 rowSt[1].Height = 0;
                 rowSt[3].Height = 0;
-
             }
             else
             {
@@ -83,8 +88,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 rowSt[1].Height = 25;
                 rowSt[3].Height = 25;
                 rowSt[5].Height = 25;
-
-
             }
         }
     }
