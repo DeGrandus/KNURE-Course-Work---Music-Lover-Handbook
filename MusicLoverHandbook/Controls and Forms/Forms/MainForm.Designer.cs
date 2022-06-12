@@ -154,10 +154,10 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Button createNoteButton;
-        private Panel panelContent;
         private Panel panelLabel;
         private Panel dragZone;
         private Panel dragInto;
-        private Label title;
+        public Panel panelContent;
+        public Label title;
     }
 }

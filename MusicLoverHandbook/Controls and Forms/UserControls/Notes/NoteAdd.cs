@@ -5,7 +5,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public partial class NoteAdd : NoteControlChild
     {
-        public override NoteType Type { get; } = NoteType.AddButton;
+        public override NoteType NoteType { get; } = NoteType.AddButton;
 
         public NoteAdd(
             NoteControlParent parent,
@@ -14,7 +14,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         ) : base(parent, noteText, noteDescription)
         {
             InitializeComponent();
-            
+            SideButtons.Deactivate(ButtonType.Delete);
+            SideButtons.Deactivate(ButtonType.Edit);
         }
     }
 }

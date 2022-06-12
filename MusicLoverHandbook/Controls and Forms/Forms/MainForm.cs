@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.View.Forms;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -15,6 +16,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             radd,
             rdrag;
 
+        public Color LabelBackColor;
+        public Color ContentBackColor;
+        public NotesContainer Container { get; }
         public MainForm()
         {
             InitializeComponent();
@@ -27,22 +31,25 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             radd = rowSt[4].Height;
             rdrag = rowSt[6].Height;
 
+            Container = new NotesContainer(panelContent);
+
             SetupLayout();
 
-            var author = new NoteAuthor("Some Author", null);
-            var disc = new NoteDisc(author, "Some Dics", null);
-            var song = new NoteSong(disc, "Some Song", null);
-            var songFile = new NoteSongFile(song, "Some Song FIle", null);
-            var songIndep = new NoteSong(author, "Some Indep Song", null);
-            var addButton = new NoteAdd(song, "Add Note", null);
+
+
+            var author = new NoteAuthor("Some Author", "Some Author Desc");
+            var author2 = new NoteAuthor("Some Another Author", "Some Another Author Desc");
+            var disc = new NoteDisc(author, "Some Disc", "Some Disc Desc");
+            var song = new NoteSong(disc, "Some Song", "Some Song");
+            var songFile = new NoteSongFile(song, "Some Song FIle", "Some Song FIle Desc");
+            var songIndep = new NoteSong(author, "Some Indep Song", "Some Indep Song Desc");
+
             author.InnerNotes.Add(disc);
             disc.InnerNotes.Add(song);
             song.InnerNotes.Add(songFile);
-            song.InnerNotes.Add(addButton);
             author.InnerNotes.Add(songIndep);
-
-            author.Dock = DockStyle.Top;
-            panelContent.Controls.Add(author);
+            Container.AddNote(author);
+            Container.AddNote(author2);
         }
 
         private Color[] CreateGradient()
@@ -99,10 +106,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void SetupLayout()
         {
-            panelLabel.BackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2))) ; 
+            LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
+            panelLabel.BackColor = LabelBackColor; 
             tableLayoutPanel1.BackColor = Color.White;
+
             panelContent.AutoScroll = true;
-            panelContent.BackColor = ControlPaint.Light(Color.FromArgb(255, Color.FromArgb(0x768DE2)),1.5f);
+            ContentBackColor = ControlPaint.Light(Color.FromArgb(255, Color.FromArgb(0x768DE2)), 1.5f);
+            panelContent.BackColor = ContentBackColor;
             dragInto.BackColor = panelLabel.BackColor;
             Debug.WriteLine("");
 
@@ -143,6 +153,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 AdaptToSize();
                 BuildDragImage();
+            };
+
+            createNoteButton.Click += (sender, e) =>
+            {
+                var addNoteMenu = new AddNoteMenu(this);
+                if (addNoteMenu.ShowDialog() == DialogResult.OK)
+                {
+
+                }
             };
 
             ReassignFonts();

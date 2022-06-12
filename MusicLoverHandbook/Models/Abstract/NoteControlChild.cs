@@ -10,7 +10,10 @@ namespace MusicLoverHandbook.Models.Abstract
           INoteChild,
           INoteControlChild
     {
+
+        private bool inited = false;
         public INoteControlParent ParentNote { get; set; }
+
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
         private delegate void DelayedSetup();
@@ -20,18 +23,25 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             ParentNote = parent;
             if (delayedSetup != null) delayedSetup();
+            inited = true;
         }
         public override void SetupColorTheme(NoteType type)
         {
-            delayedSetup += () =>
-            {
-                Debug.WriteLine(ParentNote.InnerNotes.LastOrDefault());
-                ThemeColor = type.GetColor() ?? ParentNote.InnerNotes.LastOrDefault()?.ThemeColor ?? Color.Transparent;
-            };
+            var themeColor = ()=>type.GetColor() ?? Color.Transparent;
+            if (inited)
+                ThemeColor = themeColor();
+            else
+                delayedSetup += () =>
+                {
+                    ThemeColor = themeColor();
+                };
         }
         protected override void ConstructLayout()
         {
-            delayedSetup += base.ConstructLayout;
+            if (inited)
+                base.ConstructLayout();
+            else
+                delayedSetup += base.ConstructLayout;
         }
     }
 }

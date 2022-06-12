@@ -2,12 +2,10 @@
 {
     public enum InputType
     {
-        Description,
         Author,
-        AuthorType,
-        Album,
+        Disc,
         SongName,
-        SongFilePath,
-        SongFileLength,
+        SongFile,
+        Description,
     }
 }

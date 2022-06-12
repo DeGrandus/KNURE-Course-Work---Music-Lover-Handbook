@@ -9,9 +9,9 @@ namespace MusicLoverHandbook.Models.Abstract
 
     public abstract class NoteControl : UserControl, INoteControl
     {
-        protected static int sizeS = 100;
-        protected static float textSizeRatio = 0.5f;
-        public abstract NoteType Type { get; }
+        protected virtual int sizeS { get; private set;  } = 80;
+        protected virtual float textSizeRatio { get; private set; } = 0.5f;
+        public abstract NoteType NoteType { get; }
         public Image? Icon { get; set; }
         public string NoteText { get; set; }
         public string NoteDescription { get; set; }
@@ -21,6 +21,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private bool isDeleteShown;
         private bool isEditShown;
         private bool isInfoShown;
+        private TableLayoutPanel mainTable;
 
         public event ThemeChangeEventHandler ColorChanged;
         public Label TextLabel { get; private set; }
@@ -28,6 +29,7 @@ namespace MusicLoverHandbook.Models.Abstract
         public ButtonPanel InfoButton { get; private set; }
         public ButtonPanel EditButton { get; private set; }
         public ButtonPanel DeleteButton { get; private set; }
+        public SideButtonsPanel SideButtons { get; private set; }
         public Color ThemeColor
         {
             get => theme;
@@ -61,7 +63,7 @@ namespace MusicLoverHandbook.Models.Abstract
             NoteText = text;
             NoteDescription = description;
 
-            SetupColorTheme(Type);
+            SetupColorTheme(NoteType);
             BackColor = Color.Transparent;
 
             ConstructLayout();
@@ -70,20 +72,22 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             ThemeColor = type.GetColor() ?? Color.Transparent;
         }
-        public void ChangeSize(int size)
+        public virtual void ChangeSize(int size)
         {
+            sizeS = size;
+            ConstructLayout();
         }
         protected virtual void ConstructLayout()
         {
             SuspendLayout();
-            Controls.Clear();
+            Controls.Remove(mainTable);
 
             var font = FontContainer.Instance.Families[0];
             Font = new Font(font, sizeS*textSizeRatio, FontStyle.Bold, GraphicsUnit.Pixel);
 
             Padding = new Padding(0);
 
-            var mainTable = new TableLayoutPanel()
+            mainTable = new TableLayoutPanel()
             {
                 Padding = new Padding(0),
                 Margin = new Padding(0),
@@ -91,7 +95,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 RowCount = 1,
                 ColumnCount = 2
             };
-            var sideButtons = new SideButtonsPanel(DockStyle.Right)
+            SideButtons = new SideButtonsPanel(DockStyle.Right)
             {
                 AutoSize = true,
             };
@@ -117,7 +121,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 Text = NoteText,
                 BackColor = ThemeColor,
                 AutoSize = false,
-                TextAlign = ContentAlignment.MiddleCenter,
+                TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill
             };
             InfoButton = new ButtonPanel(ButtonType.Info, 0)
@@ -155,17 +159,14 @@ namespace MusicLoverHandbook.Models.Abstract
             textPanel.Controls.Add(TextLabel);
             
             comboPanel.Controls.Add(textPanel);
-            comboPanel.Controls.Add(sideButtons);
+            comboPanel.Controls.Add(SideButtons);
 
             mainTable.Controls.Add(panelIcon, 0, 0);
             mainTable.Controls.Add(comboPanel, 1, 0);
-            sideButtons.AddButton(InfoButton);
-            sideButtons.AddButton(DeleteButton);
-            sideButtons.AddButton(EditButton);
-            sideButtons.Deactivate(ButtonType.Delete);
-            sideButtons.Deactivate(ButtonType.Info);
-            sideButtons.Activate(ButtonType.Delete);
-            //rightSidedTable.Deactivate(ButtonType.Info);
+
+            SideButtons.AddButton(InfoButton);
+            SideButtons.AddButton(DeleteButton);
+            SideButtons.AddButton(EditButton);
 
 
             mainTable.MaximumSize = new Size(0, sizeS);

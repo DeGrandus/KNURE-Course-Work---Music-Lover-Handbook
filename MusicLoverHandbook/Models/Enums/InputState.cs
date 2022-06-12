@@ -14,10 +14,18 @@ namespace MusicLoverHandbook.Models.Enums
         [Text(@"Field is empty. Interpreted as ""Unknown""")]
         UNKNOWN = 0xFFEDC0,
 
+        [Text("Inactive until above isn't choosen")]
+        INACTIVE = 0xFFFFFF,
+
         //ERRORS
         [Text("This field can't be empty")]
         [ErrorState]
-        EMPTY_FIELD = 0xF89198
+        EMPTY_FIELD = 0xF89198,
+
+        [Text("This field is too short")]
+        [ErrorState]
+        TOO_SHORT
+        
     }
 
     static class ExtensionMethods
@@ -31,7 +39,7 @@ namespace MusicLoverHandbook.Models.Enums
               : null;
         }
 
-        public static bool? IsError(this InputState value)
+        public static bool IsError(this InputState value)
         {
             return value
                     .GetType()

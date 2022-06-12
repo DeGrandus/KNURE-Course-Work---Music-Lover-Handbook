@@ -8,7 +8,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteSong
         : NoteControlMidder
     {
-        public override NoteType Type { get; } = NoteType.Song;
+        public override NoteType NoteType { get; } = NoteType.Song;
         public NoteSong(NoteControlParent parent, string text, string description)
             : base(parent, text, description)
         {

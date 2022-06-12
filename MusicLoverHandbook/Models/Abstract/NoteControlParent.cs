@@ -12,16 +12,16 @@ namespace MusicLoverHandbook.Models.Abstract
     {
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
         public ContentLinker Linker { get; }
-        public int Offset { get; set; } = sizeS / 2;
+        public int Offset { get; set; }
         public Panel InnerContentPanel { get; }
         protected TableLayoutPanel TableOffsetter { get; }
 
         IReadOnlyCollection<INoteChild> INoteParent.InnerNotes => InnerNotes.Select(x => (INoteChild)x).ToList();
 
         public bool isOpened { get; set; } = false;
-
         protected NoteControlParent(string text, string description) : base(text, description)
         {
+            Offset = sizeS *2/3;
             TableOffsetter = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
@@ -43,14 +43,31 @@ namespace MusicLoverHandbook.Models.Abstract
             TableOffsetter.Controls.Add(InnerContentPanel, 1, 0);
 
             Linker = new ContentLinker(this);
+            
+        }
+        protected override void ConstructLayout()
+        {
+            base.ConstructLayout();
             TextLabel.DoubleClick += (sender, e) =>
             {
+                SuspendLayout();
+                Debug.WriteLine(InnerNotes.Count);
                 if (InnerNotes.Count == 0)
                     return;
                 Debug.WriteLine(isOpened);
                 isOpened = !isOpened;
                 UpdateSize();
+                ResumeLayout();
             };
+        }
+        public void ChangeSizeHierarchically(int size)
+        {
+            ChangeSize(size);
+            foreach (var note in InnerNotes)
+                if (note is NoteControlMidder midder)
+                    midder.ChangeSizeHierarchically(size);
+                else
+                    note.ChangeSize(size);
         }
 
         public void AddNote(NoteControl note)
@@ -58,7 +75,7 @@ namespace MusicLoverHandbook.Models.Abstract
             note.Dock = DockStyle.Top;
             InnerContentPanel.Controls.Add(note);
             InnerContentPanel.Controls.SetChildIndex(note, 0);
-            note.SetupColorTheme(note.Type);
+            note.SetupColorTheme(note.NoteType);
             UpdateSize();
         }
 
