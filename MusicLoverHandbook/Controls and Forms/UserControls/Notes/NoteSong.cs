@@ -1,18 +1,15 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using System.ComponentModel;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
+    [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteSong
-        : NoteControlMidder<INoteControlParent<INoteControl>,INoteControl>
+        : NoteControlMidder
     {
         public override NoteType Type { get; } = NoteType.Song;
-
-        [DesignOnly(true)]
-        public NoteSong() : this(null, null, null) { }
-
-        public NoteSong(INoteControlParent<INoteControl> parent, string text, string description)
+        public NoteSong(NoteControlParent parent, string text, string description)
             : base(parent, text, description)
         {
             InitializeComponent();

@@ -5,18 +5,19 @@ namespace MusicLoverHandbook.Models.Enums
 {
     public enum NoteType
     {
-        [EnumColor(255, 0xC3A5D9)]
+        [EnumColor(255, 0x6881DD)]
         Author,
 
-        [EnumColor(255, 0xEFEDA3)]
+        [EnumColor(255, 0x899FF0)]
         Disc,
 
-        [EnumColor(255, 0xA9DCA8)]
+        [EnumColor(255, 0x9DB0F3)]
         Song,
 
-        [EnumColor(255, 0xCF91A8)]
+        [EnumColor(255, 0xAEBDF3)]
         SongFile,
 
+        
         AddButton
     }
 

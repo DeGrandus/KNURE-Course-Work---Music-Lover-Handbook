@@ -1,7 +1,7 @@
 ﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteParent<InnerNotesType> where InnerNotesType : INote
+    public interface INoteParent
     {
-        public IReadOnlyCollection<InnerNotesType> InnerNotes { get; }
+        public IReadOnlyCollection<INoteChild> InnerNotes { get; }
     }
 }

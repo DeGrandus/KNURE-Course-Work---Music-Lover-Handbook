@@ -32,9 +32,9 @@
             this.createNoteButton = new System.Windows.Forms.Button();
             this.panelContent = new System.Windows.Forms.Panel();
             this.panelLabel = new System.Windows.Forms.Panel();
+            this.title = new System.Windows.Forms.Label();
             this.dragZone = new System.Windows.Forms.Panel();
             this.dragInto = new System.Windows.Forms.Panel();
-            this.title = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelLabel.SuspendLayout();
             this.dragZone.SuspendLayout();
@@ -42,6 +42,7 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(223)))), ((int)(((byte)(234)))));
             this.tableLayoutPanel1.ColumnCount = 7;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
@@ -104,6 +105,16 @@
             this.panelLabel.Size = new System.Drawing.Size(1541, 50);
             this.panelLabel.TabIndex = 5;
             // 
+            // title
+            // 
+            this.title.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.title.Location = new System.Drawing.Point(0, 0);
+            this.title.Name = "title";
+            this.title.Size = new System.Drawing.Size(1541, 50);
+            this.title.TabIndex = 0;
+            this.title.Text = "Music Lover Handbook";
+            this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // dragZone
             // 
             this.dragZone.Controls.Add(this.dragInto);
@@ -121,16 +132,6 @@
             this.dragInto.Name = "dragInto";
             this.dragInto.Size = new System.Drawing.Size(1005, 194);
             this.dragInto.TabIndex = 5;
-            // 
-            // title
-            // 
-            this.title.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.title.Location = new System.Drawing.Point(0, 0);
-            this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(1541, 50);
-            this.title.TabIndex = 0;
-            this.title.Text = "Music Lover Handbook";
-            this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 

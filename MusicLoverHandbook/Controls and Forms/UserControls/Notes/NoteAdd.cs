@@ -1,19 +1,20 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteAdd : NoteControlChild<INoteControlParent<INoteControl>>
+    public partial class NoteAdd : NoteControlChild
     {
         public override NoteType Type { get; } = NoteType.AddButton;
 
         public NoteAdd(
-            INoteControlParent<INoteControl> parent,
+            NoteControlParent parent,
             string noteText,
             string noteDescription
         ) : base(parent, noteText, noteDescription)
         {
             InitializeComponent();
+            
         }
     }
 }

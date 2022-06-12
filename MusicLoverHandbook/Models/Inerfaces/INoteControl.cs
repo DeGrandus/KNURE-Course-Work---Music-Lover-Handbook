@@ -1,6 +1,4 @@
-﻿using MusicLoverHandbook.Models.Inerfaces;
-
-namespace MusicLoverHandbook.Models
+﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControl : INote, IControlTheme
     {

@@ -1,9 +1,10 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteDisc : NoteControlMidder<INoteControlParent<INoteControl>, INoteControl>
+    [System.ComponentModel.DesignerCategory("Code")]
+    public partial class NoteDisc : NoteControlMidder
     {
         public override NoteType Type { get; } = NoteType.Disc;
 

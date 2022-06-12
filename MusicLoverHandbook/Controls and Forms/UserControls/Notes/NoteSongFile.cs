@@ -1,9 +1,10 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public partial class NoteSongFile : NoteControlChild<NoteSong>
+    [System.ComponentModel.DesignerCategory("Code")]
+    public partial class NoteSongFile : NoteControlChild
     {
         public override NoteType Type { get; } = NoteType.SongFile;
 

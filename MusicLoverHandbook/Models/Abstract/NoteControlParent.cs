@@ -2,21 +2,21 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.Abstract
 {
-    public abstract class NoteControlParent<InnerNotesType>
+    [System.ComponentModel.DesignerCategory("Code")]
+    public abstract class NoteControlParent
         : NoteControl,
-          INoteParent<InnerNotesType>,
-          INoteControlParent<InnerNotesType> where InnerNotesType : INoteControl
+          INoteParent,
+          INoteControlParent
     {
-        public ObservableCollection<InnerNotesType> InnerNotes { get; set; } = new();
-        public ContentLinker<InnerNotesType> Linker { get; }
-        IReadOnlyCollection<InnerNotesType> INoteParent<InnerNotesType>.InnerNotes =>
-            InnerNotes.ToList();
-
+        public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
+        public ContentLinker Linker { get; }
         public int Offset { get; set; } = sizeS / 2;
         public Panel InnerContentPanel { get; }
         protected TableLayoutPanel TableOffsetter { get; }
+
+        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes => InnerNotes.Select(x => (INoteChild)x).ToList();
 
         public bool isOpened { get; set; } = false;
 
@@ -42,7 +42,7 @@ namespace MusicLoverHandbook.Models
             };
             TableOffsetter.Controls.Add(InnerContentPanel, 1, 0);
 
-            Linker = new ContentLinker<InnerNotesType>(this);
+            Linker = new ContentLinker(this);
             TextLabel.DoubleClick += (sender, e) =>
             {
                 if (InnerNotes.Count == 0)
@@ -58,6 +58,7 @@ namespace MusicLoverHandbook.Models
             note.Dock = DockStyle.Top;
             InnerContentPanel.Controls.Add(note);
             InnerContentPanel.Controls.SetChildIndex(note, 0);
+            note.SetupColorTheme(note.Type);
             UpdateSize();
         }
 

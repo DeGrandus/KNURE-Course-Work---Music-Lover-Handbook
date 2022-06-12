@@ -1,5 +1,7 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Enums;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -48,14 +50,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             var step = 10;
             var colors = new[]
             {
-                Color.Red,
-                Color.Orange,
-                Color.Gold,
-                Color.Green,
-                Color.SkyBlue,
-                Color.DarkBlue,
-                Color.BlueViolet,
-                Color.Red
+                Color.FromArgb(255,Color.FromArgb(0x3056E0)),
+                Color.FromArgb(255,Color.FromArgb(0xCFD9FE)),
+                Color.FromArgb(255,Color.FromArgb(0x3056E0)),
+
             };
             var groups = new List<(Color from, Color to)>();
             colors.Aggregate(
@@ -101,7 +99,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void SetupLayout()
         {
+            panelLabel.BackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2))) ; 
+            tableLayoutPanel1.BackColor = Color.White;
+            panelContent.AutoScroll = true;
+            panelContent.BackColor = ControlPaint.Light(Color.FromArgb(255, Color.FromArgb(0x768DE2)),1.5f);
             dragInto.BackColor = panelLabel.BackColor;
+            Debug.WriteLine("");
+
+            Debug.WriteLine(dragInto.BackColor);
+            Debug.WriteLine(panelLabel.BackColor);
             createNoteButton.FlatAppearance.BorderSize = 2;
 
             var buttonGradientWorker = new BackgroundWorker();
@@ -117,8 +123,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     createNoteButton.FlatAppearance.MouseDownBackColor = ControlPaint.LightLight(
                         ControlPaint.Light(colors[ind], 1f)
                     );
+                    createNoteButton.FlatAppearance.MouseOverBackColor = ControlPaint.LightLight(
+                        ControlPaint.Light(colors[ind], 0.5f)
+                    );
                     createNoteButton.BackColor = ControlPaint.LightLight(
-                        ControlPaint.LightLight(ControlPaint.LightLight(colors[ind]))
+                        ControlPaint.LightLight(colors[ind])
                     );
                     ind++;
                     Thread.Sleep(1);

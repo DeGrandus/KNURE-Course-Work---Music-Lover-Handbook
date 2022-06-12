@@ -1,12 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using MusicLoverHandbook.Models.Abstract;
+using System.Collections.ObjectModel;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControlParent<InnerNotesType> : INoteControl
-        where InnerNotesType : INoteControl
+    public interface INoteControlParent : INoteControl
     {
-        ObservableCollection<InnerNotesType> InnerNotes { get; set; }
-        ContentLinker<InnerNotesType> Linker { get; }
+        ObservableCollection<INoteControlChild> InnerNotes { get; set; }
+        ContentLinker Linker { get; }
         public void AddNote(NoteControl note);
         public void RemoveNote(NoteControl note);
         public void MoveNote(NoteControl note, int newIndex);

@@ -1,14 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace MusicLoverHandbook.Models
 {
-    public class ContentLinker<InnerNotesType> where InnerNotesType : INoteControl
+    public class ContentLinker
     {
-        public NoteControlParent<InnerNotesType> Note { get; }
-        public ObservableCollection<InnerNotesType> Observed => Note.InnerNotes;
+        public NoteControlParent Note { get; }
+        public ObservableCollection<INoteControlChild> Observed => Note.InnerNotes;
 
-        public ContentLinker(NoteControlParent<InnerNotesType> note)
+        public ContentLinker(NoteControlParent note)
         {
             Note = note;
             Observed.CollectionChanged += OnCollectionChanged;
@@ -42,8 +44,8 @@ namespace MusicLoverHandbook.Models
                         }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    if (e.NewItems != null && e.NewItems.Count == 1 && e.NewItems[0] is NoteControl)
-                        Note.MoveNote((e.NewItems[0] as NoteControl), e.NewStartingIndex);
+                    if (e.NewItems != null && e.NewItems.Count == 1 && e.NewItems[0] is NoteControl note)
+                        Note.MoveNote(note, e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     if (sender is ObservableCollection<NoteControl> && e.OldItems != null)
