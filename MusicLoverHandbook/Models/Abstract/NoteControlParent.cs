@@ -5,10 +5,7 @@ using System.Diagnostics;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlParent
-        : NoteControl,
-          INoteParent,
-          INoteControlParent
+    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent
     {
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
         public ContentLinker Linker { get; }
@@ -16,12 +13,14 @@ namespace MusicLoverHandbook.Models.Abstract
         public Panel InnerContentPanel { get; }
         protected TableLayoutPanel TableOffsetter { get; }
 
-        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes => InnerNotes.Select(x => (INoteChild)x).ToList();
+        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
+            InnerNotes.Select(x => (INoteChild)x).ToList();
 
         public bool isOpened { get; set; } = false;
+
         protected NoteControlParent(string text, string description) : base(text, description)
         {
-            Offset = sizeS *2/3;
+            Offset = sizeS * 2 / 3;
             TableOffsetter = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
@@ -43,8 +42,8 @@ namespace MusicLoverHandbook.Models.Abstract
             TableOffsetter.Controls.Add(InnerContentPanel, 1, 0);
 
             Linker = new ContentLinker(this);
-            
         }
+
         protected override void ConstructLayout()
         {
             base.ConstructLayout();
@@ -60,6 +59,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 ResumeLayout();
             };
         }
+
         public void ChangeSizeHierarchically(int size)
         {
             ChangeSize(size);

@@ -12,21 +12,25 @@ namespace MusicLoverHandbook.View.Forms
     public partial class AddNoteMenu : Form
     {
         public MainForm MainForm { get; }
+
         public AddNoteMenu(MainForm mainForm)
         {
             InitializeComponent();
             MainForm = mainForm;
             SetupLayout();
         }
+
         private void SetupLayout()
         {
-
             StartPosition = FormStartPosition.Manual;
             var fontfam = FontContainer.Instance.Families[0];
-            Font = new Font(fontfam,12,GraphicsUnit.Point);
-            Size = new Size(750,MainForm.Height-20);
+            Font = new Font(fontfam, 12, GraphicsUnit.Point);
+            Size = new Size(750, MainForm.Height - 20);
             MinimumSize = new Size(400, 750);
-            Location = new Point(MainForm.Location.X+(MainForm.Width - Width)/2, MainForm.Location.Y+(MainForm.Height - Height)/2);
+            Location = new Point(
+                MainForm.Location.X + (MainForm.Width - Width) / 2,
+                MainForm.Location.Y + (MainForm.Height - Height) / 2
+            );
 
             title.BackColor = MainForm.title.BackColor;
             title.Size = MainForm.title.Size;
@@ -44,10 +48,16 @@ namespace MusicLoverHandbook.View.Forms
             dragDropText.AllowDrop = true;
             dragDropText.DragEnter += (sender, e) =>
             {
-                if (e.Data == null) return;
-                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+                if (e.Data == null)
+                    return;
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                    return;
                 Debug.WriteLine(String.Join(',', ((string[])e.Data.GetData(DataFormats.FileDrop))));
-                if (((string[])e.Data.GetData(DataFormats.FileDrop)).Where(x => x.Contains(".mp3")).Count() > 0)
+                if (
+                    ((string[])e.Data.GetData(DataFormats.FileDrop))
+                        .Where(x => x.Contains(".mp3"))
+                        .Count() > 0
+                )
                 {
                     e.Effect = DragDropEffects.Link;
                 }
@@ -56,13 +66,17 @@ namespace MusicLoverHandbook.View.Forms
             };
             dragDropText.DragDrop += (sender, e) =>
             {
-                if (e.Data == null) return;
-                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-                if (e.Effect != DragDropEffects.Link) return;
+                if (e.Data == null)
+                    return;
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                    return;
+                if (e.Effect != DragDropEffects.Link)
+                    return;
 
-                var mp3 = ((string[])e.Data.GetData(DataFormats.FileDrop)).Where(x => x.Contains(".mp3")).ToArray()[0];
+                var mp3 = ((string[])e.Data.GetData(DataFormats.FileDrop))
+                    .Where(x => x.Contains(".mp3"))
+                    .ToArray()[0];
                 ApplyFileData(mp3);
-                    
             };
 
             inputAuthor.SetInputType(InputType.Author);
@@ -72,7 +86,9 @@ namespace MusicLoverHandbook.View.Forms
             {
                 if (state == InputState.OK)
                 {
-                    var data = (sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlParent);
+                    var data = (
+                        sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlParent
+                    );
                     Debug.WriteLine($"Event state data is : \n{data}");
                     if (data != null)
                     {
@@ -94,7 +110,9 @@ namespace MusicLoverHandbook.View.Forms
             inputDisc.InputNameBox.CanBeEmpty = true;
             inputDisc.InputNameBox.StateChanged += (sender, state) =>
             {
-                var dataSelf = (sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlMidder);
+                var dataSelf = (
+                    sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlMidder
+                );
 
                 if (state == InputState.OK)
                 {
@@ -111,9 +129,7 @@ namespace MusicLoverHandbook.View.Forms
                         inputSong.SetDataSource<NoteSong>(sender.NoteParent);
                 }
                 inputSong.InputNameBox.CheckValid();
-
             };
-
 
             inputSong.SetInputType(InputType.SongName);
             inputSong.InputNameBox.CanBeEmpty = true;
@@ -121,7 +137,9 @@ namespace MusicLoverHandbook.View.Forms
             {
                 if (state == InputState.OK)
                 {
-                    var dataSongFiles = (sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlParent);
+                    var dataSongFiles = (
+                        sender.InnerData.Find(x => x.NoteText == sender.Text) as NoteControlParent
+                    );
                     Debug.WriteLine($"Event state data is : \n{dataSongFiles}");
                     if (dataSongFiles != null)
                     {
@@ -132,12 +150,10 @@ namespace MusicLoverHandbook.View.Forms
                     inputSongFile.ClearDataSource();
 
                 inputSongFile.InputNameBox.CheckValid();
-
             };
 
             inputSongFile.SetInputType(InputType.SongFile);
             inputSongFile.InputNameBox.CanBeEmpty = true;
-
 
             var inputs = tableInputs.Controls.Cast<Control>();
             foreach (var input in inputs)
@@ -146,19 +162,18 @@ namespace MusicLoverHandbook.View.Forms
                     inputData.SetLabelFont(new Font(Font.FontFamily, 18, GraphicsUnit.Point));
                     inputData.InputNameBox.CheckValid();
                 }
-            
-
-
         }
+
         public void ApplyFileData(string filePath)
         {
-            if (!File.Exists(filePath)) return;
+            if (!File.Exists(filePath))
+                return;
 
             var file = TagFile.Create(filePath);
             var tag = file.Tag;
-            
-            string name = tag.Title??"";
-            string filename = Path.GetFileName(file.Name)??"";
+
+            string name = tag.Title ?? "";
+            string filename = Path.GetFileName(file.Name) ?? "";
             string authors = string.Join(" & ", tag.Performers);
             string album = tag.Album;
 
@@ -167,8 +182,8 @@ namespace MusicLoverHandbook.View.Forms
             string genres = string.Join(", ", tag.Genres);
 
             var description = "";
-            description += year!=0?$"Year: {year}\r\n":"";
-            description += genres!="" ? $"Genre: {genres}\r\n" : "";
+            description += year != 0 ? $"Year: {year}\r\n" : "";
+            description += genres != "" ? $"Genre: {genres}\r\n" : "";
             description += comment != "" ? $"Comment: {comment}\r\n" : "";
 
             inputAuthor.InputNameBox.Text = authors;
@@ -176,9 +191,6 @@ namespace MusicLoverHandbook.View.Forms
             inputSong.InputNameBox.Text = name;
             inputSongFile.InputNameBox.Text = filename;
             inputSongFile.InputDescriptionBox.Text = description;
-
         }
-
-
     }
 }

@@ -14,25 +14,41 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             TextChanged += OnInputDetected;
             LostFocus += OnLostFocus;
         }
+
         public string? DefaultReplacement;
         public bool CanBeEmpty = false;
         public InputType InputType { get; set; }
         public NoteControlParent? NoteParent { get; set; }
         public NotesContainer? NotesContainer { get; set; }
         public Type RestrictedType { get; set; }
-        public List<NoteControl> InnerData => (NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList() ??
-            NotesContainer?.Hierarchy.Where(x => x is NoteControl).Cast<NoteControl>().ToList() ?? new()).Where(x=> x.GetType().IsSubclassOf(RestrictedType) || x.GetType().Equals(RestrictedType)).ToList();
+        public List<NoteControl> InnerData =>
+            (
+                NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
+                ?? NotesContainer
+                    ?.Hierarchy.Where(x => x is NoteControl)
+                    .Cast<NoteControl>()
+                    .ToList()
+                ?? new()
+            )
+                .Where(
+                    x =>
+                        x.GetType().IsSubclassOf(RestrictedType)
+                        || x.GetType().Equals(RestrictedType)
+                )
+                .ToList();
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
             CheckValid();
         }
+
         public void CheckValid()
         {
             CheckText();
             if (!CanBeEmpty && State.IsError())
                 SelectedText = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
         }
+
         private InputState state;
         public InputState State
         {
@@ -46,10 +62,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 ToggleActivity();
             }
         }
+
         public void SetSource(NoteControlParent parent)
         {
             SetSource<object>(parent);
         }
+
         public void SetSource<StrictType>(NoteControlParent parent)
         {
             RestrictedType = typeof(StrictType);
@@ -58,10 +76,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             NotesContainer = null;
             Items.AddRange(InnerData.Select(x => x.NoteText).ToArray());
         }
+
         public void SetSource(NotesContainer parent)
         {
             SetSource<object>(parent);
         }
+
         public void SetSource<StrictType>(NotesContainer parent)
         {
             RestrictedType = typeof(StrictType);
@@ -70,6 +90,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             NoteParent = null;
             Items.AddRange(InnerData.Select(x => x.NoteText).ToArray());
         }
+
         public void ClearDataSource()
         {
             RestrictedType = typeof(object);
@@ -77,14 +98,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             NotesContainer = null;
             NoteParent = null;
         }
-        private void OnItemSelected(object? sender, EventArgs e)
-        {
 
-        }
+        private void OnItemSelected(object? sender, EventArgs e) { }
+
         private void OnInputDetected(object? sender, EventArgs e)
         {
             CheckText();
         }
+
         private void CheckText()
         {
             if (!CanBeEmpty && Text.Length == 0)
@@ -110,24 +131,28 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
             State = InputState.OK;
         }
+
         private void ToggleActivity()
         {
             switch (State)
             {
                 case InputState.INACTIVE:
-                    if (Enabled) Enabled = false;
+                    if (Enabled)
+                        Enabled = false;
                     break;
                 default:
-                    if (!Enabled) Enabled = true;
+                    if (!Enabled)
+                        Enabled = true;
                     break;
             }
-
         }
+
         private void OnStateChanged()
         {
             if (StateChanged != null)
                 StateChanged(this, State);
         }
+
         public delegate void StateChangedEvent(SmartComboBox sender, InputState state);
         public event StateChangedEvent StateChanged;
     }

@@ -44,7 +44,11 @@ namespace MusicLoverHandbook.Models
                         }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    if (e.NewItems != null && e.NewItems.Count == 1 && e.NewItems[0] is NoteControl note)
+                    if (
+                        e.NewItems != null
+                        && e.NewItems.Count == 1
+                        && e.NewItems[0] is NoteControl note
+                    )
                         Note.MoveNote(note, e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:

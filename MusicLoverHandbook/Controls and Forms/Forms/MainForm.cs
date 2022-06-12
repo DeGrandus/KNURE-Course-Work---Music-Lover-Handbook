@@ -19,6 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public Color LabelBackColor;
         public Color ContentBackColor;
         public NotesContainer Container { get; }
+
         public MainForm()
         {
             InitializeComponent();
@@ -34,8 +35,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Container = new NotesContainer(panelContent);
 
             SetupLayout();
-
-
 
             var author = new NoteAuthor("Some Author", "Some Author Desc");
             var author2 = new NoteAuthor("Some Another Author", "Some Another Author Desc");
@@ -57,10 +56,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             var step = 10;
             var colors = new[]
             {
-                Color.FromArgb(255,Color.FromArgb(0x3056E0)),
-                Color.FromArgb(255,Color.FromArgb(0xCFD9FE)),
-                Color.FromArgb(255,Color.FromArgb(0x3056E0)),
-
+                Color.FromArgb(255, Color.FromArgb(0x3056E0)),
+                Color.FromArgb(255, Color.FromArgb(0xCFD9FE)),
+                Color.FromArgb(255, Color.FromArgb(0x3056E0)),
             };
             var groups = new List<(Color from, Color to)>();
             colors.Aggregate(
@@ -107,11 +105,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void SetupLayout()
         {
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
-            panelLabel.BackColor = LabelBackColor; 
+            panelLabel.BackColor = LabelBackColor;
             tableLayoutPanel1.BackColor = Color.White;
 
             panelContent.AutoScroll = true;
-            ContentBackColor = ControlPaint.Light(Color.FromArgb(255, Color.FromArgb(0x768DE2)), 1.5f);
+            ContentBackColor = ControlPaint.Light(
+                Color.FromArgb(255, Color.FromArgb(0x768DE2)),
+                1.5f
+            );
             panelContent.BackColor = ContentBackColor;
             dragInto.BackColor = panelLabel.BackColor;
             Debug.WriteLine("");
@@ -158,10 +159,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Click += (sender, e) =>
             {
                 var addNoteMenu = new AddNoteMenu(this);
-                if (addNoteMenu.ShowDialog() == DialogResult.OK)
-                {
-
-                }
+                if (addNoteMenu.ShowDialog() == DialogResult.OK) { }
             };
 
             ReassignFonts();

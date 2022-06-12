@@ -6,10 +6,9 @@ using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-
     public abstract class NoteControl : UserControl, INoteControl
     {
-        protected virtual int sizeS { get; private set;  } = 80;
+        protected virtual int sizeS { get; private set; } = 80;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
         public abstract NoteType NoteType { get; }
         public Image? Icon { get; set; }
@@ -46,9 +45,33 @@ namespace MusicLoverHandbook.Models.Abstract
                 ColorChanged(this, new(ThemeColor));
         }
 
-        public bool IsDeleteShown { get => isDeleteShown; set { ToogleViewing(value, DeleteButton); isDeleteShown = value; } }
-        public bool IsEditShown { get => isEditShown; set { ToogleViewing(value, EditButton); isEditShown = value; } }
-        public bool IsInfoShown { get => isInfoShown; set { ToogleViewing(value, InfoButton); isInfoShown = value; } }
+        public bool IsDeleteShown
+        {
+            get => isDeleteShown;
+            set
+            {
+                ToogleViewing(value, DeleteButton);
+                isDeleteShown = value;
+            }
+        }
+        public bool IsEditShown
+        {
+            get => isEditShown;
+            set
+            {
+                ToogleViewing(value, EditButton);
+                isEditShown = value;
+            }
+        }
+        public bool IsInfoShown
+        {
+            get => isInfoShown;
+            set
+            {
+                ToogleViewing(value, InfoButton);
+                isInfoShown = value;
+            }
+        }
 
         private void ToogleViewing(bool isVis, Control toToggle)
         {
@@ -68,22 +91,25 @@ namespace MusicLoverHandbook.Models.Abstract
 
             ConstructLayout();
         }
+
         public virtual void SetupColorTheme(NoteType type)
         {
             ThemeColor = type.GetColor() ?? Color.Transparent;
         }
+
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
             ConstructLayout();
         }
+
         protected virtual void ConstructLayout()
         {
             SuspendLayout();
             Controls.Remove(mainTable);
 
             var font = FontContainer.Instance.Families[0];
-            Font = new Font(font, sizeS*textSizeRatio, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font = new Font(font, sizeS * textSizeRatio, FontStyle.Bold, GraphicsUnit.Pixel);
 
             Padding = new Padding(0);
 
@@ -95,29 +121,19 @@ namespace MusicLoverHandbook.Models.Abstract
                 RowCount = 1,
                 ColumnCount = 2
             };
-            SideButtons = new SideButtonsPanel(DockStyle.Right)
-            {
-                AutoSize = true,
-            };
+            SideButtons = new SideButtonsPanel(DockStyle.Right) { AutoSize = true, };
             var panelIcon = new Panel()
             {
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-
                 BackColor = Color.Red
             };
-            var textPanel = new Panel()
-            {
-                Padding = new Padding(0),
-                Margin = new Padding(0),
-
-            };
+            var textPanel = new Panel() { Padding = new Padding(0), Margin = new Padding(0), };
 
             TextLabel = new Label()
             {
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-
                 Text = NoteText,
                 BackColor = ThemeColor,
                 AutoSize = false,
@@ -128,19 +144,16 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 BackColor = Color.BlueViolet,
                 Size = new Size(sizeS, sizeS)
-
             };
             DeleteButton = new ButtonPanel(ButtonType.Delete, 2)
             {
                 BackColor = Color.Red,
                 Size = new Size(sizeS, sizeS)
-
             };
             EditButton = new ButtonPanel(ButtonType.Edit, 1)
             {
                 BackColor = Color.Gold,
                 Size = new Size(sizeS, sizeS),
-
             };
 
             var comboPanel = new Panel()
@@ -153,11 +166,11 @@ namespace MusicLoverHandbook.Models.Abstract
             mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
             mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, sizeS));
-            
+
             textPanel.Dock = DockStyle.Fill;
-            
+
             textPanel.Controls.Add(TextLabel);
-            
+
             comboPanel.Controls.Add(textPanel);
             comboPanel.Controls.Add(SideButtons);
 
@@ -167,7 +180,6 @@ namespace MusicLoverHandbook.Models.Abstract
             SideButtons.AddButton(InfoButton);
             SideButtons.AddButton(DeleteButton);
             SideButtons.AddButton(EditButton);
-
 
             mainTable.MaximumSize = new Size(0, sizeS);
 

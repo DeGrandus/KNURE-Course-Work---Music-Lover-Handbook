@@ -25,7 +25,6 @@ namespace MusicLoverHandbook.Models.Enums
         [Text("This field is too short")]
         [ErrorState]
         TOO_SHORT
-        
     }
 
     static class ExtensionMethods

@@ -19,8 +19,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         private bool canNameBeEmpty;
 
         public InputType InputType { get; private set; }
-        public SmartComboBox InputNameBox {get;}
+        public SmartComboBox InputNameBox { get; }
         public TextBox InputDescriptionBox { get; }
+
         public InputData()
         {
             InitializeComponent();
@@ -34,41 +35,48 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 InputDescriptionBox.Enabled = state != InputState.UNKNOWN && !state.IsError();
                 UpdateRenameSection();
                 if (state == InputState.OK)
-                    InputDescriptionBox.Text = InputNameBox.InnerData.Find(x => x.NoteText == InputNameBox.Text)?.NoteDescription??"";
-
+                    InputDescriptionBox.Text =
+                        InputNameBox.InnerData
+                            .Find(x => x.NoteText == InputNameBox.Text)
+                            ?.NoteDescription ?? "";
             };
             renameCheck.CheckedChanged += (sender, e) =>
             {
                 UpdateRenameSection();
             };
         }
+
         public void UpdateRenameSection()
         {
             renameInput.Enabled = renameSection.Enabled && renameCheck.Checked;
         }
+
         public InputData(InputType mainType) : this()
         {
             InputType = mainType;
             SetLabel(InputType.ToString());
-            
         }
+
         public void SetDataSource(NoteControlParent notes)
         {
             boxName.SetSource(notes);
         }
+
         public void SetDataSource<OnlyAllow>(NoteControlParent notes)
         {
             boxName.SetSource<OnlyAllow>(notes);
         }
+
         public void SetDataSource(NotesContainer container)
         {
             boxName.SetSource(container);
         }
+
         public void SetDataSource<OnlyAllow>(NotesContainer container)
         {
             boxName.SetSource<OnlyAllow>(container);
-
         }
+
         public void ClearDataSource()
         {
             boxName.ClearDataSource();
@@ -80,14 +88,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             boxName.InputType = type;
             SetLabel(InputType.ToString());
         }
+
         public void SetLabel(string text)
         {
             noteTypeLabel.Text = text;
         }
+
         public void SetFont(Font font)
         {
             Font = font;
         }
+
         public void SetLabelFont(Font font)
         {
             noteTypeLabel.Font = font;
@@ -105,8 +116,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public InputType Type { get; }
             public string Text { get; }
             public string Description { get; }
-
         }
     }
-
 }
