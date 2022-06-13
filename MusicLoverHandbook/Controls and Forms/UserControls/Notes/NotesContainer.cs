@@ -50,7 +50,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         {
             Debug.WriteLine(1);
             var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
-            if (potentialAdd?.NoteType is NoteType.AddButton )
+            if (potentialAdd?.NoteType is NoteType.AddButton)
                 note.InnerNotes.Remove(potentialAdd);
             note.InnerNotes.Add(CreateAddButton(note));
             if (recursiveForChildren)

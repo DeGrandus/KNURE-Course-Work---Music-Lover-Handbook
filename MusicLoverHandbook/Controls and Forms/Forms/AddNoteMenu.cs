@@ -27,12 +27,19 @@ namespace MusicLoverHandbook.View.Forms
 
         public void SwitchType()
         {
-            CreationType = CreationType == NoteCreationType.DiscInAuthor ? NoteCreationType.AuthorInDisc : NoteCreationType.DiscInAuthor;
+            CreationType =
+                CreationType == NoteCreationType.DiscInAuthor
+                    ? NoteCreationType.AuthorInDisc
+                    : NoteCreationType.DiscInAuthor;
         }
 
         private void SetupLayout()
         {
-            allInputs = tableInputs.Controls.Cast<Control>().Where(x => x is InputData).Cast<InputData>().ToList();
+            allInputs = tableInputs.Controls
+                .Cast<Control>()
+                .Where(x => x is InputData)
+                .Cast<InputData>()
+                .ToList();
             StartPosition = FormStartPosition.Manual;
             var fontfam = FontContainer.Instance.Families[0];
             Font = new Font(fontfam, 12, GraphicsUnit.Point);
@@ -57,18 +64,26 @@ namespace MusicLoverHandbook.View.Forms
                 NoteCreator creator;
                 try
                 {
-                    creator = new NoteCreator(MainForm, CreationType, allInputs.Select(x => x.GetOutput()).ToArray());
+                    creator = new NoteCreator(
+                        MainForm,
+                        CreationType,
+                        allInputs.Select(x => x.GetOutput()).ToArray()
+                    );
                 }
                 catch (InvalidDataException ex)
                 {
-                    MessageBox.Show(ex.Message, "Renaming error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        ex.Message,
+                        "Renaming error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                     return;
                 }
                 FinalNote = creator.CreateNote();
                 DialogResult = DialogResult.OK;
                 Close();
             };
-
 
             dragDropPanel.BackColor = MainForm.title.BackColor;
             dragDropText.BackColor = ControlPaint.LightLight(MainForm.title.BackColor);
@@ -222,16 +237,27 @@ namespace MusicLoverHandbook.View.Forms
             descSong += year != 0 ? $"Year: {year}\r\n" : "";
             descSong += genres != "" ? $"Genre: {genres}\r\n" : "";
             descSong += comment != "" ? $"Comment: {comment}\r\n" : "";
-            
+
             var descFile = "";
             descFile += $"{filePath}\r\n";
-            descFile += $"Duration: {string.Format("{0:hh\\:mm\\:ss}",file.Properties.Duration)}\r\n";
+            descFile +=
+                $"Duration: {string.Format("{0:hh\\:mm\\:ss}", file.Properties.Duration)}\r\n";
             descFile += $"Bitrate: {file.Properties.AudioBitrate}\r\n";
 
             allInputs.ForEach(x => x.AutoFill = false);
-            if (allInputs.Select(x => x.InputNameBox.Status).Where(x => x == InputState.OK || x == InputState.CREATION).Count() > 1)
+            if (
+                allInputs
+                    .Select(x => x.InputNameBox.Status)
+                    .Where(x => x == InputState.OK || x == InputState.CREATION)
+                    .Count() > 1
+            )
             {
-                var result = MessageBox.Show("There are some fields that are already filled with some data. Replace with file data (YES) or fill up only remain data (NO)","Information load question", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                var result = MessageBox.Show(
+                    "There are some fields that are already filled with some data. Replace with file data (YES) or fill up only remain data (NO)",
+                    "Information load question",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
                 if (result != DialogResult.Cancel)
                 {
                     if (result == DialogResult.Yes)
@@ -241,7 +267,11 @@ namespace MusicLoverHandbook.View.Forms
                         inputSong.InputNameBox.Text = name;
                         inputSong.InputDescriptionBox.Text = descSong;
                     }
-                    if (inputSong.InputNameBox.Status is InputState x && !(x == InputState.OK || x == InputState.CREATION)) inputSong.InputNameBox.Text = name;
+                    if (
+                        inputSong.InputNameBox.Status is InputState x
+                        && !(x == InputState.OK || x == InputState.CREATION)
+                    )
+                        inputSong.InputNameBox.Text = name;
                     inputSongFile.InputNameBox.Text = filename;
                     inputSongFile.InputDescriptionBox.Text = descFile;
                 }
@@ -256,18 +286,25 @@ namespace MusicLoverHandbook.View.Forms
                 inputSongFile.InputDescriptionBox.Text = descFile;
             }
 
-            allInputs.ForEach(x=> { x.InputNameBox.CheckValid(); });
-
+            allInputs.ForEach(
+                x =>
+                {
+                    x.InputNameBox.CheckValid();
+                }
+            );
         }
+
         public class NoteCreator
         {
             public NoteCreationType Type { get; }
             public Dictionary<InputType, OutputInfo> Info { get; }
             public MainForm Form { get; }
+
             public NoteCreator(MainForm form, NoteCreationType creationType, OutputInfo[] info)
             {
                 Type = creationType;
-                Info = info.Select(x => (Type: x.Type, Data: x)).ToDictionary(x => x.Type, x => x.Data);
+                Info = info.Select(x => (Type: x.Type, Data: x))
+                    .ToDictionary(x => x.Type, x => x.Data);
                 Form = form;
             }
 
@@ -285,66 +322,86 @@ namespace MusicLoverHandbook.View.Forms
                 var songInfo = Info[InputType.SongName];
                 var songFileInfo = Info[InputType.SongFile];
 
-                var hierStarter = contaierData.Find(x => x.NoteText == starterInfo.Text) as NoteControlParent ?? null;
+                var hierStarter =
+                    contaierData.Find(x => x.NoteText == starterInfo.Text) as NoteControlParent
+                    ?? null;
                 if (hierStarter == null)
-                    hierStarter = starterType == InputType.Author ?
-                        new NoteAuthor(null, starterInfo.Text, starterInfo.Description) :
-                        new NoteDisc(null, starterInfo.Text, starterInfo.Description);
+                    hierStarter =
+                        starterType == InputType.Author
+                            ? new NoteAuthor(null, starterInfo.Text, starterInfo.Description)
+                            : new NoteDisc(null, starterInfo.Text, starterInfo.Description);
                 else if (starterInfo.ReplacementText != null)
                     hierStarter.NoteText = starterInfo.ReplacementText;
                 hierStarter.NoteDescription = starterInfo.Description;
 
-                if (!nextInfo.IsValid()) return hierStarter;
+                if (!nextInfo.IsValid())
+                    return hierStarter;
 
-                var nextElement = hierStarter.InnerNotes.ToList().Find(x => x.NoteText == nextInfo.Text) as NoteControlParent ?? null;
+                var nextElement =
+                    hierStarter.InnerNotes.ToList().Find(x => x.NoteText == nextInfo.Text)
+                        as NoteControlParent
+                    ?? null;
                 if (nextElement == null)
                 {
-                    nextElement = nextType == InputType.Author ?
-                        new NoteAuthor((NoteDisc)hierStarter, nextInfo.Text, nextInfo.Description) :
-                        new NoteDisc((NoteAuthor)hierStarter, nextInfo.Text, nextInfo.Description);
+                    nextElement =
+                        nextType == InputType.Author
+                            ? new NoteAuthor(
+                                  (NoteDisc)hierStarter,
+                                  nextInfo.Text,
+                                  nextInfo.Description
+                              )
+                            : new NoteDisc(
+                                  (NoteAuthor)hierStarter,
+                                  nextInfo.Text,
+                                  nextInfo.Description
+                              );
                     hierStarter.InnerNotes.Add((INoteControlChild)nextElement);
-
                 }
                 else if (nextInfo.ReplacementText != null)
                     nextElement.NoteText = nextInfo.ReplacementText;
                 nextElement.NoteDescription = nextInfo.Description;
 
+                if (!songInfo.IsValid())
+                    return hierStarter;
 
-                if (!songInfo.IsValid()) return hierStarter;
-
-                var song = nextElement.InnerNotes.ToList().Find(x => x.NoteText == songInfo.Text) as NoteControlParent ?? null;
+                var song =
+                    nextElement.InnerNotes.ToList().Find(x => x.NoteText == songInfo.Text)
+                        as NoteControlParent
+                    ?? null;
                 if (song == null)
                 {
                     song = new NoteSong(nextElement, songInfo.Text, songInfo.Description);
                     nextElement.InnerNotes.Add((INoteControlChild)song);
-
                 }
                 else if (songInfo.ReplacementText != null)
 
                     song.NoteText = songInfo.ReplacementText;
 
-
                 song.NoteDescription = songInfo.Description;
 
+                if (!songFileInfo.IsValid())
+                    return hierStarter;
 
-                if (!songFileInfo.IsValid()) return hierStarter;
-
-                var songFile = song.InnerNotes.ToList().Find(x => x.NoteText == songFileInfo.Text) as NoteControlChild ?? null;
+                var songFile =
+                    song.InnerNotes.ToList().Find(x => x.NoteText == songFileInfo.Text)
+                        as NoteControlChild
+                    ?? null;
                 if (songFile == null)
                 {
-                    songFile = new NoteSongFile((NoteSong)song, songFileInfo.Text, songFileInfo.Description);
+                    songFile = new NoteSongFile(
+                        (NoteSong)song,
+                        songFileInfo.Text,
+                        songFileInfo.Description
+                    );
                     song.InnerNotes.Add(songFile);
-
                 }
                 else if (songFileInfo.ReplacementText != null)
                 {
                     songFile.NoteText = songFileInfo.ReplacementText;
-
                 }
                 songFile.NoteDescription = songFileInfo.Description;
 
                 return hierStarter;
-
             }
         }
     }

@@ -12,10 +12,15 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
         public abstract NoteType NoteType { get; }
         public Image? Icon { get; set; }
-        public string NoteText { get => noteText; set {
+        public string NoteText
+        {
+            get => noteText;
+            set
+            {
                 TextLabel.Text = value;
-                noteText = value; 
-            } }
+                noteText = value;
+            }
+        }
         public string NoteDescription { get; set; }
         ControlCollection INoteControl.Controls => Controls;
 
@@ -90,11 +95,11 @@ namespace MusicLoverHandbook.Models.Abstract
             BackColor = Color.Transparent;
             SetupColorTheme(NoteType);
             ConstructLayout();
-            InitValues(text,description);
+            InitValues(text, description);
         }
-        protected virtual void InitValues(string text,string description)
+
+        protected virtual void InitValues(string text, string description)
         {
-            
             NoteText = text;
             NoteDescription = description;
         }
@@ -207,6 +212,7 @@ namespace MusicLoverHandbook.Models.Abstract
             mainTable.Size = new Size(1000, sizeS);
             ResumeLayout();
         }
+
         public override string ToString()
         {
             return $"{NoteText}";

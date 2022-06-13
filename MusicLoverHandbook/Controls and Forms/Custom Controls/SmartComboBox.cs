@@ -43,8 +43,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             CheckValid();
         }
 
-
-
         public void CheckValid()
         {
             CheckText();
@@ -59,7 +57,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             get => state;
             set
             {
-                if (state == value) return;
+                if (state == value)
+                    return;
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
                 state = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
@@ -73,6 +72,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         {
             tooltip.SetToolTip(this, Status.GetStringValue());
         }
+
         public void SetSource(NoteControlParent parent)
         {
             SetSource<object>(parent);

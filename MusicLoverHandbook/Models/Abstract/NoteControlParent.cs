@@ -49,6 +49,7 @@ namespace MusicLoverHandbook.Models.Abstract
             base.ConstructLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
+
         public void OnDoubleClick()
         {
             SuspendLayout();
@@ -110,15 +111,17 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             var innerHeight = InnerContentPanel.Controls
                 .Cast<Control>()
-                .Select(c => c.Size.Height).Concat(new[] {0})
+                .Select(c => c.Size.Height)
+                .Concat(new[] { 0 })
                 .Aggregate((c, n) => c + n);
             var baseHeight = TextLabel.Size.Height;
             Size = IsOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
             Debug.WriteLine(Size);
         }
+
         public override string ToString()
         {
-            return $"{NoteText}: [ {string.Join(", ",InnerNotes)} ]";
+            return $"{NoteText}: [ {string.Join(", ", InnerNotes)} ]";
         }
     }
 }

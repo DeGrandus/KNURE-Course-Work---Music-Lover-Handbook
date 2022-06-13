@@ -35,7 +35,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Container = new NotesContainer(panelContent);
 
             SetupLayout();
-
         }
 
         private Color[] CreateGradient()
@@ -146,17 +145,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Click += (sender, e) =>
             {
                 var addNoteMenu = new AddNoteMenu(this);
-                if (addNoteMenu.ShowDialog() == DialogResult.OK) 
+                if (addNoteMenu.ShowDialog() == DialogResult.OK)
                 {
                     var finalNote = addNoteMenu.FinalNote;
-                    
+
                     if (finalNote != null)
                     {
                         var wasOpened = finalNote.IsOpened;
-                        if (wasOpened) finalNote.OnDoubleClick();
+                        if (wasOpened)
+                            finalNote.OnDoubleClick();
                         Container.AddNote(finalNote);
-                        if (wasOpened) finalNote.OnDoubleClick();
-
+                        if (wasOpened)
+                            finalNote.OnDoubleClick();
                     }
                 }
             };

@@ -22,17 +22,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         private bool IsRenameFieldTextInvalid
         {
-            get => isRenameInvalid; set
-            {
-                isRenameInvalid = value;
-            }
+            get => isRenameInvalid;
+            set { isRenameInvalid = value; }
         }
 
         public InputType InputType { get; private set; }
         public SmartComboBox InputNameBox { get; }
         public TextBox InputDescriptionBox { get; }
         public bool AutoFill { get; set; } = true;
-
 
         public InputData()
         {
@@ -46,7 +43,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     renameCheck.Checked = false;
                 InputDescriptionBox.Enabled = state != InputState.UNKNOWN && !state.IsError();
                 UpdateRenameSection();
-                if (!AutoFill) return;
+                if (!AutoFill)
+                    return;
                 if (state == InputState.OK)
                     InputDescriptionBox.Text =
                         InputNameBox.InnerData
@@ -65,10 +63,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         private void UpdateRenameField()
         {
-            if (!renameInput.Enabled) { renameInput.BackColor = Color.White; return; }
-            IsRenameFieldTextInvalid = boxName.Items.Cast<string>().Contains(renameInput.Text) || renameInput.Text.Length < 2;
-            renameInput.BackColor = Color.FromArgb(255, Color.FromArgb((int)(!IsRenameFieldTextInvalid? InputState.OK : InputState.EMPTY_FIELD)));
+            if (!renameInput.Enabled)
+            {
+                renameInput.BackColor = Color.White;
+                return;
+            }
+            IsRenameFieldTextInvalid =
+                boxName.Items.Cast<string>().Contains(renameInput.Text)
+                || renameInput.Text.Length < 2;
+            renameInput.BackColor = Color.FromArgb(
+                255,
+                Color.FromArgb(
+                    (int)(!IsRenameFieldTextInvalid ? InputState.OK : InputState.EMPTY_FIELD)
+                )
+            );
         }
+
         public void UpdateRenameSection()
         {
             renameInput.Enabled = renameSection.Enabled && renameCheck.Checked;
@@ -127,23 +137,37 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         {
             noteTypeLabel.Font = font;
         }
+
         public OutputInfo GetOutput()
         {
             if (renameInput.Enabled && IsRenameFieldTextInvalid)
                 if (renameInput.Text.Length == 0)
-                    throw new InvalidDataException($"{InputType} cannot be renamed to an empty field.");
+                    throw new InvalidDataException(
+                        $"{InputType} cannot be renamed to an empty field."
+                    );
                 else if (renameInput.Text.Length == 1)
-                    throw new InvalidDataException($"{InputType} cannot be renamed to \"{renameInput.Text}\". It is yoo short.");
-
+                    throw new InvalidDataException(
+                        $"{InputType} cannot be renamed to \"{renameInput.Text}\". It is yoo short."
+                    );
                 else
-                    throw new InvalidDataException($"{InputType} cannot be renamed to \"{renameInput.Text}\". An {InputType.ToString().ToLower()} with this name is already exists in current category.");
-            return new OutputInfo(InputType,
-                InputNameBox.Status == InputState.OK ||
-                InputNameBox.Status == InputState.CREATION ?
-                InputNameBox.Text : null, InputDescriptionBox.Text,
-                renameInput.Enabled ? renameInput.Text.Length > 1 ? renameInput.Text : null : null,
-                Enabled);
+                    throw new InvalidDataException(
+                        $"{InputType} cannot be renamed to \"{renameInput.Text}\". An {InputType.ToString().ToLower()} with this name is already exists in current category."
+                    );
+            return new OutputInfo(
+                InputType,
+                InputNameBox.Status == InputState.OK || InputNameBox.Status == InputState.CREATION
+                  ? InputNameBox.Text
+                  : null,
+                InputDescriptionBox.Text,
+                renameInput.Enabled
+                  ? renameInput.Text.Length > 1
+                      ? renameInput.Text
+                      : null
+                  : null,
+                Enabled
+            );
         }
+
         public void Clean()
         {
             InputNameBox.Text = "";
@@ -152,7 +176,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         public class OutputInfo
         {
-            public OutputInfo(InputType type, string? text, string description, string? replacementText, bool enabled)
+            public OutputInfo(
+                InputType type,
+                string? text,
+                string description,
+                string? replacementText,
+                bool enabled
+            )
             {
                 Enabled = enabled;
                 Type = type;
@@ -160,11 +190,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 Description = description;
                 ReplacementText = replacementText;
             }
+
             public bool Enabled { get; }
             public InputType Type { get; }
             public string? Text { get; }
             public string Description { get; }
             public string? ReplacementText { get; }
+
             public bool IsValid() => Enabled && Text != null;
         }
     }
