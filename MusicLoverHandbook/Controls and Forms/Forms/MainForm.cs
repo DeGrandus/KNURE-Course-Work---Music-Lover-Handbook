@@ -36,19 +36,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             SetupLayout();
 
-            var author = new NoteAuthor("Some Author", "Some Author Desc");
-            var author2 = new NoteAuthor("Some Another Author", "Some Another Author Desc");
-            var disc = new NoteDisc(author, "Some Disc", "Some Disc Desc");
-            var song = new NoteSong(disc, "Some Song", "Some Song");
-            var songFile = new NoteSongFile(song, "Some Song FIle", "Some Song FIle Desc");
-            var songIndep = new NoteSong(author, "Some Indep Song", "Some Indep Song Desc");
-
-            author.InnerNotes.Add(disc);
-            disc.InnerNotes.Add(song);
-            song.InnerNotes.Add(songFile);
-            author.InnerNotes.Add(songIndep);
-            Container.AddNote(author);
-            Container.AddNote(author2);
         }
 
         private Color[] CreateGradient()
@@ -159,7 +146,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Click += (sender, e) =>
             {
                 var addNoteMenu = new AddNoteMenu(this);
-                if (addNoteMenu.ShowDialog() == DialogResult.OK) { }
+                if (addNoteMenu.ShowDialog() == DialogResult.OK) 
+                {
+                    var finalNote = addNoteMenu.FinalNote;
+                    
+                    if (finalNote != null)
+                    {
+                        var wasOpened = finalNote.IsOpened;
+                        if (wasOpened) finalNote.OnDoubleClick();
+                        Container.AddNote(finalNote);
+                        if (wasOpened) finalNote.OnDoubleClick();
+
+                    }
+                }
             };
 
             ReassignFonts();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MusicLoverHandbook.Models.Enums;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
@@ -22,6 +23,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         public void AddNote(NoteControlParent note)
         {
             note.Dock = DockStyle.Top;
+            DeleteNote(note);
             Hierarchy.Add(note);
             PanelContainer.Controls.Add(note);
             PanelContainer.Controls.SetChildIndex(note, 0);
@@ -46,8 +48,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             bool recursiveForChildren
         )
         {
-            if (!note.InnerNotes.Select(x => x.NoteType).Contains(Models.Enums.NoteType.AddButton))
-                note.InnerNotes.Add(CreateAddButton(note));
+            Debug.WriteLine(1);
+            var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
+            if (potentialAdd?.NoteType is NoteType.AddButton )
+                note.InnerNotes.Remove(potentialAdd);
+            note.InnerNotes.Add(CreateAddButton(note));
             if (recursiveForChildren)
                 foreach (var child in note.InnerNotes)
                 {

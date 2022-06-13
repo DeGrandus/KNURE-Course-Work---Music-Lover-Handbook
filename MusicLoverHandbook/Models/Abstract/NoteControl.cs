@@ -12,7 +12,10 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
         public abstract NoteType NoteType { get; }
         public Image? Icon { get; set; }
-        public string NoteText { get; set; }
+        public string NoteText { get => noteText; set {
+                TextLabel.Text = value;
+                noteText = value; 
+            } }
         public string NoteDescription { get; set; }
         ControlCollection INoteControl.Controls => Controls;
 
@@ -21,6 +24,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private bool isEditShown;
         private bool isInfoShown;
         private TableLayoutPanel mainTable;
+        private string noteText;
 
         public event ThemeChangeEventHandler ColorChanged;
         public Label TextLabel { get; private set; }
@@ -83,13 +87,16 @@ namespace MusicLoverHandbook.Models.Abstract
 
         protected NoteControl(string text, string description)
         {
+            BackColor = Color.Transparent;
+            SetupColorTheme(NoteType);
+            ConstructLayout();
+            InitValues(text,description);
+        }
+        protected virtual void InitValues(string text,string description)
+        {
+            
             NoteText = text;
             NoteDescription = description;
-
-            SetupColorTheme(NoteType);
-            BackColor = Color.Transparent;
-
-            ConstructLayout();
         }
 
         public virtual void SetupColorTheme(NoteType type)
@@ -109,7 +116,7 @@ namespace MusicLoverHandbook.Models.Abstract
             Controls.Remove(mainTable);
 
             var font = FontContainer.Instance.Families[0];
-            Font = new Font(font, sizeS * textSizeRatio, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font = new Font(font, sizeS * textSizeRatio, GraphicsUnit.Pixel);
 
             Padding = new Padding(0);
 
@@ -132,6 +139,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
             TextLabel = new Label()
             {
+                UseMnemonic = false,
                 Padding = new Padding(0),
                 Margin = new Padding(0),
                 Text = NoteText,
@@ -198,6 +206,10 @@ namespace MusicLoverHandbook.Models.Abstract
 
             mainTable.Size = new Size(1000, sizeS);
             ResumeLayout();
+        }
+        public override string ToString()
+        {
+            return $"{NoteText}";
         }
     }
 }

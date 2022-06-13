@@ -16,7 +16,7 @@ namespace MusicLoverHandbook.Models.Abstract
         IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
             InnerNotes.Select(x => (INoteChild)x).ToList();
 
-        public bool isOpened { get; set; } = false;
+        public bool IsOpened { get; set; } = false;
 
         protected NoteControlParent(string text, string description) : base(text, description)
         {
@@ -47,17 +47,18 @@ namespace MusicLoverHandbook.Models.Abstract
         protected override void ConstructLayout()
         {
             base.ConstructLayout();
-            TextLabel.DoubleClick += (sender, e) =>
-            {
-                SuspendLayout();
-                Debug.WriteLine(InnerNotes.Count);
-                if (InnerNotes.Count == 0)
-                    return;
-                Debug.WriteLine(isOpened);
-                isOpened = !isOpened;
-                UpdateSize();
-                ResumeLayout();
-            };
+            TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
+        }
+        public void OnDoubleClick()
+        {
+            SuspendLayout();
+            Debug.WriteLine(InnerNotes.Count);
+            if (InnerNotes.Count == 0)
+                return;
+            Debug.WriteLine(IsOpened);
+            IsOpened = !IsOpened;
+            UpdateSize();
+            ResumeLayout();
         }
 
         public void ChangeSizeHierarchically(int size)
@@ -109,11 +110,15 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             var innerHeight = InnerContentPanel.Controls
                 .Cast<Control>()
-                .Select(c => c.Size.Height)
+                .Select(c => c.Size.Height).Concat(new[] {0})
                 .Aggregate((c, n) => c + n);
             var baseHeight = TextLabel.Size.Height;
-            Size = isOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
+            Size = IsOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
             Debug.WriteLine(Size);
+        }
+        public override string ToString()
+        {
+            return $"{NoteText}: [ {string.Join(", ",InnerNotes)} ]";
         }
     }
 }

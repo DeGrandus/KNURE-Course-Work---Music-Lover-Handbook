@@ -4,6 +4,7 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
@@ -20,7 +21,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         public InputType InputType { get; set; }
         public NoteControlParent? NoteParent { get; set; }
         public NotesContainer? NotesContainer { get; set; }
-        public Type RestrictedType { get; set; }
+        public Type RestrictedType { get; set; } = typeof(object);
         public List<NoteControl> InnerData =>
             (
                 NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
@@ -42,27 +43,36 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             CheckValid();
         }
 
+
+
         public void CheckValid()
         {
             CheckText();
-            if (!CanBeEmpty && State.IsError())
-                SelectedText = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
+            if (!CanBeEmpty && Status.IsError())
+                Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
         }
 
         private InputState state;
-        public InputState State
+        private ToolTip tooltip = new ToolTip() { InitialDelay = 0, IsBalloon = true, };
+        public InputState Status
         {
             get => state;
             set
             {
+                if (state == value) return;
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
                 state = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
                 OnStateChanged();
                 ToggleActivity();
+                SetToolTip();
             }
         }
 
+        private void SetToolTip()
+        {
+            tooltip.SetToolTip(this, Status.GetStringValue());
+        }
         public void SetSource(NoteControlParent parent)
         {
             SetSource<object>(parent);
@@ -110,31 +120,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         {
             if (!CanBeEmpty && Text.Length == 0)
             {
-                State = InputState.EMPTY_FIELD;
+                Status = InputState.EMPTY_FIELD;
                 return;
             }
             else if (Text.Length == 0)
             {
-                State = InputState.UNKNOWN;
+                Status = InputState.UNKNOWN;
                 return;
             }
 
             if (Text.Length < 2)
             {
-                State = InputState.TOO_SHORT;
+                Status = InputState.TOO_SHORT;
                 return;
             }
             if (!Items.Cast<string>().Contains(Text))
             {
-                State = InputState.CREATION;
+                Status = InputState.CREATION;
                 return;
             }
-            State = InputState.OK;
+            Status = InputState.OK;
         }
 
         private void ToggleActivity()
         {
-            switch (State)
+            switch (Status)
             {
                 case InputState.INACTIVE:
                     if (Enabled)
@@ -150,7 +160,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         private void OnStateChanged()
         {
             if (StateChanged != null)
-                StateChanged(this, State);
+                StateChanged(this, Status);
         }
 
         public delegate void StateChangedEvent(SmartComboBox sender, InputState state);

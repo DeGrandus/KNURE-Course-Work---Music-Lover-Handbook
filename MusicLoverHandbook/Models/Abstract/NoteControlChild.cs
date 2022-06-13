@@ -43,5 +43,13 @@ namespace MusicLoverHandbook.Models.Abstract
             else
                 delayedSetup += base.ConstructLayout;
         }
+        protected override void InitValues(string text, string description)
+        {
+            if (inited)
+                base.InitValues(text, description);
+            else
+                delayedSetup += ()=> base.InitValues(text, description);
+
+        }
     }
 }
