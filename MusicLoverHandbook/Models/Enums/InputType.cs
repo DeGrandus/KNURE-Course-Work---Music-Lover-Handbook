@@ -52,9 +52,11 @@ namespace MusicLoverHandbook.Models.Enums
         {
             return type.GetType().GetField(type.ToString())?.GetCustomAttribute<ConnectedNoteCreationTypeAttribute>()?.Type;
         }
-        public static string ToString(this InputType type)
+        public static string ToString(this InputType type, bool useCustomStringValue)
         {
-            return type.GetType().GetField(Enum.GetName(type) ?? "")?.GetCustomAttribute<StringValueAttribute>()?.Value??Enum.GetName(type)??"";
+            if (useCustomStringValue)
+                return type.GetType().GetField(type.ToString())?.GetCustomAttribute<StringValueAttribute>()?.Value ?? type.ToString();
+            return type.ToString();
         }
     }
 }

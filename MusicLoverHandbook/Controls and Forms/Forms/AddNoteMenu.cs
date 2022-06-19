@@ -149,7 +149,7 @@ namespace MusicLoverHandbook.View.Forms
                 var action = InputEventsOrdered.First;
                 for (var input = InputDataOrdered.First; input != null && action != null; action = action.Next, input = input.Next)
                 {
-                    input.Value.InputNameBox.StatusChangedRepeatedly += new StateChangedEvent(action.Value);
+                    input.Value.InputNameBox.TempStatusChangedRepeatedly += new StateChangedEvent(action.Value);
                 }
             }
         }

@@ -44,9 +44,9 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        protected override void InitLayout()
+        protected override void InitCustomLayout()
         {
-            base.InitLayout();
+            base.InitCustomLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
 

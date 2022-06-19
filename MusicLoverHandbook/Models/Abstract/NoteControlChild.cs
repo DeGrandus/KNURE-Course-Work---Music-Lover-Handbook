@@ -37,12 +37,12 @@ namespace MusicLoverHandbook.Models.Abstract
                 };
         }
 
-        protected override void InitLayout()
+        protected override void InitCustomLayout()
         {
             if (inited)
-                base.InitLayout();
+                base.InitCustomLayout();
             else
-                delayedSetup += base.InitLayout;
+                delayedSetup += base.InitCustomLayout;
         }
 
         protected override void InitValues(string text, string description)

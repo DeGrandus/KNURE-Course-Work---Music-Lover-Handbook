@@ -11,7 +11,7 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
     {
-        protected virtual int sizeS { get; private set; } = 80;
+        protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
         public abstract NoteType NoteType { get; }
         public Image? Icon
@@ -58,6 +58,8 @@ namespace MusicLoverHandbook.Models.Abstract
         public ButtonPanel EditButton { get; private set; }
         public ButtonPanel DeleteButton { get; private set; }
         public SideButtonsPanel SideButtons { get; private set; }
+
+        private List<Control?> toCustomizate;
         public Color ThemeColor
         {
             get => theme;
@@ -114,7 +116,7 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             BackColor = Color.Transparent;
             SetupColorTheme(NoteType);
-            InitLayout();
+            InitCustomLayout();
             InitValues(text, description);
         }
 
@@ -132,10 +134,29 @@ namespace MusicLoverHandbook.Models.Abstract
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
-            InitLayout();
+            InitCustomLayout();
         }
+        private void OnButtonMouseEnter(object? sender, EventArgs e)
+        {
+            if (sender is Control control)
+                control.BackColor = ControlPaint.Light(control.BackColor,0.4f);
 
-        protected virtual void InitLayout()
+        }
+        private void OnButtonMouseLeave(object? sender, EventArgs e)
+        {
+            if (sender is Control control)
+                control.BackColor = ControlPaint.Light(control.BackColor, -0.4f);
+
+        }
+        private void InitCustomization()
+        {
+            foreach(var control in new Control[] { TextLabel,InfoButton,DeleteButton,EditButton })
+            {
+                control.MouseEnter+=OnButtonMouseEnter;
+                control.MouseLeave+=OnButtonMouseLeave;
+            } 
+        }
+        protected virtual void InitCustomLayout()
         {
             SuspendLayout();
             Controls.Remove(mainTable);
@@ -258,6 +279,8 @@ namespace MusicLoverHandbook.Models.Abstract
             Size = new Size(10, sizeS);
 
             mainTable.Size = new Size(1000, sizeS);
+
+            InitCustomization();
             ResumeLayout();
         }
 
@@ -279,9 +302,12 @@ namespace MusicLoverHandbook.Models.Abstract
             var chain = new LinkedList<SimpleNoteModel>();
 
             if (this is INoteControlChild asChild)
+            {
+                if (asChild.NoteType.GetInputTypeEquivalence() != null) chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
                 for (var curr = (asChild as IControlParent) ?? asChild.ParentNote; curr != null && curr is NoteControl asCtrl; curr = (curr as INoteControlChild)?.ParentNote)
                     if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
                         chain.AddFirst((SimpleNoteModel)asCtrl);
+            }
             return chain;
         }
 

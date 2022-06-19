@@ -24,28 +24,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             var chain = base.GenerateNoteChain();
             if (ParentNote is NoteControlParent parent)
             {
-                InputType? newType = null;
+                NoteType? newType = null;
+                string descriptionExample = "Description example";
                 switch (parent.NoteType)
                 {
                     case NoteType.Song:
-                        newType = InputType.SongFile;
+                        newType = NoteType.SongFile;
+                        descriptionExample = "Full path to the mp3 file (not neccesary)"+"\r\n" + descriptionExample;
                         break;
                     case NoteType.Author:
                     case NoteType.Disc:
                         if (parent is NoteControlMidder midder)
                             if (midder.ParentNote is not NotesContainer)
-                                newType = InputType.SongName;
+                                newType = NoteType.Song;
                             else
                             if (parent.NoteType == NoteType.Disc)
-                                newType = InputType.Author;
+                                newType = NoteType.Author;
                             else
-                                newType = InputType.Disc;
+                                newType = NoteType.Disc;
                         break;
                 }
                 
                 if (newType == null) return chain;
-                chain.AddLast(new SimpleNoteModel(,"",NoteType.AddButton));
+                chain.AddLast(new SimpleNoteModel(newType.Value.GetInputTypeEquivalence()?.ToString(true)??"",descriptionExample,newType.Value));
             }
+            return chain;
         }
     }
 }

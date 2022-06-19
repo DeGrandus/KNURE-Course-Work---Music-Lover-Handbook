@@ -22,6 +22,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         public NoteControlParent? NoteParent { get; set; }
         public NotesContainer? NotesContainer { get; set; }
         public Type RestrictedType { get; set; } = typeof(object);
+
         public List<NoteControl> InnerData =>
             (
                 NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
@@ -167,20 +168,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         {
             if (statusChangedRepeatedly != null)
                 statusChangedRepeatedly(this, Status);
+            if (tempStatusChangedRepeatedly != null)
+                tempStatusChangedRepeatedly(this, Status);
         }
 
 
         public delegate void StateChangedEvent(SmartComboBox sender, InputState state);
         private StateChangedEvent? statusChanged;
         private StateChangedEvent? statusChangedRepeatedly;
+        private StateChangedEvent? tempStatusChangedRepeatedly;
         public event StateChangedEvent StatusChanged
         {
-            add => statusChanged += value; remove => statusChanged -= value;
+            add => statusChanged += value;
+
+            remove => statusChanged -= value;
         }
         public event StateChangedEvent StatusChangedRepeatedly
         {
-            add => statusChangedRepeatedly += value; remove => statusChangedRepeatedly -= value;
+            add => statusChangedRepeatedly += value;
+
+            remove => statusChangedRepeatedly -= value;
         }
-        public void ClearEvents() {statusChanged = null; statusChangedRepeatedly = null; }
+        public event StateChangedEvent TempStatusChangedRepeatedly
+        {
+            add => tempStatusChangedRepeatedly+=value; remove => tempStatusChangedRepeatedly -= value;
+        }
+        public void ClearEvents() { tempStatusChangedRepeatedly = null; }
     }
 }

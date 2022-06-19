@@ -182,7 +182,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void BuildDragImage()
         {
             var image = new Bitmap(dragInto.Width, dragInto.Height);
-            var text = "Drop .mp3 file here to fast load into base";
+            var text = "Drop file of \".mp3\" here to fast load into base";
             var g = Graphics.FromImage(image);
             g.Clear(dragInto.BackColor);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
