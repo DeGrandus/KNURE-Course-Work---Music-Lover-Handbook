@@ -1,5 +1,4 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
-using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -21,7 +20,7 @@ namespace MusicLoverHandbook.Logic.Notes
 
         public NoteControlMidder CreateNote()
         {
-            List<INoteControl> contaierData = Form.Container.InnerNotes
+            List<INoteControl> contaierData = Form.NotesContainer.InnerNotes
                 .Cast<INoteControl>()
                 .ToList();
 
@@ -52,7 +51,7 @@ namespace MusicLoverHandbook.Logic.Notes
                     ].Invoke(
                         new object?[]
                         {
-                            parent as IControlParent ?? Form.Container,
+                            parent as IControlParent ?? Form.NotesContainer,
                             currentInfo.Text,
                             currentInfo.Description
                         }

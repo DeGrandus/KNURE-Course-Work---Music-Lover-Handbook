@@ -1,8 +1,6 @@
 ﻿using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.Models.Inerfaces;
-using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {

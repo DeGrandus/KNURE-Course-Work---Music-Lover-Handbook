@@ -1,12 +1,8 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
-using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
-using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.View.Forms;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
@@ -19,8 +15,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         public Color LabelBackColor;
         public Color ContentBackColor;
-        public NotesContainer Container { get; }
-
+        public NotesContainer NotesContainer { get; }
         public MainForm()
         {
             InitializeComponent();
@@ -33,7 +28,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             radd = rowSt[4].Height;
             rdrag = rowSt[6].Height;
 
-            Container = new NotesContainer(panelContent);
+            NotesContainer = new NotesContainer(panelContent);
 
             SetupLayout();
         }

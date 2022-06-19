@@ -1,13 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MusicLoverHandbook.Models.Enums;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes

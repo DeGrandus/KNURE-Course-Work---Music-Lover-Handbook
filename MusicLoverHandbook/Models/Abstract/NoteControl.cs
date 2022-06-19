@@ -3,7 +3,6 @@ using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using System.Collections.ObjectModel;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
@@ -54,7 +53,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private ToolTip ballonTip;
         private string noteDescription;
 
-        public event ThemeChangeEventHandler ColorChanged;
+        public event ThemeChangeEventHandler? ColorChanged;
         public Label TextLabel { get; private set; }
         public Panel IconPanel { get; private set; }
         public ButtonPanel InfoButton { get; private set; }

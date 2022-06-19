@@ -1,6 +1,5 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Abstract
 {

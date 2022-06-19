@@ -32,7 +32,7 @@ namespace MusicLoverHandbook.Models
                     {
                         output = new FontFamily("Mariupol");
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
                         var font = fonts[i];
                         var fullpath = Path.Combine(temppath, font);

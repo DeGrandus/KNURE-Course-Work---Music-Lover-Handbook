@@ -3,8 +3,6 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {

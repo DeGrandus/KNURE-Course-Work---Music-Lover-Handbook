@@ -10,8 +10,6 @@ using MusicLoverHandbook.Models.Enums;
 using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox;
 using static MusicLoverHandbook.Controls_and_Forms.UserControls.InputData;
-using static System.Windows.Forms.AxHost;
-using TagFile = TagLib.File;
 
 namespace MusicLoverHandbook.View.Forms
 {
@@ -73,12 +71,10 @@ namespace MusicLoverHandbook.View.Forms
             InputDataOrdered.AddLast(secondary);
             InputDataOrdered.AddLast(InputSong);
             InputDataOrdered.AddLast(InputSongFile);
-
             for (var inp = InputDataOrdered.First; inp != null; inp = inp.Next)
                 tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
         }
 
-        private Action<object?, EventArgs> swapTypesAction;
         private NoteCreationType creationType = NoteCreationType.DiscInAuthor;
         private Label selectedCreationTypeLabel;
 
@@ -120,9 +116,9 @@ namespace MusicLoverHandbook.View.Forms
                 throw new Exception("Something went in Input Field Organization Setup");
 
             if (CreationType == NoteCreationType.DiscInAuthor)
-                InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.Container);
+                InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
             else
-                InputDataOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.Container);
+                InputDataOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
 
             foreach (var inp in InputDataOrdered)
             {

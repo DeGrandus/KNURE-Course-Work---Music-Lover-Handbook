@@ -1,15 +1,9 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
-using MusicLoverHandbook.View.Forms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.Controls_and_Forms.UserControls;
-using System.ComponentModel;
+using MusicLoverHandbook.View.Forms;
 
 namespace MusicLoverHandbook.Logic
 {
@@ -77,10 +71,10 @@ namespace MusicLoverHandbook.Logic
                     if (wasOpened)
                         Result.OnDoubleClick();
 
-                    if (mainForm.Container.InnerNotes.Contains(Result))
-                        mainForm.Container.SetupAddNoteButton(Result);
+                    if (mainForm.NotesContainer.InnerNotes.Contains(Result))
+                        mainForm.NotesContainer.SetupAddNoteButton(Result);
                     else
-                        mainForm.Container.InnerNotes.Add(Result);
+                        mainForm.NotesContainer.InnerNotes.Add(Result);
 
                     if (wasOpened)
                         Result.OnDoubleClick();
