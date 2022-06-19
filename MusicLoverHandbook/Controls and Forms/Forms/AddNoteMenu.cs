@@ -18,12 +18,34 @@ namespace MusicLoverHandbook.View.Forms
     public partial class AddNoteMenu : Form
     {
         public MainForm MainForm { get; }
-        public NoteCreationType CreationType { get; private set; } = NoteCreationType.DiscInAuthor;
+        public NoteCreationType CreationType
+        {
+            get => creationType; set
+            {
+                if (creationType == value) return;
+
+                if (value is NoteCreationType.DiscInAuthor)
+                    SelectedCreationTypeLabel = discInAuthorLabel;
+                else
+                    SelectedCreationTypeLabel = authorInDiscLabel;
+
+                creationType = value;
+                SetupInputs();
+            }
+        }
         public NoteControlMidder? FinalNote { get; private set; }
         public LinkedList<InputData> InputDataOrdered = new();
         public LinkedList<Action<SmartComboBox, InputState>> InputEventsOrdered = new();
         private List<InputData> allInputs => InputDataOrdered.ToList();
-        private Label selectedCreationTypeLabel;
+        private Label SelectedCreationTypeLabel
+        {
+            get => selectedCreationTypeLabel; set
+            {
+                if (selectedCreationTypeLabel != value)
+                    (selectedCreationTypeLabel.BackColor, value.BackColor) = (value.BackColor, selectedCreationTypeLabel.BackColor);
+                selectedCreationTypeLabel = value;
+            }
+        }
 
         public AddNoteMenu(MainForm mainForm)
         {
@@ -49,31 +71,16 @@ namespace MusicLoverHandbook.View.Forms
 
         }
 
-        public void SwitchType()
-        {
-            CreationType =
-                CreationType == NoteCreationType.DiscInAuthor
-                    ? NoteCreationType.AuthorInDisc
-                    : NoteCreationType.DiscInAuthor;
-            SetupInputs();
-        }
-
         private Action<object?, EventArgs> swapTypesAction;
+        private NoteCreationType creationType = NoteCreationType.DiscInAuthor;
+        private Label selectedCreationTypeLabel;
+
         private void SetupSwitchButtons()
         {
             selectedCreationTypeLabel = discInAuthorLabel;
-            swapTypesAction = (sender, e) =>
-            {
-                if (sender is Label label && selectedCreationTypeLabel != label)
-                {
-                    (selectedCreationTypeLabel.BackColor, label.BackColor) = (label.BackColor, selectedCreationTypeLabel.BackColor);
-                    selectedCreationTypeLabel = label;
-                    SwitchType();
-                }
-            };
-            discInAuthorLabel.Click += new EventHandler(swapTypesAction);
-            authorInDiscLabel.Click += new EventHandler(swapTypesAction);
-            allInputs.ForEach(x=>x.InputNameBox.CheckValid());
+            discInAuthorLabel.Click += (sender, e) => CreationType = NoteCreationType.DiscInAuthor;
+            authorInDiscLabel.Click += (sender, e) => CreationType = NoteCreationType.AuthorInDisc;
+            allInputs.ForEach(x => x.InputNameBox.CheckValid());
         }
         private void SetupLayout()
         {
@@ -95,12 +102,12 @@ namespace MusicLoverHandbook.View.Forms
             SetupDragDrop();
             SetupInputs();
 
-            
+
         }
         private void SetupInputs()
         {
-
             SetupInputsOrder();
+            ClearInputEvents();
 
             if (InputDataOrdered.First == null) throw new Exception("Something went in Input Field Organization Setup");
 
@@ -119,22 +126,29 @@ namespace MusicLoverHandbook.View.Forms
             }
 
             SetupEventOrder();
+
+            
             SetupInputEvents();
+
             foreach (var input in allInputs)
             {
                 input.SetLabelFont(new Font(Font.FontFamily, 18, GraphicsUnit.Point));
                 input.InputNameBox.CheckValid();
             }
         }
+        private void ClearInputEvents()
+        {
+            foreach (var inp in InputDataOrdered)
+                inp.InputNameBox.ClearEvents();
+        }
         private void SetupInputEvents()
         {
-
+            ClearInputEvents();
             if (InputEventsOrdered.First != null && InputDataOrdered.First != null)
             {
                 var action = InputEventsOrdered.First;
                 for (var input = InputDataOrdered.First; input != null && action != null; action = action.Next, input = input.Next)
                 {
-                    input.Value.InputNameBox.ClearEvents();
                     input.Value.InputNameBox.StatusChangedRepeatedly += new StateChangedEvent(action.Value);
                 }
             }
@@ -261,7 +275,7 @@ namespace MusicLoverHandbook.View.Forms
                 FillWithData(fileData);
             };
         }
-        private void FillWithData(Dictionary<InputType,(string? Name,string? Description)> data)
+        private void FillWithData(Dictionary<InputType, (string? Name, string? Description)> data)
         {
             if (InputDataOrdered.Select(x => x.InputNameBox.Status).Where(x => x == InputState.OK || x == InputState.CREATION).Count() > 1)
             {
@@ -272,18 +286,18 @@ namespace MusicLoverHandbook.View.Forms
                     data = data.Where(x => x.Key == InputType.SongFile).ToDictionary(x => x.Key, v => v.Value);
             }
 
-            foreach(var kp in data)
+            foreach (var kp in data)
             {
                 var input = allInputs.Find(x => x.InputType == kp.Key);
                 if (input == null) continue;
-                
-                if (kp.Value.Name!=null)
+
+                if (kp.Value.Name != null)
                     input.InputNameBox.Text = kp.Value.Name;
                 if (kp.Value.Description != null)
                     input.InputDescriptionBox.Text = kp.Value.Description;
                 input.InputNameBox.CheckValid();
             }
-                
+
         }
 
         private bool IsDropDataValid(DragEventArgs e) => e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
@@ -320,6 +334,6 @@ namespace MusicLoverHandbook.View.Forms
             };
         }
 
-        
+
     }
 }

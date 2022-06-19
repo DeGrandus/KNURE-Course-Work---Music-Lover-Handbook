@@ -83,6 +83,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         private void RemoveNote(NoteControl note)
         {
             PanelContainer.Controls.Remove(note);
+            
         }
 
         private NoteAdd CreateAddButton(NoteControlParent parent) =>

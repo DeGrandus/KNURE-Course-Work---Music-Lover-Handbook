@@ -4,10 +4,10 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControl : INote, IControlTheme
     {
-        Image? Icon { get; set; }
         NoteType NoteType { get; }
-        string NoteDescription { get; set; }
-        string NoteName { get; set; }
+        Image? Icon { get; set; }
+        new string NoteDescription { get; set; }
+        new string NoteName { get; set; }
         Control.ControlCollection Controls { get; }
         void ChangeSize(int size);
     }

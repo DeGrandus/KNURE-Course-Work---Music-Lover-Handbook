@@ -211,6 +211,15 @@ namespace MusicLoverHandbook.Models.Abstract
                 BackgroundImage = Properties.Resources.edit,
                 Size = new Size(sizeS, sizeS),
             };
+            EditButton.Click += (sender, e) =>
+            {
+                var chain = new LinkedList<SimpleNoteModel>();
+                chain.AddLast((SimpleNoteModel)this);
+                if (this is INoteControlChild asChild)
+                    for (var curr = asChild.ParentNote; curr != null && curr is NoteControl asCtrl; curr = (curr as INoteControlChild)?.ParentNote)
+                        chain.AddFirst((SimpleNoteModel)asCtrl);
+
+            };
 
             var comboPanel = new Panel()
             {
@@ -255,6 +264,8 @@ namespace MusicLoverHandbook.Models.Abstract
             mainTable.Size = new Size(1000, sizeS);
             ResumeLayout();
         }
+
+        public static explicit operator SimpleNoteModel(NoteControl from) => new SimpleNoteModel(from); 
 
         public override string ToString()
         {

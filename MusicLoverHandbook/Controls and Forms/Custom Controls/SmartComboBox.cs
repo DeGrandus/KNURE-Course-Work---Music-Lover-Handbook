@@ -165,22 +165,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         }
         private void OnStatusChangedRepeatedly()
         {
-            if (statusChangedRepeadly != null)
-                statusChangedRepeadly(this, Status);
+            if (statusChangedRepeatedly != null)
+                statusChangedRepeatedly(this, Status);
         }
 
 
         public delegate void StateChangedEvent(SmartComboBox sender, InputState state);
         private StateChangedEvent? statusChanged;
-        private StateChangedEvent? statusChangedRepeadly;
+        private StateChangedEvent? statusChangedRepeatedly;
         public event StateChangedEvent StatusChanged
         {
             add => statusChanged += value; remove => statusChanged -= value;
         }
         public event StateChangedEvent StatusChangedRepeatedly
         {
-            add => statusChangedRepeadly += value; remove => statusChangedRepeadly -= value;
+            add => statusChangedRepeatedly += value; remove => statusChangedRepeatedly -= value;
         }
-        public void ClearEvents() => statusChanged = null;
+        public void ClearEvents() {statusChanged = null; statusChangedRepeatedly = null; }
     }
 }

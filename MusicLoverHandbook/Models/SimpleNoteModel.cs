@@ -18,7 +18,6 @@ namespace MusicLoverHandbook.Models
             NoteType = note.NoteType;
             Name = note.NoteName;
             Description = note.NoteDescription;
-
         }
     }
 }
