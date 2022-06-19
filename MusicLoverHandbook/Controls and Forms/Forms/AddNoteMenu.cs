@@ -58,13 +58,13 @@ namespace MusicLoverHandbook.View.Forms
         private void SetupInputsOrder()
         {
             InputDataOrdered.Clear();
-            InputData main = inputAuthor, secondary = inputDisc;
+            InputData main = InputAuthor, secondary = InputDisc;
             if (CreationType == NoteCreationType.AuthorInDisc)
                 (main, secondary) = (secondary, main);
             InputDataOrdered.AddLast(main);
             InputDataOrdered.AddLast(secondary);
-            InputDataOrdered.AddLast(inputSong);
-            InputDataOrdered.AddLast(inputSongFile);
+            InputDataOrdered.AddLast(InputSong);
+            InputDataOrdered.AddLast(InputSongFile);
 
             for (var inp = InputDataOrdered.First; inp != null; inp = inp.Next)
                 tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
@@ -176,17 +176,17 @@ namespace MusicLoverHandbook.View.Forms
                         secondary.SetDataSource<NoteDisc>(data);
                     else
                         secondary.SetDataSource<NoteAuthor>(data);
-                    inputSong.SetDataSource<NoteSong>(data);
+                    InputSong.SetDataSource<NoteSong>(data);
                 }
             }
             else
             {
                 secondary.ClearDataSource();
-                inputSong.ClearDataSource();
+                InputSong.ClearDataSource();
             }
 
             secondary.InputNameBox.CheckValid();
-            inputSong.InputNameBox.CheckValid();
+            InputSong.InputNameBox.CheckValid();
         }
         private void SecondaryInputStateChanged(SmartComboBox box, InputState state)
         {
@@ -199,15 +199,15 @@ namespace MusicLoverHandbook.View.Forms
                 var dataSongs = dataSelf?.InnerNotes;
                 if (dataSelf != null)
                 {
-                    inputSong.SetDataSource<NoteSong>(dataSelf);
+                    InputSong.SetDataSource<NoteSong>(dataSelf);
                 }
             }
             else
             {
                 if (box.NoteParent != null)
-                    inputSong.SetDataSource<NoteSong>(box.NoteParent);
+                    InputSong.SetDataSource<NoteSong>(box.NoteParent);
             }
-            inputSong.InputNameBox.CheckValid();
+            InputSong.InputNameBox.CheckValid();
 
         }
         private void SongInputStateChanged(SmartComboBox box, InputState state)
@@ -220,22 +220,22 @@ namespace MusicLoverHandbook.View.Forms
                 Debug.WriteLine($"Event state data is : \n{dataSongFiles}");
                 if (dataSongFiles != null)
                 {
-                    inputSongFile.SetDataSource<NoteSongFile>(dataSongFiles);
+                    InputSongFile.SetDataSource<NoteSongFile>(dataSongFiles);
                 }
             }
             else
             {
-                inputSongFile.ClearDataSource();
+                InputSongFile.ClearDataSource();
             }
             if (state == InputState.UNKNOWN)
             {
-                inputSongFile.Enabled = false;
-                inputSongFile.Clean();
+                InputSongFile.Enabled = false;
+                InputSongFile.Clean();
             }
             else
-                inputSongFile.Enabled = true;
+                InputSongFile.Enabled = true;
 
-            inputSongFile.InputNameBox.CheckValid();
+            InputSongFile.InputNameBox.CheckValid();
         }
 
         private void SetupDragDrop()

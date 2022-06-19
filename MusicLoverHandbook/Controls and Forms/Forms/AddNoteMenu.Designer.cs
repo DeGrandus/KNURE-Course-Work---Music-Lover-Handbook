@@ -32,12 +32,12 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.createButton = new System.Windows.Forms.Button();
             this.tableInputs = new System.Windows.Forms.TableLayoutPanel();
-            this.inputSongFile = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
-            this.inputDisc = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
-            this.inputAuthor = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputSongFile = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputDisc = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputAuthor = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
             this.dragDropPanel = new System.Windows.Forms.Panel();
             this.dragDropText = new System.Windows.Forms.Label();
-            this.inputSong = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputSong = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
             this.tableSwap = new System.Windows.Forms.TableLayoutPanel();
             this.discInAuthorLabel = new System.Windows.Forms.Label();
             this.authorInDiscLabel = new System.Windows.Forms.Label();
@@ -83,11 +83,11 @@
             this.tableInputs.BackColor = System.Drawing.SystemColors.Control;
             this.tableInputs.ColumnCount = 1;
             this.tableInputs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableInputs.Controls.Add(this.inputSongFile, 0, 3);
-            this.tableInputs.Controls.Add(this.inputDisc, 0, 1);
-            this.tableInputs.Controls.Add(this.inputAuthor, 0, 0);
+            this.tableInputs.Controls.Add(this.InputSongFile, 0, 3);
+            this.tableInputs.Controls.Add(this.InputDisc, 0, 1);
+            this.tableInputs.Controls.Add(this.InputAuthor, 0, 0);
             this.tableInputs.Controls.Add(this.dragDropPanel, 0, 4);
-            this.tableInputs.Controls.Add(this.inputSong, 0, 2);
+            this.tableInputs.Controls.Add(this.InputSong, 0, 2);
             this.tableInputs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableInputs.Location = new System.Drawing.Point(0, 136);
             this.tableInputs.Name = "tableInputs";
@@ -101,39 +101,39 @@
             this.tableInputs.Size = new System.Drawing.Size(969, 1008);
             this.tableInputs.TabIndex = 2;
             // 
-            // inputSongFile
+            // InputSongFile
             // 
-            this.inputSongFile.AutoFill = true;
-            this.inputSongFile.BackColor = System.Drawing.SystemColors.Control;
-            this.inputSongFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.inputSongFile.InputType = MusicLoverHandbook.Models.Enums.InputType.SongFile;
-            this.inputSongFile.Location = new System.Drawing.Point(5, 596);
-            this.inputSongFile.Margin = new System.Windows.Forms.Padding(5);
-            this.inputSongFile.Name = "inputSongFile";
-            this.inputSongFile.Size = new System.Drawing.Size(959, 187);
-            this.inputSongFile.TabIndex = 3;
+            this.InputSongFile.AutoFill = true;
+            this.InputSongFile.BackColor = System.Drawing.SystemColors.Control;
+            this.InputSongFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputSongFile.InputType = MusicLoverHandbook.Models.Enums.InputType.SongFile;
+            this.InputSongFile.Location = new System.Drawing.Point(5, 596);
+            this.InputSongFile.Margin = new System.Windows.Forms.Padding(5);
+            this.InputSongFile.Name = "InputSongFile";
+            this.InputSongFile.Size = new System.Drawing.Size(959, 187);
+            this.InputSongFile.TabIndex = 3;
             // 
-            // inputDisc
+            // InputDisc
             // 
-            this.inputDisc.AutoFill = true;
-            this.inputDisc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.inputDisc.InputType = MusicLoverHandbook.Models.Enums.InputType.Disc;
-            this.inputDisc.Location = new System.Drawing.Point(5, 202);
-            this.inputDisc.Margin = new System.Windows.Forms.Padding(5);
-            this.inputDisc.Name = "inputDisc";
-            this.inputDisc.Size = new System.Drawing.Size(959, 187);
-            this.inputDisc.TabIndex = 1;
+            this.InputDisc.AutoFill = true;
+            this.InputDisc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputDisc.InputType = MusicLoverHandbook.Models.Enums.InputType.Disc;
+            this.InputDisc.Location = new System.Drawing.Point(5, 202);
+            this.InputDisc.Margin = new System.Windows.Forms.Padding(5);
+            this.InputDisc.Name = "InputDisc";
+            this.InputDisc.Size = new System.Drawing.Size(959, 187);
+            this.InputDisc.TabIndex = 1;
             // 
-            // inputAuthor
+            // InputAuthor
             // 
-            this.inputAuthor.AutoFill = true;
-            this.inputAuthor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.inputAuthor.InputType = MusicLoverHandbook.Models.Enums.InputType.Author;
-            this.inputAuthor.Location = new System.Drawing.Point(5, 5);
-            this.inputAuthor.Margin = new System.Windows.Forms.Padding(5);
-            this.inputAuthor.Name = "inputAuthor";
-            this.inputAuthor.Size = new System.Drawing.Size(959, 187);
-            this.inputAuthor.TabIndex = 0;
+            this.InputAuthor.AutoFill = true;
+            this.InputAuthor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputAuthor.InputType = MusicLoverHandbook.Models.Enums.InputType.Author;
+            this.InputAuthor.Location = new System.Drawing.Point(5, 5);
+            this.InputAuthor.Margin = new System.Windows.Forms.Padding(5);
+            this.InputAuthor.Name = "InputAuthor";
+            this.InputAuthor.Size = new System.Drawing.Size(959, 187);
+            this.InputAuthor.TabIndex = 0;
             // 
             // dragDropPanel
             // 
@@ -158,17 +158,17 @@
             this.dragDropText.Text = "Drop .mp3 file";
             this.dragDropText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // inputSong
+            // InputSong
             // 
-            this.inputSong.AutoFill = true;
-            this.inputSong.BackColor = System.Drawing.SystemColors.Control;
-            this.inputSong.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.inputSong.InputType = MusicLoverHandbook.Models.Enums.InputType.SongName;
-            this.inputSong.Location = new System.Drawing.Point(5, 399);
-            this.inputSong.Margin = new System.Windows.Forms.Padding(5);
-            this.inputSong.Name = "inputSong";
-            this.inputSong.Size = new System.Drawing.Size(959, 187);
-            this.inputSong.TabIndex = 5;
+            this.InputSong.AutoFill = true;
+            this.InputSong.BackColor = System.Drawing.SystemColors.Control;
+            this.InputSong.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputSong.InputType = MusicLoverHandbook.Models.Enums.InputType.SongName;
+            this.InputSong.Location = new System.Drawing.Point(5, 399);
+            this.InputSong.Margin = new System.Windows.Forms.Padding(5);
+            this.InputSong.Name = "InputSong";
+            this.InputSong.Size = new System.Drawing.Size(959, 187);
+            this.InputSong.TabIndex = 5;
             // 
             // tableSwap
             // 
@@ -235,14 +235,14 @@
         private Label titleLabel;
         private Button createButton;
         private TableLayoutPanel tableInputs;
-        private Controls_and_Forms.UserControls.InputData inputAuthor;
-        private Controls_and_Forms.UserControls.InputData inputSongFile;
-        private Controls_and_Forms.UserControls.InputData inputDisc;
         private Panel dragDropPanel;
         private Label dragDropText;
-        private Controls_and_Forms.UserControls.InputData inputSong;
         private TableLayoutPanel tableSwap;
         private Label discInAuthorLabel;
         private Label authorInDiscLabel;
+        public Controls_and_Forms.UserControls.InputData InputAuthor;
+        public Controls_and_Forms.UserControls.InputData InputDisc;
+        public Controls_and_Forms.UserControls.InputData InputSong;
+        public Controls_and_Forms.UserControls.InputData InputSongFile;
     }
 }

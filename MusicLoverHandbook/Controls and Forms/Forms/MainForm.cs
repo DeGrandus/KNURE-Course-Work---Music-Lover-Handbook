@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
@@ -144,26 +145,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             createNoteButton.Click += (sender, e) =>
             {
-                var addNoteMenu = new AddNoteMenu(this);
-                if (addNoteMenu.ShowDialog() == DialogResult.OK)
-                {
-                    var finalNote = addNoteMenu.FinalNote;
+                var controller = new NoteCreationMenuController(this);
 
-                    if (finalNote != null)
-                    {
-                        var wasOpened = finalNote.IsOpened;
-                        if (wasOpened)
-                            finalNote.OnDoubleClick();
-
-                        if (Container.InnerNotes.Contains(finalNote))
-                            Container.SetupAddNoteButton(finalNote);
-                        else
-                         Container.InnerNotes.Add(finalNote);
-
-                        if (wasOpened)
-                            finalNote.OnDoubleClick();
-                    }
-                }
+                var creationResult = controller.OpenCreationMenu();
+                creationResult?.CreateNote();
+                
+                
             };
 
             ReassignFonts();

@@ -19,5 +19,11 @@ namespace MusicLoverHandbook.Models
             Name = note.NoteName;
             Description = note.NoteDescription;
         }
+        public SimpleNoteModel(string name, string description, NoteType noteType)
+        {
+            Name = name;
+            Description = description;
+            NoteType = noteType;
+        }
     }
 }

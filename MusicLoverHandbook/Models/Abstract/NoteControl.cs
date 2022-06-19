@@ -1,4 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
@@ -158,6 +160,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 Margin = new Padding(0),
                 BackColor = ControlPaint.Light(ThemeColor)
             };
+
             var textPanel = new Panel() { Padding = new Padding(0), Margin = new Padding(0), };
             ballonTip = new ToolTip();
             ballonTip.IsBalloon = true;
@@ -178,6 +181,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill
             };
+
             InfoButton = new ButtonPanel(ButtonType.Info, 0)
             {
                 BackColor = ControlPaint.Light(ThemeColor),
@@ -211,15 +215,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 BackgroundImage = Properties.Resources.edit,
                 Size = new Size(sizeS, sizeS),
             };
-            EditButton.Click += (sender, e) =>
-            {
-                var chain = new LinkedList<SimpleNoteModel>();
-                chain.AddLast((SimpleNoteModel)this);
-                if (this is INoteControlChild asChild)
-                    for (var curr = asChild.ParentNote; curr != null && curr is NoteControl asCtrl; curr = (curr as INoteControlChild)?.ParentNote)
-                        chain.AddFirst((SimpleNoteModel)asCtrl);
-
-            };
+            EditButton.Click += (sender, e) => EditClick();
 
             var comboPanel = new Panel()
             {
@@ -263,6 +259,30 @@ namespace MusicLoverHandbook.Models.Abstract
 
             mainTable.Size = new Size(1000, sizeS);
             ResumeLayout();
+        }
+
+        protected void EditClick()
+        {
+            var mainForm = FindForm() as MainForm;
+
+            if (mainForm == null) return;
+            var chain = GenerateNoteChain();
+
+            var creationController = new NoteCreationMenuController(mainForm);
+            creationController.AddLinkedInfo(chain);
+
+            var creationResult = creationController.OpenCreationMenu();
+            creationResult?.CreateNote();
+        }
+        protected virtual LinkedList<SimpleNoteModel> GenerateNoteChain()
+        {
+            var chain = new LinkedList<SimpleNoteModel>();
+
+            if (this is INoteControlChild asChild)
+                for (var curr = (asChild as IControlParent) ?? asChild.ParentNote; curr != null && curr is NoteControl asCtrl; curr = (curr as INoteControlChild)?.ParentNote)
+                    if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
+                        chain.AddFirst((SimpleNoteModel)asCtrl);
+            return chain;
         }
 
         public static explicit operator SimpleNoteModel(NoteControl from) => new SimpleNoteModel(from); 
