@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.View.Forms
 {
-    partial class AddNoteMenu
+    partial class NoteCreationMenu
     {
         /// <summary>
         /// Required designer variable.

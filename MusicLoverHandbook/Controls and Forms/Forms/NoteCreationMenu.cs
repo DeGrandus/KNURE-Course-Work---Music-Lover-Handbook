@@ -13,7 +13,7 @@ using static MusicLoverHandbook.Controls_and_Forms.UserControls.InputData;
 
 namespace MusicLoverHandbook.View.Forms
 {
-    public partial class AddNoteMenu : Form
+    public partial class NoteCreationMenu : Form
     {
         public MainForm MainForm { get; }
         public NoteCreationType CreationType
@@ -51,7 +51,7 @@ namespace MusicLoverHandbook.View.Forms
             }
         }
 
-        public AddNoteMenu(MainForm mainForm)
+        public NoteCreationMenu(MainForm mainForm)
         {
             InitializeComponent();
             MainForm = mainForm;

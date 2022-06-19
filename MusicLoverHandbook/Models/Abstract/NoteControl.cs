@@ -10,9 +10,28 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
     {
-        protected virtual int sizeS { get; private set; } = 70;
-        protected virtual float textSizeRatio { get; private set; } = 0.5f;
-        public abstract NoteType NoteType { get; }
+        private ToolTip ballonTip;
+        private bool isDeleteShown;
+        private bool isEditShown;
+        private bool isInfoShown;
+        private TableLayoutPanel mainTable;
+        private string noteDescription;
+        private string noteText;
+        private Color theme;
+        private List<Control?> toCustomizate;
+        protected NoteControl(string text, string description)
+        {
+            BackColor = Color.Transparent;
+            SetupColorTheme(NoteType);
+            InitCustomLayout();
+            InitValues(text, description);
+        }
+
+        public event ThemeChangeEventHandler? ColorChanged;
+
+        ControlCollection INoteControl.Controls => Controls;
+        public ButtonPanel DeleteButton { get; private set; }
+        public ButtonPanel EditButton { get; private set; }
         public Image? Icon
         {
             get => IconPanel.BackgroundImage;
@@ -20,6 +39,49 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 IconPanel.BackgroundImageLayout = ImageLayout.Stretch;
                 IconPanel.BackgroundImage = value;
+            }
+        }
+
+        public Panel IconPanel { get; private set; }
+        public ButtonPanel InfoButton { get; private set; }
+        public bool IsDeleteShown
+        {
+            get => isDeleteShown;
+            set
+            {
+                ToogleViewing(value, DeleteButton);
+                isDeleteShown = value;
+            }
+        }
+
+        public bool IsEditShown
+        {
+            get => isEditShown;
+            set
+            {
+                ToogleViewing(value, EditButton);
+                isEditShown = value;
+            }
+        }
+
+        public bool IsInfoShown
+        {
+            get => isInfoShown;
+            set
+            {
+                ToogleViewing(value, InfoButton);
+                isInfoShown = value;
+            }
+        }
+
+        public string NoteDescription
+        {
+            get => noteDescription;
+            set
+            {
+                if (InfoButton != null)
+                    ballonTip?.SetToolTip(InfoButton, value);
+                noteDescription = value;
             }
         }
 
@@ -32,36 +94,10 @@ namespace MusicLoverHandbook.Models.Abstract
                 noteText = value;
             }
         }
-        public string NoteDescription
-        {
-            get => noteDescription;
-            set
-            {
-                if (InfoButton != null)
-                    ballonTip?.SetToolTip(InfoButton, value);
-                noteDescription = value;
-            }
-        }
-        ControlCollection INoteControl.Controls => Controls;
 
-        private Color theme;
-        private bool isDeleteShown;
-        private bool isEditShown;
-        private bool isInfoShown;
-        private TableLayoutPanel mainTable;
-        private string noteText;
-        private ToolTip ballonTip;
-        private string noteDescription;
-
-        public event ThemeChangeEventHandler? ColorChanged;
-        public Label TextLabel { get; private set; }
-        public Panel IconPanel { get; private set; }
-        public ButtonPanel InfoButton { get; private set; }
-        public ButtonPanel EditButton { get; private set; }
-        public ButtonPanel DeleteButton { get; private set; }
+        public abstract NoteType NoteType { get; }
         public SideButtonsPanel SideButtons { get; private set; }
-
-        private List<Control?> toCustomizate;
+        public Label TextLabel { get; private set; }
         public Color ThemeColor
         {
             get => theme;
@@ -72,66 +108,10 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
-        public void OnColorChanged()
-        {
-            if (ColorChanged != null)
-                ColorChanged(this, new(ThemeColor));
-        }
-
-        public bool IsDeleteShown
-        {
-            get => isDeleteShown;
-            set
-            {
-                ToogleViewing(value, DeleteButton);
-                isDeleteShown = value;
-            }
-        }
-        public bool IsEditShown
-        {
-            get => isEditShown;
-            set
-            {
-                ToogleViewing(value, EditButton);
-                isEditShown = value;
-            }
-        }
-        public bool IsInfoShown
-        {
-            get => isInfoShown;
-            set
-            {
-                ToogleViewing(value, InfoButton);
-                isInfoShown = value;
-            }
-        }
-
-        private void ToogleViewing(bool isVis, Control toToggle)
-        {
-            if (!isVis)
-                toToggle.Hide();
-            else
-                toToggle.Show();
-        }
-
-        protected NoteControl(string text, string description)
-        {
-            BackColor = Color.Transparent;
-            SetupColorTheme(NoteType);
-            InitCustomLayout();
-            InitValues(text, description);
-        }
-
-        protected virtual void InitValues(string text, string description)
-        {
-            NoteName = text;
-            NoteDescription = description;
-        }
-
-        public virtual void SetupColorTheme(NoteType type)
-        {
-            ThemeColor = type.GetColor() ?? Color.Transparent;
-        }
+        protected virtual int sizeS { get; private set; } = 70;
+        protected virtual float textSizeRatio { get; private set; } = 0.5f;
+        public static explicit operator SimpleNoteModel(NoteControl from) =>
+            new SimpleNoteModel(from);
 
         public virtual void ChangeSize(int size)
         {
@@ -139,27 +119,53 @@ namespace MusicLoverHandbook.Models.Abstract
             InitCustomLayout();
         }
 
-        private void OnButtonMouseEnter(object? sender, EventArgs e)
+        public void OnColorChanged()
         {
-            if (sender is Control control)
-                control.BackColor = ControlPaint.Light(control.BackColor, 0.4f);
+            if (ColorChanged != null)
+                ColorChanged(this, new(ThemeColor));
+        }
+        public virtual void SetupColorTheme(NoteType type)
+        {
+            ThemeColor = type.GetColor() ?? Color.Transparent;
         }
 
-        private void OnButtonMouseLeave(object? sender, EventArgs e)
+        public override string ToString()
         {
-            if (sender is Control control)
-                control.BackColor = ControlPaint.Light(control.BackColor, -0.4f);
+            return $"{NoteName}";
         }
 
-        private void InitCustomization()
+        protected void EditClick()
         {
-            foreach (
-                var control in new Control[] { TextLabel, InfoButton, DeleteButton, EditButton }
-            )
+            var mainForm = FindForm() as MainForm;
+
+            if (mainForm == null)
+                return;
+            var chain = GenerateNoteChain();
+
+            var creationController = new NoteCreationMenuController(mainForm);
+            creationController.AddLinkedInfo(chain);
+
+            var creationResult = creationController.OpenCreationMenu();
+            creationResult?.CreateNote();
+        }
+
+        protected virtual LinkedList<SimpleNoteModel> GenerateNoteChain()
+        {
+            var chain = new LinkedList<SimpleNoteModel>();
+
+            if (this is INoteControlChild asChild)
             {
-                control.MouseEnter += OnButtonMouseEnter;
-                control.MouseLeave += OnButtonMouseLeave;
+                if (asChild.NoteType.GetInputTypeEquivalence() != null)
+                    chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
+                for (
+                    var curr = (asChild as IControlParent) ?? asChild.ParentNote;
+                    curr != null && curr is NoteControl asCtrl;
+                    curr = (curr as INoteControlChild)?.ParentNote
+                )
+                    if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
+                        chain.AddFirst((SimpleNoteModel)asCtrl);
             }
+            return chain;
         }
 
         protected virtual void InitCustomLayout()
@@ -296,46 +302,41 @@ namespace MusicLoverHandbook.Models.Abstract
             ResumeLayout();
         }
 
-        protected void EditClick()
+        protected virtual void InitValues(string text, string description)
         {
-            var mainForm = FindForm() as MainForm;
-
-            if (mainForm == null)
-                return;
-            var chain = GenerateNoteChain();
-
-            var creationController = new NoteCreationMenuController(mainForm);
-            creationController.AddLinkedInfo(chain);
-
-            var creationResult = creationController.OpenCreationMenu();
-            creationResult?.CreateNote();
+            NoteName = text;
+            NoteDescription = description;
         }
 
-        protected virtual LinkedList<SimpleNoteModel> GenerateNoteChain()
+        private void InitCustomization()
         {
-            var chain = new LinkedList<SimpleNoteModel>();
-
-            if (this is INoteControlChild asChild)
+            foreach (
+                var control in new Control[] { TextLabel, InfoButton, DeleteButton, EditButton }
+            )
             {
-                if (asChild.NoteType.GetInputTypeEquivalence() != null)
-                    chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
-                for (
-                    var curr = (asChild as IControlParent) ?? asChild.ParentNote;
-                    curr != null && curr is NoteControl asCtrl;
-                    curr = (curr as INoteControlChild)?.ParentNote
-                )
-                    if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
-                        chain.AddFirst((SimpleNoteModel)asCtrl);
+                control.MouseEnter += OnButtonMouseEnter;
+                control.MouseLeave += OnButtonMouseLeave;
             }
-            return chain;
         }
 
-        public static explicit operator SimpleNoteModel(NoteControl from) =>
-            new SimpleNoteModel(from);
-
-        public override string ToString()
+        private void OnButtonMouseEnter(object? sender, EventArgs e)
         {
-            return $"{NoteName}";
+            if (sender is Control control)
+                control.BackColor = ControlPaint.Light(control.BackColor, 0.4f);
+        }
+
+        private void OnButtonMouseLeave(object? sender, EventArgs e)
+        {
+            if (sender is Control control)
+                control.BackColor = ControlPaint.Light(control.BackColor, -0.4f);
+        }
+
+        private void ToogleViewing(bool isVis, Control toToggle)
+        {
+            if (!isVis)
+                toToggle.Hide();
+            else
+                toToggle.Show();
         }
     }
 }

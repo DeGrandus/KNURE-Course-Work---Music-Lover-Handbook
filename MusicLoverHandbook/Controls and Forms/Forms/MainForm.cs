@@ -1,6 +1,8 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Inerfaces;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -8,11 +10,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class MainForm : Form
     {
-        private float rtitle,
-            rcont,
-            radd,
-            rdrag;
-
         public Color LabelBackColor;
         public Color ContentBackColor;
         public NotesContainer NotesContainer { get; }
@@ -21,12 +18,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             InitializeComponent();
 
             MinimumSize = new Size(300, 565);
-
-            var rowSt = tableLayoutPanel1.RowStyles;
-            rtitle = rowSt[0].Height;
-            rcont = rowSt[2].Height;
-            radd = rowSt[4].Height;
-            rdrag = rowSt[6].Height;
 
             NotesContainer = new NotesContainer(panelContent);
 
@@ -88,7 +79,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
             panelLabel.BackColor = LabelBackColor;
-            tableLayoutPanel1.BackColor = Color.White;
+            tableLayoutMain.BackColor = Color.White;
 
             panelContent.AutoScroll = true;
             ContentBackColor = ControlPaint.Light(
@@ -96,11 +87,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 1.5f
             );
             panelContent.BackColor = ContentBackColor;
-            dragInto.BackColor = panelLabel.BackColor;
-            Debug.WriteLine("");
 
-            Debug.WriteLine(dragInto.BackColor);
-            Debug.WriteLine(panelLabel.BackColor);
             createNoteButton.FlatAppearance.BorderSize = 2;
 
             var buttonGradientWorker = new BackgroundWorker();
@@ -130,12 +117,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Resize += (sender, e) =>
             {
                 AdaptToSize();
-                BuildDragImage();
             };
             Load += (sender, e) =>
             {
                 AdaptToSize();
-                BuildDragImage();
             };
 
             createNoteButton.Click += (sender, e) =>
@@ -172,83 +157,29 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             return new Font(font.FontFamily, h, font.Style, GraphicsUnit.Pixel);
         }
 
-        private void BuildDragImage()
-        {
-            var image = new Bitmap(dragInto.Width, dragInto.Height);
-            var text = "Drop file of \".mp3\" here to fast load into base";
-            var g = Graphics.FromImage(image);
-            g.Clear(dragInto.BackColor);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            using (var pen = new Pen(ControlPaint.Dark(dragInto.BackColor)))
-            using (var textbrush = new Pen(Color.Black).Brush)
-            {
-                pen.Width = 20;
-                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                pen.DashPattern = new[] { 2f, 1 };
-                g.DrawRectangle(pen, new(new(0, 0), image.Size));
-                var font = GetScaledFontWidthUpscaled();
-                font = new Font(font.FontFamily, font.SizeInPoints - 3, GraphicsUnit.Point);
-                var strMeasure = g.MeasureString(text, font);
-                var pt = (Point)(
-                    dragInto.Size / 2
-                    - new Size((int)strMeasure.Width / 2, (int)strMeasure.Height / 2)
-                );
-                g.DrawString(text, font, textbrush, pt);
-            }
-            dragInto.BackgroundImage = image;
-        }
-
         private void AdaptToSize()
         {
             if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
                 return;
-            SuspendLayout();
-            var colSt = tableLayoutPanel1.ColumnStyles;
-            var rowSt = tableLayoutPanel1.RowStyles;
+            int rmax = tableLayoutMain.RowCount - 1, cmax = tableLayoutMain.ColumnCount - 1;
+            var tb = tableLayoutMain;
 
-            var cols = tableLayoutPanel1.ColumnCount;
-            var rows = tableLayoutPanel1.RowCount;
+            var wDiff = Size.Width - MinimumSize.Width;
+            var hDiff = Size.Height - MinimumSize.Height;
 
-            var border = Width > 400 ? 15 : (((float)Width - 300) / 100 * 15);
-            var addbt = Width > 800 ? 100 : (((float)Width - 300) / 500 * 100);
-            var dropfile = Width > 1000 ? 150 : (((float)Width - 300) / 700 * 150);
+            var wLim = 150;
+            tb.ColumnStyles[0].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
+            tb.ColumnStyles[cmax].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
+            wLim = 400;
+            tb.ColumnStyles[1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
+            tb.ColumnStyles[cmax - 1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
+            var hLim = 100;
+            tb.RowStyles[rmax].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 20;
+            tb.RowStyles[rmax - 2].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 50;
 
-            colSt[0].Width = border;
-            colSt[cols - 1].Width = border;
-            colSt[1].Width = addbt;
-            colSt[cols - 2].Width = addbt;
-            colSt[2].Width = dropfile;
-            colSt[cols - 3].Width = dropfile;
+            tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? ((float)hDiff / (hLim / 2)) : 1) * 50;
 
-            var sum = new[] { rtitle, rcont, radd, rdrag }.Aggregate((c, x) => c + x);
-            var onlyAdd = Height - 40 < sum;
-            var fixcont = Height + 40 < sum;
-            if (Height > 800 && Height < 2000)
-            {
-                var hdiff = ((float)Height - 800) / 1200;
-
-                rowSt[2].Height = rcont + 800 * hdiff;
-            }
-            if (Height < 800)
-            {
-                rowSt[6].Height =
-                    rdrag * ((float)Height - MinimumSize.Height) / (800 - MinimumSize.Height);
-                rowSt[5].Height = 0;
-                rowSt[0].Height = 0;
-                rowSt[1].SizeType = SizeType.Absolute;
-                rowSt[1].Height = 0;
-                rowSt[3].Height = 0;
-            }
-            else
-            {
-                rowSt[0].Height = 50;
-                rowSt[1].SizeType = SizeType.Percent;
-                rowSt[1].Height = 25;
-                rowSt[3].Height = 25;
-                rowSt[5].Height = 25;
-            }
-
-            ResumeLayout();
+            tb.RowStyles[1].Height = (hDiff <= hLim * 2 ? hDiff <= hLim ? 0 : (((float)hDiff - 100) / hLim) : 1) * 50;
         }
     }
 }

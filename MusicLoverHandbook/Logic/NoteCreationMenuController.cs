@@ -9,12 +9,12 @@ namespace MusicLoverHandbook.Logic
 {
     public class NoteCreationMenuController
     {
-        private AddNoteMenu menu;
+        private NoteCreationMenu menu;
         private MainForm mainForm;
 
         public NoteCreationMenuController(MainForm mainForm)
         {
-            menu = new AddNoteMenu(mainForm);
+            menu = new NoteCreationMenu(mainForm);
             this.mainForm = mainForm;
         }
 
