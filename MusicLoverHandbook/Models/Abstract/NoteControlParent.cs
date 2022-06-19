@@ -5,7 +5,11 @@ using System.Diagnostics;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent, IControlParent
+    public abstract class NoteControlParent
+        : NoteControl,
+          INoteParent,
+          INoteControlParent,
+          IControlParent
     {
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
         public ContentLinker Linker { get; }
@@ -52,14 +56,12 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public void OnDoubleClick()
         {
-            
             Debug.WriteLine(InnerNotes.Count);
             if (InnerNotes.Count == 0)
                 return;
             Debug.WriteLine(IsOpened);
             IsOpened = !IsOpened;
             UpdateSize();
-            
         }
 
         public void ChangeSizeHierarchically(int size)

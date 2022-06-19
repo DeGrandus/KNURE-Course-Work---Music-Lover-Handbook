@@ -5,9 +5,10 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface IControlParent
     {
-       ObservableCollection<INoteControlChild> InnerNotes { get; }
+        ObservableCollection<INoteControlChild> InnerNotes { get; }
     }
-    public interface INoteControlParent : INoteControl,IControlParent
+
+    public interface INoteControlParent : INoteControl, IControlParent
     {
         ContentLinker Linker { get; }
         public void AddNote(NoteControl note);

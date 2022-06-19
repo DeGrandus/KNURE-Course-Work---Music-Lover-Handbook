@@ -149,8 +149,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
                 var creationResult = controller.OpenCreationMenu();
                 creationResult?.CreateNote();
-                
-                
             };
 
             ReassignFonts();

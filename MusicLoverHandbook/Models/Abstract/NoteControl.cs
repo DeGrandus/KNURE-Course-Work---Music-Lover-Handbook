@@ -16,7 +16,8 @@ namespace MusicLoverHandbook.Models.Abstract
         public abstract NoteType NoteType { get; }
         public Image? Icon
         {
-            get => IconPanel.BackgroundImage; set
+            get => IconPanel.BackgroundImage;
+            set
             {
                 IconPanel.BackgroundImageLayout = ImageLayout.Stretch;
                 IconPanel.BackgroundImage = value;
@@ -34,9 +35,11 @@ namespace MusicLoverHandbook.Models.Abstract
         }
         public string NoteDescription
         {
-            get => noteDescription; set
+            get => noteDescription;
+            set
             {
-                if (InfoButton != null) ballonTip?.SetToolTip(InfoButton, value);
+                if (InfoButton != null)
+                    ballonTip?.SetToolTip(InfoButton, value);
                 noteDescription = value;
             }
         }
@@ -136,26 +139,30 @@ namespace MusicLoverHandbook.Models.Abstract
             sizeS = size;
             InitCustomLayout();
         }
+
         private void OnButtonMouseEnter(object? sender, EventArgs e)
         {
             if (sender is Control control)
-                control.BackColor = ControlPaint.Light(control.BackColor,0.4f);
-
+                control.BackColor = ControlPaint.Light(control.BackColor, 0.4f);
         }
+
         private void OnButtonMouseLeave(object? sender, EventArgs e)
         {
             if (sender is Control control)
                 control.BackColor = ControlPaint.Light(control.BackColor, -0.4f);
-
         }
+
         private void InitCustomization()
         {
-            foreach(var control in new Control[] { TextLabel,InfoButton,DeleteButton,EditButton })
+            foreach (
+                var control in new Control[] { TextLabel, InfoButton, DeleteButton, EditButton }
+            )
             {
-                control.MouseEnter+=OnButtonMouseEnter;
-                control.MouseLeave+=OnButtonMouseLeave;
-            } 
+                control.MouseEnter += OnButtonMouseEnter;
+                control.MouseLeave += OnButtonMouseLeave;
+            }
         }
+
         protected virtual void InitCustomLayout()
         {
             SuspendLayout();
@@ -222,12 +229,18 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 if (this is INoteControlChild asChild)
                 {
-                    var box = MessageBox.Show($"Are you sure you want to delete {NoteType} {NoteName}?", "Delete warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var box = MessageBox.Show(
+                        $"Are you sure you want to delete {NoteType} {NoteName}?",
+                        "Delete warning",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning
+                    );
                     if (box == DialogResult.Yes)
-                        if (asChild.ParentNote is INoteControlParent asParent) asParent.Linker.Observed.Remove(asChild);
-                        else asChild.ParentNote.InnerNotes.Remove(asChild);
+                        if (asChild.ParentNote is INoteControlParent asParent)
+                            asParent.Linker.Observed.Remove(asChild);
+                        else
+                            asChild.ParentNote.InnerNotes.Remove(asChild);
                 }
-
             };
             EditButton = new ButtonPanel(ButtonType.Edit, 1)
             {
@@ -288,7 +301,8 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             var mainForm = FindForm() as MainForm;
 
-            if (mainForm == null) return;
+            if (mainForm == null)
+                return;
             var chain = GenerateNoteChain();
 
             var creationController = new NoteCreationMenuController(mainForm);
@@ -297,21 +311,28 @@ namespace MusicLoverHandbook.Models.Abstract
             var creationResult = creationController.OpenCreationMenu();
             creationResult?.CreateNote();
         }
+
         protected virtual LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
             var chain = new LinkedList<SimpleNoteModel>();
 
             if (this is INoteControlChild asChild)
             {
-                if (asChild.NoteType.GetInputTypeEquivalence() != null) chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
-                for (var curr = (asChild as IControlParent) ?? asChild.ParentNote; curr != null && curr is NoteControl asCtrl; curr = (curr as INoteControlChild)?.ParentNote)
+                if (asChild.NoteType.GetInputTypeEquivalence() != null)
+                    chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
+                for (
+                    var curr = (asChild as IControlParent) ?? asChild.ParentNote;
+                    curr != null && curr is NoteControl asCtrl;
+                    curr = (curr as INoteControlChild)?.ParentNote
+                )
                     if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
                         chain.AddFirst((SimpleNoteModel)asCtrl);
             }
             return chain;
         }
 
-        public static explicit operator SimpleNoteModel(NoteControl from) => new SimpleNoteModel(from); 
+        public static explicit operator SimpleNoteModel(NoteControl from) =>
+            new SimpleNoteModel(from);
 
         public override string ToString()
         {

@@ -24,22 +24,34 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             InnerNotes.CollectionChanged += OnHierarchyChanged;
         }
 
-        private void OnHierarchyChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void OnHierarchyChanged(
+            object? sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e
+        )
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 PanelContainer.Controls.Clear();
                 return;
             }
-            var newItems = e.NewItems?.Cast<INoteControlChild>().Where(x => x is NoteControl).Cast<NoteControl>().ToList() ?? new();
-            var oldItems = e.OldItems?.Cast<INoteControlChild>().Where(x => x is NoteControl).Cast<NoteControl>().ToList() ?? new();
+            var newItems =
+                e.NewItems
+                    ?.Cast<INoteControlChild>()
+                    .Where(x => x is NoteControl)
+                    .Cast<NoteControl>()
+                    .ToList() ?? new();
+            var oldItems =
+                e.OldItems
+                    ?.Cast<INoteControlChild>()
+                    .Where(x => x is NoteControl)
+                    .Cast<NoteControl>()
+                    .ToList() ?? new();
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     if (newItems != null)
                         foreach (var item in newItems)
                         {
-                            
                             AddNote(item);
                         }
                     break;
@@ -51,9 +63,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 case NotifyCollectionChangedAction.Replace:
                     if (oldItems != null && newItems != null)
                         foreach (
-                            var item in Enumerable.Zip(oldItems,newItems
-                                ).Select(x => (Old: x.First, New: x.Second))
-)
+                            var item in Enumerable
+                                .Zip(oldItems, newItems)
+                                .Select(x => (Old: x.First, New: x.Second))
+                        )
                         {
                             var ind = PanelContainer.Controls.IndexOf(item.Old);
                             RemoveNote(item.Old);
@@ -61,10 +74,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                         }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    if (
-                        newItems != null
-                        && newItems.Count == 1
-)
+                    if (newItems != null && newItems.Count == 1)
                         PanelContainer.Controls.SetChildIndex(newItems[0], e.NewStartingIndex);
                     break;
             }
@@ -83,13 +93,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         private void RemoveNote(NoteControl note)
         {
             PanelContainer.Controls.Remove(note);
-            
         }
 
         private NoteAdd CreateAddButton(NoteControlParent parent) =>
             new NoteAdd(parent, $"Add new {parent.NoteType + 1}", "Click on me to add new note");
 
-        public void SetupAddNoteButton(NoteControlParent note) 
+        public void SetupAddNoteButton(NoteControlParent note)
         {
             var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
             if (potentialAdd?.NoteType is NoteType.AddButton)

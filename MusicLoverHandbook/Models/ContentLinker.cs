@@ -52,7 +52,7 @@ namespace MusicLoverHandbook.Models
                         Note.MoveNote(note, e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                        Note.ResetNotes();
+                    Note.ResetNotes();
                     break;
             }
         }

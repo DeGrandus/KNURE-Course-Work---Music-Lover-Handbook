@@ -28,24 +28,31 @@ namespace MusicLoverHandbook.Models.Enums
     class HasInputTypeEquvalenceAttribute : Attribute
     {
         public InputType Type { get; }
+
         public HasInputTypeEquvalenceAttribute(InputType type)
         {
             Type = type;
         }
     }
+
     static class Extensions
     {
         public static Color? GetColor(this NoteType value)
         {
-            return
-                value
-                    .GetType()
-                    .GetField(value.ToString())
-                    ?.GetCustomAttribute<EnumColorAttribute>(false)?.Color;
+            return value
+                .GetType()
+                .GetField(value.ToString())
+                ?.GetCustomAttribute<EnumColorAttribute>(false)
+                ?.Color;
         }
+
         public static InputType? GetInputTypeEquivalence(this NoteType value)
         {
-            return value.GetType().GetField(value.ToString())?.GetCustomAttribute<HasInputTypeEquvalenceAttribute>(false)?.Type;
+            return value
+                .GetType()
+                .GetField(value.ToString())
+                ?.GetCustomAttribute<HasInputTypeEquvalenceAttribute>(false)
+                ?.Type;
         }
     }
 }

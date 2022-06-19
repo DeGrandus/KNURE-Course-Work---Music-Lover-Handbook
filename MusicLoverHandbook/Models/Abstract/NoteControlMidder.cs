@@ -20,13 +20,19 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             ThemeColor =
                 type.GetColor()
-                ?? (ParentNote is IControlParent asParent ? asParent.InnerNotes.LastOrDefault()?.ThemeColor : null)
+                ?? (
+                    ParentNote is IControlParent asParent
+                        ? asParent.InnerNotes.LastOrDefault()?.ThemeColor
+                        : null
+                )
                 ?? Color.Transparent;
         }
+
         public override void UpdateSize()
         {
             base.UpdateSize();
-            if (ParentNote is INoteControlParent noteParent)noteParent.UpdateSize();
+            if (ParentNote is INoteControlParent noteParent)
+                noteParent.UpdateSize();
         }
     }
 }

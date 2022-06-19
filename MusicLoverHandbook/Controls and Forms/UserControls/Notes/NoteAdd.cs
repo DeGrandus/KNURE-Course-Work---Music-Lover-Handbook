@@ -19,6 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.add;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
+
         protected override LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
             var chain = base.GenerateNoteChain();
@@ -30,23 +31,32 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 {
                     case NoteType.Song:
                         newType = NoteType.SongFile;
-                        descriptionExample = "Full path to the mp3 file (not neccesary)"+"\r\n" + descriptionExample;
+                        descriptionExample =
+                            "Full path to the mp3 file (not neccesary)"
+                            + "\r\n"
+                            + descriptionExample;
                         break;
                     case NoteType.Author:
                     case NoteType.Disc:
                         if (parent is NoteControlMidder midder)
                             if (midder.ParentNote is not NotesContainer)
                                 newType = NoteType.Song;
-                            else
-                            if (parent.NoteType == NoteType.Disc)
+                            else if (parent.NoteType == NoteType.Disc)
                                 newType = NoteType.Author;
                             else
                                 newType = NoteType.Disc;
                         break;
                 }
-                
-                if (newType == null) return chain;
-                chain.AddLast(new SimpleNoteModel(newType.Value.GetInputTypeEquivalence()?.ToString(true)??"",descriptionExample,newType.Value));
+
+                if (newType == null)
+                    return chain;
+                chain.AddLast(
+                    new SimpleNoteModel(
+                        newType.Value.GetInputTypeEquivalence()?.ToString(true) ?? "",
+                        descriptionExample,
+                        newType.Value
+                    )
+                );
             }
             return chain;
         }

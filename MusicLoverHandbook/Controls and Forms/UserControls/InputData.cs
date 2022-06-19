@@ -30,7 +30,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         [Category("Data")]
         public InputType InputType
         {
-            get => inputType; set
+            get => inputType;
+            set
             {
                 inputType = value;
                 SetInputType(value);
@@ -55,7 +56,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 if (!AutoFill)
                     return;
                 if (InputDescriptionBox.Text == "" && state == InputState.OK)
-                    InputDescriptionBox.Text = 
+                    InputDescriptionBox.Text =
                         InputNameBox.InnerData
                             .Find(x => x.NoteName == InputNameBox.Text)
                             ?.NoteDescription ?? "";
@@ -134,9 +135,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         public void SetLabel(string text)
         {
-
             noteTypeLabel.Text = text;
-
         }
 
         public void SetFont(Font font)
@@ -207,6 +206,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public string? Text { get; }
             public string Description { get; }
             public string? ReplacementText { get; }
+
             public bool IsValid() => Enabled && Text != null;
         }
     }

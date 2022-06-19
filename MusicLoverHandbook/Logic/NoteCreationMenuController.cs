@@ -23,40 +23,52 @@ namespace MusicLoverHandbook.Logic
             menu = new AddNoteMenu(mainForm);
             this.mainForm = mainForm;
         }
+
         public void AddInfo(SimpleNoteModel model)
         {
             if (model.NoteType.GetInputTypeEquivalence() is InputType inputType)
             {
-                InputData? data = menu.InputDataOrdered.ToList().Find(x=>x.InputType == inputType);
-                if (data == null) return;
+                InputData? data = menu.InputDataOrdered
+                    .ToList()
+                    .Find(x => x.InputType == inputType);
+                if (data == null)
+                    return;
                 data.InputNameBox.Text = model.Name;
                 data.InputDescriptionBox.Text = model.Description;
             }
         }
+
         public void AddLinkedInfo(LinkedList<SimpleNoteModel> models)
         {
-            if (models.First?.Value.NoteType.GetInputTypeEquivalence()?.GetConnectedCreationType() is NoteCreationType creationType)
+            if (
+                models.First?.Value.NoteType.GetInputTypeEquivalence()?.GetConnectedCreationType()
+                is NoteCreationType creationType
+            )
                 menu.CreationType = creationType;
             foreach (var model in models)
                 AddInfo(model);
         }
+
         public NoteCreationResult? OpenCreationMenu()
         {
             if (menu.ShowDialog() == DialogResult.OK)
             {
-                return new NoteCreationResult(mainForm,menu.FinalNote);
+                return new NoteCreationResult(mainForm, menu.FinalNote);
             }
             return null;
         }
+
         public class NoteCreationResult
         {
             public NoteControlMidder? Result { get; }
             private MainForm mainForm;
+
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? result)
             {
                 Result = result;
                 this.mainForm = mainForm;
             }
+
             public void CreateNote()
             {
                 if (Result != null)
@@ -75,6 +87,5 @@ namespace MusicLoverHandbook.Logic
                 }
             }
         }
-        
     }
 }

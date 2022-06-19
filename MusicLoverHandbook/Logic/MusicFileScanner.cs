@@ -3,11 +3,13 @@ using TagFile = TagLib.File;
 
 namespace MusicLoverHandbook.Controller
 {
-    public static class MusicFileScanner 
+    public static class MusicFileScanner
     {
-        public static Dictionary<InputType,(string? Name,string? Description)> GetDataFromFile(string filePath)
+        public static Dictionary<InputType, (string? Name, string? Description)> GetDataFromFile(
+            string filePath
+        )
         {
-            if (!File.Exists(filePath) && Path.GetExtension(filePath)!="mp3")
+            if (!File.Exists(filePath) && Path.GetExtension(filePath) != "mp3")
                 return null;
 
             var file = TagFile.Create(filePath);
@@ -16,7 +18,18 @@ namespace MusicLoverHandbook.Controller
             var inputNames = GetNames(filePath, file, tag);
             var inputDescriptions = GetDescriptions(filePath, file, tag);
 
-            return Enum.GetValues<InputType>().Select(t => (Type: t, Data:(Name: inputNames.GetValueOrDefault(t), Description: inputDescriptions.GetValueOrDefault(t)))).ToDictionary(k=>k.Type,v=>v.Data);
+            return Enum.GetValues<InputType>()
+                .Select(
+                    t =>
+                        (
+                            Type: t,
+                            Data: (
+                                Name: inputNames.GetValueOrDefault(t),
+                                Description: inputDescriptions.GetValueOrDefault(t)
+                            )
+                        )
+                )
+                .ToDictionary(k => k.Type, v => v.Data);
 
             //allInputs.ForEach(x => x.AutoFill = false);
             //if (
@@ -67,24 +80,40 @@ namespace MusicLoverHandbook.Controller
             //    }
             //);
         }
-        private static Dictionary<InputType, string> GetDescriptions(string filepath,TagFile file, TagLib.Tag tag)
+
+        private static Dictionary<InputType, string> GetDescriptions(
+            string filepath,
+            TagFile file,
+            TagLib.Tag tag
+        )
         {
-            var year = tag.Year!=0?"Year: "+tag.Year:"";
-            var comment = tag.Comment!=""?"Comment: "+tag.Comment:"";
-            var genre = tag.JoinedGenres!=""?"Genre: "+tag.JoinedGenres:"";
-            var copyright = tag.Copyright!=""?"Copyright: "+tag.Copyright:"";
+            var year = tag.Year != 0 ? "Year: " + tag.Year : "";
+            var comment = tag.Comment != "" ? "Comment: " + tag.Comment : "";
+            var genre = tag.JoinedGenres != "" ? "Genre: " + tag.JoinedGenres : "";
+            var copyright = tag.Copyright != "" ? "Copyright: " + tag.Copyright : "";
             var duration = "Duration: " + file.Properties.Duration.ToString(@"hh\:mm\:ss");
 
             var ret = new Dictionary<InputType, string>();
-            ret.Add(InputType.SongName, string.Join("\r\n", new object[] { year, genre, copyright }));
-            ret.Add(InputType.SongFile, string.Join("\r\n", new object[] { filepath,duration,comment }));
+            ret.Add(
+                InputType.SongName,
+                string.Join("\r\n", new object[] { year, genre, copyright })
+            );
+            ret.Add(
+                InputType.SongFile,
+                string.Join("\r\n", new object[] { filepath, duration, comment })
+            );
             return ret;
         }
-        private static Dictionary<InputType, string> GetNames(string filepath, TagFile file, TagLib.Tag tag)
+
+        private static Dictionary<InputType, string> GetNames(
+            string filepath,
+            TagFile file,
+            TagLib.Tag tag
+        )
         {
-            string name = tag.Title!=""?tag.Title:"";
-            string authors = tag.JoinedPerformers!=""?tag.JoinedPerformers:"";
-            string album = tag.Album!=""?tag.Album:"";
+            string name = tag.Title != "" ? tag.Title : "";
+            string authors = tag.JoinedPerformers != "" ? tag.JoinedPerformers : "";
+            string album = tag.Album != "" ? tag.Album : "";
             string filename = Path.GetFileName(filepath);
 
             var ret = new Dictionary<InputType, string>();

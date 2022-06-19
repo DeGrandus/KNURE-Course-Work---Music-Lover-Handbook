@@ -20,9 +20,11 @@ namespace MusicLoverHandbook.View.Forms
         public MainForm MainForm { get; }
         public NoteCreationType CreationType
         {
-            get => creationType; set
+            get => creationType;
+            set
             {
-                if (creationType == value) return;
+                if (creationType == value)
+                    return;
 
                 if (value is NoteCreationType.DiscInAuthor)
                     SelectedCreationTypeLabel = discInAuthorLabel;
@@ -39,10 +41,14 @@ namespace MusicLoverHandbook.View.Forms
         private List<InputData> allInputs => InputDataOrdered.ToList();
         private Label SelectedCreationTypeLabel
         {
-            get => selectedCreationTypeLabel; set
+            get => selectedCreationTypeLabel;
+            set
             {
                 if (selectedCreationTypeLabel != value)
-                    (selectedCreationTypeLabel.BackColor, value.BackColor) = (value.BackColor, selectedCreationTypeLabel.BackColor);
+                    (selectedCreationTypeLabel.BackColor, value.BackColor) = (
+                        value.BackColor,
+                        selectedCreationTypeLabel.BackColor
+                    );
                 selectedCreationTypeLabel = value;
             }
         }
@@ -55,10 +61,12 @@ namespace MusicLoverHandbook.View.Forms
             SetupSwitchButtons();
             SetupLayout();
         }
+
         private void SetupInputsOrder()
         {
             InputDataOrdered.Clear();
-            InputData main = InputAuthor, secondary = InputDisc;
+            InputData main = InputAuthor,
+                secondary = InputDisc;
             if (CreationType == NoteCreationType.AuthorInDisc)
                 (main, secondary) = (secondary, main);
             InputDataOrdered.AddLast(main);
@@ -68,7 +76,6 @@ namespace MusicLoverHandbook.View.Forms
 
             for (var inp = InputDataOrdered.First; inp != null; inp = inp.Next)
                 tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
-
         }
 
         private Action<object?, EventArgs> swapTypesAction;
@@ -82,6 +89,7 @@ namespace MusicLoverHandbook.View.Forms
             authorInDiscLabel.Click += (sender, e) => CreationType = NoteCreationType.AuthorInDisc;
             allInputs.ForEach(x => x.InputNameBox.CheckValid());
         }
+
         private void SetupLayout()
         {
             StartPosition = FormStartPosition.Manual;
@@ -101,15 +109,15 @@ namespace MusicLoverHandbook.View.Forms
             SetupButtons();
             SetupDragDrop();
             SetupInputs();
-
-
         }
+
         private void SetupInputs()
         {
             SetupInputsOrder();
             ClearInputEvents();
 
-            if (InputDataOrdered.First == null) throw new Exception("Something went in Input Field Organization Setup");
+            if (InputDataOrdered.First == null)
+                throw new Exception("Something went in Input Field Organization Setup");
 
             if (CreationType == NoteCreationType.DiscInAuthor)
                 InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.Container);
@@ -127,7 +135,6 @@ namespace MusicLoverHandbook.View.Forms
 
             SetupEventOrder();
 
-            
             SetupInputEvents();
 
             foreach (var input in allInputs)
@@ -136,23 +143,32 @@ namespace MusicLoverHandbook.View.Forms
                 input.InputNameBox.CheckValid();
             }
         }
+
         private void ClearInputEvents()
         {
             foreach (var inp in InputDataOrdered)
                 inp.InputNameBox.ClearEvents();
         }
+
         private void SetupInputEvents()
         {
             ClearInputEvents();
             if (InputEventsOrdered.First != null && InputDataOrdered.First != null)
             {
                 var action = InputEventsOrdered.First;
-                for (var input = InputDataOrdered.First; input != null && action != null; action = action.Next, input = input.Next)
+                for (
+                    var input = InputDataOrdered.First;
+                    input != null && action != null;
+                    action = action.Next, input = input.Next
+                )
                 {
-                    input.Value.InputNameBox.TempStatusChangedRepeatedly += new StateChangedEvent(action.Value);
+                    input.Value.InputNameBox.TempStatusChangedRepeatedly += new StateChangedEvent(
+                        action.Value
+                    );
                 }
             }
         }
+
         private void SetupEventOrder()
         {
             InputEventsOrdered.Clear();
@@ -160,16 +176,16 @@ namespace MusicLoverHandbook.View.Forms
             InputEventsOrdered.AddLast(SecondaryInputStateChanged);
             InputEventsOrdered.AddLast(SongInputStateChanged);
         }
+
         private void MainInputStateChanged(SmartComboBox box, InputState state)
         {
             var secondary = InputDataOrdered?.First?.Next?.Value;
-            if (secondary == null) return;
+            if (secondary == null)
+                return;
 
             if (state == InputState.OK)
             {
-                var data = (
-                    box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlParent
-                );
+                var data = (box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlParent);
                 if (data != null)
                 {
                     if (CreationType == NoteCreationType.DiscInAuthor)
@@ -188,11 +204,10 @@ namespace MusicLoverHandbook.View.Forms
             secondary.InputNameBox.CheckValid();
             InputSong.InputNameBox.CheckValid();
         }
+
         private void SecondaryInputStateChanged(SmartComboBox box, InputState state)
         {
-            var dataSelf = (
-                box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlMidder
-            );
+            var dataSelf = (box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlMidder);
 
             if (state == InputState.OK)
             {
@@ -208,8 +223,8 @@ namespace MusicLoverHandbook.View.Forms
                     InputSong.SetDataSource<NoteSong>(box.NoteParent);
             }
             InputSong.InputNameBox.CheckValid();
-
         }
+
         private void SongInputStateChanged(SmartComboBox box, InputState state)
         {
             if (state == InputState.OK)
@@ -249,8 +264,8 @@ namespace MusicLoverHandbook.View.Forms
                 if (!IsDropDataValid(e))
                     return;
                 if (
-                    (e.Data?.GetData(DataFormats.FileDrop) as string[])?
-                        .Where(x => x.Contains(".mp3"))
+                    (e.Data?.GetData(DataFormats.FileDrop) as string[])
+                        ?.Where(x => x.Contains(".mp3"))
                         .Count() > 0
                 )
                 {
@@ -275,21 +290,35 @@ namespace MusicLoverHandbook.View.Forms
                 FillWithData(fileData);
             };
         }
+
         private void FillWithData(Dictionary<InputType, (string? Name, string? Description)> data)
         {
-            if (InputDataOrdered.Select(x => x.InputNameBox.Status).Where(x => x == InputState.OK || x == InputState.CREATION).Count() > 1)
+            if (
+                InputDataOrdered
+                    .Select(x => x.InputNameBox.Status)
+                    .Where(x => x == InputState.OK || x == InputState.CREATION)
+                    .Count() > 1
+            )
             {
-                var ask = MessageBox.Show("There is already some info in the fields. Would you like to override it (YES) or load only Song File (NO) ?", "File data overrideness", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (ask == DialogResult.Cancel) return;
+                var ask = MessageBox.Show(
+                    "There is already some info in the fields. Would you like to override it (YES) or load only Song File (NO) ?",
+                    "File data overrideness",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question
+                );
+                if (ask == DialogResult.Cancel)
+                    return;
 
                 if (ask == DialogResult.No)
-                    data = data.Where(x => x.Key == InputType.SongFile).ToDictionary(x => x.Key, v => v.Value);
+                    data = data.Where(x => x.Key == InputType.SongFile)
+                        .ToDictionary(x => x.Key, v => v.Value);
             }
 
             foreach (var kp in data)
             {
                 var input = allInputs.Find(x => x.InputType == kp.Key);
-                if (input == null) continue;
+                if (input == null)
+                    continue;
 
                 if (kp.Value.Name != null)
                     input.InputNameBox.Text = kp.Value.Name;
@@ -297,10 +326,11 @@ namespace MusicLoverHandbook.View.Forms
                     input.InputDescriptionBox.Text = kp.Value.Description;
                 input.InputNameBox.CheckValid();
             }
-
         }
 
-        private bool IsDropDataValid(DragEventArgs e) => e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+        private bool IsDropDataValid(DragEventArgs e) =>
+            e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+
         private void SetupButtons()
         {
             createButton.Size = new Size(0, 70);
@@ -333,7 +363,5 @@ namespace MusicLoverHandbook.View.Forms
                 Close();
             };
         }
-
-
     }
 }
