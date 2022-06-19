@@ -3,9 +3,12 @@ using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControlParent : INoteControl
+    public interface IControlParent
     {
-        ObservableCollection<INoteControlChild> InnerNotes { get; set; }
+       ObservableCollection<INoteControlChild> InnerNotes { get; }
+    }
+    public interface INoteControlParent : INoteControl,IControlParent
+    {
         ContentLinker Linker { get; }
         public void AddNote(NoteControl note);
         public void RemoveNote(NoteControl note);

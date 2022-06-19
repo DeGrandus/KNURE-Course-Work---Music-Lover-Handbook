@@ -52,7 +52,6 @@ namespace MusicLoverHandbook.Models
                         Note.MoveNote(note, e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    if (sender is ObservableCollection<NoteControl> && e.OldItems != null)
                         Note.ResetNotes();
                     break;
             }

@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent
+    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent, IControlParent
     {
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
         public ContentLinker Linker { get; }
@@ -44,22 +44,22 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        protected override void ConstructLayout()
+        protected override void InitLayout()
         {
-            base.ConstructLayout();
+            base.InitLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
 
         public void OnDoubleClick()
         {
-            SuspendLayout();
+            
             Debug.WriteLine(InnerNotes.Count);
             if (InnerNotes.Count == 0)
                 return;
             Debug.WriteLine(IsOpened);
             IsOpened = !IsOpened;
             UpdateSize();
-            ResumeLayout();
+            
         }
 
         public void ChangeSizeHierarchically(int size)
@@ -109,6 +109,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public virtual void UpdateSize()
         {
+            SuspendLayout();
             var innerHeight = InnerContentPanel.Controls
                 .Cast<Control>()
                 .Select(c => c.Size.Height)
@@ -117,11 +118,12 @@ namespace MusicLoverHandbook.Models.Abstract
             var baseHeight = TextLabel.Size.Height;
             Size = IsOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
             Debug.WriteLine(Size);
+            ResumeLayout();
         }
 
         public override string ToString()
         {
-            return $"{NoteText}: [ {string.Join(", ", InnerNotes)} ]";
+            return $"{NoteName}: [ {string.Join(", ", InnerNotes)} ]";
         }
     }
 }

@@ -154,7 +154,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         var wasOpened = finalNote.IsOpened;
                         if (wasOpened)
                             finalNote.OnDoubleClick();
-                        Container.AddNote(finalNote);
+
+                        if (Container.InnerNotes.Contains(finalNote))
+                            Container.SetupAddNoteButton(finalNote);
+                        else
+                         Container.InnerNotes.Add(finalNote);
+
                         if (wasOpened)
                             finalNote.OnDoubleClick();
                     }
@@ -190,7 +195,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void BuildDragImage()
         {
             var image = new Bitmap(dragInto.Width, dragInto.Height);
-            var text = "Drop .mp3 file here";
+            var text = "Drop .mp3 file here to fast load into base";
             var g = Graphics.FromImage(image);
             g.Clear(dragInto.BackColor);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;

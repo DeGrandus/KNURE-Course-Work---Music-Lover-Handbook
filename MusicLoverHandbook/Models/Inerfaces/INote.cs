@@ -2,7 +2,7 @@
 {
     public interface INote
     {
-        string NoteText { get; set; }
+        string NoteName { get; set; }
         string NoteDescription { get; set; }
     }
 }

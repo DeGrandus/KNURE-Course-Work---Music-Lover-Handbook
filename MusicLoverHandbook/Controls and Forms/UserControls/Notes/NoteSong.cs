@@ -1,5 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
@@ -13,6 +15,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             : base(parent, text, description)
         {
             InitializeComponent();
+            Icon = Properties.Resources.song;
         }
     }
 }

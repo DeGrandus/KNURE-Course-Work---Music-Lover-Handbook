@@ -26,7 +26,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             (
                 NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
                 ?? NotesContainer
-                    ?.Hierarchy.Where(x => x is NoteControl)
+                    ?.InnerNotes.Where(x => x is NoteControl)
                     .Cast<NoteControl>()
                     .ToList()
                 ?? new()
@@ -58,11 +58,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             set
             {
                 if (state == value)
+                {
+                    OnStatusChangedRepeatedly();
                     return;
+                }
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
                 state = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
-                OnStateChanged();
+                OnStatusChanged();
                 ToggleActivity();
                 SetToolTip();
             }
@@ -84,7 +87,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Items.Clear();
             NoteParent = parent;
             NotesContainer = null;
-            Items.AddRange(InnerData.Select(x => x.NoteText).ToArray());
+            Items.AddRange(InnerData.Select(x => x.NoteName).ToArray());
         }
 
         public void SetSource(NotesContainer parent)
@@ -98,7 +101,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Items.Clear();
             NotesContainer = parent;
             NoteParent = null;
-            Items.AddRange(InnerData.Select(x => x.NoteText).ToArray());
+            Items.AddRange(InnerData.Select(x => x.NoteName).ToArray());
         }
 
         public void ClearDataSource()
@@ -111,10 +114,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnItemSelected(object? sender, EventArgs e) { }
 
-        private void OnInputDetected(object? sender, EventArgs e)
-        {
-            CheckText();
-        }
+        private void OnInputDetected(object? sender, EventArgs e) => CheckText();
 
         private void CheckText()
         {
@@ -157,13 +157,30 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
-        private void OnStateChanged()
+        private void OnStatusChanged()
         {
-            if (StateChanged != null)
-                StateChanged(this, Status);
+            OnStatusChangedRepeatedly();
+            if (statusChanged != null)
+                statusChanged(this, Status);
+        }
+        private void OnStatusChangedRepeatedly()
+        {
+            if (statusChangedRepeadly != null)
+                statusChangedRepeadly(this, Status);
         }
 
+
         public delegate void StateChangedEvent(SmartComboBox sender, InputState state);
-        public event StateChangedEvent StateChanged;
+        private StateChangedEvent? statusChanged;
+        private StateChangedEvent? statusChangedRepeadly;
+        public event StateChangedEvent StatusChanged
+        {
+            add => statusChanged += value; remove => statusChanged -= value;
+        }
+        public event StateChangedEvent StatusChangedRepeatedly
+        {
+            add => statusChangedRepeadly += value; remove => statusChangedRepeadly -= value;
+        }
+        public void ClearEvents() => statusChanged = null;
     }
 }

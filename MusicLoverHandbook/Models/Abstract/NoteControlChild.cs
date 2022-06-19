@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models.Abstract
@@ -8,14 +9,14 @@ namespace MusicLoverHandbook.Models.Abstract
     public abstract class NoteControlChild : NoteControl, INoteChild, INoteControlChild
     {
         private bool inited = false;
-        public INoteControlParent ParentNote { get; set; }
+        public IControlParent ParentNote { get; set; }
 
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
         private delegate void DelayedSetup();
-        private DelayedSetup delayedSetup;
+        private DelayedSetup? delayedSetup;
 
-        protected NoteControlChild(INoteControlParent parent, string text, string description)
+        protected NoteControlChild(IControlParent parent, string text, string description)
             : base(text, description)
         {
             ParentNote = parent;
@@ -36,12 +37,12 @@ namespace MusicLoverHandbook.Models.Abstract
                 };
         }
 
-        protected override void ConstructLayout()
+        protected override void InitLayout()
         {
             if (inited)
-                base.ConstructLayout();
+                base.InitLayout();
             else
-                delayedSetup += base.ConstructLayout;
+                delayedSetup += base.InitLayout;
         }
 
         protected override void InitValues(string text, string description)

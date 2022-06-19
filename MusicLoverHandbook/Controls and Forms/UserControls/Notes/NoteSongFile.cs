@@ -1,5 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
@@ -13,6 +15,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             : base(song, text, description)
         {
             InitializeComponent();
+
+            Icon = Properties.Resources.songfile;
 
             TextLabel.DoubleClick += (sender, e) =>
             {

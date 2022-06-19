@@ -1,6 +1,7 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
@@ -11,8 +12,16 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual int sizeS { get; private set; } = 80;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
         public abstract NoteType NoteType { get; }
-        public Image? Icon { get; set; }
-        public string NoteText
+        public Image? Icon
+        {
+            get => IconPanel.BackgroundImage; set
+            {
+                IconPanel.BackgroundImageLayout = ImageLayout.Stretch;
+                IconPanel.BackgroundImage = value;
+            }
+        }
+
+        public string NoteName
         {
             get => noteText;
             set
@@ -21,7 +30,14 @@ namespace MusicLoverHandbook.Models.Abstract
                 noteText = value;
             }
         }
-        public string NoteDescription { get; set; }
+        public string NoteDescription
+        {
+            get => noteDescription; set
+            {
+                if (InfoButton != null) ballonTip?.SetToolTip(InfoButton, value);
+                noteDescription = value;
+            }
+        }
         ControlCollection INoteControl.Controls => Controls;
 
         private Color theme;
@@ -30,6 +46,8 @@ namespace MusicLoverHandbook.Models.Abstract
         private bool isInfoShown;
         private TableLayoutPanel mainTable;
         private string noteText;
+        private ToolTip ballonTip;
+        private string noteDescription;
 
         public event ThemeChangeEventHandler ColorChanged;
         public Label TextLabel { get; private set; }
@@ -94,13 +112,13 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             BackColor = Color.Transparent;
             SetupColorTheme(NoteType);
-            ConstructLayout();
+            InitLayout();
             InitValues(text, description);
         }
 
         protected virtual void InitValues(string text, string description)
         {
-            NoteText = text;
+            NoteName = text;
             NoteDescription = description;
         }
 
@@ -112,10 +130,10 @@ namespace MusicLoverHandbook.Models.Abstract
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
-            ConstructLayout();
+            InitLayout();
         }
 
-        protected virtual void ConstructLayout()
+        protected virtual void InitLayout()
         {
             SuspendLayout();
             Controls.Remove(mainTable);
@@ -134,20 +152,27 @@ namespace MusicLoverHandbook.Models.Abstract
                 ColumnCount = 2
             };
             SideButtons = new SideButtonsPanel(DockStyle.Right) { AutoSize = true, };
-            var panelIcon = new Panel()
+            IconPanel = new Panel()
             {
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-                BackColor = Color.Red
+                BackColor = ControlPaint.Light(ThemeColor)
             };
             var textPanel = new Panel() { Padding = new Padding(0), Margin = new Padding(0), };
+            ballonTip = new ToolTip();
+            ballonTip.IsBalloon = true;
+            ballonTip.UseFading = true;
+            ballonTip.UseAnimation = true;
+            ballonTip.ToolTipIcon = ToolTipIcon.Info;
+            ballonTip.ToolTipTitle = "Description";
+            ballonTip.InitialDelay = 100;
 
             TextLabel = new Label()
             {
                 UseMnemonic = false,
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-                Text = NoteText,
+                Text = NoteName,
                 BackColor = ThemeColor,
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleLeft,
@@ -155,17 +180,35 @@ namespace MusicLoverHandbook.Models.Abstract
             };
             InfoButton = new ButtonPanel(ButtonType.Info, 0)
             {
-                BackColor = Color.BlueViolet,
+                BackColor = ControlPaint.Light(ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = Properties.Resources.info,
                 Size = new Size(sizeS, sizeS)
             };
+            ballonTip.SetToolTip(InfoButton, NoteDescription);
             DeleteButton = new ButtonPanel(ButtonType.Delete, 2)
             {
-                BackColor = Color.Red,
+                BackColor = ControlPaint.Light(ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = Properties.Resources.delete,
                 Size = new Size(sizeS, sizeS)
+            };
+            DeleteButton.Click += (sender, e) =>
+            {
+                if (this is INoteControlChild asChild)
+                {
+                    var box = MessageBox.Show($"Are you sure you want to delete {NoteType} {NoteName}?", "Delete warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (box == DialogResult.Yes)
+                        if (asChild.ParentNote is INoteControlParent asParent) asParent.Linker.Observed.Remove(asChild);
+                        else asChild.ParentNote.InnerNotes.Remove(asChild);
+                }
+
             };
             EditButton = new ButtonPanel(ButtonType.Edit, 1)
             {
-                BackColor = Color.Gold,
+                BackColor = ControlPaint.Light(ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = Properties.Resources.edit,
                 Size = new Size(sizeS, sizeS),
             };
 
@@ -187,7 +230,7 @@ namespace MusicLoverHandbook.Models.Abstract
             comboPanel.Controls.Add(textPanel);
             comboPanel.Controls.Add(SideButtons);
 
-            mainTable.Controls.Add(panelIcon, 0, 0);
+            mainTable.Controls.Add(IconPanel, 0, 0);
             mainTable.Controls.Add(comboPanel, 1, 0);
 
             SideButtons.AddButton(InfoButton);
@@ -215,7 +258,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override string ToString()
         {
-            return $"{NoteText}";
+            return $"{NoteName}";
         }
     }
 }

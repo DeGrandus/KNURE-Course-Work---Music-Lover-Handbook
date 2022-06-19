@@ -19,6 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     {
         private bool canNameBeEmpty = false;
         private bool isRenameInvalid = false;
+        private InputType inputType;
 
         private bool IsRenameFieldTextInvalid
         {
@@ -26,7 +27,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             set { isRenameInvalid = value; }
         }
 
-        public InputType InputType { get; private set; }
+        [Category("Data")]
+        public InputType InputType
+        {
+            get => inputType; set
+            {
+                inputType = value;
+                SetInputType(value);
+            }
+        }
         public SmartComboBox InputNameBox { get; }
         public TextBox InputDescriptionBox { get; }
         public bool AutoFill { get; set; } = true;
@@ -36,7 +45,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             InitializeComponent();
             InputDescriptionBox = descriptionBox;
             InputNameBox = boxName;
-            InputNameBox.StateChanged += (sender, state) =>
+            InputNameBox.StatusChangedRepeatedly += (sender, state) =>
             {
                 renameSection.Enabled = state == InputState.OK;
                 if (!renameSection.Enabled)
@@ -45,12 +54,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 UpdateRenameSection();
                 if (!AutoFill)
                     return;
-                if (state == InputState.OK)
-                    InputDescriptionBox.Text =
+                if (InputDescriptionBox.Text == "" && state == InputState.OK)
+                    InputDescriptionBox.Text = 
                         InputNameBox.InnerData
-                            .Find(x => x.NoteText == InputNameBox.Text)
+                            .Find(x => x.NoteName == InputNameBox.Text)
                             ?.NoteDescription ?? "";
             };
+            UpdateRenameSection();
             renameCheck.CheckedChanged += (sender, e) =>
             {
                 UpdateRenameSection();
@@ -118,14 +128,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         public void SetInputType(InputType type)
         {
-            InputType = type;
             boxName.InputType = type;
             SetLabel(InputType.ToString());
         }
 
         public void SetLabel(string text)
         {
+
             noteTypeLabel.Text = text;
+
         }
 
         public void SetFont(Font font)
@@ -196,7 +207,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public string? Text { get; }
             public string Description { get; }
             public string? ReplacementText { get; }
-
             public bool IsValid() => Enabled && Text != null;
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface INoteControlChild : INoteControl
     {
-        INoteControlParent ParentNote { get; set; }
+        IControlParent ParentNote { get; set; }
     }
 }

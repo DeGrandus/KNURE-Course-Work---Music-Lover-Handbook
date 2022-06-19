@@ -17,6 +17,7 @@ namespace MusicLoverHandbook.Models.Enums
         [EnumColor(255, 0xAEBDF3)]
         SongFile,
 
+        [EnumColor(255, 0xC9D3F7)]
         AddButton
     }
 

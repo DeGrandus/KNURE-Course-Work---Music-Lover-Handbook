@@ -7,7 +7,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
         Image? Icon { get; set; }
         NoteType NoteType { get; }
         string NoteDescription { get; set; }
-        string NoteText { get; set; }
+        string NoteName { get; set; }
         Control.ControlCollection Controls { get; }
         void ChangeSize(int size);
     }

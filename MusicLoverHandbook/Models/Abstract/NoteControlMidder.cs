@@ -1,16 +1,16 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
     {
-        public INoteControlParent ParentNote { get; set; }
-
+        public IControlParent ParentNote { get; set; }
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
-        protected NoteControlMidder(INoteControlParent parent, string text, string description)
+        protected NoteControlMidder(IControlParent parent, string text, string description)
             : base(text, description)
         {
             ParentNote = parent;
@@ -20,14 +20,13 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             ThemeColor =
                 type.GetColor()
-                ?? ParentNote.InnerNotes.LastOrDefault()?.ThemeColor
+                ?? (ParentNote is IControlParent asParent ? asParent.InnerNotes.LastOrDefault()?.ThemeColor : null)
                 ?? Color.Transparent;
         }
-
         public override void UpdateSize()
         {
             base.UpdateSize();
-            ParentNote?.UpdateSize();
+            if (ParentNote is INoteControlParent noteParent)noteParent.UpdateSize();
         }
     }
 }
