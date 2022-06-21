@@ -12,11 +12,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public class NotesContainer : IControlParent
     {
-        private bool _partialRender;
-
         public Panel PanelContainer { get; }
         public ObservableCollection<INoteControlChild> InnerNotes { get; }
-        private List<INoteControlChild>? PartialInnerNotes { get; set; }
+        private List<INoteControlChild> PartialInnerNotes { get; set; }
         public QuickSearchController QSController { get; }
 
         public NotesContainer(Panel panelContainer, TextBox QSBar,BasicSwitchLabel QSSwitchLabel)
@@ -24,39 +22,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             PanelContainer = panelContainer;
             InnerNotes = new ObservableCollection<INoteControlChild>();
             InnerNotes.CollectionChanged += OnHierarchyChanged;
+            PartialInnerNotes = InnerNotes.ToList();
+
             QSController = new(QSBar, this, QSSwitchLabel);
             QSController.ResultsChanged += (res) =>
             {
                 PartialInnerNotes = res;
-                if (res == null)
-                    partialRender = false;
-                else
-                    partialRender = true;
+                SetPartialToRender();
             };
         }
 
-        private bool partialRender
-        {
-            get => _partialRender; set
-            {
-                if (value != _partialRender || value == true)
-                {
-                    PanelContainer.Controls.Clear();
-                    if (value == false)
-                        PanelContainer.Controls.AddRange(InnerNotes.Where(x => x is Control).Cast<Control>().ToArray());
-                    else
-                    {
-                        Debug.WriteLine(PartialInnerNotes!.Count);
-                        SetPartialToRender();
-                    }
-                }
-                _partialRender = value;
-            }
-        }
         private void SetPartialToRender()
         {
             PanelContainer.Controls.Clear();
-            PanelContainer.Controls.AddRange(PartialInnerNotes!.Where(x => x is Control).Cast<Control>().ToArray());
+            PanelContainer.Controls.AddRange(PartialInnerNotes.Where(x => x is Control).Cast<Control>().ToArray());
         }
 
         private void OnHierarchyChanged(
@@ -64,7 +43,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             System.Collections.Specialized.NotifyCollectionChangedEventArgs e
         )
         {
-            OnInnerNotesChange();
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 PanelContainer.Controls.Clear();
@@ -112,7 +90,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 case NotifyCollectionChangedAction.Move:
                     if (newItems != null && newItems.Count == 1)
                     {
-                        OnInnerNotesChange();
                         PanelContainer.Controls.SetChildIndex(newItems[0], e.NewStartingIndex);
                     }
                     break;
@@ -132,10 +109,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         private void RemoveNote(NoteControl note)
         {
             PanelContainer.Controls.Remove(note);
-        }
-        private void OnInnerNotesChange()
-        {
-            partialRender = false;
         }
 
         private NoteAdd CreateAddButton(NoteControlParent parent)

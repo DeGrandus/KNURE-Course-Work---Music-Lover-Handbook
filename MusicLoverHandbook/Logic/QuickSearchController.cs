@@ -17,7 +17,7 @@ namespace MusicLoverHandbook.Logic
     {
         private TextBox searchBar;
         private NotesContainer notesContainer;
-        public List<INoteControlChild>? SearchResults;
+        public List<INoteControlChild> SearchResults;
         private BasicSwitchLabel switchLabel;
         public QuickSearchController(TextBox searchBar, NotesContainer container, BasicSwitchLabel switchLabel)
         {
@@ -36,7 +36,7 @@ namespace MusicLoverHandbook.Logic
         private void PerformSearching()
         {
             if (searchBar.Text == "")
-                SearchResults = null;
+                SearchResults = notesContainer.InnerNotes.ToList();
             else
             {
                 List<INoteControlChild> results = new();
@@ -93,7 +93,7 @@ namespace MusicLoverHandbook.Logic
             }
             return output;
         }
-        public delegate void QuickSearchResultEventHandler(List<INoteControlChild>? QSResult);
+        public delegate void QuickSearchResultEventHandler(List<INoteControlChild> QSResult);
         private QuickSearchResultEventHandler? resultsChanged;
         public event QuickSearchResultEventHandler ResultsChanged
         {
