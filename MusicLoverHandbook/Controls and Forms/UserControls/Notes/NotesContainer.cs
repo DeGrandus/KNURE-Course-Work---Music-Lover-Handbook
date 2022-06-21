@@ -12,22 +12,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public class NotesContainer : IControlParent
     {
+        private List<INoteControlChild> partialInnerNotes = new();
+        private bool useInnerNotes = true;
         public Panel PanelContainer { get; }
         public ObservableCollection<INoteControlChild> InnerNotes { get; }
-        private List<INoteControlChild> PartialInnerNotes { get; set; }
+        private List<INoteControlChild> PartialInnerNotes { get => useInnerNotes ? InnerNotes.ToList() : partialInnerNotes; }
         public QuickSearchController QSController { get; }
 
-        public NotesContainer(Panel panelContainer, TextBox QSBar,BasicSwitchLabel QSSwitchLabel)
+        public NotesContainer(Panel panelContainer, TextBox QSBar, BasicSwitchLabel QSSwitchLabel)
         {
             PanelContainer = panelContainer;
             InnerNotes = new ObservableCollection<INoteControlChild>();
             InnerNotes.CollectionChanged += OnHierarchyChanged;
-            PartialInnerNotes = InnerNotes.ToList();
-
             QSController = new(QSBar, this, QSSwitchLabel);
             QSController.ResultsChanged += (res) =>
             {
-                PartialInnerNotes = res;
+                if (res == null)
+                {
+                    partialInnerNotes.Clear();
+                    useInnerNotes = true;
+                }
+                else
+                {
+                    partialInnerNotes = res;
+                    useInnerNotes = false;
+                }
                 SetPartialToRender();
             };
         }
