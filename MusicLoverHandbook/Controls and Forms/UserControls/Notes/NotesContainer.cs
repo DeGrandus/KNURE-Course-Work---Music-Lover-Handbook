@@ -1,21 +1,62 @@
-﻿using MusicLoverHandbook.Models.Abstract;
+﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Logic;
+using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public class NotesContainer : IControlParent
     {
+        private bool _partialRender;
+
         public Panel PanelContainer { get; }
         public ObservableCollection<INoteControlChild> InnerNotes { get; }
+        private List<INoteControlChild>? PartialInnerNotes { get; set; }
+        public QuickSearchController QSController { get; }
 
-        public NotesContainer(Panel panelContainer)
+        public NotesContainer(Panel panelContainer, TextBox QSBar,BasicSwitchLabel QSSwitchLabel)
         {
             PanelContainer = panelContainer;
             InnerNotes = new ObservableCollection<INoteControlChild>();
             InnerNotes.CollectionChanged += OnHierarchyChanged;
+            QSController = new(QSBar, this, QSSwitchLabel);
+            QSController.ResultsChanged += (res) =>
+            {
+                PartialInnerNotes = res;
+                if (res == null)
+                    partialRender = false;
+                else
+                    partialRender = true;
+            };
+        }
+
+        private bool partialRender
+        {
+            get => _partialRender; set
+            {
+                if (value != _partialRender || value == true)
+                {
+                    PanelContainer.Controls.Clear();
+                    if (value == false)
+                        PanelContainer.Controls.AddRange(InnerNotes.Where(x => x is Control).Cast<Control>().ToArray());
+                    else
+                    {
+                        Debug.WriteLine(PartialInnerNotes!.Count);
+                        SetPartialToRender();
+                    }
+                }
+                _partialRender = value;
+            }
+        }
+        private void SetPartialToRender()
+        {
+            PanelContainer.Controls.Clear();
+            PanelContainer.Controls.AddRange(PartialInnerNotes!.Where(x => x is Control).Cast<Control>().ToArray());
         }
 
         private void OnHierarchyChanged(
@@ -23,6 +64,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             System.Collections.Specialized.NotifyCollectionChangedEventArgs e
         )
         {
+            OnInnerNotesChange();
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 PanelContainer.Controls.Clear();
@@ -69,7 +111,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     break;
                 case NotifyCollectionChangedAction.Move:
                     if (newItems != null && newItems.Count == 1)
+                    {
+                        OnInnerNotesChange();
                         PanelContainer.Controls.SetChildIndex(newItems[0], e.NewStartingIndex);
+                    }
                     break;
             }
         }
@@ -88,15 +133,40 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         {
             PanelContainer.Controls.Remove(note);
         }
+        private void OnInnerNotesChange()
+        {
+            partialRender = false;
+        }
 
-        private NoteAdd CreateAddButton(NoteControlParent parent) =>
-            new NoteAdd(parent, $"Add new {parent.NoteType + 1}", "Click on me to add new note");
+        private NoteAdd CreateAddButton(NoteControlParent parent)
+        {
+            NoteType next;
+            if (parent is NoteAuthor author)
+                if (author.ParentNote is NoteDisc)
+                    next = NoteType.Song;
+                else
+
+                    next = NoteType.Disc;
+
+
+            else if (parent is NoteDisc disc)
+                if (disc.ParentNote is NoteAuthor)
+                    next = NoteType.Song;
+                else
+
+                    next = NoteType.Author;
+
+            else
+                next = parent.NoteType + 1;
+            return new NoteAdd(parent, $"Add new {next}", "Click on me to add new note");
+        }
 
         public void SetupAddNoteButton(NoteControlParent note)
         {
             var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
             if (potentialAdd?.NoteType is NoteType.AddButton)
                 note.InnerNotes.Remove(potentialAdd);
+
             note.InnerNotes.Add(CreateAddButton(note));
             foreach (var inner in note.InnerNotes)
                 if (inner is NoteControlParent innertParent)

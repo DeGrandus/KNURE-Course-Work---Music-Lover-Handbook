@@ -3,8 +3,10 @@ using System.Reflection;
 
 namespace MusicLoverHandbook.Models.Enums
 {
-    public enum InputState : int
+    public enum InputStatus : int
     {
+        NONE = 0xFFFFFF,
+
         [Text("Data will be put in already created note")]
         OK = 0xCBE4C1,
 
@@ -29,7 +31,7 @@ namespace MusicLoverHandbook.Models.Enums
 
     static class ExtensionMethods
     {
-        public static string? GetStringValue(this InputState value)
+        public static string? GetStringValue(this InputStatus value)
         {
             return
                 value.GetType().GetField(value.ToString())?.GetCustomAttribute<TextAttribute>(false)
@@ -38,7 +40,7 @@ namespace MusicLoverHandbook.Models.Enums
               : null;
         }
 
-        public static bool IsError(this InputState value)
+        public static bool IsError(this InputStatus value)
         {
             return value
                     .GetType()

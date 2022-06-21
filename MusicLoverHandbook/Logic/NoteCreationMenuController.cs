@@ -20,7 +20,7 @@ namespace MusicLoverHandbook.Logic
 
         public void AddInfo(SimpleNoteModel model)
         {
-            if (model.NoteType.GetInputTypeEquivalence() is InputType inputType)
+            if (model.NoteType.AsInputType() is InputType inputType)
             {
                 InputData? data = menu.InputDataOrdered
                     .ToList()
@@ -35,7 +35,7 @@ namespace MusicLoverHandbook.Logic
         public void AddLinkedInfo(LinkedList<SimpleNoteModel> models)
         {
             if (
-                models.First?.Value.NoteType.GetInputTypeEquivalence()?.GetConnectedCreationType()
+                models.First?.Value.NoteType.AsInputType()?.GetConnectedCreationType()
                 is NoteCreationType creationType
             )
                 menu.CreationType = creationType;

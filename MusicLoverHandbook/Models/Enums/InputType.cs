@@ -14,7 +14,7 @@ namespace MusicLoverHandbook.Models.Enums
         Disc,
 
         [ConnectedNoteType(typeof(NoteSong))]
-        [StringValue("Name of song")]
+        [StringValue("Song name")]
         SongName,
 
         [ConnectedNoteType(typeof(NoteSongFile))]

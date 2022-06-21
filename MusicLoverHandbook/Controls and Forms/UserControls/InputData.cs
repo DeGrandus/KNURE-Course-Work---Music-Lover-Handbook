@@ -40,14 +40,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             InputNameBox = boxName;
             InputNameBox.StatusChangedRepeatedly += (sender, state) =>
             {
-                renameSection.Enabled = state == InputState.OK;
+                renameSection.Enabled = state == InputStatus.OK;
                 if (!renameSection.Enabled)
                     renameCheck.Checked = false;
-                InputDescriptionBox.Enabled = state != InputState.UNKNOWN && !state.IsError();
+                InputDescriptionBox.Enabled = state != InputStatus.UNKNOWN && !state.IsError();
                 UpdateRenameSection();
                 if (!AutoFill)
                     return;
-                if (InputDescriptionBox.Text == "" && state == InputState.OK)
+                if (InputDescriptionBox.Text == "" && state == InputStatus.OK)
                     InputDescriptionBox.Text =
                         InputNameBox.InnerData
                             .Find(x => x.NoteName == InputNameBox.Text)
@@ -77,7 +77,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             renameInput.BackColor = Color.FromArgb(
                 255,
                 Color.FromArgb(
-                    (int)(!IsRenameFieldTextInvalid ? InputState.OK : InputState.EMPTY_FIELD)
+                    (int)(!IsRenameFieldTextInvalid ? InputStatus.OK : InputStatus.EMPTY_FIELD)
                 )
             );
         }
@@ -91,7 +91,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         public InputData(InputType mainType) : this()
         {
             InputType = mainType;
-            SetLabel(InputType.ToString());
+            SetLabel(InputType.ToString(true));
         }
 
         public void SetDataSource(NoteControlParent notes)
@@ -122,7 +122,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         public void SetInputType(InputType type)
         {
             boxName.InputType = type;
-            SetLabel(InputType.ToString());
+            SetLabel(InputType.ToString(true));
         }
 
         public void SetLabel(string text)
@@ -157,7 +157,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     );
             return new OutputInfo(
                 InputType,
-                InputNameBox.Status == InputState.OK || InputNameBox.Status == InputState.CREATION
+                InputNameBox.Status == InputStatus.OK || InputNameBox.Status == InputStatus.CREATION
                   ? InputNameBox.Text
                   : null,
                 InputDescriptionBox.Text,

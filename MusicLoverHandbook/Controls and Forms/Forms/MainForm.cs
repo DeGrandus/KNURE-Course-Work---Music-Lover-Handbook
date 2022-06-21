@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
@@ -12,6 +13,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
     {
         public Color LabelBackColor;
         public Color ContentBackColor;
+
         public NotesContainer NotesContainer { get; }
         public MainForm()
         {
@@ -19,7 +21,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             MinimumSize = new Size(300, 565);
 
-            NotesContainer = new NotesContainer(panelContent);
+            NotesContainer = new NotesContainer(contentPanel,qSTextBox,qSSwitchLabel);
 
             SetupLayout();
         }
@@ -79,16 +81,24 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
             panelLabel.BackColor = LabelBackColor;
-            tableLayoutMain.BackColor = Color.White;
+            mainLayoutTable.BackColor = Color.White;
 
-            panelContent.AutoScroll = true;
+            contentPanel.AutoScroll = true;
             ContentBackColor = ControlPaint.Light(
                 Color.FromArgb(255, Color.FromArgb(0x768DE2)),
                 1.5f
             );
-            panelContent.BackColor = ContentBackColor;
+            contentPanel.BackColor = ContentBackColor;
+            searchBarLayout.BackColor = LabelBackColor;
 
             createNoteButton.FlatAppearance.BorderSize = 2;
+
+            qSSwitchLabel.BasicTooltipText = "[ Match only names ]";
+            qSSwitchLabel.SpecialTooltipText = "[ Match both names and descriptions ]";
+            qSSwitchLabel.BackColorChanged += (sender, e) =>
+            {
+                qSPanel.BackColor = qSSwitchLabel.BackColor;
+            };
 
             var buttonGradientWorker = new BackgroundWorker();
             buttonGradientWorker.DoWork += (sender, e) =>
@@ -137,10 +147,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void ReassignFonts()
         {
             title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
-
             createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
-
         private Font GetScaledFontWidthUpscaled()
         {
             var fontfam = FontContainer.Instance.Families[0];
@@ -161,8 +169,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
                 return;
-            int rmax = tableLayoutMain.RowCount - 1, cmax = tableLayoutMain.ColumnCount - 1;
-            var tb = tableLayoutMain;
+            int rmax = mainLayoutTable.RowCount - 1, cmax = mainLayoutTable.ColumnCount - 1;
+            var tb = mainLayoutTable;
 
             var wDiff = Size.Width - MinimumSize.Width;
             var hDiff = Size.Height - MinimumSize.Height;

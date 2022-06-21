@@ -50,7 +50,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     return chain;
                 chain.AddLast(
                     new SimpleNoteModel(
-                        newType.Value.GetInputTypeEquivalence()?.ToString(true) ?? "",
+                        newType.Value.AsInputType()?.ToString(true) ?? "",
                         descriptionExample,
                         newType.Value
                     )

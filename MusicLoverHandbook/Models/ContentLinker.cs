@@ -5,15 +5,15 @@ using System.Collections.Specialized;
 
 namespace MusicLoverHandbook.Models
 {
-    public class ContentLinker
+    public class ContentLinker : IControlParent
     {
         public NoteControlParent Note { get; }
-        public ObservableCollection<INoteControlChild> Observed => Note.InnerNotes;
+        public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;
 
         public ContentLinker(NoteControlParent note)
         {
             Note = note;
-            Observed.CollectionChanged += OnCollectionChanged;
+            InnerNotes.CollectionChanged += OnCollectionChanged;
         }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

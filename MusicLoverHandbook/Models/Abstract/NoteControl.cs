@@ -18,7 +18,6 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
-        private List<Control?> toCustomizate;
         protected NoteControl(string text, string description)
         {
             BackColor = Color.Transparent;
@@ -155,14 +154,14 @@ namespace MusicLoverHandbook.Models.Abstract
 
             if (this is INoteControlChild asChild)
             {
-                if (asChild.NoteType.GetInputTypeEquivalence() != null)
+                if (asChild.NoteType.AsInputType() != null)
                     chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
                 for (
                     var curr = (asChild as IControlParent) ?? asChild.ParentNote;
                     curr != null && curr is NoteControl asCtrl;
                     curr = (curr as INoteControlChild)?.ParentNote
                 )
-                    if (asCtrl.NoteType.GetInputTypeEquivalence() != null)
+                    if (asCtrl.NoteType.AsInputType() != null)
                         chain.AddFirst((SimpleNoteModel)asCtrl);
             }
             return chain;
@@ -242,7 +241,7 @@ namespace MusicLoverHandbook.Models.Abstract
                     );
                     if (box == DialogResult.Yes)
                         if (asChild.ParentNote is INoteControlParent asParent)
-                            asParent.Linker.Observed.Remove(asChild);
+                            asParent.Linker.InnerNotes.Remove(asChild);
                         else
                             asChild.ParentNote.InnerNotes.Remove(asChild);
                 }
@@ -328,7 +327,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private void OnButtonMouseLeave(object? sender, EventArgs e)
         {
             if (sender is Control control)
-                control.BackColor = ControlPaint.Light(control.BackColor, -0.4f);
+                control.BackColor = ThemeColor;
         }
 
         private void ToogleViewing(bool isVis, Control toToggle)

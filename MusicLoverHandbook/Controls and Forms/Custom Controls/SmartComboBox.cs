@@ -49,9 +49,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
         }
 
-        private InputState state;
+        private InputStatus state;
         private ToolTip tooltip = new ToolTip() { InitialDelay = 0, IsBalloon = true, };
-        public InputState Status
+        public InputStatus Status
         {
             get => state;
             set
@@ -119,33 +119,33 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         {
             if (!CanBeEmpty && Text.Length == 0)
             {
-                Status = InputState.EMPTY_FIELD;
+                Status = InputStatus.EMPTY_FIELD;
                 return;
             }
             else if (Text.Length == 0)
             {
-                Status = InputState.UNKNOWN;
+                Status = InputStatus.UNKNOWN;
                 return;
             }
 
             if (Text.Length < 2)
             {
-                Status = InputState.TOO_SHORT;
+                Status = InputStatus.TOO_SHORT;
                 return;
             }
             if (!Items.Cast<string>().Contains(Text))
             {
-                Status = InputState.CREATION;
+                Status = InputStatus.CREATION;
                 return;
             }
-            Status = InputState.OK;
+            Status = InputStatus.OK;
         }
 
         private void ToggleActivity()
         {
             switch (Status)
             {
-                case InputState.INACTIVE:
+                case InputStatus.INACTIVE:
                     if (Enabled)
                         Enabled = false;
                     break;
@@ -171,7 +171,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 tempStatusChangedRepeatedly(this, Status);
         }
 
-        public delegate void StateChangedEvent(SmartComboBox sender, InputState state);
+        public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
         private StateChangedEvent? statusChanged;
         private StateChangedEvent? statusChangedRepeatedly;
         private StateChangedEvent? tempStatusChangedRepeatedly;

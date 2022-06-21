@@ -56,10 +56,12 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public void OnDoubleClick()
         {
-            Debug.WriteLine(InnerNotes.Count);
+            SwitchOpenState();
+        }
+        public void SwitchOpenState()
+        {
             if (InnerNotes.Count == 0)
                 return;
-            Debug.WriteLine(IsOpened);
             IsOpened = !IsOpened;
             UpdateSize();
         }

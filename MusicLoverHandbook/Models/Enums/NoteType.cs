@@ -46,7 +46,7 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.Color;
         }
 
-        public static InputType? GetInputTypeEquivalence(this NoteType value)
+        public static InputType? AsInputType(this NoteType value)
         {
             return value
                 .GetType()

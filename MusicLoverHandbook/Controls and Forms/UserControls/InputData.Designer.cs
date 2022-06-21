@@ -68,7 +68,7 @@
             this.boxName.Location = new System.Drawing.Point(3, 156);
             this.boxName.Name = "boxName";
             this.boxName.Size = new System.Drawing.Size(576, 33);
-            this.boxName.Status = MusicLoverHandbook.Models.Enums.InputState.EMPTY_FIELD;
+            this.boxName.Status = MusicLoverHandbook.Models.Enums.InputStatus.EMPTY_FIELD;
             this.boxName.TabIndex = 0;
             // 
             // descriptionBox
