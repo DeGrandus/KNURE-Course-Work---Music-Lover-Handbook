@@ -7,7 +7,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteAdd : NoteControlChild
     {
         public NoteAdd(NoteControlParent parent, string noteText, string noteDescription)
-            : base(parent, noteText, noteDescription)
+            : base(parent, noteText, noteDescription, NoteType.AddButton, null)
         {
             InitializeComponent();
             SideButtons.Deactivate(ButtonType.Delete);
@@ -15,11 +15,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.add;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
-
-        public override NoteType NoteType { get; } = NoteType.AddButton;
-
-        public override NoteCreationOrder? UsedCreationOrder => null;
-
         protected override LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
             var chain = base.GenerateNoteChain();

@@ -22,7 +22,7 @@ namespace MusicLoverHandbook.Models.Enums
         SongFile,
     }
 
-    public static class InputTypeExt
+    public static class InputTypeExtensions
     {
         public static NoteCreationOrder? GetConnectedCreationType(this InputType type)
         {

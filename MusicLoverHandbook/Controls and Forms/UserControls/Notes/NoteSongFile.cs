@@ -12,7 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder
-        ) : base(song, text, description)
+        ) : base(song, text, description,NoteType.SongFile, usedCreationOrder)
         {
             InitializeComponent();
 
@@ -31,10 +31,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     Process.Start("explorer.exe", splitted[0]);
                 }
             };
-            UsedCreationOrder = usedCreationOrder;
         }
-
-        public override NoteType NoteType { get; } = NoteType.SongFile;
-        public override NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

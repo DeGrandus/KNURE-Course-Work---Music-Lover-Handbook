@@ -25,7 +25,7 @@ namespace MusicLoverHandbook.Models.Enums
         AddButton
     }
 
-    internal static class Extensions
+    public static class NoteTypeExtensions
     {
         public static InputType? AsInputType(this NoteType value)
         {

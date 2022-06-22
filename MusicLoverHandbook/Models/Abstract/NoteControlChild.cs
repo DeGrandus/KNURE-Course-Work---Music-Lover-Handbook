@@ -9,8 +9,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private DelayedSetup? delayedSetup;
         private bool inited = false;
 
-        protected NoteControlChild(IControlParent parent, string text, string description)
-            : base(text, description)
+        protected NoteControlChild(IControlParent parent, string text, string description, NoteType noteType, NoteCreationOrder? order) : base(text, description, noteType, order)
         {
             ParentNote = parent;
             if (delayedSetup != null)
@@ -34,6 +33,15 @@ namespace MusicLoverHandbook.Models.Abstract
                 {
                     ThemeColor = themeColor();
                 };
+        }
+        protected override List<(Type Type, object? Data)> ConstructorRequested
+        {
+            get
+            {
+                var req =  base.ConstructorRequested;
+                req.Insert(0, (typeof(IControlParent), ParentNote));
+                return req;
+            }
         }
 
         protected override void InitCustomLayout()

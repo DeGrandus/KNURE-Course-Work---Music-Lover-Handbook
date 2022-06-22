@@ -12,14 +12,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder
-        ) : base(author, text, description)
+        ) : base(author, text, description,NoteType.Disc,usedCreationOrder)
         {
             InitializeComponent();
             Icon = Properties.Resources.disc;
-            UsedCreationOrder = usedCreationOrder;
         }
-
-        public override NoteType NoteType { get; } = NoteType.Disc;
-        public override NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

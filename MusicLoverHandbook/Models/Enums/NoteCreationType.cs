@@ -11,7 +11,7 @@ namespace MusicLoverHandbook.Models.Enums
         DiscThenAuthor
     }
 
-    public static class NoteCreationOrderExtension
+    public static class NoteCreationOrderExtensions
     {
         public static LinkedList<InputType> GetOrder(this NoteCreationOrder value)
         {

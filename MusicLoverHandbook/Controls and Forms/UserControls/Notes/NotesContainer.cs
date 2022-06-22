@@ -103,6 +103,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         {
             PanelContainer.Controls.Clear();
             var renderFinal = PartialInnerNotes;
+            
 
             foreach (var child in renderFinal)
             {
@@ -112,6 +113,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     SetupAddNoteButton(asParent);
             }
             //MAY BE SOME ACTIONS ON RENDER FINAL FROM SORT
+            
 
             PanelContainer.Controls.AddRange(
                 renderFinal

@@ -3,6 +3,7 @@ using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.View.Forms;
 
 namespace MusicLoverHandbook.Logic
@@ -75,7 +76,12 @@ namespace MusicLoverHandbook.Logic
                     if (mainForm.NotesContainer.InnerNotes.Contains(Result))
                         mainForm.NotesContainer.SetupAddNoteButton(Result);
                     else
+                    {
                         mainForm.NotesContainer.InnerNotes.Add(Result);
+                        INoteControlChild rt = Result.Clone() as INoteControlChild;
+                        rt.NoteName = "TEST "+new Random().Next();
+                        mainForm.NotesContainer.InnerNotes.Add(rt);
+                    }
 
                     if (wasOpened)
                         Result.OnDoubleClick();

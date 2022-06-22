@@ -3,12 +3,13 @@ using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Reflection;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControl : UserControl, INoteControl
+    public abstract class NoteControl : UserControl, INoteControl, ICloneable
     {
         private ToolTip ballonTip;
         private bool isDeleteShown;
@@ -19,9 +20,45 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteText;
         private Color theme;
 
-        protected NoteControl(string text, string description)
+        public virtual object Clone()
+        {
+            var constructor = GetConstructorWithinRequested();
+            var requested = ConstructorRequested;
+            List<object?> parameters = new();
+            foreach (var param in constructor.GetParameters())
+            {
+                var type = param.ParameterType;
+                //MessageBox.Show($"{type}\n\n {string.Join("\n",requested.Select(x=>x.Type))}");
+                var group = requested.First(p => p.Type == type || p.Type.IsSubclassOf(type) || type.GetInterface(p.Type.Name)!=null);
+                parameters.Add(group.Data);
+                requested.Remove(group);
+            }
+            
+            return constructor.Invoke(parameters.ToArray());
+        }
+        protected virtual List<(Type Type, object? Data)> ConstructorRequested
+        {
+            get => new() { (typeof(string), NoteName), (typeof(string), NoteDescription), (typeof(NoteType), NoteType), (typeof(NoteCreationOrder?), UsedCreationOrder) };
+        }
+        private ConstructorInfo GetConstructorWithinRequested()
+        {
+
+            var constructors = GetType().GetConstructors();
+            var requested = ConstructorRequested;
+            var reqTypes = requested.Select(kv => kv.Type);
+            var t = 1;
+            return constructors.First(c => c.GetParameters().Select(p => p.ParameterType).All(pt => 
+            {
+                var s = reqTypes.Any(rt => rt == pt || rt.IsSubclassOf(pt) || pt.GetInterface(rt.Name) != null);
+                //MessageBox.Show($"{t++}\n{pt}\n\n{string.Join(" \n ",reqTypes)}\n\n{s}");
+                return s;
+            }));
+        }
+        protected NoteControl(string text, string description, NoteType noteType, NoteCreationOrder? order)
         {
             BackColor = Color.Transparent;
+            UsedCreationOrder = order;
+            NoteType = noteType;
             SetupColorTheme(NoteType);
             InitCustomLayout();
             InitValues(text, description);
@@ -97,7 +134,7 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
-        public abstract NoteType NoteType { get; }
+        public NoteType NoteType { get; }
         public SideButtonsPanel SideButtons { get; private set; }
         public Label TextLabel { get; private set; }
 
@@ -111,7 +148,7 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
-        public abstract NoteCreationOrder? UsedCreationOrder { get; }
+        public NoteCreationOrder? UsedCreationOrder { get; }
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 

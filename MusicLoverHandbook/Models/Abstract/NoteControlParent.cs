@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Models.Inerfaces;
+﻿using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -11,7 +12,7 @@ namespace MusicLoverHandbook.Models.Abstract
           INoteControlParent,
           IControlParent
     {
-        protected NoteControlParent(string text, string description) : base(text, description)
+        protected NoteControlParent(string text, string description, NoteType noteType, NoteCreationOrder? order) : base(text, description,noteType,order)
         {
             Offset = sizeS * 2 / 3;
             TableOffsetter = new TableLayoutPanel()
@@ -35,6 +36,14 @@ namespace MusicLoverHandbook.Models.Abstract
             TableOffsetter.Controls.Add(InnerContentPanel, 1, 0);
 
             Linker = new ContentLinker(this);
+        }
+        public override object Clone()
+        {
+            var cloned = (NoteControlParent)base.Clone();
+            foreach (var note in InnerNotes)
+                if (note is ICloneable clonable)
+                    cloned.Linker.InnerNotes.Add((INoteControlChild)clonable.Clone());
+            return cloned;
         }
 
         public Panel InnerContentPanel { get; }
