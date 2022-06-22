@@ -12,10 +12,12 @@ namespace MusicLoverHandbook.Logic.Notes
         public Dictionary<InputType, OutputInfo> Info { get; }
         public MainForm Form { get; }
 
-        public NoteBuilder(MainForm form, LinkedList<OutputInfo> infoOrdered)
+        private NoteCreationOrder creationOrder;
+        public NoteBuilder(MainForm form, LinkedList<OutputInfo> infoOrdered, NoteCreationOrder creationOrder)
         {
             OutputOrdered = infoOrdered;
             Form = form;
+            this.creationOrder = creationOrder;
         }
 
         public NoteControlMidder CreateNote()
@@ -53,7 +55,8 @@ namespace MusicLoverHandbook.Logic.Notes
                         {
                             parent as IControlParent ?? Form.NotesContainer,
                             currentInfo.Text,
-                            currentInfo.Description
+                            currentInfo.Description,
+                            creationOrder
                         }
                     );
                     if (parent != null)
@@ -74,7 +77,7 @@ namespace MusicLoverHandbook.Logic.Notes
                 parent = (NoteControlParent)currentNote;
             }
             if (hierBase == null)
-                throw new Exception("Somthing went wrong in creating Notes. Base note in null");
+                throw new Exception("Somthing went wrong in creating Notes. Base note is null");
             return hierBase;
         }
     }

@@ -8,8 +8,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteSongFile : NoteControlChild
     {
         public override NoteType NoteType { get; } = NoteType.SongFile;
+        public override NoteCreationOrder? UsedCreationOrder { get; }
 
-        public NoteSongFile(NoteSong song, string text, string description)
+        public NoteSongFile(NoteSong song, string text, string description, NoteCreationOrder? usedCreationOrder)
             : base(song, text, description)
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     Process.Start("explorer.exe", splitted[0]);
                 }
             };
+            UsedCreationOrder = usedCreationOrder;
         }
     }
 }

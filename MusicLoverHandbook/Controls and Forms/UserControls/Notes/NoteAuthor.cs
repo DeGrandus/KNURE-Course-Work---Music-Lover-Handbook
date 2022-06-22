@@ -8,11 +8,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteAuthor : NoteControlMidder
     {
         public override NoteType NoteType => NoteType.Author;
-
-        public NoteAuthor(IControlParent disc, string text, string description)
+        public override NoteCreationOrder? UsedCreationOrder { get; }
+        public NoteAuthor(IControlParent disc, string text, string description, NoteCreationOrder? usedOrder)
             : base(disc, text, description)
         {
             InitializeComponent();
+            UsedCreationOrder = usedOrder;
             Icon = Properties.Resources.author;
         }
     }

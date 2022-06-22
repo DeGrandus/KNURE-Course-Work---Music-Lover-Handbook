@@ -17,7 +17,7 @@ namespace MusicLoverHandbook.View.Forms
     {
         public LinkedList<InputData> InputDataOrdered = new();
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
-        private NoteCreationOrder creationType = NoteCreationOrder.AuthorThenDisc;
+        private NoteCreationOrder creationOrder = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
         public NoteCreationMenu(MainForm mainForm)
         {
@@ -30,10 +30,10 @@ namespace MusicLoverHandbook.View.Forms
 
         public NoteCreationOrder CreationType
         {
-            get => creationType;
+            get => creationOrder;
             set
             {
-                if (creationType == value)
+                if (creationOrder == value)
                     return;
 
                 if (value is NoteCreationOrder.AuthorThenDisc)
@@ -41,7 +41,7 @@ namespace MusicLoverHandbook.View.Forms
                 else
                     SelectedCreationTypeLabel = authorInDiscLabel;
 
-                creationType = value;
+                creationOrder = value;
                 SetupInputs();
             }
         }
@@ -170,7 +170,8 @@ namespace MusicLoverHandbook.View.Forms
                 {
                     creator = new NoteBuilder(
                         MainForm,
-                        new LinkedList<OutputInfo>(InputDataOrdered.Select(x => x.GetOutput()))
+                        new LinkedList<OutputInfo>(InputDataOrdered.Select(x => x.GetOutput())),
+                        creationOrder
                     );
                 }
                 catch (InvalidDataException ex)

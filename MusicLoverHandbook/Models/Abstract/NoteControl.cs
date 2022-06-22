@@ -18,6 +18,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
+        public abstract NoteCreationOrder? UsedCreationOrder { get; }
         protected NoteControl(string text, string description)
         {
             BackColor = Color.Transparent;
