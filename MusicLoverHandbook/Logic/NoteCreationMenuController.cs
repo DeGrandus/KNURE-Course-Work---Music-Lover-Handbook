@@ -36,7 +36,7 @@ namespace MusicLoverHandbook.Logic
         {
             if (
                 models.First?.Value.NoteType.AsInputType()?.GetConnectedCreationType()
-                is NoteCreationType creationType
+                is NoteCreationOrder creationType
             )
                 menu.CreationType = creationType;
             foreach (var model in models)

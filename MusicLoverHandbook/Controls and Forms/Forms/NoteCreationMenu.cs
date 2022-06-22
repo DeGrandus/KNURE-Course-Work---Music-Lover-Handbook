@@ -17,7 +17,7 @@ namespace MusicLoverHandbook.View.Forms
     {
         public LinkedList<InputData> InputDataOrdered = new();
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
-        private NoteCreationType creationType = NoteCreationType.DiscInAuthor;
+        private NoteCreationOrder creationType = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
         public NoteCreationMenu(MainForm mainForm)
         {
@@ -28,7 +28,7 @@ namespace MusicLoverHandbook.View.Forms
             SetupLayout();
         }
 
-        public NoteCreationType CreationType
+        public NoteCreationOrder CreationType
         {
             get => creationType;
             set
@@ -36,7 +36,7 @@ namespace MusicLoverHandbook.View.Forms
                 if (creationType == value)
                     return;
 
-                if (value is NoteCreationType.DiscInAuthor)
+                if (value is NoteCreationOrder.AuthorThenDisc)
                     SelectedCreationTypeLabel = discInAuthorLabel;
                 else
                     SelectedCreationTypeLabel = authorInDiscLabel;
@@ -119,7 +119,7 @@ namespace MusicLoverHandbook.View.Forms
                 var data = (box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlParent);
                 if (data != null)
                 {
-                    if (CreationType == NoteCreationType.DiscInAuthor)
+                    if (CreationType == NoteCreationOrder.AuthorThenDisc)
                         secondary.SetDataSource<NoteDisc>(data);
                     else
                         secondary.SetDataSource<NoteAuthor>(data);
@@ -263,7 +263,7 @@ namespace MusicLoverHandbook.View.Forms
             if (InputDataOrdered.First == null)
                 throw new Exception("Something went in Input Field Organization Setup");
 
-            if (CreationType == NoteCreationType.DiscInAuthor)
+            if (CreationType == NoteCreationOrder.AuthorThenDisc)
                 InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
             else
                 InputDataOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
@@ -293,7 +293,7 @@ namespace MusicLoverHandbook.View.Forms
             InputDataOrdered.Clear();
             InputData main = InputAuthor,
                 secondary = InputDisc;
-            if (CreationType == NoteCreationType.AuthorInDisc)
+            if (CreationType == NoteCreationOrder.DiscThenAuthor)
                 (main, secondary) = (secondary, main);
             InputDataOrdered.AddLast(main);
             InputDataOrdered.AddLast(secondary);
@@ -326,8 +326,8 @@ namespace MusicLoverHandbook.View.Forms
         private void SetupSwitchButtons()
         {
             selectedCreationTypeLabel = discInAuthorLabel;
-            discInAuthorLabel.Click += (sender, e) => CreationType = NoteCreationType.DiscInAuthor;
-            authorInDiscLabel.Click += (sender, e) => CreationType = NoteCreationType.AuthorInDisc;
+            discInAuthorLabel.Click += (sender, e) => CreationType = NoteCreationOrder.AuthorThenDisc;
+            authorInDiscLabel.Click += (sender, e) => CreationType = NoteCreationOrder.DiscThenAuthor;
             allInputs.ForEach(x => x.InputNameBox.CheckValid());
         }
         private void SongInputStateChanged(SmartComboBox box, InputStatus state)

@@ -6,11 +6,11 @@ namespace MusicLoverHandbook.Models.Enums
     public enum InputType
     {
         [ConnectedNoteType(typeof(NoteAuthor))]
-        [ConnectedNoteCreationType(NoteCreationType.DiscInAuthor)]
+        [ConnectedNoteCreationType(NoteCreationOrder.AuthorThenDisc)]
         Author,
 
         [ConnectedNoteType(typeof(NoteDisc))]
-        [ConnectedNoteCreationType(NoteCreationType.AuthorInDisc)]
+        [ConnectedNoteCreationType(NoteCreationOrder.DiscThenAuthor)]
         Disc,
 
         [ConnectedNoteType(typeof(NoteSong))]
@@ -34,9 +34,9 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class ConnectedNoteCreationTypeAttribute : Attribute
     {
-        public NoteCreationType Type { get; }
+        public NoteCreationOrder Type { get; }
 
-        public ConnectedNoteCreationTypeAttribute(NoteCreationType type)
+        public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
         {
             Type = type;
         }
@@ -62,7 +62,7 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.ConnectedType;
         }
 
-        public static NoteCreationType? GetConnectedCreationType(this InputType type)
+        public static NoteCreationOrder? GetConnectedCreationType(this InputType type)
         {
             return type.GetType()
                 .GetField(type.ToString())

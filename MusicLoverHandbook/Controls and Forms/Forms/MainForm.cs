@@ -18,7 +18,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public MainForm()
         {
             InitializeComponent();
-
+            CheckForIllegalCrossThreadCalls = false;
             MinimumSize = new Size(300, 565);
 
             NotesContainer = new NotesContainer(contentPanel,qSTextBox,qSSwitchLabel);
