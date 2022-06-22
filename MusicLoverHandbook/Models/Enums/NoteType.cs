@@ -7,28 +7,24 @@ namespace MusicLoverHandbook.Models.Enums
     public enum NoteType
     {
         [EnumColor(255, 0x6881DD)]
-        [HasInputTypeEquvalence(NoteType.Author)]
         [InformationCarrier]
         [ConnectedNoteType(typeof(NoteAuthor))]
         [ConnectedNoteCreationType(NoteCreationOrder.AuthorThenDisc)]
         Author,
 
         [EnumColor(255, 0x899FF0)]
-        [HasInputTypeEquvalence(NoteType.Disc)]
         [InformationCarrier]
         [ConnectedNoteType(typeof(NoteDisc))]
         [ConnectedNoteCreationType(NoteCreationOrder.DiscThenAuthor)]
         Disc,
 
         [EnumColor(255, 0x9DB0F3)]
-        [HasInputTypeEquvalence(NoteType.Song)]
         [InformationCarrier]
         [StringValue("Song name")]
         [ConnectedNoteType(typeof(NoteSong))]
         Song,
 
         [EnumColor(255, 0xAEBDF3)]
-        [HasInputTypeEquvalence(NoteType.SongFile)]
         [InformationCarrier]
         [StringValue("Song file")]
         [ConnectedNoteType(typeof(NoteSongFile))]
@@ -48,24 +44,16 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.GetCustomAttribute<EnumColorAttribute>(false)
                 ?.Color;
         }
+
         public static bool IsInformaionCarrier(this NoteType value)
         {
-            return value.GetType().GetField(value.ToString())!.GetCustomAttribute<InformationCarrierAttribute>() != null;
+            return value
+                    .GetType()
+                    .GetField(value.ToString())!
+                    .GetCustomAttribute<InformationCarrierAttribute>() != null;
         }
     }
-    public class InformationCarrierAttribute : Attribute
-    {
 
-    }
-    internal class HasInputTypeEquvalenceAttribute : Attribute
-    {
-        public HasInputTypeEquvalenceAttribute(NoteType type)
-        {
-            Type = type;
-        }
-
-        public NoteType Type { get; }
-    }
     public static partial class NoteTypeExtensions
     {
         public static NoteCreationOrder? GetConnectedCreationType(this NoteType type)
@@ -114,6 +102,8 @@ namespace MusicLoverHandbook.Models.Enums
 
         public Type ConnectedType { get; }
     }
+
+    public class InformationCarrierAttribute : Attribute { }
 
     public class StringValueAttribute : Attribute
     {
