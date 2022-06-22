@@ -10,8 +10,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         public override NoteType NoteType { get; } = NoteType.SongFile;
         public override NoteCreationOrder? UsedCreationOrder { get; }
 
-        public NoteSongFile(NoteSong song, string text, string description, NoteCreationOrder? usedCreationOrder)
-            : base(song, text, description)
+        public NoteSongFile(
+            NoteSong song,
+            string text,
+            string description,
+            NoteCreationOrder? usedCreationOrder
+        ) : base(song, text, description)
         {
             InitializeComponent();
 

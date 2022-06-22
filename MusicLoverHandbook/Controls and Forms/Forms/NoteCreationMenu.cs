@@ -19,6 +19,7 @@ namespace MusicLoverHandbook.View.Forms
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
         private NoteCreationOrder creationOrder = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
+
         public NoteCreationMenu(MainForm mainForm)
         {
             InitializeComponent();
@@ -62,6 +63,7 @@ namespace MusicLoverHandbook.View.Forms
                 selectedCreationTypeLabel = value;
             }
         }
+
         private void ClearInputEvents()
         {
             foreach (var inp in InputDataOrdered)
@@ -219,11 +221,13 @@ namespace MusicLoverHandbook.View.Forms
                 if (e.Effect != DragDropEffects.Link)
                     return;
 
-                var mp3 = (e.Data?.GetData(DataFormats.FileDrop) as string[])?
-                    .Where(x => x.Contains(".mp3"))
-                    .ToList().Find(x=>x.Contains(".mp3"));
+                var mp3 = (e.Data?.GetData(DataFormats.FileDrop) as string[])
+                    ?.Where(x => x.Contains(".mp3"))
+                    .ToList()
+                    .Find(x => x.Contains(".mp3"));
 
-                if (mp3 == null) return;
+                if (mp3 == null)
+                    return;
                 var fileData = MusicFileScanner.GetDataFromFile(mp3);
                 FillWithData(fileData);
             };
@@ -303,6 +307,7 @@ namespace MusicLoverHandbook.View.Forms
             for (var inp = InputDataOrdered.First; inp != null; inp = inp.Next)
                 tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
         }
+
         private void SetupLayout()
         {
             StartPosition = FormStartPosition.Manual;
@@ -327,10 +332,13 @@ namespace MusicLoverHandbook.View.Forms
         private void SetupSwitchButtons()
         {
             selectedCreationTypeLabel = discInAuthorLabel;
-            discInAuthorLabel.Click += (sender, e) => CreationType = NoteCreationOrder.AuthorThenDisc;
-            authorInDiscLabel.Click += (sender, e) => CreationType = NoteCreationOrder.DiscThenAuthor;
+            discInAuthorLabel.Click += (sender, e) =>
+                CreationType = NoteCreationOrder.AuthorThenDisc;
+            authorInDiscLabel.Click += (sender, e) =>
+                CreationType = NoteCreationOrder.DiscThenAuthor;
             allInputs.ForEach(x => x.InputNameBox.CheckValid());
         }
+
         private void SongInputStateChanged(SmartComboBox box, InputStatus state)
         {
             if (state == InputStatus.OK)

@@ -15,13 +15,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public Color ContentBackColor;
 
         public NotesContainer NotesContainer { get; }
+
         public MainForm()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             MinimumSize = new Size(300, 565);
 
-            NotesContainer = new NotesContainer(contentPanel,qSTextBox,qSSwitchLabel);
+            NotesContainer = new NotesContainer(contentPanel, qSTextBox, qSSwitchLabel);
 
             SetupLayout();
         }
@@ -149,6 +150,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
             createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
+
         private Font GetScaledFontWidthUpscaled()
         {
             var fontfam = FontContainer.Instance.Families[0];
@@ -169,7 +171,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
                 return;
-            int rmax = mainLayoutTable.RowCount - 1, cmax = mainLayoutTable.ColumnCount - 1;
+            int rmax = mainLayoutTable.RowCount - 1,
+                cmax = mainLayoutTable.ColumnCount - 1;
             var tb = mainLayoutTable;
 
             var wDiff = Size.Width - MinimumSize.Width;
@@ -187,7 +190,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? ((float)hDiff / (hLim / 2)) : 1) * 50;
 
-            tb.RowStyles[1].Height = (hDiff <= hLim * 2 ? hDiff <= hLim ? 0 : (((float)hDiff - 100) / hLim) : 1) * 50;
+            tb.RowStyles[1].Height =
+                (
+                    hDiff <= hLim * 2
+                        ? hDiff <= hLim
+                            ? 0
+                            : (((float)hDiff - 100) / hLim)
+                        : 1
+                ) * 50;
         }
     }
 }

@@ -19,7 +19,12 @@ namespace MusicLoverHandbook.Logic
         private NotesContainer notesContainer;
         public List<INoteControlChild>? SearchResults;
         private BasicSwitchLabel switchLabel;
-        public QuickSearchController(TextBox searchBar, NotesContainer container, BasicSwitchLabel switchLabel)
+
+        public QuickSearchController(
+            TextBox searchBar,
+            NotesContainer container,
+            BasicSwitchLabel switchLabel
+        )
         {
             this.searchBar = searchBar;
             this.switchLabel = switchLabel;
@@ -27,12 +32,13 @@ namespace MusicLoverHandbook.Logic
             notesContainer = container;
             SearchResults = container.InnerNotes.ToList();
             searchBar.TextChanged += SearchBarTextChanged;
-
         }
+
         private void SearchBarTextChanged(object? sender, EventArgs e)
         {
             PerformSearching();
         }
+
         private void PerformSearching()
         {
             if (searchBar.Text == "")
@@ -42,23 +48,31 @@ namespace MusicLoverHandbook.Logic
                 List<INoteControlChild> results = new();
                 foreach (var child in notesContainer.InnerNotes)
                     if (child is INoteControlParent asParent)
-                        if (CheckForSearchString(asParent, searchBar.Text, new()) is INoteControlChild validResult)
+                        if (
+                            CheckForSearchString(asParent, searchBar.Text, new())
+                            is INoteControlChild validResult
+                        )
                             results.Add(validResult);
                 SearchResults = results;
             }
             OnResultsChanged();
         }
+
         private bool MakeMatch(INoteControl note, string toMatch)
         {
             var resultNameMatch = note.NoteName.ToLower().Contains(toMatch);
             var resultDescriptionMatch = note.NoteDescription.ToLower().Contains(toMatch);
             return resultNameMatch || (switchLabel.SpecialState ? resultDescriptionMatch : false);
         }
-        private INoteControlChild? CheckForSearchString(INoteControlParent parent, string value, LinkedList<INoteControlParent> insideOf)
+
+        private INoteControlChild? CheckForSearchString(
+            INoteControlParent parent,
+            string value,
+            LinkedList<INoteControlParent> insideOf
+        )
         {
             if (insideOf.Count == 0)
             {
-
                 if (MakeMatch(parent, value))
                     return parent as INoteControlChild;
                 insideOf.AddFirst(parent);
@@ -74,12 +88,14 @@ namespace MusicLoverHandbook.Logic
                 if (output != null)
                     return output;
 
-                if (note.NoteType.AsInputType() == null) continue;
+                if (note.NoteType.AsInputType() == null)
+                    continue;
 
                 if (MakeMatch(note, value))
                 {
                     foreach (var insider in insideOf)
-                        if (!insider.IsOpened) insider.SwitchOpenState();
+                        if (!insider.IsOpened)
+                            insider.SwitchOpenState();
                     if (insideOf.First?.Value is INoteControlChild asChild)
                     {
                         output = asChild;
@@ -87,12 +103,17 @@ namespace MusicLoverHandbook.Logic
                 }
                 if (note is INoteControlParent asParent)
                 {
-                    output = CheckForSearchString(asParent, value, new(insideOf.Concat(new[] { asParent }))) ?? output;
-
+                    output =
+                        CheckForSearchString(
+                            asParent,
+                            value,
+                            new(insideOf.Concat(new[] { asParent }))
+                        ) ?? output;
                 }
             }
             return output;
         }
+
         public delegate void QuickSearchResultEventHandler(List<INoteControlChild>? QSResult);
         private QuickSearchResultEventHandler? resultsChanged;
         public event QuickSearchResultEventHandler ResultsChanged
@@ -100,6 +121,7 @@ namespace MusicLoverHandbook.Logic
             add => resultsChanged += value;
             remove => resultsChanged -= value;
         }
+
         protected void OnResultsChanged()
         {
             if (resultsChanged != null)

@@ -8,8 +8,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     {
         public override NoteType NoteType { get; } = NoteType.Song;
         public override NoteCreationOrder? UsedCreationOrder { get; }
-        public NoteSong(NoteControlParent parent, string text, string description, NoteCreationOrder? usedCreationOrder)
-            : base(parent, text, description)
+
+        public NoteSong(
+            NoteControlParent parent,
+            string text,
+            string description,
+            NoteCreationOrder? usedCreationOrder
+        ) : base(parent, text, description)
         {
             InitializeComponent();
             Icon = Properties.Resources.song;

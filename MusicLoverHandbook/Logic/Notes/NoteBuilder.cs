@@ -13,7 +13,12 @@ namespace MusicLoverHandbook.Logic.Notes
         public MainForm Form { get; }
 
         private NoteCreationOrder creationOrder;
-        public NoteBuilder(MainForm form, LinkedList<OutputInfo> infoOrdered, NoteCreationOrder creationOrder)
+
+        public NoteBuilder(
+            MainForm form,
+            LinkedList<OutputInfo> infoOrdered,
+            NoteCreationOrder creationOrder
+        )
         {
             OutputOrdered = infoOrdered;
             Form = form;

@@ -75,6 +75,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 OnSpecialStateChanged();
             };
         }
+
         private void SetBackColor()
         {
             BackColor = SpecialState ? SpecialBackColor : BasicBackColor;

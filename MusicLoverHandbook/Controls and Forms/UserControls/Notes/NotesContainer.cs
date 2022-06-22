@@ -94,10 +94,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             return new NoteAdd(parent, $"Add new {next}", "Click on me to add new note");
         }
 
-        private void OnHierarchyChanged(
-            object? sender,
-            NotifyCollectionChangedEventArgs e
-        )
+        private void OnHierarchyChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             PartialInnerNotes = InnerNotes.ToList();
             return;
@@ -113,7 +110,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             PanelContainer.Controls.Clear();
             var renderFinal = PartialInnerNotes;
 
-
             foreach (var child in renderFinal)
             {
                 if (child is Control ctrl)
@@ -124,7 +120,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             //MAY BE SOME ACTIONS ON RENDER FINAL FROM SORT
 
             PanelContainer.Controls.AddRange(
-                renderFinal.Reverse<INoteControlChild>().Where(x => x is Control).Cast<Control>().ToArray()
+                renderFinal
+                    .Reverse<INoteControlChild>()
+                    .Where(x => x is Control)
+                    .Cast<Control>()
+                    .ToArray()
             );
         }
     }

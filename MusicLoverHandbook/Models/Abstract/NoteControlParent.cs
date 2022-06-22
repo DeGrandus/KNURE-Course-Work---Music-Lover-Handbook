@@ -58,6 +58,7 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             SwitchOpenState();
         }
+
         public void SwitchOpenState()
         {
             if (InnerNotes.Count == 0)

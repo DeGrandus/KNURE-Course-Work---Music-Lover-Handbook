@@ -19,6 +19,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteText;
         private Color theme;
         public abstract NoteCreationOrder? UsedCreationOrder { get; }
+
         protected NoteControl(string text, string description)
         {
             BackColor = Color.Transparent;
@@ -110,6 +111,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
+
         public static explicit operator SimpleNoteModel(NoteControl from) =>
             new SimpleNoteModel(from);
 
@@ -124,6 +126,7 @@ namespace MusicLoverHandbook.Models.Abstract
             if (ColorChanged != null)
                 ColorChanged(this, new(ThemeColor));
         }
+
         public virtual void SetupColorTheme(NoteType type)
         {
             ThemeColor = type.GetColor() ?? Color.Transparent;
