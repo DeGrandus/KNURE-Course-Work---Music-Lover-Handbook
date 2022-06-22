@@ -2,7 +2,6 @@
 {
     public class EnumColorAttribute : Attribute
     {
-        public Color Color { get; }
         public bool Inheritance = false;
 
         public EnumColorAttribute(int alpha, int color)
@@ -14,5 +13,7 @@
         {
             Inheritance = inherit;
         }
+
+        public Color Color { get; }
     }
 }

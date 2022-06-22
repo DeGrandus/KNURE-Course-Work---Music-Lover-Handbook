@@ -5,7 +5,6 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
@@ -100,11 +99,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             return;
         }
 
-        private void RemoveNote(NoteControl note)
-        {
-            PanelContainer.Controls.Remove(note);
-        }
-
         private void RefreshRender()
         {
             PanelContainer.Controls.Clear();
@@ -126,6 +120,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     .Cast<Control>()
                     .ToArray()
             );
+        }
+
+        private void RemoveNote(NoteControl note)
+        {
+            PanelContainer.Controls.Remove(note);
         }
     }
 }

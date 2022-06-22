@@ -29,7 +29,7 @@ namespace MusicLoverHandbook.Models.Enums
         TOO_SHORT
     }
 
-    static class ExtensionMethods
+    internal static class ExtensionMethods
     {
         public static string? GetStringValue(this InputStatus value)
         {

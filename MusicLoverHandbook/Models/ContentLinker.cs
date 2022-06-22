@@ -7,14 +7,14 @@ namespace MusicLoverHandbook.Models
 {
     public class ContentLinker : IControlParent
     {
-        public NoteControlParent Note { get; }
-        public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;
-
         public ContentLinker(NoteControlParent note)
         {
             Note = note;
             InnerNotes.CollectionChanged += OnCollectionChanged;
         }
+
+        public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;
+        public NoteControlParent Note { get; }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -25,11 +25,13 @@ namespace MusicLoverHandbook.Models
                         foreach (NoteControl item in e.NewItems)
                             Note.AddNote(item);
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems != null)
                         foreach (NoteControl item in e.OldItems)
                             Note.RemoveNote(item);
                     break;
+
                 case NotifyCollectionChangedAction.Replace:
                     if (e.OldItems != null && e.NewItems != null)
                         foreach (
@@ -43,6 +45,7 @@ namespace MusicLoverHandbook.Models
                             Note.ReplaceNote(item.First, item.Second, ind);
                         }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     if (
                         e.NewItems != null
@@ -51,6 +54,7 @@ namespace MusicLoverHandbook.Models
                     )
                         Note.MoveNote(note, e.NewStartingIndex);
                     break;
+
                 case NotifyCollectionChangedAction.Reset:
                     Note.ResetNotes();
                     break;

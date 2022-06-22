@@ -6,10 +6,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public partial class NoteAdd : NoteControlChild
     {
-        public override NoteType NoteType { get; } = NoteType.AddButton;
-
-        public override NoteCreationOrder? UsedCreationOrder => null;
-
         public NoteAdd(NoteControlParent parent, string noteText, string noteDescription)
             : base(parent, noteText, noteDescription)
         {
@@ -19,6 +15,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.add;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
+
+        public override NoteType NoteType { get; } = NoteType.AddButton;
+
+        public override NoteCreationOrder? UsedCreationOrder => null;
 
         protected override LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
@@ -36,6 +36,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                             + "\r\n"
                             + descriptionExample;
                         break;
+
                     case NoteType.Author:
                     case NoteType.Disc:
                         if (parent is NoteControlMidder midder)

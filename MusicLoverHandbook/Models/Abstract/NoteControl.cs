@@ -18,7 +18,6 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
-        public abstract NoteCreationOrder? UsedCreationOrder { get; }
 
         protected NoteControl(string text, string description)
         {
@@ -33,6 +32,7 @@ namespace MusicLoverHandbook.Models.Abstract
         ControlCollection INoteControl.Controls => Controls;
         public ButtonPanel DeleteButton { get; private set; }
         public ButtonPanel EditButton { get; private set; }
+
         public Image? Icon
         {
             get => IconPanel.BackgroundImage;
@@ -45,6 +45,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public Panel IconPanel { get; private set; }
         public ButtonPanel InfoButton { get; private set; }
+
         public bool IsDeleteShown
         {
             get => isDeleteShown;
@@ -99,6 +100,7 @@ namespace MusicLoverHandbook.Models.Abstract
         public abstract NoteType NoteType { get; }
         public SideButtonsPanel SideButtons { get; private set; }
         public Label TextLabel { get; private set; }
+
         public Color ThemeColor
         {
             get => theme;
@@ -109,6 +111,7 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
+        public abstract NoteCreationOrder? UsedCreationOrder { get; }
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 

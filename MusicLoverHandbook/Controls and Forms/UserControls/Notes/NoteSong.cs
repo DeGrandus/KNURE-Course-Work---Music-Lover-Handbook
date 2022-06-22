@@ -6,9 +6,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteSong : NoteControlMidder
     {
-        public override NoteType NoteType { get; } = NoteType.Song;
-        public override NoteCreationOrder? UsedCreationOrder { get; }
-
         public NoteSong(
             NoteControlParent parent,
             string text,
@@ -20,5 +17,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.song;
             UsedCreationOrder = usedCreationOrder;
         }
+
+        public override NoteType NoteType { get; } = NoteType.Song;
+        public override NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

@@ -7,9 +7,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         private List<ButtonPanel> activatedButtons = new();
         private List<ButtonPanel> deactivatedButtons = new();
         private DockStyle dockStyle;
-        private new ControlCollection Controls => base.Controls;
-        public IReadOnlyCollection<ButtonPanel> ActiveButtons => activatedButtons;
-        public IReadOnlyCollection<ButtonPanel> DeactivatedButtons => deactivatedButtons;
 
         public SideButtonsPanel(DockStyle dock)
         {
@@ -17,27 +14,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Dock = dockStyle = dock;
         }
 
-        public void AddButton(ButtonPanel button)
-        {
-            if (activatedButtons.Concat(deactivatedButtons).ToList().Find(x => x == button) == null)
-            {
-                button.Dock = dockStyle;
-                activatedButtons.Add(button);
-                Controls.Add(button);
-                ReorganizeControls();
-            }
-        }
-
-        public void RemoveButton(ButtonPanel button)
-        {
-            if (activatedButtons.Find(x => x == button) != null)
-            {
-                activatedButtons.Remove(button);
-                Controls.Remove(button);
-            }
-            if (deactivatedButtons.Find(x => x == button) != null)
-                deactivatedButtons.Remove(button);
-        }
+        public IReadOnlyCollection<ButtonPanel> ActiveButtons => activatedButtons;
+        private new ControlCollection Controls => base.Controls;
+        public IReadOnlyCollection<ButtonPanel> DeactivatedButtons => deactivatedButtons;
 
         public void Activate(ButtonType type)
         {
@@ -49,6 +28,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Controls.Add(button);
                 deactivatedButtons.Remove(button);
                 activatedButtons.Add(button);
+                ReorganizeControls();
+            }
+        }
+
+        public void AddButton(ButtonPanel button)
+        {
+            if (activatedButtons.Concat(deactivatedButtons).ToList().Find(x => x == button) == null)
+            {
+                button.Dock = dockStyle;
+                activatedButtons.Add(button);
+                Controls.Add(button);
                 ReorganizeControls();
             }
         }
@@ -65,6 +55,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 activatedButtons.Remove(button);
                 ReorganizeControls();
             }
+        }
+
+        public void RemoveButton(ButtonPanel button)
+        {
+            if (activatedButtons.Find(x => x == button) != null)
+            {
+                activatedButtons.Remove(button);
+                Controls.Remove(button);
+            }
+            if (deactivatedButtons.Find(x => x == button) != null)
+                deactivatedButtons.Remove(button);
         }
 
         public void ReorganizeControls()

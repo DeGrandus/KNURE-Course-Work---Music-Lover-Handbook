@@ -1,20 +1,14 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
-using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models;
-using MusicLoverHandbook.Models.Abstract;
-using MusicLoverHandbook.Models.Inerfaces;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class MainForm : Form
     {
-        public Color LabelBackColor;
         public Color ContentBackColor;
-
-        public NotesContainer NotesContainer { get; }
+        public Color LabelBackColor;
 
         public MainForm()
         {
@@ -25,6 +19,46 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             NotesContainer = new NotesContainer(contentPanel, qSTextBox, qSSwitchLabel);
 
             SetupLayout();
+        }
+
+        public NotesContainer NotesContainer { get; }
+
+        private void AdaptToSize()
+        {
+            if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
+                return;
+            int rmax = mainLayoutTable.RowCount - 1,
+                cmax = mainLayoutTable.ColumnCount - 1;
+            var tb = mainLayoutTable;
+
+            var wDiff = Size.Width - MinimumSize.Width;
+            var hDiff = Size.Height - MinimumSize.Height;
+
+            var wLim = 150;
+            tb.ColumnStyles[0].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
+            tb.ColumnStyles[cmax].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
+            wLim = 400;
+            tb.ColumnStyles[1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
+            tb.ColumnStyles[cmax - 1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
+            var hLim = 100;
+            tb.RowStyles[rmax].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 20;
+            tb.RowStyles[rmax - 2].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 50;
+
+            tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? ((float)hDiff / (hLim / 2)) : 1) * 50;
+
+            tb.RowStyles[1].Height =
+                (
+                    hDiff <= hLim * 2
+                        ? hDiff <= hLim
+                            ? 0
+                            : (((float)hDiff - 100) / hLim)
+                        : 1
+                ) * 50;
+        }
+
+        private Font ConvertToDesiredHeight(Font font, int h)
+        {
+            return new Font(font.FontFamily, h, font.Style, GraphicsUnit.Pixel);
         }
 
         private Color[] CreateGradient()
@@ -76,6 +110,23 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 }
             );
             return gradiented.ToArray();
+        }
+
+        private Font GetScaledFontWidthUpscaled()
+        {
+            var fontfam = FontContainer.Instance.Families[0];
+            var font = new Font(fontfam, 12);
+            var pts =
+                (MinimumSize.Width)
+                * 12
+                / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
+            return new Font(font.FontFamily, (float)pts);
+        }
+
+        private void ReassignFonts()
+        {
+            title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
+            createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
 
         private void SetupLayout()
@@ -143,61 +194,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
 
             ReassignFonts();
-        }
-
-        private void ReassignFonts()
-        {
-            title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
-            createNoteButton.Font = GetScaledFontWidthUpscaled();
-        }
-
-        private Font GetScaledFontWidthUpscaled()
-        {
-            var fontfam = FontContainer.Instance.Families[0];
-            var font = new Font(fontfam, 12);
-            var pts =
-                (MinimumSize.Width)
-                * 12
-                / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
-            return new Font(font.FontFamily, (float)pts);
-        }
-
-        private Font ConvertToDesiredHeight(Font font, int h)
-        {
-            return new Font(font.FontFamily, h, font.Style, GraphicsUnit.Pixel);
-        }
-
-        private void AdaptToSize()
-        {
-            if (Size.Width < MinimumSize.Width || Size.Height < MinimumSize.Height)
-                return;
-            int rmax = mainLayoutTable.RowCount - 1,
-                cmax = mainLayoutTable.ColumnCount - 1;
-            var tb = mainLayoutTable;
-
-            var wDiff = Size.Width - MinimumSize.Width;
-            var hDiff = Size.Height - MinimumSize.Height;
-
-            var wLim = 150;
-            tb.ColumnStyles[0].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
-            tb.ColumnStyles[cmax].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
-            wLim = 400;
-            tb.ColumnStyles[1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
-            tb.ColumnStyles[cmax - 1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
-            var hLim = 100;
-            tb.RowStyles[rmax].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 20;
-            tb.RowStyles[rmax - 2].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 50;
-
-            tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? ((float)hDiff / (hLim / 2)) : 1) * 50;
-
-            tb.RowStyles[1].Height =
-                (
-                    hDiff <= hLim * 2
-                        ? hDiff <= hLim
-                            ? 0
-                            : (((float)hDiff - 100) / hLim)
-                        : 1
-                ) * 50;
         }
     }
 }

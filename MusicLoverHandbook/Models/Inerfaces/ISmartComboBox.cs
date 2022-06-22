@@ -4,7 +4,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface ISmartComboBox
     {
-        InputStatus Status { get; set; }
         InputType InputType { get; }
+        InputStatus Status { get; set; }
     }
 }

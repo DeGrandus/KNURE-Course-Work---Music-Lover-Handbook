@@ -22,52 +22,22 @@ namespace MusicLoverHandbook.Models.Enums
         SongFile,
     }
 
-    public class ConnectedNoteTypeAttribute : Attribute
-    {
-        public Type ConnectedType { get; }
-
-        public ConnectedNoteTypeAttribute(Type noteType)
-        {
-            ConnectedType = noteType;
-        }
-    }
-
-    public class ConnectedNoteCreationTypeAttribute : Attribute
-    {
-        public NoteCreationOrder Type { get; }
-
-        public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
-        {
-            Type = type;
-        }
-    }
-
-    public class StringValueAttribute : Attribute
-    {
-        public string Value { get; }
-
-        public StringValueAttribute(string value)
-        {
-            Value = value;
-        }
-    }
-
     public static class InputTypeExt
     {
-        public static Type? GetConnectedNoteType(this InputType type)
-        {
-            return type.GetType()
-                .GetField(type.ToString())
-                ?.GetCustomAttribute<ConnectedNoteTypeAttribute>()
-                ?.ConnectedType;
-        }
-
         public static NoteCreationOrder? GetConnectedCreationType(this InputType type)
         {
             return type.GetType()
                 .GetField(type.ToString())
                 ?.GetCustomAttribute<ConnectedNoteCreationTypeAttribute>()
                 ?.Type;
+        }
+
+        public static Type? GetConnectedNoteType(this InputType type)
+        {
+            return type.GetType()
+                .GetField(type.ToString())
+                ?.GetCustomAttribute<ConnectedNoteTypeAttribute>()
+                ?.ConnectedType;
         }
 
         public static string ToString(this InputType type, bool useCustomStringValue)
@@ -79,5 +49,35 @@ namespace MusicLoverHandbook.Models.Enums
                         ?.Value ?? type.ToString();
             return type.ToString();
         }
+    }
+
+    public class ConnectedNoteCreationTypeAttribute : Attribute
+    {
+        public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
+        {
+            Type = type;
+        }
+
+        public NoteCreationOrder Type { get; }
+    }
+
+    public class ConnectedNoteTypeAttribute : Attribute
+    {
+        public ConnectedNoteTypeAttribute(Type noteType)
+        {
+            ConnectedType = noteType;
+        }
+
+        public Type ConnectedType { get; }
+    }
+
+    public class StringValueAttribute : Attribute
+    {
+        public StringValueAttribute(string value)
+        {
+            Value = value;
+        }
+
+        public string Value { get; }
     }
 }

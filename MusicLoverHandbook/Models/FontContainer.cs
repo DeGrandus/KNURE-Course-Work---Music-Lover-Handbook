@@ -6,9 +6,6 @@ namespace MusicLoverHandbook.Models
 {
     public class FontContainer
     {
-        public FontFamily[] Families { get; }
-        public static FontContainer Instance { get; }
-
         static FontContainer()
         {
             Instance = new FontContainer();
@@ -70,5 +67,8 @@ namespace MusicLoverHandbook.Models
                 ;
             }
         }
+
+        public static FontContainer Instance { get; }
+        public FontFamily[] Families { get; }
     }
 }

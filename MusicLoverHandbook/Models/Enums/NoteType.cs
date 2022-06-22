@@ -25,27 +25,8 @@ namespace MusicLoverHandbook.Models.Enums
         AddButton
     }
 
-    class HasInputTypeEquvalenceAttribute : Attribute
+    internal static class Extensions
     {
-        public InputType Type { get; }
-
-        public HasInputTypeEquvalenceAttribute(InputType type)
-        {
-            Type = type;
-        }
-    }
-
-    static class Extensions
-    {
-        public static Color? GetColor(this NoteType value)
-        {
-            return value
-                .GetType()
-                .GetField(value.ToString())
-                ?.GetCustomAttribute<EnumColorAttribute>(false)
-                ?.Color;
-        }
-
         public static InputType? AsInputType(this NoteType value)
         {
             return value
@@ -54,5 +35,24 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.GetCustomAttribute<HasInputTypeEquvalenceAttribute>(false)
                 ?.Type;
         }
+
+        public static Color? GetColor(this NoteType value)
+        {
+            return value
+                .GetType()
+                .GetField(value.ToString())
+                ?.GetCustomAttribute<EnumColorAttribute>(false)
+                ?.Color;
+        }
+    }
+
+    internal class HasInputTypeEquvalenceAttribute : Attribute
+    {
+        public HasInputTypeEquvalenceAttribute(InputType type)
+        {
+            Type = type;
+        }
+
+        public InputType Type { get; }
     }
 }

@@ -9,8 +9,8 @@ namespace MusicLoverHandbook.Logic
 {
     public class NoteCreationMenuController
     {
-        private NoteCreationMenu menu;
         private MainForm mainForm;
+        private NoteCreationMenu menu;
 
         public NoteCreationMenuController(MainForm mainForm)
         {
@@ -54,7 +54,6 @@ namespace MusicLoverHandbook.Logic
 
         public class NoteCreationResult
         {
-            public NoteControlMidder? Result { get; }
             private MainForm mainForm;
 
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? result)
@@ -62,6 +61,8 @@ namespace MusicLoverHandbook.Logic
                 Result = result;
                 this.mainForm = mainForm;
             }
+
+            public NoteControlMidder? Result { get; }
 
             public void CreateNote()
             {

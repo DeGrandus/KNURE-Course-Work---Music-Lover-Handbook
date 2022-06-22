@@ -7,9 +7,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteDisc : NoteControlMidder
     {
-        public override NoteType NoteType { get; } = NoteType.Disc;
-        public override NoteCreationOrder? UsedCreationOrder { get; }
-
         public NoteDisc(
             IControlParent author,
             string text,
@@ -21,5 +18,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.disc;
             UsedCreationOrder = usedCreationOrder;
         }
+
+        public override NoteType NoteType { get; } = NoteType.Disc;
+        public override NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

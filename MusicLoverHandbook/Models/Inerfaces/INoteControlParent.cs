@@ -10,14 +10,21 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
     public interface INoteControlParent : INoteControl, IControlParent
     {
-        ContentLinker Linker { get; }
         bool IsOpened { get; set; }
+        ContentLinker Linker { get; }
+
         void AddNote(NoteControl note);
-        void RemoveNote(NoteControl note);
+
         void MoveNote(NoteControl note, int newIndex);
+
+        void RemoveNote(NoteControl note);
+
         void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex);
+
         void ResetNotes();
-        void UpdateSize();
+
         void SwitchOpenState();
+
+        void UpdateSize();
     }
 }

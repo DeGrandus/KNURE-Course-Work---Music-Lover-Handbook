@@ -8,10 +8,6 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteBuilder
     {
-        public LinkedList<OutputInfo> OutputOrdered { get; }
-        public Dictionary<InputType, OutputInfo> Info { get; }
-        public MainForm Form { get; }
-
         private NoteCreationOrder creationOrder;
 
         public NoteBuilder(
@@ -24,6 +20,10 @@ namespace MusicLoverHandbook.Logic.Notes
             Form = form;
             this.creationOrder = creationOrder;
         }
+
+        public MainForm Form { get; }
+        public Dictionary<InputType, OutputInfo> Info { get; }
+        public LinkedList<OutputInfo> OutputOrdered { get; }
 
         public NoteControlMidder CreateNote()
         {

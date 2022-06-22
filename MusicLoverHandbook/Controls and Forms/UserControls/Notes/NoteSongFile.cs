@@ -7,9 +7,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteSongFile : NoteControlChild
     {
-        public override NoteType NoteType { get; } = NoteType.SongFile;
-        public override NoteCreationOrder? UsedCreationOrder { get; }
-
         public NoteSongFile(
             NoteSong song,
             string text,
@@ -36,5 +33,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             };
             UsedCreationOrder = usedCreationOrder;
         }
+
+        public override NoteType NoteType { get; } = NoteType.SongFile;
+        public override NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

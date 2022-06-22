@@ -6,14 +6,14 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
     {
-        public IControlParent ParentNote { get; set; }
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
-
         protected NoteControlMidder(IControlParent parent, string text, string description)
             : base(text, description)
         {
             ParentNote = parent;
         }
+
+        public IControlParent ParentNote { get; set; }
+        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
         public override void SetupColorTheme(NoteType type)
         {

@@ -11,16 +11,6 @@ namespace MusicLoverHandbook.Models.Enums
         DiscThenAuthor
     }
 
-    public class OrderAttribute : Attribute
-    {
-        public LinkedList<InputType> Order;
-
-        public OrderAttribute(params InputType[] types)
-        {
-            Order = new LinkedList<InputType>(types);
-        }
-    }
-
     public static class NoteCreationOrderExtension
     {
         public static LinkedList<InputType> GetOrder(this NoteCreationOrder value)
@@ -37,17 +27,27 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class MissingRequiredAttributeException : Exception
     {
-        public override string Message => base.Message;
-
         public MissingRequiredAttributeException(object source, Type missingAttirbute)
             : base(Decorate(source, missingAttirbute))
         {
             Source = source.ToString();
         }
 
+        public override string Message => base.Message;
+
         private static string Decorate(object source, Type missing)
         {
             return $"{source.GetType()} \"{source}\" missing attribute: {missing}";
+        }
+    }
+
+    public class OrderAttribute : Attribute
+    {
+        public LinkedList<InputType> Order;
+
+        public OrderAttribute(params InputType[] types)
+        {
+            Order = new LinkedList<InputType>(types);
         }
     }
 }

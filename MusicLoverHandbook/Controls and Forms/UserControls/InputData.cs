@@ -10,28 +10,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     public partial class InputData : UserControl
     {
         private bool canNameBeEmpty = false;
-        private bool isRenameInvalid = false;
         private InputType inputType;
-
-        private bool IsRenameFieldTextInvalid
-        {
-            get => isRenameInvalid;
-            set { isRenameInvalid = value; }
-        }
-
-        [Category("Data")]
-        public InputType InputType
-        {
-            get => inputType;
-            set
-            {
-                inputType = value;
-                SetInputType(value);
-            }
-        }
-        public SmartComboBox InputNameBox { get; }
-        public TextBox InputDescriptionBox { get; }
-        public bool AutoFill { get; set; } = true;
+        private bool isRenameInvalid = false;
 
         public InputData()
         {
@@ -64,80 +44,44 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             };
         }
 
-        private void UpdateRenameField()
-        {
-            if (!renameInput.Enabled)
-            {
-                renameInput.BackColor = Color.White;
-                return;
-            }
-            IsRenameFieldTextInvalid =
-                boxName.Items.Cast<string>().Contains(renameInput.Text)
-                || renameInput.Text.Length < 2;
-            renameInput.BackColor = Color.FromArgb(
-                255,
-                Color.FromArgb(
-                    (int)(!IsRenameFieldTextInvalid ? InputStatus.OK : InputStatus.EMPTY_FIELD)
-                )
-            );
-        }
-
-        public void UpdateRenameSection()
-        {
-            renameInput.Enabled = renameSection.Enabled && renameCheck.Checked;
-            UpdateRenameField();
-        }
-
         public InputData(InputType mainType) : this()
         {
             InputType = mainType;
             SetLabel(InputType.ToString(true));
         }
 
-        public void SetDataSource(NoteControlParent notes)
+        public bool AutoFill { get; set; } = true;
+
+        public TextBox InputDescriptionBox { get; }
+
+        public SmartComboBox InputNameBox { get; }
+
+        [Category("Data")]
+        public InputType InputType
         {
-            boxName.SetSource(notes);
+            get => inputType;
+            set
+            {
+                inputType = value;
+                SetInputType(value);
+            }
         }
 
-        public void SetDataSource<OnlyAllow>(NoteControlParent notes)
+        private bool IsRenameFieldTextInvalid
         {
-            boxName.SetSource<OnlyAllow>(notes);
+            get => isRenameInvalid;
+            set { isRenameInvalid = value; }
         }
 
-        public void SetDataSource(NotesContainer container)
+        public void Clean()
         {
-            boxName.SetSource(container);
-        }
-
-        public void SetDataSource<OnlyAllow>(NotesContainer container)
-        {
-            boxName.SetSource<OnlyAllow>(container);
+            InputNameBox.Text = "";
+            InputDescriptionBox.Text = "";
         }
 
         public void ClearDataSource()
         {
             boxName.ClearDataSource();
-        }
-
-        public void SetInputType(InputType type)
-        {
-            boxName.InputType = type;
-            SetLabel(InputType.ToString(true));
-        }
-
-        public void SetLabel(string text)
-        {
-            noteTypeLabel.Text = text;
-        }
-
-        public void SetFont(Font font)
-        {
-            Font = font;
-        }
-
-        public void SetLabelFont(Font font)
-        {
-            noteTypeLabel.Font = font;
         }
 
         public OutputInfo GetOutput()
@@ -170,10 +114,69 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             );
         }
 
-        public void Clean()
+        public void SetDataSource(NoteControlParent notes)
         {
-            InputNameBox.Text = "";
-            InputDescriptionBox.Text = "";
+            boxName.SetSource(notes);
+        }
+
+        public void SetDataSource<OnlyAllow>(NoteControlParent notes)
+        {
+            boxName.SetSource<OnlyAllow>(notes);
+        }
+
+        public void SetDataSource(NotesContainer container)
+        {
+            boxName.SetSource(container);
+        }
+
+        public void SetDataSource<OnlyAllow>(NotesContainer container)
+        {
+            boxName.SetSource<OnlyAllow>(container);
+        }
+
+        public void SetFont(Font font)
+        {
+            Font = font;
+        }
+
+        public void SetInputType(InputType type)
+        {
+            boxName.InputType = type;
+            SetLabel(InputType.ToString(true));
+        }
+
+        public void SetLabel(string text)
+        {
+            noteTypeLabel.Text = text;
+        }
+
+        public void SetLabelFont(Font font)
+        {
+            noteTypeLabel.Font = font;
+        }
+
+        public void UpdateRenameSection()
+        {
+            renameInput.Enabled = renameSection.Enabled && renameCheck.Checked;
+            UpdateRenameField();
+        }
+
+        private void UpdateRenameField()
+        {
+            if (!renameInput.Enabled)
+            {
+                renameInput.BackColor = Color.White;
+                return;
+            }
+            IsRenameFieldTextInvalid =
+                boxName.Items.Cast<string>().Contains(renameInput.Text)
+                || renameInput.Text.Length < 2;
+            renameInput.BackColor = Color.FromArgb(
+                255,
+                Color.FromArgb(
+                    (int)(!IsRenameFieldTextInvalid ? InputStatus.OK : InputStatus.EMPTY_FIELD)
+                )
+            );
         }
 
         public class OutputInfo
@@ -193,11 +196,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 ReplacementText = replacementText;
             }
 
-            public bool Enabled { get; }
-            public InputType Type { get; }
-            public string? Text { get; }
             public string Description { get; }
+            public bool Enabled { get; }
             public string? ReplacementText { get; }
+            public string? Text { get; }
+            public InputType Type { get; }
 
             public bool IsValid() => Enabled && Text != null;
         }

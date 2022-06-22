@@ -11,17 +11,6 @@ namespace MusicLoverHandbook.Models.Abstract
           INoteControlParent,
           IControlParent
     {
-        public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
-        public ContentLinker Linker { get; }
-        public int Offset { get; set; }
-        public Panel InnerContentPanel { get; }
-        protected TableLayoutPanel TableOffsetter { get; }
-
-        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
-            InnerNotes.Select(x => (INoteChild)x).ToList();
-
-        public bool IsOpened { get; set; } = false;
-
         protected NoteControlParent(string text, string description) : base(text, description)
         {
             Offset = sizeS * 2 / 3;
@@ -48,22 +37,23 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        protected override void InitCustomLayout()
-        {
-            base.InitCustomLayout();
-            TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
-        }
+        public Panel InnerContentPanel { get; }
+        public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
 
-        public void OnDoubleClick()
-        {
-            SwitchOpenState();
-        }
+        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
+            InnerNotes.Select(x => (INoteChild)x).ToList();
 
-        public void SwitchOpenState()
+        public bool IsOpened { get; set; } = false;
+        public ContentLinker Linker { get; }
+        public int Offset { get; set; }
+        protected TableLayoutPanel TableOffsetter { get; }
+
+        public void AddNote(NoteControl note)
         {
-            if (InnerNotes.Count == 0)
-                return;
-            IsOpened = !IsOpened;
+            note.Dock = DockStyle.Top;
+            InnerContentPanel.Controls.Add(note);
+            InnerContentPanel.Controls.SetChildIndex(note, 0);
+            note.SetupColorTheme(note.NoteType);
             UpdateSize();
         }
 
@@ -77,24 +67,20 @@ namespace MusicLoverHandbook.Models.Abstract
                     note.ChangeSize(size);
         }
 
-        public void AddNote(NoteControl note)
+        public void MoveNote(NoteControl note, int newIndex)
         {
-            note.Dock = DockStyle.Top;
-            InnerContentPanel.Controls.Add(note);
-            InnerContentPanel.Controls.SetChildIndex(note, 0);
-            note.SetupColorTheme(note.NoteType);
+            InnerContentPanel.Controls.SetChildIndex(note, newIndex);
             UpdateSize();
+        }
+
+        public void OnDoubleClick()
+        {
+            SwitchOpenState();
         }
 
         public void RemoveNote(NoteControl note)
         {
             InnerContentPanel.Controls.Remove(note);
-            UpdateSize();
-        }
-
-        public void MoveNote(NoteControl note, int newIndex)
-        {
-            InnerContentPanel.Controls.SetChildIndex(note, newIndex);
             UpdateSize();
         }
 
@@ -112,6 +98,19 @@ namespace MusicLoverHandbook.Models.Abstract
             UpdateSize();
         }
 
+        public void SwitchOpenState()
+        {
+            if (InnerNotes.Count == 0)
+                return;
+            IsOpened = !IsOpened;
+            UpdateSize();
+        }
+
+        public override string ToString()
+        {
+            return $"{NoteName}: [ {string.Join(", ", InnerNotes)} ]";
+        }
+
         public virtual void UpdateSize()
         {
             SuspendLayout();
@@ -126,9 +125,10 @@ namespace MusicLoverHandbook.Models.Abstract
             ResumeLayout();
         }
 
-        public override string ToString()
+        protected override void InitCustomLayout()
         {
-            return $"{NoteName}: [ {string.Join(", ", InnerNotes)} ]";
+            base.InitCustomLayout();
+            TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
     }
 }

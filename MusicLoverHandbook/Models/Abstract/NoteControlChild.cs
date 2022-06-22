@@ -6,13 +6,8 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlChild : NoteControl, INoteChild, INoteControlChild
     {
-        private bool inited = false;
-        public IControlParent ParentNote { get; set; }
-
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
-
-        private delegate void DelayedSetup();
         private DelayedSetup? delayedSetup;
+        private bool inited = false;
 
         protected NoteControlChild(IControlParent parent, string text, string description)
             : base(text, description)
@@ -22,6 +17,12 @@ namespace MusicLoverHandbook.Models.Abstract
                 delayedSetup();
             inited = true;
         }
+
+        private delegate void DelayedSetup();
+
+        public IControlParent ParentNote { get; set; }
+
+        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
         public override void SetupColorTheme(NoteType type)
         {

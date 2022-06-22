@@ -4,12 +4,13 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControl : INote, IControlTheme
     {
-        NoteType NoteType { get; }
-        NoteCreationOrder? UsedCreationOrder { get; }
+        Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
-        Control.ControlCollection Controls { get; }
+        NoteType NoteType { get; }
+        NoteCreationOrder? UsedCreationOrder { get; }
+
         void ChangeSize(int size);
     }
 }

@@ -2,8 +2,10 @@
 {
     public interface IControlTheme
     {
-        Color ThemeColor { get; set; }
-        public event ThemeChangeEventHandler ColorChanged;
         public delegate void ThemeChangeEventHandler(object? sender, ColorThemeEventArgs e);
+
+        public event ThemeChangeEventHandler ColorChanged;
+
+        Color ThemeColor { get; set; }
     }
 }

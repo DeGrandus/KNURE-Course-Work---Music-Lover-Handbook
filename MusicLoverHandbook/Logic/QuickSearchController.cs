@@ -2,22 +2,15 @@
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MusicLoverHandbook.Logic
 {
     public class QuickSearchController
     {
-        private TextBox searchBar;
-        private NotesContainer notesContainer;
         public List<INoteControlChild>? SearchResults;
+        private NotesContainer notesContainer;
+        private QuickSearchResultEventHandler? resultsChanged;
+        private TextBox searchBar;
         private BasicSwitchLabel switchLabel;
 
         public QuickSearchController(
@@ -34,35 +27,18 @@ namespace MusicLoverHandbook.Logic
             searchBar.TextChanged += SearchBarTextChanged;
         }
 
-        private void SearchBarTextChanged(object? sender, EventArgs e)
+        public delegate void QuickSearchResultEventHandler(List<INoteControlChild>? QSResult);
+
+        public event QuickSearchResultEventHandler ResultsChanged
         {
-            PerformSearching();
+            add => resultsChanged += value;
+            remove => resultsChanged -= value;
         }
 
-        private void PerformSearching()
+        protected void OnResultsChanged()
         {
-            if (searchBar.Text == "")
-                SearchResults = null;
-            else
-            {
-                List<INoteControlChild> results = new();
-                foreach (var child in notesContainer.InnerNotes)
-                    if (child is INoteControlParent asParent)
-                        if (
-                            CheckForSearchString(asParent, searchBar.Text, new())
-                            is INoteControlChild validResult
-                        )
-                            results.Add(validResult);
-                SearchResults = results;
-            }
-            OnResultsChanged();
-        }
-
-        private bool MakeMatch(INoteControl note, string toMatch)
-        {
-            var resultNameMatch = note.NoteName.ToLower().Contains(toMatch);
-            var resultDescriptionMatch = note.NoteDescription.ToLower().Contains(toMatch);
-            return resultNameMatch || (switchLabel.SpecialState ? resultDescriptionMatch : false);
+            if (resultsChanged != null)
+                resultsChanged(SearchResults);
         }
 
         private INoteControlChild? CheckForSearchString(
@@ -114,18 +90,35 @@ namespace MusicLoverHandbook.Logic
             return output;
         }
 
-        public delegate void QuickSearchResultEventHandler(List<INoteControlChild>? QSResult);
-        private QuickSearchResultEventHandler? resultsChanged;
-        public event QuickSearchResultEventHandler ResultsChanged
+        private bool MakeMatch(INoteControl note, string toMatch)
         {
-            add => resultsChanged += value;
-            remove => resultsChanged -= value;
+            var resultNameMatch = note.NoteName.ToLower().Contains(toMatch);
+            var resultDescriptionMatch = note.NoteDescription.ToLower().Contains(toMatch);
+            return resultNameMatch || (switchLabel.SpecialState ? resultDescriptionMatch : false);
         }
 
-        protected void OnResultsChanged()
+        private void PerformSearching()
         {
-            if (resultsChanged != null)
-                resultsChanged(SearchResults);
+            if (searchBar.Text == "")
+                SearchResults = null;
+            else
+            {
+                List<INoteControlChild> results = new();
+                foreach (var child in notesContainer.InnerNotes)
+                    if (child is INoteControlParent asParent)
+                        if (
+                            CheckForSearchString(asParent, searchBar.Text, new())
+                            is INoteControlChild validResult
+                        )
+                            results.Add(validResult);
+                SearchResults = results;
+            }
+            OnResultsChanged();
+        }
+
+        private void SearchBarTextChanged(object? sender, EventArgs e)
+        {
+            PerformSearching();
         }
     }
 }

@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class StripMenuButton : Button
     {
-        public ContextMenuStrip MenuStrip { get; set; }
-
         public StripMenuButton()
         {
             MenuStrip = new ContextMenuStrip();
@@ -20,5 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 MenuStrip.Show(this, Location + new Size(0, Height));
             };
         }
+
+        public ContextMenuStrip MenuStrip { get; set; }
     }
 }

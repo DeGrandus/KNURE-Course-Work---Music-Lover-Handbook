@@ -50,6 +50,7 @@ namespace MusicLoverHandbook.View.Forms
         public NoteControlMidder? FinalNote { get; private set; }
         public MainForm MainForm { get; }
         private List<InputData> allInputs => InputDataOrdered.ToList();
+
         private Label SelectedCreationTypeLabel
         {
             get => selectedCreationTypeLabel;
