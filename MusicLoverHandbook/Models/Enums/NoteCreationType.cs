@@ -4,16 +4,16 @@ namespace MusicLoverHandbook.Models.Enums
 {
     public enum NoteCreationOrder
     {
-        [Order(InputType.Author, InputType.Disc, InputType.SongName, InputType.SongFile)]
+        [Order(NoteType.Author, NoteType.Disc, NoteType.Song, NoteType.SongFile)]
         AuthorThenDisc,
 
-        [Order(InputType.Disc, InputType.Author, InputType.SongName, InputType.SongFile)]
+        [Order(NoteType.Disc, NoteType.Author, NoteType.Song, NoteType.SongFile)]
         DiscThenAuthor
     }
 
     public static class NoteCreationOrderExtensions
     {
-        public static LinkedList<InputType> GetOrder(this NoteCreationOrder value)
+        public static LinkedList<NoteType> GetOrder(this NoteCreationOrder value)
         {
             var orderAttr = value
                 .GetType()
@@ -43,11 +43,11 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class OrderAttribute : Attribute
     {
-        public LinkedList<InputType> Order;
+        public LinkedList<NoteType> Order;
 
-        public OrderAttribute(params InputType[] types)
+        public OrderAttribute(params NoteType[] types)
         {
-            Order = new LinkedList<InputType>(types);
+            Order = new LinkedList<NoteType>(types);
         }
     }
 }

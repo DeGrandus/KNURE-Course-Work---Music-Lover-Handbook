@@ -223,14 +223,14 @@ namespace MusicLoverHandbook.Models.Abstract
 
             if (this is INoteControlChild asChild)
             {
-                if (asChild.NoteType.AsInputType() != null)
+                if (asChild.NoteType.IsInformaionCarrier())
                     chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
                 for (
                     var curr = (asChild as IControlParent) ?? asChild.ParentNote;
                     curr != null && curr is NoteControl asCtrl;
                     curr = (curr as INoteControlChild)?.ParentNote
                 )
-                    if (asCtrl.NoteType.AsInputType() != null)
+                    if (asCtrl.NoteType.IsInformaionCarrier())
                         chain.AddFirst((SimpleNoteModel)asCtrl);
             }
             return chain;

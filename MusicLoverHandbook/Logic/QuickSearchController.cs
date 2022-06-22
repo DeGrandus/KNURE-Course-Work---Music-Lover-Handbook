@@ -64,7 +64,7 @@ namespace MusicLoverHandbook.Logic
                 if (output != null)
                     return output;
 
-                if (note.NoteType.AsInputType() == null)
+                if (!note.NoteType.IsInformaionCarrier())
                     continue;
 
                 if (MakeMatch(note, value))

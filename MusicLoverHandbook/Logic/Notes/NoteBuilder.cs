@@ -22,7 +22,7 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         public MainForm Form { get; }
-        public Dictionary<InputType, OutputInfo> Info { get; }
+        public Dictionary<NoteType, OutputInfo> Info { get; }
         public LinkedList<OutputInfo> OutputOrdered { get; }
 
         public NoteControlMidder CreateNote()

@@ -5,7 +5,7 @@ namespace MusicLoverHandbook.Controller
 {
     public static class MusicFileScanner
     {
-        public static Dictionary<InputType, (string? Name, string? Description)> GetDataFromFile(
+        public static Dictionary<NoteType, (string? Name, string? Description)> GetDataFromFile(
             string filePath
         )
         {
@@ -18,7 +18,7 @@ namespace MusicLoverHandbook.Controller
             var inputNames = GetNames(filePath, file, tag);
             var inputDescriptions = GetDescriptions(filePath, file, tag);
 
-            return Enum.GetValues<InputType>()
+            return Enum.GetValues<NoteType>()
                 .Select(
                     t =>
                         (
@@ -81,7 +81,7 @@ namespace MusicLoverHandbook.Controller
             //);
         }
 
-        private static Dictionary<InputType, string> GetDescriptions(
+        private static Dictionary<NoteType, string> GetDescriptions(
             string filepath,
             TagFile file,
             TagLib.Tag tag
@@ -93,19 +93,19 @@ namespace MusicLoverHandbook.Controller
             var copyright = tag.Copyright != "" ? "Copyright: " + tag.Copyright : "";
             var duration = "Duration: " + file.Properties.Duration.ToString(@"hh\:mm\:ss");
 
-            var ret = new Dictionary<InputType, string>();
+            var ret = new Dictionary<NoteType, string>();
             ret.Add(
-                InputType.SongName,
+                NoteType.Song,
                 string.Join("\r\n", new object[] { year, genre, copyright })
             );
             ret.Add(
-                InputType.SongFile,
+                NoteType.SongFile,
                 string.Join("\r\n", new object[] { filepath, duration, comment })
             );
             return ret;
         }
 
-        private static Dictionary<InputType, string> GetNames(
+        private static Dictionary<NoteType, string> GetNames(
             string filepath,
             TagFile file,
             TagLib.Tag tag
@@ -116,11 +116,11 @@ namespace MusicLoverHandbook.Controller
             string album = tag.Album != "" ? tag.Album : "";
             string filename = Path.GetFileName(filepath);
 
-            var ret = new Dictionary<InputType, string>();
-            ret.Add(InputType.Author, authors);
-            ret.Add(InputType.Disc, album);
-            ret.Add(InputType.SongName, name);
-            ret.Add(InputType.SongFile, filename);
+            var ret = new Dictionary<NoteType, string>();
+            ret.Add(NoteType.Author, authors);
+            ret.Add(NoteType.Disc, album);
+            ret.Add(NoteType.Song, name);
+            ret.Add(NoteType.SongFile, filename);
             return ret;
         }
     }

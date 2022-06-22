@@ -10,7 +10,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     public partial class InputData : UserControl
     {
         private bool canNameBeEmpty = false;
-        private InputType inputType;
+        private NoteType inputType;
         private bool isRenameInvalid = false;
 
         public InputData()
@@ -44,7 +44,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             };
         }
 
-        public InputData(InputType mainType) : this()
+        public InputData(NoteType mainType) : this()
         {
             InputType = mainType;
             SetLabel(InputType.ToString(true));
@@ -57,7 +57,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         public SmartComboBox InputNameBox { get; }
 
         [Category("Data")]
-        public InputType InputType
+        public NoteType InputType
         {
             get => inputType;
             set
@@ -139,7 +139,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             Font = font;
         }
 
-        public void SetInputType(InputType type)
+        public void SetInputType(NoteType type)
         {
             boxName.InputType = type;
             SetLabel(InputType.ToString(true));
@@ -182,7 +182,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         public class OutputInfo
         {
             public OutputInfo(
-                InputType type,
+                NoteType type,
                 string? text,
                 string description,
                 string? replacementText,
@@ -200,7 +200,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public bool Enabled { get; }
             public string? ReplacementText { get; }
             public string? Text { get; }
-            public InputType Type { get; }
+            public NoteType Type { get; }
 
             public bool IsValid() => Enabled && Text != null;
         }

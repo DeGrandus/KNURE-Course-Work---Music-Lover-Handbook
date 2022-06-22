@@ -106,7 +106,7 @@
             this.InputSongFile.AutoFill = true;
             this.InputSongFile.BackColor = System.Drawing.SystemColors.Control;
             this.InputSongFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InputSongFile.InputType = MusicLoverHandbook.Models.Enums.InputType.SongFile;
+            this.InputSongFile.InputType = MusicLoverHandbook.Models.Enums.NoteType.SongFile;
             this.InputSongFile.Location = new System.Drawing.Point(5, 596);
             this.InputSongFile.Margin = new System.Windows.Forms.Padding(5);
             this.InputSongFile.Name = "InputSongFile";
@@ -117,7 +117,7 @@
             // 
             this.InputDisc.AutoFill = true;
             this.InputDisc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InputDisc.InputType = MusicLoverHandbook.Models.Enums.InputType.Disc;
+            this.InputDisc.InputType = MusicLoverHandbook.Models.Enums.NoteType.Disc;
             this.InputDisc.Location = new System.Drawing.Point(5, 202);
             this.InputDisc.Margin = new System.Windows.Forms.Padding(5);
             this.InputDisc.Name = "InputDisc";
@@ -128,7 +128,7 @@
             // 
             this.InputAuthor.AutoFill = true;
             this.InputAuthor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InputAuthor.InputType = MusicLoverHandbook.Models.Enums.InputType.Author;
+            this.InputAuthor.InputType = MusicLoverHandbook.Models.Enums.NoteType.Author;
             this.InputAuthor.Location = new System.Drawing.Point(5, 5);
             this.InputAuthor.Margin = new System.Windows.Forms.Padding(5);
             this.InputAuthor.Name = "InputAuthor";
@@ -163,7 +163,7 @@
             this.InputSong.AutoFill = true;
             this.InputSong.BackColor = System.Drawing.SystemColors.Control;
             this.InputSong.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InputSong.InputType = MusicLoverHandbook.Models.Enums.InputType.SongName;
+            this.InputSong.InputType = MusicLoverHandbook.Models.Enums.NoteType.Song;
             this.InputSong.Location = new System.Drawing.Point(5, 399);
             this.InputSong.Margin = new System.Windows.Forms.Padding(5);
             this.InputSong.Name = "InputSong";

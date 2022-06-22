@@ -71,7 +71,7 @@ namespace MusicLoverHandbook.View.Forms
                 inp.InputNameBox.ClearEvents();
         }
 
-        private void FillWithData(Dictionary<InputType, (string? Name, string? Description)> data)
+        private void FillWithData(Dictionary<NoteType, (string? Name, string? Description)> data)
         {
             if (
                 InputDataOrdered
@@ -90,7 +90,7 @@ namespace MusicLoverHandbook.View.Forms
                     return;
 
                 if (ask == DialogResult.No)
-                    data = data.Where(x => x.Key == InputType.SongFile)
+                    data = data.Where(x => x.Key == NoteType.SongFile)
                         .ToDictionary(x => x.Key, v => v.Value);
             }
 

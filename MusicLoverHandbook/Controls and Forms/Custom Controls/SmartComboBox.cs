@@ -64,7 +64,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 )
                 .ToList();
 
-        public InputType InputType { get; set; }
+        public NoteType InputType { get; set; }
         public NoteControlParent? NoteParent { get; set; }
         public NotesContainer? NotesContainer { get; set; }
         public Type RestrictedType { get; set; } = typeof(object);
