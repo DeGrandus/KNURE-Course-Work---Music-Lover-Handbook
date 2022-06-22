@@ -78,9 +78,6 @@ namespace MusicLoverHandbook.Logic
                     else
                     {
                         mainForm.NotesContainer.InnerNotes.Add(Result);
-                        INoteControlChild rt = Result.Clone() as INoteControlChild;
-                        rt.NoteName = "TEST "+new Random().Next();
-                        mainForm.NotesContainer.InnerNotes.Add(rt);
                     }
 
                     if (wasOpened)

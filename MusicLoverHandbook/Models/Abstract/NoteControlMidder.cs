@@ -25,15 +25,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 )
                 ?? Color.Transparent;
         }
-        protected override List<(Type Type, object? Data)> ConstructorRequested
-        {
-            get
-            {
-                var req = base.ConstructorRequested;
-                req.Insert(0, (typeof(IControlParent), ParentNote));
-                return req;
-            }
-        }
         public override void UpdateSize()
         {
             base.UpdateSize();

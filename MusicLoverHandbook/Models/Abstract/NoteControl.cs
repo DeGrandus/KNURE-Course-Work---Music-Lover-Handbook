@@ -3,13 +3,73 @@ using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
+    public class OnlySpecialTypesContractResolver : DefaultContractResolver
+    {
+        private string[] onlyNames;
+        private Type[] usedTypes;
+        
+        public OnlySpecialTypesContractResolver(params Type[] specials)
+        {
+            usedTypes = specials;
+            onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
+        }
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var all = base.CreateProperties(type, memberSerialization);
+            all = all.Where(x => onlyNames.Contains(x.PropertyName)).ToList();
+            return all;
+        }
+        public static OnlySpecialTypesContractResolver operator |(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
+        public static OnlySpecialTypesContractResolver operator &(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
+    }
+    public class InnerNotesConverter : JsonConverter
+    {
+        private JsonSerializerSettings usedSettings;
+        public override bool CanRead => false;
+        public InnerNotesConverter(JsonSerializerSettings usedSettings)
+        {
+            this.usedSettings = usedSettings;
+        }
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType.IsAssignableTo(typeof(IEnumerable)) && objectType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(INote)) == true;
+        }
+
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            IEnumerable<INote> inners = (IEnumerable<INote>)value!;
+            inners = inners.Where(x => x.NoteType.IsInformaionCarrier());
+            writer.WriteStartArray();
+            foreach (var note in inners)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName(note.NoteType.ToString(true));
+                var jObj = JsonConvert.SerializeObject(note,usedSettings);
+                writer.WriteRawValue(jObj);
+                writer.WriteEndObject();
+            }
+            writer.WriteEndArray();
+
+        }
+    }
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControl : UserControl, INoteControl, ICloneable
+    public abstract class NoteControl : UserControl, INoteControl
     {
         private ToolTip ballonTip;
         private bool isDeleteShown;
@@ -19,41 +79,6 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
-
-        public virtual object Clone()
-        {
-            var constructor = GetConstructorWithinRequested();
-            var requested = ConstructorRequested;
-            List<object?> parameters = new();
-            foreach (var param in constructor.GetParameters())
-            {
-                var type = param.ParameterType;
-                //MessageBox.Show($"{type}\n\n {string.Join("\n",requested.Select(x=>x.Type))}");
-                var group = requested.First(p => p.Type == type || p.Type.IsSubclassOf(type) || type.GetInterface(p.Type.Name)!=null);
-                parameters.Add(group.Data);
-                requested.Remove(group);
-            }
-            
-            return constructor.Invoke(parameters.ToArray());
-        }
-        protected virtual List<(Type Type, object? Data)> ConstructorRequested
-        {
-            get => new() { (typeof(string), NoteName), (typeof(string), NoteDescription), (typeof(NoteType), NoteType), (typeof(NoteCreationOrder?), UsedCreationOrder) };
-        }
-        private ConstructorInfo GetConstructorWithinRequested()
-        {
-
-            var constructors = GetType().GetConstructors();
-            var requested = ConstructorRequested;
-            var reqTypes = requested.Select(kv => kv.Type);
-            var t = 1;
-            return constructors.First(c => c.GetParameters().Select(p => p.ParameterType).All(pt => 
-            {
-                var s = reqTypes.Any(rt => rt == pt || rt.IsSubclassOf(pt) || pt.GetInterface(rt.Name) != null);
-                //MessageBox.Show($"{t++}\n{pt}\n\n{string.Join(" \n ",reqTypes)}\n\n{s}");
-                return s;
-            }));
-        }
         protected NoteControl(string text, string description, NoteType noteType, NoteCreationOrder? order)
         {
             BackColor = Color.Transparent;
@@ -210,7 +235,36 @@ namespace MusicLoverHandbook.Models.Abstract
             }
             return chain;
         }
+        public string Serialize()
+        {
+            var selfJson = JsonConvert.DeserializeObject<JToken>(JsonConvert.SerializeObject(this, SerializerSettings));
+            var jObj = new JObject();
+            jObj.Add(NoteType.ToString(true), selfJson);
+            return jObj.ToString(Formatting.Indented);
+        }
+        public NoteControl Deserialize()
+        {
+            throw new NotImplementedException();
+        }
+        private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
+        {
+            return new() { new StringEnumConverter(), new InnerNotesConverter(settings) };
+        }
+        private JsonSerializerSettings SerializerSettings
+        {
+            get
+            {
+                var settings = new JsonSerializerSettings()
+                {
+                    ContractResolver = ContractResolver,
+                    Formatting = Formatting.Indented,
+                };
+                settings.Converters = GetConverters(settings);
+                return settings;
+            }
+        }
 
+        protected virtual OnlySpecialTypesContractResolver ContractResolver => new OnlySpecialTypesContractResolver(typeof(INote));
         protected virtual void InitCustomLayout()
         {
             SuspendLayout();
@@ -256,6 +310,13 @@ namespace MusicLoverHandbook.Models.Abstract
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill
+            };
+            TextLabel.MouseClick += (sender, e) =>
+            {
+                if (e.Button != MouseButtons.Right) return;
+
+                MessageBox.Show(Serialize());
+                //MessageBox.Show(Deseriali);
             };
 
             InfoButton = new ButtonPanel(ButtonType.Info, 0)

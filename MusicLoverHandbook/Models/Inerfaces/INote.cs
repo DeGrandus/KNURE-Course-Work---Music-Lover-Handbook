@@ -7,5 +7,6 @@ namespace MusicLoverHandbook.Models.Inerfaces
         string NoteDescription { get; set; }
         string NoteName { get; set; }
         NoteType NoteType { get; }
+        NoteCreationOrder? UsedCreationOrder { get; }
     }
 }

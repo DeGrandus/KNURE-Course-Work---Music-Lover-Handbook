@@ -40,7 +40,7 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.ConnectedType;
         }
 
-        public static string ToString(this InputType type, bool useCustomStringValue)
+        public static string ToString(this Enum type, bool useCustomStringValue)
         {
             if (useCustomStringValue)
                 return type.GetType()

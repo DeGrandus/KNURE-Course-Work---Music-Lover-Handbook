@@ -34,15 +34,6 @@ namespace MusicLoverHandbook.Models.Abstract
                     ThemeColor = themeColor();
                 };
         }
-        protected override List<(Type Type, object? Data)> ConstructorRequested
-        {
-            get
-            {
-                var req =  base.ConstructorRequested;
-                req.Insert(0, (typeof(IControlParent), ParentNote));
-                return req;
-            }
-        }
 
         protected override void InitCustomLayout()
         {

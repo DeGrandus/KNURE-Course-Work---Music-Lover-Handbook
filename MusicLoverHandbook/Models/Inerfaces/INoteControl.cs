@@ -8,8 +8,6 @@ namespace MusicLoverHandbook.Models.Inerfaces
         Image? Icon { get; set; }
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
-
-        NoteCreationOrder? UsedCreationOrder { get; }
         void ChangeSize(int size);
     }
 }
