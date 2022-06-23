@@ -8,37 +8,36 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteBuilder
     {
-        private NoteCreationOrder creationOrder;
-
-        public NoteBuilder(
-            MainForm form,
-            NoteCreationOrder creationOrder
-        )
+        public NoteBuilder(MainForm form)
         {
             Form = form;
-            this.creationOrder = creationOrder;
         }
 
         public MainForm Form { get; }
 
-        public NoteControlMidder CreateNote(LinkedList<OutputInfo> infoOrdered)
+        public NoteControlMidder CreateNote(
+            IEnumerable<OutputInfo> infoOrdered,
+            NoteCreationOrder creationOrder
+        )
         {
             List<INoteControl> contaierData = Form.NotesContainer.InnerNotes
                 .Cast<INoteControl>()
                 .ToList();
 
+            var order = creationOrder.GetOrder();
+
             NoteControlMidder? hierBase = null;
             NoteControlParent? parent = null;
             for (
-                var currentNode = infoOrdered.First;
+                var currentNode = order.First;
                 currentNode != null;
                 currentNode = currentNode.Next
             )
             {
-                var currentInfo = currentNode.Value;
-                var currentType = currentInfo.Type;
+                var currentType = currentNode.Value;
+                var currentInfo = infoOrdered.ToList().Find(x => x.Type == currentType);
 
-                if (!currentInfo.IsValid())
+                if (currentInfo == null || !currentInfo.IsValid())
                     continue;
 
                 var currentNote =
@@ -49,7 +48,7 @@ namespace MusicLoverHandbook.Logic.Notes
                     ) as NoteControl;
                 if (currentNote == null)
                 {
-                    currentNote = (NoteControl)currentType.GetConnectedNoteType().GetConstructors()[
+                    currentNote = (NoteControl)currentType.GetConnectedNoteType()!.GetConstructors()[
                         0
                     ].Invoke(
                         new object?[]

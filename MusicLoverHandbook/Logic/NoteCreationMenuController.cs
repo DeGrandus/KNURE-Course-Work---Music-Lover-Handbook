@@ -36,7 +36,7 @@ namespace MusicLoverHandbook.Logic
         public void AddLinkedInfo(LinkedList<SimpleNoteModel> models)
         {
             if (
-                models.First?.Value.NoteType.GetConnectedCreationType()
+                models.First?.Value.NoteType.GetConnectedCreationOrder()
                 is NoteCreationOrder creationType
             )
                 menu.CreationType = creationType;

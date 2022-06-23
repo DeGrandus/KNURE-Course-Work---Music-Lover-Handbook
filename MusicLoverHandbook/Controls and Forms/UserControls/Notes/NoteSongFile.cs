@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
@@ -8,7 +9,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteSongFile : NoteControlChild
     {
         public NoteSongFile(
-            NoteSong song,
+            IControlParent song,
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder

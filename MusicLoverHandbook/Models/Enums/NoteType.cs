@@ -56,7 +56,7 @@ namespace MusicLoverHandbook.Models.Enums
 
     public static partial class NoteTypeExtensions
     {
-        public static NoteCreationOrder? GetConnectedCreationType(this NoteType type)
+        public static NoteCreationOrder? GetConnectedCreationOrder(this NoteType type)
         {
             return type.GetType()
                 .GetField(type.ToString())

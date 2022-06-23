@@ -7,41 +7,22 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections;
-using System.Collections.ObjectModel;
-using System.Reflection;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
-    public class OnlySpecialTypesContractResolver : DefaultContractResolver
-    {
-        private string[] onlyNames;
-        private Type[] usedTypes;
-        
-        public OnlySpecialTypesContractResolver(params Type[] specials)
-        {
-            usedTypes = specials;
-            onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
-        }
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        {
-            var all = base.CreateProperties(type, memberSerialization);
-            all = all.Where(x => onlyNames.Contains(x.PropertyName)).ToList();
-            return all;
-        }
-        public static OnlySpecialTypesContractResolver operator |(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
-        public static OnlySpecialTypesContractResolver operator &(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
-    }
     public class InnerNotesConverter : JsonConverter
     {
         private JsonSerializerSettings usedSettings;
-        public override bool CanRead => false;
+
         public InnerNotesConverter(JsonSerializerSettings usedSettings)
         {
             this.usedSettings = usedSettings;
         }
+
+        public override bool CanRead => false;
+
         public override bool CanConvert(Type objectType)
         {
             return objectType.IsAssignableTo(typeof(IEnumerable)) && objectType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(INote)) == true;
@@ -61,70 +42,14 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 writer.WriteStartObject();
                 writer.WritePropertyName(note.NoteType.ToString(true));
-                var jObj = JsonConvert.SerializeObject(note,usedSettings);
+                var jObj = JsonConvert.SerializeObject(note, usedSettings);
                 writer.WriteRawValue(jObj);
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
-
         }
     }
-    public class NoteImportRawModel : INote
-    {
-        public NoteImportRawModel(string noteName, string noteDescription, NoteType noteType, NoteCreationOrder usedCreationOrder, NoteImportRawModel[] innerNotes)
-        {
-            NoteName = noteName;
-            NoteDescription = noteDescription;
-            NoteType = noteType;
-            UsedCreationOrder = usedCreationOrder;
-            InnerNotes = innerNotes.ToList();
-            //MessageBox.Show($"{NoteName} {NoteDescription} {InnerNotes} {UsedCreationOrder} {NoteType}");
-        }
 
-        public string NoteName { get; set; }
-        public string NoteDescription { get; set; }
-
-        public NoteType NoteType { get; }
-
-        public NoteCreationOrder? UsedCreationOrder { get; }
-        public List<NoteImportRawModel> InnerNotes { get; set; }
-        public override string ToString()
-        {
-            return $"{NoteType}/{NoteName}:\n-{string.Join("\n-",InnerNotes??new())}";
-        }
-    }
-    public class NotesConverter : JsonConverter<NoteImportRawModel>
-    {
-        public override bool CanWrite => false;
-
-        private JObject? CutProp(JToken obj) => obj.First!.Values<JObject>().First();
-        private JObject GetCuttedTree(JObject obj)
-        {
-            var token = CutProp(obj)!;
-            if (token is JObject jto && jto.ContainsKey("InnerNotes"))
-            {
-                JArray jarr = new();
-                foreach (var inner in jto.GetValue("InnerNotes")!)
-                    jarr.Add(GetCuttedTree(inner.ToObject<JObject>()));
-                jto.GetValue("InnerNotes")!.Replace(jarr);
-            }
-            return token;
-        }
-        public override NoteImportRawModel? ReadJson(JsonReader reader, Type objectType, NoteImportRawModel? existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-
-            var obj = JObject.Load(reader);
-            var repObj = GetCuttedTree(obj);
-            var noteImport = JsonConvert.DeserializeObject<NoteImportRawModel>(repObj.ToString(), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
-            
-            return noteImport;
-        }
-        public override void WriteJson(JsonWriter writer, NoteImportRawModel? value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-    }
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
     {
@@ -136,6 +61,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
+
         protected NoteControl(string text, string description, NoteType noteType, NoteCreationOrder? order)
         {
             BackColor = Color.Transparent;
@@ -231,11 +157,26 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public NoteCreationOrder? UsedCreationOrder { get; }
+        protected virtual OnlySpecialTypesContractResolver ContractResolver => new OnlySpecialTypesContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
+        private JsonSerializerSettings SerializerSettings
+        {
+            get
+            {
+                var settings = new JsonSerializerSettings()
+                {
+                    ContractResolver = ContractResolver,
+                    Formatting = Formatting.Indented,
+                };
+                settings.Converters = GetConverters(settings);
+                return settings;
+            }
+        }
+
         public static explicit operator SimpleNoteModel(NoteControl from) =>
-            new SimpleNoteModel(from);
+                    new SimpleNoteModel(from);
 
         public virtual void ChangeSize(int size)
         {
@@ -243,10 +184,30 @@ namespace MusicLoverHandbook.Models.Abstract
             InitCustomLayout();
         }
 
+        public NoteImportRawModel DeserializeToImports()
+        {
+            return JsonConvert.DeserializeObject<NoteImportRawModel>(Serialize(), SerializerSettings)!;
+        }
+        public NoteControl Clone()
+        {
+            var impToClone = DeserializeToImports();
+            var recreator = FindForm() is MainForm mf ? mf.NoteManager : null;
+            if (recreator == null) return null;
+
+            return recreator.RecreateFromImported(impToClone);
+        }
         public void OnColorChanged()
         {
             if (ColorChanged != null)
                 ColorChanged(this, new(ThemeColor));
+        }
+
+        public string Serialize()
+        {
+            var selfJson = JsonConvert.DeserializeObject<JToken>(JsonConvert.SerializeObject(this, SerializerSettings));
+            var jObj = new JObject();
+            jObj.Add(NoteType.ToString(true), selfJson);
+            return jObj.ToString(Formatting.Indented);
         }
 
         public virtual void SetupColorTheme(NoteType type)
@@ -292,37 +253,7 @@ namespace MusicLoverHandbook.Models.Abstract
             }
             return chain;
         }
-        public string Serialize()
-        {
-            var selfJson = JsonConvert.DeserializeObject<JToken>(JsonConvert.SerializeObject(this, SerializerSettings));
-            var jObj = new JObject();
-            jObj.Add(NoteType.ToString(true), selfJson);
-            return jObj.ToString(Formatting.Indented);
-        }
-        public NoteControl Deserialize()
-        {
-            var test = JsonConvert.DeserializeObject<NoteImportRawModel>(Serialize(), SerializerSettings);
-            return null;
-        }
-        private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
-        {
-            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NotesConverter()};
-        }
-        private JsonSerializerSettings SerializerSettings
-        {
-            get
-            {
-                var settings = new JsonSerializerSettings()
-                {
-                    ContractResolver = ContractResolver,
-                    Formatting = Formatting.Indented,
-                };
-                settings.Converters = GetConverters(settings);
-                return settings;
-            }
-        }
 
-        protected virtual OnlySpecialTypesContractResolver ContractResolver => new OnlySpecialTypesContractResolver(typeof(INote));
         protected virtual void InitCustomLayout()
         {
             SuspendLayout();
@@ -368,13 +299,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill
-            };
-            TextLabel.MouseClick += (sender, e) =>
-            {
-                if (e.Button != MouseButtons.Right) return;
-
-                MessageBox.Show(Serialize());
-                Deserialize();
             };
 
             InfoButton = new ButtonPanel(ButtonType.Info, 0)
@@ -470,6 +394,11 @@ namespace MusicLoverHandbook.Models.Abstract
             NoteDescription = description;
         }
 
+        private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
+        {
+            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NotesConverter() };
+        }
+
         private void InitCustomization()
         {
             foreach (
@@ -499,6 +428,100 @@ namespace MusicLoverHandbook.Models.Abstract
                 toToggle.Hide();
             else
                 toToggle.Show();
+        }
+    }
+
+    public class NoteImportRawModel : INote
+    {
+        public NoteImportRawModel(string noteName, string noteDescription, NoteType noteType, NoteCreationOrder usedCreationOrder, NoteImportRawModel[]? innerNotes)
+        {
+            NoteName = noteName;
+            NoteDescription = noteDescription;
+            NoteType = noteType;
+            UsedCreationOrder = usedCreationOrder;
+            InnerNotes = innerNotes?.ToList();
+        }
+
+        public List<NoteImportRawModel>? InnerNotes { get; set; }
+
+        public string NoteDescription { get; set; }
+
+        public (Type Type, object? Data)[] ConstructorData => new (Type, object?)[] {
+            (typeof(string),NoteName),
+            (typeof(string),NoteDescription),
+            (typeof(NoteType),NoteType),
+            (typeof(NoteCreationOrder),UsedCreationOrder),
+        };
+        public string NoteName { get; set; }
+
+        public NoteType NoteType { get; }
+        public NoteCreationOrder? UsedCreationOrder { get; }
+
+        public override string ToString()
+        {
+            return $"{NoteType}/{NoteName}:\n-{string.Join("\n-", InnerNotes ?? new())}";
+        }
+    }
+
+    public class NotesConverter : JsonConverter<NoteImportRawModel>
+    {
+        public override bool CanWrite => false;
+
+        public override NoteImportRawModel? ReadJson(JsonReader reader, Type objectType, NoteImportRawModel? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+
+            var obj = JObject.Load(reader);
+            var repObj = GetCuttedTree(obj);
+            var noteImport = JsonConvert.DeserializeObject<NoteImportRawModel>(repObj.ToString(), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
+
+            return noteImport;
+        }
+
+        public override void WriteJson(JsonWriter writer, NoteImportRawModel? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        private JObject? CutProp(JToken obj) => obj.First!.Values<JObject>().First();
+
+        private JObject GetCuttedTree(JObject obj)
+        {
+            var token = CutProp(obj)!;
+            if (token.ContainsKey("InnerNotes"))
+            {
+                JArray jarr = new();
+                foreach (var inner in token.GetValue("InnerNotes")!)
+                    jarr.Add(GetCuttedTree(inner.ToObject<JObject>()!));
+                token.GetValue("InnerNotes")!.Replace(jarr);
+            }
+            else
+                token.Add("InnerNotes", null);
+
+            return token;
+        }
+    }
+
+    public class OnlySpecialTypesContractResolver : DefaultContractResolver
+    {
+        private string[] onlyNames;
+        private Type[] usedTypes;
+
+        public OnlySpecialTypesContractResolver(params Type[] specials)
+        {
+            usedTypes = specials;
+            onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
+        }
+
+        public static OnlySpecialTypesContractResolver operator &(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
+
+        public static OnlySpecialTypesContractResolver operator |(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
+
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var all = base.CreateProperties(type, memberSerialization);
+            all = all.Where(x => onlyNames.Contains(x.PropertyName)).ToList();
+            return all;
         }
     }
 }

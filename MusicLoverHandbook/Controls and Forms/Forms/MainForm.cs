@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
+using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using System.ComponentModel;
 
@@ -9,13 +10,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
     {
         public Color ContentBackColor;
         public Color LabelBackColor;
-
+        public NoteBuilder Builder { get; }
+        public NoteManager NoteManager { get; }
         public MainForm()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             MinimumSize = new Size(300, 565);
-
+            Builder = new(this);
+            NoteManager = new(this);
             NotesContainer = new NotesContainer(contentPanel, qSTextBox, qSSwitchLabel);
 
             SetupLayout();
