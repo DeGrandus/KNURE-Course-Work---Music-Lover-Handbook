@@ -15,6 +15,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         public NotesContainer(Panel panelContainer, TextBox QSBar, BasicSwitchLabel QSSwitchLabel)
         {
             PanelContainer = panelContainer;
+            
             InnerNotes = new ObservableCollection<INoteControlChild>();
             InnerNotes.CollectionChanged += OnHierarchyChanged;
 
@@ -101,6 +102,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         private void RefreshRender()
         {
+            PanelContainer.SuspendLayout();
             PanelContainer.Controls.Clear();
             var renderFinal = PartialInnerNotes;
             
@@ -122,6 +124,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     .Cast<Control>()
                     .ToArray()
             );
+            PanelContainer.ResumeLayout();
         }
 
         private void RemoveNote(NoteControl note)

@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.JSON;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -37,7 +38,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
             Linker = new ContentLinker(this);
         }
-        protected override OnlySpecialTypesContractResolver ContractResolver => base.ContractResolver | new OnlySpecialTypesContractResolver(typeof(INoteParent));
+        protected override CertainTypedContractResolver ContractResolver => base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
 
         public Panel InnerContentPanel { get; }
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();

@@ -3,10 +3,10 @@ using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.JSON;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System.Collections;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
@@ -157,7 +157,7 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public NoteCreationOrder? UsedCreationOrder { get; }
-        protected virtual OnlySpecialTypesContractResolver ContractResolver => new OnlySpecialTypesContractResolver(typeof(INote));
+        protected virtual CertainTypedContractResolver ContractResolver => new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
@@ -184,9 +184,9 @@ namespace MusicLoverHandbook.Models.Abstract
             InitCustomLayout();
         }
 
-        public NoteImportRawModel DeserializeToImports()
+        public NoteRawImportModel DeserializeToImports()
         {
-            return JsonConvert.DeserializeObject<NoteImportRawModel>(Serialize(), SerializerSettings)!;
+            return JsonConvert.DeserializeObject<NoteRawImportModel>(Serialize(), SerializerSettings)!;
         }
         public NoteControl Clone()
         {
@@ -394,7 +394,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
         {
-            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NotesConverter() };
+            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NoteDesrializationConverter() };
         }
 
         private void InitCustomization()
@@ -426,100 +426,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 toToggle.Hide();
             else
                 toToggle.Show();
-        }
-    }
-
-    public class NoteImportRawModel : INote
-    {
-        public NoteImportRawModel(string noteName, string noteDescription, NoteType noteType, NoteCreationOrder usedCreationOrder, NoteImportRawModel[]? innerNotes)
-        {
-            NoteName = noteName;
-            NoteDescription = noteDescription;
-            NoteType = noteType;
-            UsedCreationOrder = usedCreationOrder;
-            InnerNotes = innerNotes?.ToList();
-        }
-
-        public List<NoteImportRawModel>? InnerNotes { get; set; }
-
-        public string NoteDescription { get; set; }
-
-        public (Type Type, object? Data)[] ConstructorData => new (Type, object?)[] {
-            (typeof(string),NoteName),
-            (typeof(string),NoteDescription),
-            (typeof(NoteType),NoteType),
-            (typeof(NoteCreationOrder),UsedCreationOrder),
-        };
-        public string NoteName { get; set; }
-
-        public NoteType NoteType { get; }
-        public NoteCreationOrder? UsedCreationOrder { get; }
-
-        public override string ToString()
-        {
-            return $"{NoteType}/{NoteName}:\n-{string.Join("\n-", InnerNotes ?? new())}";
-        }
-    }
-
-    public class NotesConverter : JsonConverter<NoteImportRawModel>
-    {
-        public override bool CanWrite => false;
-
-        public override NoteImportRawModel? ReadJson(JsonReader reader, Type objectType, NoteImportRawModel? existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-
-            var obj = JObject.Load(reader);
-            var repObj = GetCuttedTree(obj);
-            var noteImport = JsonConvert.DeserializeObject<NoteImportRawModel>(repObj.ToString(), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
-
-            return noteImport;
-        }
-
-        public override void WriteJson(JsonWriter writer, NoteImportRawModel? value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        private JObject? CutProp(JToken obj) => obj.First!.Values<JObject>().First();
-
-        private JObject GetCuttedTree(JObject obj)
-        {
-            var token = CutProp(obj)!;
-            if (token.ContainsKey("InnerNotes"))
-            {
-                JArray jarr = new();
-                foreach (var inner in token.GetValue("InnerNotes")!)
-                    jarr.Add(GetCuttedTree(inner.ToObject<JObject>()!));
-                token.GetValue("InnerNotes")!.Replace(jarr);
-            }
-            else
-                token.Add("InnerNotes", null);
-
-            return token;
-        }
-    }
-
-    public class OnlySpecialTypesContractResolver : DefaultContractResolver
-    {
-        private string[] onlyNames;
-        private Type[] usedTypes;
-
-        public OnlySpecialTypesContractResolver(params Type[] specials)
-        {
-            usedTypes = specials;
-            onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
-        }
-
-        public static OnlySpecialTypesContractResolver operator &(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
-
-        public static OnlySpecialTypesContractResolver operator |(OnlySpecialTypesContractResolver r1, OnlySpecialTypesContractResolver r2) => new OnlySpecialTypesContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
-
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        {
-            var all = base.CreateProperties(type, memberSerialization);
-            all = all.Where(x => onlyNames.Contains(x.PropertyName)).ToList();
-            return all;
         }
     }
 }

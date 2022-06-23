@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.JSON;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
@@ -14,7 +15,7 @@ namespace MusicLoverHandbook.Logic.Notes
             this.mainForm = mainForm;
         }
 
-        public NoteControl RecreateFromImported(NoteImportRawModel model)
+        public NoteControl RecreateFromImported(NoteRawImportModel model)
         {
             return RecreateFromImported(
                 model,
@@ -26,7 +27,7 @@ namespace MusicLoverHandbook.Logic.Notes
             mainForm = null;
         }
 
-        public NoteControl RecreateFromImported(NoteImportRawModel model, (Type, object?)[] adj)
+        public NoteControl RecreateFromImported(NoteRawImportModel model, (Type, object?)[] adj)
         {
             var modelData = model.ConstructorData.ToList();
             modelData = modelData.Concat(adj).ToList();
