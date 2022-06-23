@@ -191,9 +191,7 @@ namespace MusicLoverHandbook.Models.Abstract
         public NoteControl Clone()
         {
             var impToClone = DeserializeToImports();
-            var recreator = FindForm() is MainForm mf ? mf.NoteManager : null;
-            if (recreator == null) return null;
-
+            var recreator = FindForm() is MainForm mf ? mf.NoteManager : new();
             return recreator.RecreateFromImported(impToClone);
         }
         public void OnColorChanged()

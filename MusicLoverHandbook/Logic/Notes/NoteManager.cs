@@ -7,7 +7,7 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteManager
     {
-        private MainForm mainForm;
+        private MainForm? mainForm;
 
         public NoteManager(MainForm mainForm)
         {
@@ -18,8 +18,12 @@ namespace MusicLoverHandbook.Logic.Notes
         {
             return RecreateFromImported(
                 model,
-                new (Type, object?)[] { (typeof(IControlParent), mainForm.Container) }
+                new (Type, object?)[] { (typeof(IControlParent), mainForm?.Container) }
             );
+        }
+        public NoteManager()
+        {
+            mainForm = null;
         }
 
         public NoteControl RecreateFromImported(NoteImportRawModel model, (Type, object?)[] adj)
