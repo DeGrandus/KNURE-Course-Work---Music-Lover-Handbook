@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Reflection;
@@ -66,6 +67,62 @@ namespace MusicLoverHandbook.Models.Abstract
             }
             writer.WriteEndArray();
 
+        }
+    }
+    public class NoteImportRawModel : INote
+    {
+        public NoteImportRawModel(string noteName, string noteDescription, NoteType noteType, NoteCreationOrder usedCreationOrder, NoteImportRawModel[] innerNotes)
+        {
+            NoteName = noteName;
+            NoteDescription = noteDescription;
+            NoteType = noteType;
+            UsedCreationOrder = usedCreationOrder;
+            InnerNotes = innerNotes.ToList();
+            //MessageBox.Show($"{NoteName} {NoteDescription} {InnerNotes} {UsedCreationOrder} {NoteType}");
+        }
+
+        public string NoteName { get; set; }
+        public string NoteDescription { get; set; }
+
+        public NoteType NoteType { get; }
+
+        public NoteCreationOrder? UsedCreationOrder { get; }
+        public List<NoteImportRawModel> InnerNotes { get; set; }
+        public override string ToString()
+        {
+            return $"{NoteType}/{NoteName}:\n-{string.Join("\n-",InnerNotes??new())}";
+        }
+    }
+    public class NotesConverter : JsonConverter<NoteImportRawModel>
+    {
+        public override bool CanWrite => false;
+
+        private JObject? CutProp(JToken obj) => obj.First!.Values<JObject>().First();
+        private JObject GetCuttedTree(JObject obj)
+        {
+            var token = CutProp(obj)!;
+            if (token is JObject jto && jto.ContainsKey("InnerNotes"))
+            {
+                JArray jarr = new();
+                foreach (var inner in jto.GetValue("InnerNotes")!)
+                    jarr.Add(GetCuttedTree(inner.ToObject<JObject>()));
+                jto.GetValue("InnerNotes")!.Replace(jarr);
+            }
+            return token;
+        }
+        public override NoteImportRawModel? ReadJson(JsonReader reader, Type objectType, NoteImportRawModel? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+
+            var obj = JObject.Load(reader);
+            var repObj = GetCuttedTree(obj);
+            var noteImport = JsonConvert.DeserializeObject<NoteImportRawModel>(repObj.ToString(), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
+            
+            return noteImport;
+        }
+        public override void WriteJson(JsonWriter writer, NoteImportRawModel? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
         }
     }
     [System.ComponentModel.DesignerCategory("Code")]
@@ -244,11 +301,12 @@ namespace MusicLoverHandbook.Models.Abstract
         }
         public NoteControl Deserialize()
         {
-            throw new NotImplementedException();
+            var test = JsonConvert.DeserializeObject<NoteImportRawModel>(Serialize(), SerializerSettings);
+            return null;
         }
         private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
         {
-            return new() { new StringEnumConverter(), new InnerNotesConverter(settings) };
+            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NotesConverter()};
         }
         private JsonSerializerSettings SerializerSettings
         {
@@ -316,7 +374,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 if (e.Button != MouseButtons.Right) return;
 
                 MessageBox.Show(Serialize());
-                //MessageBox.Show(Deseriali);
+                Deserialize();
             };
 
             InfoButton = new ButtonPanel(ButtonType.Info, 0)

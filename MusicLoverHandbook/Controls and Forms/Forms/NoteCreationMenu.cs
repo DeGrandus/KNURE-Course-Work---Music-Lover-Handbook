@@ -168,14 +168,11 @@ namespace MusicLoverHandbook.View.Forms
             createButton.FlatAppearance.BorderSize = 4;
             createButton.Click += (sender, e) =>
             {
-                NoteBuilder creator;
+                NoteBuilder creator = new NoteBuilder(MainForm, creationOrder);
+                NoteControlMidder FinalNote;
                 try
                 {
-                    creator = new NoteBuilder(
-                        MainForm,
-                        new LinkedList<OutputInfo>(InputDataOrdered.Select(x => x.GetOutput())),
-                        creationOrder
-                    );
+                    FinalNote = creator.CreateNote(new LinkedList<OutputInfo>(InputDataOrdered.Select(x => x.GetOutput())));
                 }
                 catch (InvalidDataException ex)
                 {
@@ -187,7 +184,6 @@ namespace MusicLoverHandbook.View.Forms
                     );
                     return;
                 }
-                FinalNote = creator.CreateNote();
                 DialogResult = DialogResult.OK;
                 Close();
             };

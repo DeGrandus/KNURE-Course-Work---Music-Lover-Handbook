@@ -12,20 +12,16 @@ namespace MusicLoverHandbook.Logic.Notes
 
         public NoteBuilder(
             MainForm form,
-            LinkedList<OutputInfo> infoOrdered,
             NoteCreationOrder creationOrder
         )
         {
-            OutputOrdered = infoOrdered;
             Form = form;
             this.creationOrder = creationOrder;
         }
 
         public MainForm Form { get; }
-        public Dictionary<NoteType, OutputInfo> Info { get; }
-        public LinkedList<OutputInfo> OutputOrdered { get; }
 
-        public NoteControlMidder CreateNote()
+        public NoteControlMidder CreateNote(LinkedList<OutputInfo> infoOrdered)
         {
             List<INoteControl> contaierData = Form.NotesContainer.InnerNotes
                 .Cast<INoteControl>()
@@ -34,7 +30,7 @@ namespace MusicLoverHandbook.Logic.Notes
             NoteControlMidder? hierBase = null;
             NoteControlParent? parent = null;
             for (
-                var currentNode = OutputOrdered.First;
+                var currentNode = infoOrdered.First;
                 currentNode != null;
                 currentNode = currentNode.Next
             )
