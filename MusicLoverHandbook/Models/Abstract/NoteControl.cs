@@ -7,48 +7,11 @@ using MusicLoverHandbook.Models.JSON;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using System.Collections;
+using System.Diagnostics;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
-    public class InnerNotesConverter : JsonConverter
-    {
-        private JsonSerializerSettings usedSettings;
-
-        public InnerNotesConverter(JsonSerializerSettings usedSettings)
-        {
-            this.usedSettings = usedSettings;
-        }
-
-        public override bool CanRead => false;
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsAssignableTo(typeof(IEnumerable)) && objectType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(INote)) == true;
-        }
-
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-        {
-            IEnumerable<INote> inners = (IEnumerable<INote>)value!;
-            inners = inners.Where(x => x.NoteType.IsInformaionCarrier());
-            writer.WriteStartArray();
-            foreach (var note in inners)
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName(note.NoteType.ToString(true));
-                var jObj = JsonConvert.SerializeObject(note, usedSettings);
-                writer.WriteRawValue(jObj);
-                writer.WriteEndObject();
-            }
-            writer.WriteEndArray();
-        }
-    }
 
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
@@ -61,6 +24,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
+        private bool isMarked;
 
         protected NoteControl(string text, string description, NoteType noteType, NoteCreationOrder? order)
         {
@@ -161,6 +125,27 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
+        public bool IsMarked
+        {
+            get => isMarked; set
+            {
+                if (isMarked != value)
+                {
+                    isMarked = value;
+                    RedrawMarked();
+                }
+
+            }
+        }
+        private Panel mark = new() { BackColor = Color.FromArgb(150,255,150), Dock = DockStyle.Fill, Width = 14,Margin = new(0) };
+        private void RedrawMarked()
+        {
+            if (mainTable == null) return;
+            if (IsMarked)
+                mainTable.Controls.Add(mark, 0, 0);
+            else
+                mainTable.Controls.Remove(mark);
+        }
         private JsonSerializerSettings SerializerSettings
         {
             get
@@ -251,7 +236,10 @@ namespace MusicLoverHandbook.Models.Abstract
             }
             return chain;
         }
-
+        public virtual List<NoteLite> Flatten()
+        {
+            return new(){ new(NoteName,NoteDescription,this) };
+        }
         protected virtual void InitCustomLayout()
         {
             SuspendLayout();
@@ -268,7 +256,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 Margin = new Padding(0),
                 Dock = DockStyle.Top,
                 RowCount = 1,
-                ColumnCount = 2
+                ColumnCount = 3,
             };
             SideButtons = new SideButtonsPanel(DockStyle.Right) { AutoSize = true, };
             IconPanel = new Panel()
@@ -347,6 +335,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 Margin = new Padding(0),
             };
 
+            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
             mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, sizeS));
@@ -358,8 +347,8 @@ namespace MusicLoverHandbook.Models.Abstract
             comboPanel.Controls.Add(textPanel);
             comboPanel.Controls.Add(SideButtons);
 
-            mainTable.Controls.Add(IconPanel, 0, 0);
-            mainTable.Controls.Add(comboPanel, 1, 0);
+            mainTable.Controls.Add(IconPanel, 1, 0);
+            mainTable.Controls.Add(comboPanel, 2, 0);
 
             SideButtons.AddButton(InfoButton);
             SideButtons.AddButton(DeleteButton);

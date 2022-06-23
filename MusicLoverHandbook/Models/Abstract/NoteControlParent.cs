@@ -51,6 +51,13 @@ namespace MusicLoverHandbook.Models.Abstract
         public int Offset { get; set; }
         protected TableLayoutPanel TableOffsetter { get; }
 
+        public override List<NoteLite> Flatten()
+        {
+            List<NoteLite> curr = new() { new(NoteName, NoteDescription, this) };
+            foreach (var note in InnerNotes)
+                curr.Concat(note.Flatten());
+            return curr;
+        }
         public void AddNote(NoteControl note)
         {
             note.Dock = DockStyle.Top;

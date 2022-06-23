@@ -31,5 +31,18 @@ namespace MusicLoverHandbook.Models.Abstract
             if (ParentNote is INoteControlParent noteParent)
                 noteParent.UpdateSize();
         }
+        public IControlParent GetFirstParent()
+        {
+            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
+        }
+
+        public INoteControlParent? GetFirstNoteControlParent()
+        {
+            return ParentNote is INoteControlParent parent
+              ? parent is INoteControlChild child
+                  ? child.GetFirstNoteControlParent()
+                  : parent
+              : null;
+        }
     }
 }

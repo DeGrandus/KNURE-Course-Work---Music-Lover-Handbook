@@ -9,5 +9,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
         void ChangeSize(int size);
+
+        List<NoteLite> Flatten();
     }
 }

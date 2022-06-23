@@ -117,9 +117,9 @@ namespace MusicLoverHandbook.View.Forms
             if (secondary == null)
                 return;
 
-            if (state == InputStatus.OK)
+            if (state == InputStatus.OK || state == InputStatus.ANALOG)
             {
-                var data = (box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlParent);
+                var data = (box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlParent);
                 if (data != null)
                 {
                     if (CreationType == NoteCreationOrder.AuthorThenDisc)
@@ -141,9 +141,9 @@ namespace MusicLoverHandbook.View.Forms
 
         private void SecondaryInputStateChanged(SmartComboBox box, InputStatus state)
         {
-            var dataSelf = (box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlMidder);
+            var dataSelf = (box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlMidder);
 
-            if (state == InputStatus.OK)
+            if (state == InputStatus.OK || state == InputStatus.ANALOG)
             {
                 var dataSongs = dataSelf?.InnerNotes;
                 if (dataSelf != null)
@@ -180,6 +180,10 @@ namespace MusicLoverHandbook.View.Forms
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
+                    return;
+                }
+                catch (OperationCanceledException ex)
+                {
                     return;
                 }
                 DialogResult = DialogResult.OK;
@@ -336,10 +340,10 @@ namespace MusicLoverHandbook.View.Forms
 
         private void SongInputStateChanged(SmartComboBox box, InputStatus state)
         {
-            if (state == InputStatus.OK)
+            if (state == InputStatus.OK || state == InputStatus.ANALOG)
             {
                 var dataSongFiles = (
-                    box.InnerData.Find(x => x.NoteName == box.Text) as NoteControlParent
+                    box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlParent
                 );
                 Debug.WriteLine($"Event state data is : \n{dataSongFiles}");
                 if (dataSongFiles != null)

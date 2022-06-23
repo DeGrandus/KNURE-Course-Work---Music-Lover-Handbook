@@ -9,7 +9,13 @@ namespace MusicLoverHandbook.Models.Abstract
         private DelayedSetup? delayedSetup;
         private bool inited = false;
 
-        protected NoteControlChild(IControlParent parent, string text, string description, NoteType noteType, NoteCreationOrder? order) : base(text, description, noteType, order)
+        protected NoteControlChild(
+            IControlParent parent,
+            string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        ) : base(text, description, noteType, order)
         {
             ParentNote = parent;
             if (delayedSetup != null)
@@ -49,6 +55,20 @@ namespace MusicLoverHandbook.Models.Abstract
                 base.InitValues(text, description);
             else
                 delayedSetup += () => base.InitValues(text, description);
+        }
+
+        public IControlParent GetFirstParent()
+        {
+            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
+        }
+
+        public INoteControlParent? GetFirstNoteControlParent()
+        {
+            return ParentNote is INoteControlParent parent
+              ? parent is INoteControlChild child
+                  ? child.GetFirstNoteControlParent()
+                  : parent
+              : null;
         }
     }
 }

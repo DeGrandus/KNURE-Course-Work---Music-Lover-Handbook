@@ -31,14 +31,13 @@
             this.mainLayoutTable = new System.Windows.Forms.TableLayoutPanel();
             this.createNoteButton = new System.Windows.Forms.Button();
             this.noteContentTable = new System.Windows.Forms.TableLayoutPanel();
-            this.contentPanel = new System.Windows.Forms.Panel();
+            this.contentPanel = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.RenderPanel();
             this.searchBarLayout = new System.Windows.Forms.TableLayoutPanel();
             this.qSPanel = new System.Windows.Forms.Panel();
             this.tableQSCentrize = new System.Windows.Forms.TableLayoutPanel();
             this.qSTextBox = new System.Windows.Forms.TextBox();
             this.qSSwitchLabel = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel();
             this.toolsTable = new System.Windows.Forms.TableLayoutPanel();
-            this.sortButtonStrip = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton();
             this.advSearchButton = new System.Windows.Forms.Button();
             this.panelLabel = new System.Windows.Forms.Panel();
             this.title = new System.Windows.Forms.Label();
@@ -104,18 +103,18 @@
             this.noteContentTable.RowCount = 2;
             this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.noteContentTable.Size = new System.Drawing.Size(1595, 847);
             this.noteContentTable.TabIndex = 0;
             // 
             // contentPanel
             // 
-            this.noteContentTable.SetColumnSpan(this.contentPanel, 4);
             this.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.contentPanel.Location = new System.Drawing.Point(0, 53);
-            this.contentPanel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.contentPanel.Location = new System.Drawing.Point(0, 50);
+            this.contentPanel.Margin = new System.Windows.Forms.Padding(0);
             this.contentPanel.Name = "contentPanel";
-            this.contentPanel.Size = new System.Drawing.Size(1595, 794);
-            this.contentPanel.TabIndex = 3;
+            this.contentPanel.Size = new System.Drawing.Size(1595, 797);
+            this.contentPanel.TabIndex = 0;
             // 
             // searchBarLayout
             // 
@@ -131,6 +130,7 @@
             this.searchBarLayout.Name = "searchBarLayout";
             this.searchBarLayout.RowCount = 1;
             this.searchBarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.searchBarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.searchBarLayout.Size = new System.Drawing.Size(1595, 50);
             this.searchBarLayout.TabIndex = 4;
             // 
@@ -152,14 +152,14 @@
             this.tableQSCentrize.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableQSCentrize.Controls.Add(this.qSTextBox, 0, 1);
             this.tableQSCentrize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableQSCentrize.Location = new System.Drawing.Point(171, 0);
+            this.tableQSCentrize.Location = new System.Drawing.Point(160, 0);
             this.tableQSCentrize.Margin = new System.Windows.Forms.Padding(0);
             this.tableQSCentrize.Name = "tableQSCentrize";
             this.tableQSCentrize.RowCount = 3;
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableQSCentrize.Size = new System.Drawing.Size(626, 50);
+            this.tableQSCentrize.Size = new System.Drawing.Size(637, 50);
             this.tableQSCentrize.TabIndex = 2;
             // 
             // qSTextBox
@@ -167,7 +167,7 @@
             this.qSTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.qSTextBox.Location = new System.Drawing.Point(3, 5);
             this.qSTextBox.Name = "qSTextBox";
-            this.qSTextBox.Size = new System.Drawing.Size(620, 39);
+            this.qSTextBox.Size = new System.Drawing.Size(631, 39);
             this.qSTextBox.TabIndex = 3;
             // 
             // qSSwitchLabel
@@ -177,19 +177,18 @@
             this.qSSwitchLabel.Dock = System.Windows.Forms.DockStyle.Left;
             this.qSSwitchLabel.Location = new System.Drawing.Point(0, 0);
             this.qSSwitchLabel.Name = "qSSwitchLabel";
-            this.qSSwitchLabel.Size = new System.Drawing.Size(171, 50);
+            this.qSSwitchLabel.Size = new System.Drawing.Size(160, 50);
             this.qSSwitchLabel.SpecialBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(191)))), ((int)(((byte)(214)))));
             this.qSSwitchLabel.SpecialTooltipText = "";
-            this.qSSwitchLabel.TabIndex = 1;
-            this.qSSwitchLabel.Text = "Quick Search:";
-            this.qSSwitchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.qSSwitchLabel.TabIndex = 0;
+            this.qSSwitchLabel.Text = "Quick search:";
+            this.qSSwitchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // toolsTable
             // 
             this.toolsTable.ColumnCount = 2;
             this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.16792F));
             this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.83208F));
-            this.toolsTable.Controls.Add(this.sortButtonStrip, 0, 0);
             this.toolsTable.Controls.Add(this.advSearchButton, 1, 0);
             this.toolsTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolsTable.Location = new System.Drawing.Point(797, 0);
@@ -200,18 +199,6 @@
             this.toolsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.toolsTable.Size = new System.Drawing.Size(798, 50);
             this.toolsTable.TabIndex = 1;
-            // 
-            // sortButtonStrip
-            // 
-            this.sortButtonStrip.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sortButtonStrip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sortButtonStrip.Location = new System.Drawing.Point(0, 0);
-            this.sortButtonStrip.Margin = new System.Windows.Forms.Padding(0);
-            this.sortButtonStrip.Name = "sortButtonStrip";
-            this.sortButtonStrip.Size = new System.Drawing.Size(136, 50);
-            this.sortButtonStrip.TabIndex = 0;
-            this.sortButtonStrip.Text = "Sorting";
-            this.sortButtonStrip.UseVisualStyleBackColor = true;
             // 
             // advSearchButton
             // 
@@ -275,15 +262,15 @@
         private Button createNoteButton;
         private Panel panelLabel;
         public Label title;
-        public Panel contentPanel;
         private TableLayoutPanel noteContentTable;
         private TableLayoutPanel searchBarLayout;
         private Panel qSPanel;
         private TableLayoutPanel tableQSCentrize;
         private TextBox qSTextBox;
-        private Custom_Controls.BasicSwitchLabel qSSwitchLabel;
         private TableLayoutPanel toolsTable;
         private Custom_Controls.StripMenuButton sortButtonStrip;
         private Button advSearchButton;
+        private Custom_Controls.RenderPanel contentPanel;
+        private Custom_Controls.BasicSwitchLabel qSSwitchLabel;
     }
 }

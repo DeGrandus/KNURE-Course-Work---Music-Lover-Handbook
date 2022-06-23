@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+﻿using MusicLoverHandbook.Controls_and_Forms.UserControls;
+using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -20,10 +21,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private StateChangedEvent? tempStatusChangedRepeatedly;
 
-        private ToolTip tooltip = new ToolTip() { InitialDelay = 0, IsBalloon = true, };
+        private ToolTip tooltip = new ToolTip() { InitialDelay = 0 };
 
         public SmartComboBox()
         {
+            tooltip.OwnerDraw = true;
+            tooltip.Draw += (sender, e) =>
+            {
+                e.DrawBackground();
+                e.DrawBorder();
+                e.DrawText();
+            };
             TextChanged += OnInputDetected;
             LostFocus += OnLostFocus;
         }
@@ -80,6 +88,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                     return;
                 }
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
+                tooltip.BackColor = ControlPaint.Light(BackColor,0.8f);
                 state = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
                 OnStatusChanged();
@@ -154,12 +163,32 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Status = InputStatus.TOO_SHORT;
                 return;
             }
+            if (HasAnalog() is int analogInd)
+            {
+                Status = InputStatus.ANALOG;
+                Tag = InnerData[analogInd].NoteName;
+                return;
+            }
             if (!Items.Cast<string>().Contains(Text))
             {
                 Status = InputStatus.CREATION;
                 return;
             }
+            
+            Tag = Text;
             Status = InputStatus.OK;
+        }
+        private int? HasAnalog()
+        {
+            var inner = InnerData.Select(n => n.NoteName).ToList();
+            var cont = inner.Find(x =>
+            {
+                return x.ToLower().Trim() == Text.ToLower().Trim() && x!=Text;
+            }
+            );
+
+
+            return cont != null ? inner.IndexOf(cont) : null;
         }
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckText();

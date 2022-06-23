@@ -19,14 +19,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             InnerNotes = new ObservableCollection<INoteControlChild>();
             InnerNotes.CollectionChanged += OnHierarchyChanged;
 
-            Task.Run(
-                () =>
-                {
-                    while (true)
-                        if (panelContainer.FindForm() != null)
-                            panelContainer.FindForm().Text = PartialInnerNotes.Count.ToString();
-                }
-            );
             QSController = new(QSBar, this, QSSwitchLabel);
             QSController.ResultsChanged += (res) =>
             {

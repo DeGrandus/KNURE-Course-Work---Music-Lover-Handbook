@@ -19,6 +19,9 @@ namespace MusicLoverHandbook.Models.Enums
         [Text("Inactive until above isn't choosen")]
         INACTIVE = 0xFFFFFF,
 
+        [Text("It seems that this name is very similar to some already created note")]
+        ANALOG = 0xC7B1D5,
+
         //ERRORS
         [Text("This field can't be empty")]
         [ErrorState]
