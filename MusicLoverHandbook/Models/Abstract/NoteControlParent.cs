@@ -53,9 +53,10 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override List<NoteLite> Flatten()
         {
-            List<NoteLite> curr = new() { new(NoteName, NoteDescription, this) };
+            var curr = base.Flatten();
             foreach (var note in InnerNotes)
-                curr.Concat(note.Flatten());
+                if (note.NoteType.IsInformaionCarrier())
+                    curr = curr.Concat(note.Flatten()).ToList();
             return curr;
         }
         public void AddNote(NoteControl note)

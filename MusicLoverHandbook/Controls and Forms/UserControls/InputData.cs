@@ -100,7 +100,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                         $"{InputType} cannot be renamed to \"{renameInput.Text}\". An {InputType.ToString().ToLower()} with this name is already exists in current category."
                     );
             if (InputNameBox.Status == InputStatus.ANALOG)
-                if (MessageBox.Show($@"Field with name ""{Text}"" has an already existing analog ""{(string)InputNameBox.Tag}"". If you want to update an already created note, select OK. Otherwise - Cancel.", $@"Field ""{InputType}"" has an analog", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                if (MessageBox.Show($@"Field with name ""{InputNameBox.Text}"" has an already existing analog ""{(string)InputNameBox.Tag}"". If you want to update an already created note, select OK. Otherwise - Cancel.", $@"Field ""{InputType}"" has an analog", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                     InputNameBox.Text = (string)InputNameBox.Tag;
                 else
                     throw new OperationCanceledException("Operation canceled");

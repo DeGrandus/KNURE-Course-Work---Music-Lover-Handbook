@@ -128,12 +128,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void ReassignFonts()
         {
+            Font = new Font(FontContainer.Instance.Families[0], 15);
             title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
             createNoteButton.Font = GetScaledFontWidthUpscaled();
         }
 
         private void SetupLayout()
         {
+            
+
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
             panelLabel.BackColor = LabelBackColor;
             mainLayoutTable.BackColor = Color.White;
@@ -154,6 +157,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 qSPanel.BackColor = qSSwitchLabel.BackColor;
             };
+
+            advFilterButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            advFilterButton.FlatAppearance.BorderColor = ControlPaint.Dark(advFilterButton.Parent.BackColor,0.2f);
+            advFilterButton.FlatAppearance.BorderSize = 1;
+            advFilterButton.Click += (sender, e) =>
+            {
+                var filterMenu = new NoteAdvancedFilterMenu(this).ShowDialog();
+                if (filterMenu == DialogResult.OK)
+                    return;
+            };
+            sortStripButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            sortStripButton.FlatAppearance.BorderColor = ControlPaint.Dark(advFilterButton.Parent.BackColor, 0.2f);
+            sortStripButton.FlatAppearance.BorderSize = 1;
+            
 
             var buttonGradientWorker = new BackgroundWorker();
             buttonGradientWorker.DoWork += (sender, e) =>

@@ -2,18 +2,16 @@
 {
     public class EnumColorAttribute : Attribute
     {
-        public bool Inheritance = false;
-
-        public EnumColorAttribute(int alpha, int color)
+        public EnumColorAttribute(int alphaMain, int colorMain, int alphaLite, int colorLite) : this(alphaMain,colorMain)
         {
-            Color = Color.FromArgb(alpha, Color.FromArgb(color));
+            ColorLite = Color.FromArgb(alphaLite, Color.FromArgb(colorLite));
         }
-
-        public EnumColorAttribute(bool inherit)
+        public EnumColorAttribute(int alphaMain, int colorMain)
         {
-            Inheritance = inherit;
+            ColorMain = Color.FromArgb(alphaMain, Color.FromArgb(colorMain));
+            ColorLite = null;
         }
-
-        public Color Color { get; }
+        public Color ColorMain { get; }
+        public Color? ColorLite { get; }
     }
 }

@@ -75,7 +75,6 @@ namespace MusicLoverHandbook.Logic.Notes
                     .Cast<INoteControl>()
                     .ToList();
                 parent = (NoteControlParent)currentNote;
-                currentNote.IsMarked = true;
             }
             if (hierBase == null)
                 throw new Exception("Somthing went wrong in creating Notes. Base note is null");

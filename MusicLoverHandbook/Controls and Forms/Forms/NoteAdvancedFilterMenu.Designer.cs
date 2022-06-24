@@ -28,37 +28,187 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mainContentTable = new System.Windows.Forms.TableLayoutPanel();
+            this.actionsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.filteringTable = new System.Windows.Forms.TableLayoutPanel();
+            this.byDescInput = new System.Windows.Forms.TextBox();
+            this.byNameInput = new System.Windows.Forms.TextBox();
+            this.searchNameLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.searchDescLabel = new System.Windows.Forms.Label();
+            this.noteTypeSelectFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.titleContPanel = new System.Windows.Forms.Panel();
+            this.previewFilteredPanel = new System.Windows.Forms.Panel();
+            this.mainContentTable.SuspendLayout();
+            this.filteringTable.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // mainContentTable
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1502, 985);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.mainContentTable.ColumnCount = 1;
+            this.mainContentTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mainContentTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mainContentTable.Controls.Add(this.actionsTable, 0, 1);
+            this.mainContentTable.Controls.Add(this.filteringTable, 0, 0);
+            this.mainContentTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainContentTable.Location = new System.Drawing.Point(0, 0);
+            this.mainContentTable.Margin = new System.Windows.Forms.Padding(4);
+            this.mainContentTable.Name = "mainContentTable";
+            this.mainContentTable.RowCount = 2;
+            this.mainContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mainContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mainContentTable.Size = new System.Drawing.Size(1336, 787);
+            this.mainContentTable.TabIndex = 0;
+            // 
+            // actionsTable
+            // 
+            this.actionsTable.ColumnCount = 1;
+            this.actionsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.actionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.actionsTable.Location = new System.Drawing.Point(3, 396);
+            this.actionsTable.Name = "actionsTable";
+            this.actionsTable.RowCount = 1;
+            this.actionsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.actionsTable.Size = new System.Drawing.Size(1330, 388);
+            this.actionsTable.TabIndex = 0;
+            // 
+            // filteringTable
+            // 
+            this.filteringTable.ColumnCount = 3;
+            this.filteringTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.filteringTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.filteringTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.filteringTable.Controls.Add(this.byDescInput, 1, 3);
+            this.filteringTable.Controls.Add(this.byNameInput, 1, 2);
+            this.filteringTable.Controls.Add(this.searchNameLabel, 0, 2);
+            this.filteringTable.Controls.Add(this.titleLabel, 0, 0);
+            this.filteringTable.Controls.Add(this.searchDescLabel, 0, 3);
+            this.filteringTable.Controls.Add(this.noteTypeSelectFlow, 0, 4);
+            this.filteringTable.Controls.Add(this.titleContPanel, 2, 0);
+            this.filteringTable.Controls.Add(this.previewFilteredPanel, 2, 1);
+            this.filteringTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filteringTable.Location = new System.Drawing.Point(0, 0);
+            this.filteringTable.Margin = new System.Windows.Forms.Padding(0);
+            this.filteringTable.Name = "filteringTable";
+            this.filteringTable.RowCount = 4;
+            this.filteringTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.filteringTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.filteringTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.filteringTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.filteringTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.filteringTable.Size = new System.Drawing.Size(1336, 393);
+            this.filteringTable.TabIndex = 1;
+            // 
+            // byDescInput
+            // 
+            this.byDescInput.Location = new System.Drawing.Point(173, 141);
+            this.byDescInput.Margin = new System.Windows.Forms.Padding(0);
+            this.byDescInput.Name = "byDescInput";
+            this.byDescInput.Size = new System.Drawing.Size(581, 39);
+            this.byDescInput.TabIndex = 2;
+            // 
+            // byNameInput
+            // 
+            this.byNameInput.Location = new System.Drawing.Point(173, 102);
+            this.byNameInput.Margin = new System.Windows.Forms.Padding(0);
+            this.byNameInput.Name = "byNameInput";
+            this.byNameInput.Size = new System.Drawing.Size(581, 39);
+            this.byNameInput.TabIndex = 0;
+            // 
+            // searchNameLabel
+            // 
+            this.searchNameLabel.AutoSize = true;
+            this.searchNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchNameLabel.Location = new System.Drawing.Point(0, 102);
+            this.searchNameLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.searchNameLabel.Name = "searchNameLabel";
+            this.searchNameLabel.Size = new System.Drawing.Size(173, 39);
+            this.searchNameLabel.TabIndex = 1;
+            this.searchNameLabel.Text = "By Name:";
+            this.searchNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.filteringTable.SetColumnSpan(this.titleLabel, 2);
+            this.titleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleLabel.Location = new System.Drawing.Point(0, 0);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(928, 32);
+            this.titleLabel.TabIndex = 5;
+            this.titleLabel.Text = "Advanced Filter";
+            this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // searchDescLabel
+            // 
+            this.searchDescLabel.AutoSize = true;
+            this.searchDescLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchDescLabel.Location = new System.Drawing.Point(0, 141);
+            this.searchDescLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.searchDescLabel.Name = "searchDescLabel";
+            this.searchDescLabel.Size = new System.Drawing.Size(173, 39);
+            this.searchDescLabel.TabIndex = 3;
+            this.searchDescLabel.Text = "By Description:";
+            // 
+            // noteTypeSelectFlow
+            // 
+            this.noteTypeSelectFlow.AutoScroll = true;
+            this.filteringTable.SetColumnSpan(this.noteTypeSelectFlow, 2);
+            this.noteTypeSelectFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.noteTypeSelectFlow.Location = new System.Drawing.Point(3, 183);
+            this.noteTypeSelectFlow.Name = "noteTypeSelectFlow";
+            this.noteTypeSelectFlow.Size = new System.Drawing.Size(922, 207);
+            this.noteTypeSelectFlow.TabIndex = 7;
+            // 
+            // titleContPanel
+            // 
+            this.titleContPanel.AutoSize = true;
+            this.titleContPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleContPanel.Location = new System.Drawing.Point(928, 0);
+            this.titleContPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.titleContPanel.Name = "titleContPanel";
+            this.titleContPanel.Size = new System.Drawing.Size(408, 32);
+            this.titleContPanel.TabIndex = 8;
+            // 
+            // previewFilteredPanel
+            // 
+            this.previewFilteredPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewFilteredPanel.Location = new System.Drawing.Point(931, 35);
+            this.previewFilteredPanel.Name = "previewFilteredPanel";
+            this.filteringTable.SetRowSpan(this.previewFilteredPanel, 4);
+            this.previewFilteredPanel.Size = new System.Drawing.Size(402, 355);
+            this.previewFilteredPanel.TabIndex = 9;
             // 
             // NoteAdvancedFilterMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1502, 985);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(1336, 787);
+            this.Controls.Add(this.mainContentTable);
+            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NoteAdvancedFilterMenu";
             this.Text = "NoteAdvancedFilterMenu";
+            this.mainContentTable.ResumeLayout(false);
+            this.filteringTable.ResumeLayout(false);
+            this.filteringTable.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel mainContentTable;
+        private TableLayoutPanel actionsTable;
+        private TableLayoutPanel filteringTable;
+        private TextBox byNameInput;
+        private Label searchNameLabel;
+        private TextBox byDescInput;
+        private Label searchDescLabel;
+        private Label titleLabel;
+        private FlowLayoutPanel noteTypeSelectFlow;
+        private Panel titleContPanel;
+        private Panel previewFilteredPanel;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace MusicLoverHandbook.Models
         public string Description { get; }
         public Image? Icon { get; }
         public NoteControl Ref { get;  }
-        public int MainHeight { get; set; } = 20;
+        public int MainHeight { get; set; } = 30;
 
         public NoteLite(string name, string description, NoteControl noteRef)
         {
@@ -22,6 +23,11 @@ namespace MusicLoverHandbook.Models
             Icon = noteRef.Icon;
             Ref = noteRef;
             SetupLayout();
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            base.OnPaint(e);
         }
         private void SetupLayout()
         {
@@ -32,8 +38,8 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                Dock = DockStyle.Top,
-                Height = 20,
+                Dock = DockStyle.Fill,
+                Height = MainHeight,
                 ColumnCount = 3,
                 RowCount = 1,
                 BackColor = Ref.ThemeColor
@@ -41,48 +47,52 @@ namespace MusicLoverHandbook.Models
             mainTable.ColumnStyles.Add(new(SizeType.Absolute, MainHeight));
             mainTable.ColumnStyles.Add(new(SizeType.Percent, 100));
             mainTable.ColumnStyles.Add(new(SizeType.Absolute, MainHeight));
+            mainTable.RowStyles.Add(new(SizeType.Absolute, MainHeight));
 
             var iconPanel = new Panel()
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackgroundImage = Icon,
-                BackColor = ControlPaint.Light(Ref.ThemeColor),
+                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
                 Dock=DockStyle.Fill,
+                BackgroundImage = Icon,
+                BackgroundImageLayout = ImageLayout.Stretch,
+
             };
             var infoPanel = new Panel()
             {
                 Margin = new(0),
                 Padding = new(0),
                 BackgroundImage = Properties.Resources.info,
-                BackColor = ControlPaint.Light(Ref.ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+
+                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
                 Dock = DockStyle.Fill,
             };
             var tooltip = new ToolTip()
             {
-                BackColor = ControlPaint.Light(Ref.ThemeColor),
-                OwnerDraw = true
-            };
-            tooltip.Draw += (sender, e) =>
-            {
-                e.DrawBackground();
-                e.DrawBorder();
-                e.DrawText();
+                BackColor = ControlPaint.Light(Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor),
+                IsBalloon = true,
+                InitialDelay = 50,
             };
             tooltip.SetToolTip(infoPanel, Description);
             var nameLabel = new Label()
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = Ref.ThemeColor,
+                BackColor = Ref.NoteType.GetLiteColor()??Ref.ThemeColor,
                 Dock = DockStyle.Fill,
-                Text = NoteName
+                Text = NoteName,
+                Font = new Font(Ref.TextLabel.Font.FontFamily,MainHeight,GraphicsUnit.Pixel)
             };
 
             mainTable.Controls.Add(iconPanel,0,0);
             mainTable.Controls.Add(nameLabel,1,0);
             mainTable.Controls.Add(infoPanel,2,0);
 
+            Size = new(10, MainHeight);
+            Controls.Add(mainTable);
+            BackColor = Color.White;
 
             ResumeLayout();
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.mainLayoutTable = new System.Windows.Forms.TableLayoutPanel();
             this.createNoteButton = new System.Windows.Forms.Button();
             this.noteContentTable = new System.Windows.Forms.TableLayoutPanel();
@@ -38,7 +39,8 @@
             this.qSTextBox = new System.Windows.Forms.TextBox();
             this.qSSwitchLabel = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel();
             this.toolsTable = new System.Windows.Forms.TableLayoutPanel();
-            this.advSearchButton = new System.Windows.Forms.Button();
+            this.advFilterButton = new System.Windows.Forms.Button();
+            this.sortStripButton = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton();
             this.panelLabel = new System.Windows.Forms.Panel();
             this.title = new System.Windows.Forms.Label();
             this.mainLayoutTable.SuspendLayout();
@@ -74,7 +76,7 @@
             this.mainLayoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.mainLayoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.mainLayoutTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainLayoutTable.Size = new System.Drawing.Size(1631, 1123);
+            this.mainLayoutTable.Size = new System.Drawing.Size(1374, 1132);
             this.mainLayoutTable.TabIndex = 0;
             // 
             // createNoteButton
@@ -82,10 +84,10 @@
             this.mainLayoutTable.SetColumnSpan(this.createNoteButton, 3);
             this.createNoteButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.createNoteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.createNoteButton.Location = new System.Drawing.Point(115, 1003);
+            this.createNoteButton.Location = new System.Drawing.Point(115, 1012);
             this.createNoteButton.Margin = new System.Windows.Forms.Padding(0);
             this.createNoteButton.Name = "createNoteButton";
-            this.createNoteButton.Size = new System.Drawing.Size(1401, 100);
+            this.createNoteButton.Size = new System.Drawing.Size(1144, 100);
             this.createNoteButton.TabIndex = 1;
             this.createNoteButton.Text = "CreateNewNote";
             this.createNoteButton.UseVisualStyleBackColor = true;
@@ -104,16 +106,17 @@
             this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.noteContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.noteContentTable.Size = new System.Drawing.Size(1595, 847);
+            this.noteContentTable.Size = new System.Drawing.Size(1338, 856);
             this.noteContentTable.TabIndex = 0;
             // 
             // contentPanel
             // 
+            this.contentPanel.AutoScroll = true;
             this.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentPanel.Location = new System.Drawing.Point(0, 50);
             this.contentPanel.Margin = new System.Windows.Forms.Padding(0);
             this.contentPanel.Name = "contentPanel";
-            this.contentPanel.Size = new System.Drawing.Size(1595, 797);
+            this.contentPanel.Size = new System.Drawing.Size(1338, 806);
             this.contentPanel.TabIndex = 0;
             // 
             // searchBarLayout
@@ -131,7 +134,7 @@
             this.searchBarLayout.RowCount = 1;
             this.searchBarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.searchBarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.searchBarLayout.Size = new System.Drawing.Size(1595, 50);
+            this.searchBarLayout.Size = new System.Drawing.Size(1338, 50);
             this.searchBarLayout.TabIndex = 4;
             // 
             // qSPanel
@@ -142,7 +145,7 @@
             this.qSPanel.Location = new System.Drawing.Point(0, 0);
             this.qSPanel.Margin = new System.Windows.Forms.Padding(0);
             this.qSPanel.Name = "qSPanel";
-            this.qSPanel.Size = new System.Drawing.Size(797, 50);
+            this.qSPanel.Size = new System.Drawing.Size(669, 50);
             this.qSPanel.TabIndex = 0;
             // 
             // tableQSCentrize
@@ -159,7 +162,7 @@
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableQSCentrize.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableQSCentrize.Size = new System.Drawing.Size(637, 50);
+            this.tableQSCentrize.Size = new System.Drawing.Size(509, 50);
             this.tableQSCentrize.TabIndex = 2;
             // 
             // qSTextBox
@@ -167,7 +170,7 @@
             this.qSTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.qSTextBox.Location = new System.Drawing.Point(3, 5);
             this.qSTextBox.Name = "qSTextBox";
-            this.qSTextBox.Size = new System.Drawing.Size(631, 39);
+            this.qSTextBox.Size = new System.Drawing.Size(503, 39);
             this.qSTextBox.TabIndex = 3;
             // 
             // qSSwitchLabel
@@ -189,28 +192,39 @@
             this.toolsTable.ColumnCount = 2;
             this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.16792F));
             this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.83208F));
-            this.toolsTable.Controls.Add(this.advSearchButton, 1, 0);
+            this.toolsTable.Controls.Add(this.advFilterButton, 1, 0);
+            this.toolsTable.Controls.Add(this.sortStripButton, 0, 0);
             this.toolsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolsTable.Location = new System.Drawing.Point(797, 0);
+            this.toolsTable.Location = new System.Drawing.Point(669, 0);
             this.toolsTable.Margin = new System.Windows.Forms.Padding(0);
             this.toolsTable.Name = "toolsTable";
             this.toolsTable.RowCount = 1;
             this.toolsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.toolsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.toolsTable.Size = new System.Drawing.Size(798, 50);
+            this.toolsTable.Size = new System.Drawing.Size(669, 50);
             this.toolsTable.TabIndex = 1;
             // 
-            // advSearchButton
+            // advFilterButton
             // 
-            this.advSearchButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.advSearchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.advSearchButton.Location = new System.Drawing.Point(136, 0);
-            this.advSearchButton.Margin = new System.Windows.Forms.Padding(0);
-            this.advSearchButton.Name = "advSearchButton";
-            this.advSearchButton.Size = new System.Drawing.Size(662, 50);
-            this.advSearchButton.TabIndex = 1;
-            this.advSearchButton.Text = "Advanced Search";
-            this.advSearchButton.UseVisualStyleBackColor = true;
+            this.advFilterButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.advFilterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.advFilterButton.Location = new System.Drawing.Point(117, 3);
+            this.advFilterButton.Name = "advFilterButton";
+            this.advFilterButton.Size = new System.Drawing.Size(549, 44);
+            this.advFilterButton.TabIndex = 1;
+            this.advFilterButton.Text = "Advanced Search";
+            this.advFilterButton.UseVisualStyleBackColor = true;
+            // 
+            // sortStripButton
+            // 
+            this.sortStripButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sortStripButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sortStripButton.Location = new System.Drawing.Point(3, 3);
+            this.sortStripButton.Name = "sortStripButton";
+            this.sortStripButton.Size = new System.Drawing.Size(108, 44);
+            this.sortStripButton.TabIndex = 2;
+            this.sortStripButton.Text = "Sort";
+            this.sortStripButton.UseVisualStyleBackColor = true;
             // 
             // panelLabel
             // 
@@ -221,7 +235,7 @@
             this.panelLabel.Location = new System.Drawing.Point(0, 0);
             this.panelLabel.Margin = new System.Windows.Forms.Padding(0);
             this.panelLabel.Name = "panelLabel";
-            this.panelLabel.Size = new System.Drawing.Size(1631, 50);
+            this.panelLabel.Size = new System.Drawing.Size(1374, 50);
             this.panelLabel.TabIndex = 5;
             // 
             // title
@@ -229,7 +243,7 @@
             this.title.Dock = System.Windows.Forms.DockStyle.Fill;
             this.title.Location = new System.Drawing.Point(0, 0);
             this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(1631, 50);
+            this.title.Size = new System.Drawing.Size(1374, 50);
             this.title.TabIndex = 0;
             this.title.Text = "Music Lover Handbook";
             this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -238,7 +252,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1631, 1123);
+            this.ClientSize = new System.Drawing.Size(1374, 1132);
             this.Controls.Add(this.mainLayoutTable);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -268,9 +282,9 @@
         private TableLayoutPanel tableQSCentrize;
         private TextBox qSTextBox;
         private TableLayoutPanel toolsTable;
-        private Custom_Controls.StripMenuButton sortButtonStrip;
-        private Button advSearchButton;
+        private Button advFilterButton;
         private Custom_Controls.RenderPanel contentPanel;
         private Custom_Controls.BasicSwitchLabel qSSwitchLabel;
+        private Custom_Controls.StripMenuButton sortStripButton;
     }
 }
