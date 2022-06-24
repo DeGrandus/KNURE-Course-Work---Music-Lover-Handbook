@@ -88,7 +88,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                     return;
                 }
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
-                tooltip.BackColor = ControlPaint.Light(BackColor,0.8f);
+                tooltip.BackColor = ControlPaint.Light(BackColor, 0.8f);
                 state = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
                 OnStatusChanged();
@@ -174,28 +174,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Status = InputStatus.CREATION;
                 return;
             }
-            
+
             Tag = Text;
             Status = InputStatus.OK;
         }
+
         private int? HasAnalog()
         {
             var inner = InnerData.Select(n => n.NoteName).ToList();
-            var cont = inner.Find(x =>
-            {
-                return x.ToLower().Trim() == Text.ToLower().Trim() && x!=Text;
-            }
+            var cont = inner.Find(
+                x =>
+                {
+                    return x.ToLower().Trim() == Text.ToLower().Trim() && x != Text;
+                }
             );
-
 
             return cont != null ? inner.IndexOf(cont) : null;
         }
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckText();
 
-        private void OnItemSelected(object? sender, EventArgs e)
-        {
-        }
+        private void OnItemSelected(object? sender, EventArgs e) { }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {

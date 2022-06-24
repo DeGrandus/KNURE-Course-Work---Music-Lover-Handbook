@@ -18,10 +18,17 @@ namespace MusicLoverHandbook.Models.JSON
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType.IsAssignableTo(typeof(IEnumerable)) && objectType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(INote)) == true;
+            return objectType.IsAssignableTo(typeof(IEnumerable))
+                && objectType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(INote))
+                    == true;
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object? ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object? existingValue,
+            JsonSerializer serializer
+        )
         {
             throw new NotImplementedException();
         }

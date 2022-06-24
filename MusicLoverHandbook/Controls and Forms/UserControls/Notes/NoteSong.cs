@@ -12,7 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder
-        ) : base(parent, text, description,NoteType.Song, usedCreationOrder)
+        ) : base(parent, text, description, NoteType.Song, usedCreationOrder)
         {
             InitializeComponent();
             Icon = Properties.Resources.song;

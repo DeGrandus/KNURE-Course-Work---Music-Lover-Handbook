@@ -22,6 +22,7 @@ namespace MusicLoverHandbook.Logic.Notes
                 new (Type, object?)[] { (typeof(IControlParent), mainForm?.Container) }
             );
         }
+
         public NoteManager()
         {
             mainForm = null;

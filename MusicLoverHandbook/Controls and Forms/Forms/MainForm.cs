@@ -12,6 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public Color LabelBackColor;
         public NoteBuilder Builder { get; }
         public NoteManager NoteManager { get; }
+
         public MainForm()
         {
             InitializeComponent();
@@ -135,8 +136,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void SetupLayout()
         {
-            
-
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
             panelLabel.BackColor = LabelBackColor;
             mainLayoutTable.BackColor = Color.White;
@@ -159,7 +158,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
 
             advFilterButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            advFilterButton.FlatAppearance.BorderColor = ControlPaint.Dark(advFilterButton.Parent.BackColor,0.2f);
+            advFilterButton.FlatAppearance.BorderColor = ControlPaint.Dark(
+                advFilterButton.Parent.BackColor,
+                0.2f
+            );
             advFilterButton.FlatAppearance.BorderSize = 1;
             advFilterButton.Click += (sender, e) =>
             {
@@ -168,9 +170,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     return;
             };
             sortStripButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            sortStripButton.FlatAppearance.BorderColor = ControlPaint.Dark(advFilterButton.Parent.BackColor, 0.2f);
+            sortStripButton.FlatAppearance.BorderColor = ControlPaint.Dark(
+                advFilterButton.Parent.BackColor,
+                0.2f
+            );
             sortStripButton.FlatAppearance.BorderSize = 1;
-            
 
             var buttonGradientWorker = new BackgroundWorker();
             buttonGradientWorker.DoWork += (sender, e) =>

@@ -12,7 +12,6 @@ using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
-
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
     {
@@ -26,7 +25,12 @@ namespace MusicLoverHandbook.Models.Abstract
         private Color theme;
         private bool isMarked;
 
-        protected NoteControl(string text, string description, NoteType noteType, NoteCreationOrder? order)
+        protected NoteControl(
+            string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        )
         {
             BackColor = Color.Transparent;
             UsedCreationOrder = order;
@@ -121,31 +125,42 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public NoteCreationOrder? UsedCreationOrder { get; }
-        protected virtual CertainTypedContractResolver ContractResolver => new CertainTypedContractResolver(typeof(INote));
+        protected virtual CertainTypedContractResolver ContractResolver =>
+            new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
         public bool IsMarked
         {
-            get => isMarked; set
+            get => isMarked;
+            set
             {
                 if (isMarked != value)
                 {
                     isMarked = value;
                     RedrawMarked();
                 }
-
             }
         }
-        private Panel mark = new() { BackColor = Color.FromArgb(150,255,150), Dock = DockStyle.Fill, Width = 14,Margin = new(0) };
+        private Panel mark =
+            new()
+            {
+                BackColor = Color.FromArgb(150, 255, 150),
+                Dock = DockStyle.Fill,
+                Width = 14,
+                Margin = new(0)
+            };
+
         private void RedrawMarked()
         {
-            if (mainTable == null) return;
+            if (mainTable == null)
+                return;
             if (IsMarked)
                 mainTable.Controls.Add(mark, 0, 0);
             else
                 mainTable.Controls.Remove(mark);
         }
+
         private JsonSerializerSettings SerializerSettings
         {
             get
@@ -161,7 +176,7 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public static explicit operator SimpleNoteModel(NoteControl from) =>
-                    new SimpleNoteModel(from);
+            new SimpleNoteModel(from);
 
         public virtual void ChangeSize(int size)
         {
@@ -171,14 +186,19 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public NoteRawImportModel DeserializeToImports()
         {
-            return JsonConvert.DeserializeObject<NoteRawImportModel>(Serialize(), SerializerSettings)!;
+            return JsonConvert.DeserializeObject<NoteRawImportModel>(
+                Serialize(),
+                SerializerSettings
+            )!;
         }
+
         public NoteControl Clone()
         {
             var impToClone = DeserializeToImports();
             var recreator = FindForm() is MainForm mf ? mf.NoteManager : new();
             return recreator.RecreateFromImported(impToClone);
         }
+
         public void OnColorChanged()
         {
             if (ColorChanged != null)
@@ -187,7 +207,9 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public string Serialize()
         {
-            var selfJson = JsonConvert.DeserializeObject<JToken>(JsonConvert.SerializeObject(this, SerializerSettings));
+            var selfJson = JsonConvert.DeserializeObject<JToken>(
+                JsonConvert.SerializeObject(this, SerializerSettings)
+            );
             var jObj = new JObject();
             jObj.Add(NoteType.ToString(true), selfJson);
             return jObj.ToString(Formatting.Indented);
@@ -236,10 +258,12 @@ namespace MusicLoverHandbook.Models.Abstract
             }
             return chain;
         }
+
         public virtual List<NoteLite> Flatten()
         {
-            return new(){ new(NoteName,NoteDescription,this) };
+            return new() { new(NoteName, NoteDescription, this) };
         }
+
         protected virtual void InitCustomLayout()
         {
             SuspendLayout();
@@ -383,7 +407,12 @@ namespace MusicLoverHandbook.Models.Abstract
 
         private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
         {
-            return new() { new StringEnumConverter(), new InnerNotesConverter(settings), new NoteDesrializationConverter() };
+            return new()
+            {
+                new StringEnumConverter(),
+                new InnerNotesConverter(settings),
+                new NoteDesrializationConverter()
+            };
         }
 
         private void InitCustomization()

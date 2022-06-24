@@ -7,18 +7,32 @@ namespace MusicLoverHandbook.Models.JSON
     {
         public override bool CanWrite => false;
 
-        public override NoteRawImportModel? ReadJson(JsonReader reader, Type objectType, NoteRawImportModel? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override NoteRawImportModel? ReadJson(
+            JsonReader reader,
+            Type objectType,
+            NoteRawImportModel? existingValue,
+            bool hasExistingValue,
+            JsonSerializer serializer
+        )
         {
-            if (reader.TokenType == JsonToken.Null) return null;
+            if (reader.TokenType == JsonToken.Null)
+                return null;
 
             var obj = JObject.Load(reader);
             var repObj = GetCuttedTree(obj);
-            var noteImport = JsonConvert.DeserializeObject<NoteRawImportModel>(repObj.ToString(), new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
+            var noteImport = JsonConvert.DeserializeObject<NoteRawImportModel>(
+                repObj.ToString(),
+                new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error }
+            );
 
             return noteImport;
         }
 
-        public override void WriteJson(JsonWriter writer, NoteRawImportModel? value, JsonSerializer serializer)
+        public override void WriteJson(
+            JsonWriter writer,
+            NoteRawImportModel? value,
+            JsonSerializer serializer
+        )
         {
             throw new NotImplementedException();
         }

@@ -14,11 +14,20 @@ namespace MusicLoverHandbook.Models.JSON
             onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
         }
 
-        public static CertainTypedContractResolver operator &(CertainTypedContractResolver r1, CertainTypedContractResolver r2) => new CertainTypedContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
+        public static CertainTypedContractResolver operator &(
+            CertainTypedContractResolver r1,
+            CertainTypedContractResolver r2
+        ) => new CertainTypedContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
 
-        public static CertainTypedContractResolver operator |(CertainTypedContractResolver r1, CertainTypedContractResolver r2) => new CertainTypedContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
+        public static CertainTypedContractResolver operator |(
+            CertainTypedContractResolver r1,
+            CertainTypedContractResolver r2
+        ) => new CertainTypedContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
 
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        protected override IList<JsonProperty> CreateProperties(
+            Type type,
+            MemberSerialization memberSerialization
+        )
         {
             var all = base.CreateProperties(type, memberSerialization);
             all = all.Where(x => onlyNames.Contains(x.PropertyName)).ToList();

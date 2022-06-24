@@ -15,6 +15,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.add;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
+
         protected override LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
             var chain = base.GenerateNoteChain();

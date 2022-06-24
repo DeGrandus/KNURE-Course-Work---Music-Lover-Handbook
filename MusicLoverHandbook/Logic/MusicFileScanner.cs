@@ -94,10 +94,7 @@ namespace MusicLoverHandbook.Controller
             var duration = "Duration: " + file.Properties.Duration.ToString(@"hh\:mm\:ss");
 
             var ret = new Dictionary<NoteType, string>();
-            ret.Add(
-                NoteType.Song,
-                string.Join("\r\n", new object[] { year, genre, copyright })
-            );
+            ret.Add(NoteType.Song, string.Join("\r\n", new object[] { year, genre, copyright }));
             ret.Add(
                 NoteType.SongFile,
                 string.Join("\r\n", new object[] { filepath, duration, comment })

@@ -119,7 +119,9 @@ namespace MusicLoverHandbook.View.Forms
 
             if (state == InputStatus.OK || state == InputStatus.ANALOG)
             {
-                var data = (box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlParent);
+                var data = (
+                    box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlParent
+                );
                 if (data != null)
                 {
                     if (CreationType == NoteCreationOrder.AuthorThenDisc)
@@ -141,7 +143,9 @@ namespace MusicLoverHandbook.View.Forms
 
         private void SecondaryInputStateChanged(SmartComboBox box, InputStatus state)
         {
-            var dataSelf = (box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlMidder);
+            var dataSelf = (
+                box.InnerData.Find(x => x.NoteName == (string)box.Tag) as NoteControlMidder
+            );
 
             if (state == InputStatus.OK || state == InputStatus.ANALOG)
             {
@@ -170,7 +174,10 @@ namespace MusicLoverHandbook.View.Forms
             {
                 try
                 {
-                    FinalNote = MainForm.Builder.CreateNote(InputDataOrdered.Select(x => x.GetOutput()), creationOrder);
+                    FinalNote = MainForm.Builder.CreateNote(
+                        InputDataOrdered.Select(x => x.GetOutput()),
+                        creationOrder
+                    );
                 }
                 catch (InvalidDataException ex)
                 {

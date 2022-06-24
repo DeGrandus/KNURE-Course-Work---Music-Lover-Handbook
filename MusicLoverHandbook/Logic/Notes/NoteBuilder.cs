@@ -28,11 +28,7 @@ namespace MusicLoverHandbook.Logic.Notes
 
             NoteControlMidder? hierBase = null;
             NoteControlParent? parent = null;
-            for (
-                var currentNode = order.First;
-                currentNode != null;
-                currentNode = currentNode.Next
-            )
+            for (var currentNode = order.First; currentNode != null; currentNode = currentNode.Next)
             {
                 var currentType = currentNode.Value;
                 var currentInfo = infoOrdered.ToList().Find(x => x.Type == currentType);
@@ -48,9 +44,9 @@ namespace MusicLoverHandbook.Logic.Notes
                     ) as NoteControl;
                 if (currentNote == null)
                 {
-                    currentNote = (NoteControl)currentType.GetConnectedNoteType()!.GetConstructors()[
-                        0
-                    ].Invoke(
+                    currentNote = (NoteControl)currentType
+                        .GetConnectedNoteType()!
+                        .GetConstructors()[0].Invoke(
                         new object?[]
                         {
                             parent as IControlParent ?? Form.NotesContainer,

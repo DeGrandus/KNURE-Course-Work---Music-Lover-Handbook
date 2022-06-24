@@ -13,7 +13,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder
-        ) : base(song, text, description,NoteType.SongFile, usedCreationOrder)
+        ) : base(song, text, description, NoteType.SongFile, usedCreationOrder)
         {
             InitializeComponent();
 

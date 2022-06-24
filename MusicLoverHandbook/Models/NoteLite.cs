@@ -13,7 +13,7 @@ namespace MusicLoverHandbook.Models
         public string NoteName { get; }
         public string Description { get; }
         public Image? Icon { get; }
-        public NoteControl Ref { get;  }
+        public NoteControl Ref { get; }
         public int MainHeight { get; set; } = 30;
 
         public NoteLite(string name, string description, NoteControl noteRef)
@@ -24,11 +24,13 @@ namespace MusicLoverHandbook.Models
             Ref = noteRef;
             SetupLayout();
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             base.OnPaint(e);
         }
+
         private void SetupLayout()
         {
             SuspendLayout();
@@ -54,10 +56,9 @@ namespace MusicLoverHandbook.Models
                 Margin = new(0),
                 Padding = new(0),
                 BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
-                Dock=DockStyle.Fill,
+                Dock = DockStyle.Fill,
                 BackgroundImage = Icon,
                 BackgroundImageLayout = ImageLayout.Stretch,
-
             };
             var infoPanel = new Panel()
             {
@@ -65,7 +66,6 @@ namespace MusicLoverHandbook.Models
                 Padding = new(0),
                 BackgroundImage = Properties.Resources.info,
                 BackgroundImageLayout = ImageLayout.Stretch,
-
                 BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
                 Dock = DockStyle.Fill,
             };
@@ -80,15 +80,15 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = Ref.NoteType.GetLiteColor()??Ref.ThemeColor,
+                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
                 Dock = DockStyle.Fill,
                 Text = NoteName,
-                Font = new Font(Ref.TextLabel.Font.FontFamily,MainHeight,GraphicsUnit.Pixel)
+                Font = new Font(Ref.TextLabel.Font.FontFamily, MainHeight, GraphicsUnit.Pixel)
             };
 
-            mainTable.Controls.Add(iconPanel,0,0);
-            mainTable.Controls.Add(nameLabel,1,0);
-            mainTable.Controls.Add(infoPanel,2,0);
+            mainTable.Controls.Add(iconPanel, 0, 0);
+            mainTable.Controls.Add(nameLabel, 1, 0);
+            mainTable.Controls.Add(infoPanel, 2, 0);
 
             Size = new(10, MainHeight);
             Controls.Add(mainTable);

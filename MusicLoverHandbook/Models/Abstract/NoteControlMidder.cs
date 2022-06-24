@@ -6,7 +6,13 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
     {
-        protected NoteControlMidder(IControlParent parent, string text, string description, NoteType noteType, NoteCreationOrder? order) : base(text, description, noteType, order)
+        protected NoteControlMidder(
+            IControlParent parent,
+            string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        ) : base(text, description, noteType, order)
         {
             ParentNote = parent;
         }
@@ -25,12 +31,14 @@ namespace MusicLoverHandbook.Models.Abstract
                 )
                 ?? Color.Transparent;
         }
+
         public override void UpdateSize()
         {
             base.UpdateSize();
             if (ParentNote is INoteControlParent noteParent)
                 noteParent.UpdateSize();
         }
+
         public IControlParent GetFirstParent()
         {
             return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;

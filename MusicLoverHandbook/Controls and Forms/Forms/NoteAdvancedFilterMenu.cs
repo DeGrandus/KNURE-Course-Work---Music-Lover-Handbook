@@ -12,7 +12,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private List<NoteLite> originalLiteNotes;
 
-        private Dictionary<string,string[]> taggedData;
+        private Dictionary<string, string[]> taggedData;
+
         public NoteAdvancedFilterMenu(MainForm mainForm)
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             SetupLayout();
         }
-        
+
         public MainForm MainForm { get; }
 
         private List<NoteLite> PreviewFiltered
@@ -39,22 +40,30 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             InvokeFiltering();
         }
+
         private NoteFilter CreateFilter() => new(byNameInput.Text, byDescInput.Text);
+
         private void InvokeFiltering()
         {
             PreviewFiltered = CreateFilter().ApplyOn(originalLiteNotes);
         }
-        private void OnDescInputChanged(object? sender, EventArgs e)
-        {
 
-        }
+        private void OnDescInputChanged(object? sender, EventArgs e) { }
+
         private void DrawPreviewBorder()
         {
             Image back = new Bitmap(previewFilteredPanel.Width, previewFilteredPanel.Height);
             using (var g = Graphics.FromImage(back))
-                g.DrawRectangle(new Pen(ControlPaint.Dark(previewFilteredPanel.BackColor, 0.1f), 6), 0, 0, back.Width, back.Height);
+                g.DrawRectangle(
+                    new Pen(ControlPaint.Dark(previewFilteredPanel.BackColor, 0.1f), 6),
+                    0,
+                    0,
+                    back.Width,
+                    back.Height
+                );
             previewFilteredPanel.BackgroundImage = back;
         }
+
         private void SetupLayout()
         {
             titleLabel.BackColor = MainForm.LabelBackColor;
@@ -70,11 +79,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             actionsTable.BackColor = previewFilteredPanel.BackColor;
             BackColor = ControlPaint.LightLight(previewFilteredPanel.BackColor);
 
-            originalLiteNotes = MainForm.NotesContainer.InnerNotes.SelectMany(x => x.Flatten()).ToList();
+            originalLiteNotes = MainForm.NotesContainer.InnerNotes
+                .SelectMany(x => x.Flatten())
+                .ToList();
             originalLiteNotes.ForEach(x => x.Dock = DockStyle.Top);
             PreviewFiltered = originalLiteNotes;
 
-            taggedData = originalLiteNotes.SelectMany(x => StringTools.GetTagged(x.Description, '#')).GroupBy(x => x.Tag).ToDictionary(k=>k.Key,v=>v.Select(x=>x.Data).Distinct().ToArray());
+            taggedData = originalLiteNotes
+                .SelectMany(x => StringTools.GetTagged(x.Description, '#'))
+                .GroupBy(x => x.Tag)
+                .ToDictionary(k => k.Key, v => v.Select(x => x.Data).Distinct().ToArray());
 
             byNameInput.TextChanged += OnInputTextChanged;
             byDescInput.TextChanged += OnInputTextChanged;
@@ -91,7 +105,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             public NoteFilter(string byName, string byDesc)
             {
                 Name = byName.ToLower().Trim();
-                DescComp = byDesc != "" ? byDesc.Split(";").Select(x => x.ToLower().Trim()).ToArray() : new[] { "" };
+                DescComp =
+                    byDesc != ""
+                        ? byDesc.Split(";").Select(x => x.ToLower().Trim()).ToArray()
+                        : new[] { "" };
             }
 
             public string[] DescComp { get; }
@@ -106,13 +123,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 foreach (var comp in DescComp)
                 {
-                    if (comp == "") continue;
+                    if (comp == "")
+                        continue;
                     var s = comp;
                     if (comp[0] == '#')
                         s = StringTools.GetTagData(comp);
-                    Debug.WriteLine("COMPAER: "+s);
+                    Debug.WriteLine("COMPAER: " + s);
                     if (comp != "")
-                        lites = lites.Where(x => x.Description.ToLower().Trim().Contains(s)).ToList();
+                        lites = lites
+                            .Where(x => x.Description.ToLower().Trim().Contains(s))
+                            .ToList();
                 }
                 return lites;
             }

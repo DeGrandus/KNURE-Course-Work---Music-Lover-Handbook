@@ -13,7 +13,12 @@ namespace MusicLoverHandbook.Models.Abstract
           INoteControlParent,
           IControlParent
     {
-        protected NoteControlParent(string text, string description, NoteType noteType, NoteCreationOrder? order) : base(text, description, noteType, order)
+        protected NoteControlParent(
+            string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        ) : base(text, description, noteType, order)
         {
             Offset = sizeS * 2 / 3;
             TableOffsetter = new TableLayoutPanel()
@@ -38,7 +43,9 @@ namespace MusicLoverHandbook.Models.Abstract
 
             Linker = new ContentLinker(this);
         }
-        protected override CertainTypedContractResolver ContractResolver => base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
+
+        protected override CertainTypedContractResolver ContractResolver =>
+            base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
 
         public Panel InnerContentPanel { get; }
         public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
@@ -59,6 +66,7 @@ namespace MusicLoverHandbook.Models.Abstract
                     curr = curr.Concat(note.Flatten()).ToList();
             return curr;
         }
+
         public void AddNote(NoteControl note)
         {
             note.Dock = DockStyle.Top;

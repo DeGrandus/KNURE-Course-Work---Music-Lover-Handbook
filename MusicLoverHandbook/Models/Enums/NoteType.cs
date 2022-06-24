@@ -44,6 +44,7 @@ namespace MusicLoverHandbook.Models.Enums
                 ?.GetCustomAttribute<EnumColorAttribute>(false)
                 ?.ColorMain;
         }
+
         public static Color? GetLiteColor(this NoteType value)
         {
             return value
