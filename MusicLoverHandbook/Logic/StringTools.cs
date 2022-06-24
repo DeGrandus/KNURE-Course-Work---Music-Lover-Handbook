@@ -1,103 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Logic
 {
-    public static class StringTools
+    public static partial class StringTagTools
     {
-        public static string[] GetTagNames(string source, char tagIdent)
+        private static string teststring = "" +
+            "#test test\n\r" +
+            "#test2: test2\n" +
+            "#test3 :test3\r" +
+            "#test4     testSpaces sentance continues " +
+            "#test5 newSentance no new line \r " +
+            "# general and named\r" +
+            "skip this " +
+            "#emptywithseparator\r" +
+            "#empty" +
+            "#emptyspace " +
+            "#\r" +
+            "#\n" +
+            "# \n" +
+            "# #####justempty";
+        public static Dictionary<TagName,TagValue> GetTagged(string source, char tagMarker)
         {
-            return GetTagNames(source, tagIdent, false);
-        }
-
-        public static string[] GetTagNames(string source, char tagIdent, bool withIdent)
-        {
-            return GetTagNames(source, tagIdent, withIdent, false);
-        }
-
-        private static string[] GetTagNames(
-            string source,
-            char tagIdent,
-            bool withIdent,
-            bool withSep
-        )
-        {
-            var sourceSplitted = source.Split(tagIdent);
-            if (sourceSplitted.Length == 0)
-                return new string[0];
-            sourceSplitted[0] += " ";
-            sourceSplitted.Where(x => x != "").ToArray();
-            //Debug.WriteLine("GetTagNames");
-            //Debug.WriteLine(String.Join(',', new ArraySegment<string>(sourceSplitted, 1, sourceSplitted.Length - 1).Select(s => GetTagName(s))));
-            return new ArraySegment<string>(sourceSplitted, 1, sourceSplitted.Length - 1)
-                .Where(x => x != "")
-                .Select(s => GetTagName(s, withSep))
-                .Where(x => x != "")
-                .Select(x => (withIdent ? tagIdent : "") + x)
-                .ToArray();
-        }
-
-        private static string GetTagName(string source, bool withSep)
-        {
-            var output = "";
-            foreach (var ch in source)
+            if (!source.Contains(tagMarker)) return new();
+            var output = new Dictionary<TagName, TagValue>();
+            source = Regex.Replace(source, "(#)+", "$1");
+            source = Regex.Replace(source, "( )+", "$1");
+            source = Regex.Replace(source, "^#", " #");
+            var sep = source.Split(tagMarker).Skip(1).Select(x => x.Split('\n')[0].Split('\r')[0]).Select(x => x == "" ? " " : x);
+            var tagReg = new Regex(@"(^ |(?:[a-zа-я'їіє\w])+) ?:", RegexOptions.IgnoreCase);
+            foreach (var tagdata in sep)
             {
-                if (output == "" && !char.IsLetterOrDigit(ch))
-                    return "";
-                if (ch == ':' || ch == ' ')
-                    return output + (withSep ? ch : "");
-                output += ch;
+                var tagdataf = tagReg.Replace(tagdata, "$1 ", 1);
+                var wds = Regex.Matches(tagdataf, @"(^ |(?:[a-zа-я'їіє\w])+)(?= )?(?=:)?", RegexOptions.IgnoreCase).Select(x => x.Value);
+                var tagname = wds.FirstOrDefault("");
+                var tagvalue = string.Join(tagname, tagdataf.Split(tagname).Skip(1)).Trim();
+                tagname = tagname.Trim();
+                var name = new TagName(tagname.Trim()==""?TagDataType.General:TagDataType.Valued,tagname);
+                var value = new TagValue(tagvalue.Trim()==""?TagDataType.General:TagDataType.Valued,tagvalue);
+                output.Add(name, value);
             }
             return output;
-        }
-
-        private static string GetTagName(string source)
-        {
-            return GetTagName(source, false);
-        }
-
-        public static (string Tag, string Data)[] GetTagged(string source, char tagIdent)
-        {
-            //source = "#test test #test ctest #test2 ctest2 #test slashn\ncont #test2 slashr2\rcontentskip #test3 multi3,data3 #test3   \n\r# test abobus #test sexy #\n#cad\r#cad2     \n";
-            var tags = GetTagNames(source, tagIdent, true);
-            var tagsToSearch = GetTagNames(source, tagIdent, true, true)
-                .Where(x => tags.Any(y => x.Contains(y)));
-            var findIn = source
-                .Split(tagIdent)
-                .Where(x => x != "")
-                .Select(x => tagIdent + x.Split('\n')[0].Split('\r')[0]);
-            var output = new List<(string, string)>();
-            //Debug.WriteLine("GetTagged");
-            //Debug.WriteLine(String.Join(',',tagsToSearch));
-            //WriteLine(String.Join(',',findIn));
-            foreach (var tag in tagsToSearch)
-                output.Add(
-                    (
-                        tag.Substring(0, tag.Length - 1),
-                        string.Join(
-                            ';',
-                            findIn
-                                .Where(x => x.Contains(tag))
-                                .Select(x => GetTagData(x))
-                                .Where(x => x != "")
-                        )
-                    )
-                );
-            return output.ToArray();
-        }
-
-        public static string GetTagData(string source)
-        {
-            var without = source.Substring(1);
-            if (without == "")
-                return without;
-            //Debug.WriteLine("GetTagData");
-            //Debug.WriteLine(without);
-            return without.Substring(GetTagName(without, true).Length).Trim();
         }
     }
 }
