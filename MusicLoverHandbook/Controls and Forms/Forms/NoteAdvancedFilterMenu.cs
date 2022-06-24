@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Logic;
+﻿using Microsoft.VisualBasic.Devices;
+using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models;
 using System.Data;
 using System.Diagnostics;
@@ -10,11 +11,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class NoteAdvancedFilterMenu : Form
     {
-        private List<NoteLite> previewFiltered;
-
         private List<NoteLite> originalLiteNotes;
-
-        private Dictionary<StringTagTools.TagName, Dictionary<StringTagTools.TagValue, NoteLite[]>> taggedData = new();
+        private List<NoteLite> previewFiltered;
+        private Dictionary<
+            StringTagTools.TagName,
+            Dictionary<StringTagTools.TagValue, NoteLite[]>
+        > taggedData = new();
 
         public NoteAdvancedFilterMenu(MainForm mainForm)
         {
@@ -38,22 +40,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
         }
 
-        private void OnInputTextChanged(object? sender, EventArgs e)
-        {
-            InvokeFiltering();
-        }
-
         private NoteFilter CreateFilter() => new(byNameInput.Text, byDescInput.Text);
-
-        private void InvokeFiltering()
-        {
-            PreviewFiltered = CreateFilter().ApplyOn(originalLiteNotes);
-        }
-
-        private void OnDescInputChanged(object? sender, EventArgs e)
-        {
-
-        }
 
         private void DrawPreviewBorder()
         {
@@ -69,6 +56,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             previewFilteredPanel.BackgroundImage = back;
         }
 
+        private void InvokeFiltering()
+        {
+            PreviewFiltered = CreateFilter().ApplyOn(originalLiteNotes);
+        }
+
+        private void OnDescInputChanged(object? sender, EventArgs e) { }
+
+        private void OnInputTextChanged(object? sender, EventArgs e)
+        {
+            InvokeFiltering();
+        }
         private void SetupLayout()
         {
             titleLabel.BackColor = MainForm.LabelBackColor;
@@ -92,6 +90,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             byNameInput.TextChanged += OnInputTextChanged;
             byDescInput.TextChanged += OnInputTextChanged;
+
+            
         }
 
         private void UpdatePreview()
@@ -110,90 +110,139 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         ? byDesc.Split(";").Select(x => x.ToLower().Trim()).ToArray()
                         : new[] { "" };
             }
+
             public string[] DescComp { get; }
             public string Name { get; }
 
             public List<NoteLite> ApplyOn(List<NoteLite> lites)
-            {
-                return DescFilterize(NameFilterize(lites));
-            }
+{
+                var filtered = lites.ToList();
 
-            private List<NoteLite> DescFilterize(List<NoteLite> inputLites)
-            {
-                var lites = inputLites.ToList();
-                foreach (var rawcomp in DescComp)
+                var nameOrCheck = Name.Replace(@"\|", "\n");
+                if (nameOrCheck.Count(x => x == '|') == 0)
+                    filtered = NameFilterize(filtered, nameOrCheck);
+                else
                 {
-                    if (rawcomp == "")
-                        continue;
-                    bool exceptionMode = false;
-                    var comparer = rawcomp;
-                    if (rawcomp[0] == '!')
-                    {
-                        exceptionMode = true;
-                        comparer = rawcomp.Substring(1);
-                    }
-                    if (comparer == "")
-                        continue;
-                    if (comparer[0] != '#')
-                    {
-                        var result = lites
-                            .Where(x => x.Description.ToLower().Trim().Contains(comparer))
-                            .ToList();
-                        lites = exceptionMode ? lites.Except(result).ToList() : result;
-                    }
+                    var forOr = nameOrCheck.Split('|').Select(x => x.Replace("\n", @"|").Trim());
+                    var combFiltered = forOr.Select(x => NameFilterize(filtered, x)).Aggregate((c, n) => c.Concat(n).ToList());
+                    filtered = combFiltered;
+                }
+                foreach (var compStr in DescComp)
+                {
+                    var descPartOrCheck = compStr.Replace(@"\|", "\n");
+                    if (descPartOrCheck.Count(x => x == '|') == 0)
+                        filtered = DescFilterize(filtered, compStr);
                     else
                     {
-                        var data = lites
-                            .SelectMany(n => StringTagTools.GetTagged(n.Description, '#').Select(x => (Name: x.Key, Value: x.Value, NoteLite: n)))
-                            .GroupBy(x => x.Name.GetHashCode()).Select(x => x.GroupBy(d => d.Value))
-                            .ToDictionary(k => k.First().First().Name, v => v.ToDictionary(k2 => k2.First().Value, v2 => v2.Select(x => x.NoteLite).ToArray()));
-                        var result = new List<NoteLite>();
-                        if (data.Count == 0)
-                        {
-                            lites = exceptionMode ? lites.Except(result).ToList() : result;
-                            continue;
-                        }
-                        var tag = Regex.Match(comparer, @"[^\s]+").Value;
-                        Debug.WriteLine(tag);
-                        var value = string.Join(tag, comparer.Split(tag).Skip(1)).Trim().ToLower();
-                        tag = tag.ToLower().Trim();
-                        var query = data.Select(x => x);
-                        if (tag == "#")
-                            query = query.Select(x => x);
-                        else
-                            query = query.Where(x => x.Key.ValueType == StringTagTools.TagDataType.Valued && x.Key.Value!.ToLower().Trim().Contains(tag.Substring(1, tag.Length - 1)));
-                        if (query.Count() == 0)
-                        {
-                            lites = exceptionMode ? lites.Except(result).ToList() : result;
-                            continue;
-                        }
-
-                        var query2 = query.SelectMany(x => x.Value);
-                        if (value == "")
-                            query2 = query2.Select(x => x);
-                        else
-                        {
-                            var splValue = value.Split(' ');
-                            foreach (var subval in splValue)
-                                query2 = query2.Where(x => x.Key.ValueType == StringTagTools.TagDataType.Valued && x.Key.Value!.ToLower().Trim().Contains(subval));
-                        }
-                        result = query2.SelectMany(x => x.Value).ToList();
-                        lites = exceptionMode ? lites.Except(result).ToList() : result;
+                        var forOr = descPartOrCheck.Split('|').Select(x=>x.Replace("\n",@"|").Trim());
+                        var combFiltered = forOr.Select(x => DescFilterize(filtered, x)).Aggregate((c, n) => c.Concat(n).ToList());
+                        filtered = combFiltered;
                     }
-
                 }
-                return lites;
+
+                return filtered;
             }
 
-
-            private List<NoteLite> NameFilterize(List<NoteLite> lites)
+            private List<NoteLite> DescFilterize(List<NoteLite> inputLites, string rawcomp)
             {
-                if (Name == "")
+                var lites = inputLites.ToList();
+
+                if (rawcomp == "")
                     return lites;
-                var name = Name;
                 bool exceptionMode = false;
-                if (Name[0] == '!') {
-                    name = Name.Substring(1);
+                var comparer = rawcomp;
+
+                if (rawcomp[0] == '!')
+                {
+                    exceptionMode = true;
+                    comparer = rawcomp.Substring(1);
+                }
+
+                if (comparer == "")
+                    return lites;
+
+                if (comparer[0] != '#')
+                {
+                    var result = lites
+                        .Where(x => x.Description.ToLower().Trim().Contains(comparer))
+                        .ToList();
+                    return exceptionMode ? lites.Except(result).ToList() : result;
+                }
+                else
+                {
+                    var data = lites
+                        .SelectMany(
+                            n =>
+                                StringTagTools
+                                    .GetTagged(n.Description, '#')
+                                    .Select(x => (Name: x.Key, Value: x.Value, NoteLite: n))
+                        )
+                        .GroupBy(x => x.Name.GetHashCode())
+                        .Select(x => x.GroupBy(d => d.Value))
+                        .ToDictionary(
+                            k => k.First().First().Name,
+                            v =>
+                                v.ToDictionary(
+                                    k2 => k2.First().Value,
+                                    v2 => v2.Select(x => x.NoteLite).ToArray()
+                                )
+                        );
+                    var result = new List<NoteLite>();
+                    if (data.Count == 0)
+                    {
+                        lites = exceptionMode ? lites.Except(result).ToList() : result;
+                        return lites;
+                    }
+                    var tag = Regex.Match(comparer, @"[^\s]+").Value;
+                    var value = string.Join(tag, comparer.Split(tag).Skip(1)).Trim().ToLower();
+                    tag = tag.ToLower().Trim();
+                    var query = data.Select(x => x);
+                    if (tag == "#")
+                        query = query.Select(x => x);
+                    else
+                        query = query.Where(
+                            x =>
+                                x.Key.ValueType == StringTagTools.TagDataType.Valued
+                                && x.Key.Value!
+                                    .ToLower()
+                                    .Trim()
+                                    .Contains(tag.Substring(1, tag.Length - 1))
+                        );
+                    if (query.Count() == 0)
+                    {
+                        lites = exceptionMode ? lites.Except(result).ToList() : result;
+                        return lites;
+                    }
+
+                    var query2 = query.SelectMany(x => x.Value);
+                    if (value == "")
+                        query2 = query2.Select(x => x);
+                    else
+                    {
+                        var splValue = value.Split(' ');
+                        foreach (var subval in splValue)
+                            query2 = query2.Where(
+                                x =>
+                                    x.Key.ValueType == StringTagTools.TagDataType.Valued
+                                    && x.Key.Value!.ToLower().Trim().Contains(subval)
+                            );
+                    }
+                    result = query2.SelectMany(x => x.Value).ToList();
+                    return exceptionMode ? lites.Except(result).ToList() : result;
+
+                }
+
+            }
+
+            private List<NoteLite> NameFilterize(List<NoteLite> lites, string nameCompare)
+            {
+                if (nameCompare == "")
+                    return lites;
+                var name = nameCompare;
+                bool exceptionMode = false;
+                if (nameCompare[0] == '!')
+                {
+                    name = nameCompare.Substring(1);
                     exceptionMode = true;
                 }
                 if (name == "")
