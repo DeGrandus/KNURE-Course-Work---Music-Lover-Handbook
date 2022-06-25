@@ -58,21 +58,22 @@ namespace MusicLoverHandbook.Models.Abstract
         public int Offset { get; set; }
         protected TableLayoutPanel TableOffsetter { get; }
 
-        public override List<NoteLite> Flatten()
-        {
-            var curr = base.Flatten();
-            foreach (var note in InnerNotes)
-                if (note.NoteType.IsInformaionCarrier())
-                    curr = curr.Concat(note.Flatten()).ToList();
-            return curr;
-        }
-
-        public void AddNote(NoteControl note)
+        public void AddNote(NoteControl note,ContentLinker linker)
         {
             note.Dock = DockStyle.Top;
             InnerContentPanel.Controls.Add(note);
             InnerContentPanel.Controls.SetChildIndex(note, 0);
             note.SetupColorTheme(note.NoteType);
+            UpdateSize();
+        }
+        public void AddNotes(NoteControl[] notes, ContentLinker linker)
+        {
+            foreach (var note in notes)
+            {
+                note.Dock = DockStyle.Top;
+                note.SetupColorTheme(note.NoteType);
+            }
+            InnerContentPanel.Controls.AddRange(notes);
             UpdateSize();
         }
 
@@ -86,7 +87,16 @@ namespace MusicLoverHandbook.Models.Abstract
                     note.ChangeSize(size);
         }
 
-        public void MoveNote(NoteControl note, int newIndex)
+        public override List<NoteLite> Flatten()
+        {
+            var curr = base.Flatten();
+            foreach (var note in InnerNotes)
+                if (note.NoteType.IsInformaionCarrier())
+                    curr = curr.Concat(note.Flatten()).ToList();
+            return curr;
+        }
+
+        public void MoveNote(NoteControl note, int newIndex, ContentLinker linker)
         {
             InnerContentPanel.Controls.SetChildIndex(note, newIndex);
             UpdateSize();
@@ -97,21 +107,21 @@ namespace MusicLoverHandbook.Models.Abstract
             SwitchOpenState();
         }
 
-        public void RemoveNote(NoteControl note)
+        public void RemoveNote(NoteControl note, ContentLinker linker)
         {
             InnerContentPanel.Controls.Remove(note);
             UpdateSize();
         }
 
-        public void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex)
+        public void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex, ContentLinker linker)
         {
-            RemoveNote(oldNote);
-            AddNote(newNote);
-            MoveNote(newNote, newIndex);
+            RemoveNote(oldNote,linker);
+            AddNote(newNote, linker);
+            MoveNote(newNote, newIndex, linker);
             UpdateSize();
         }
 
-        public void ResetNotes()
+        public void ResetNotes(ContentLinker linker)
         {
             InnerContentPanel.Controls.Clear();
             UpdateSize();

@@ -1,10 +1,12 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
@@ -27,8 +29,24 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 else
                     PartialInnerNotes = res;
             };
+
+            renderRefreshTimer = new Timer()
+            {
+                Interval = 1,
+                Enabled = true,
+            };
+            renderRefreshTimer.Tick += (sender, e) =>
+            {
+                if (refreshDelay >= 0)
+                {
+                    if (refreshDelay == 0)
+                        RefreshNoteContainer();
+                    refreshDelay--;
+                }
+            };
         }
 
+        private Timer renderRefreshTimer;
         public ObservableCollection<INoteControlChild> InnerNotes { get; }
         public Panel PanelContainer { get; }
 
@@ -38,7 +56,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             private set
             {
                 partialInnerNotes = value;
-                RefreshRender();
+                RefreshNoteContainerDelayed();
             }
         }
 
@@ -46,24 +64,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         public void SetupAddNoteButton(NoteControlParent note)
         {
+            PanelContainer.SuspendLayout();
             var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
             if (potentialAdd?.NoteType is NoteType.AddButton)
                 note.InnerNotes.Remove(potentialAdd);
-
-            note.InnerNotes.Add(CreateAddButton(note));
+            var add = CreateAddButton(note);
+            note.InnerNotes.Add(add);
+            note.InnerContentPanel.Controls.SetChildIndex(add,0);
             foreach (var inner in note.InnerNotes)
                 if (inner is NoteControlParent innertParent)
                     SetupAddNoteButton(innertParent);
-        }
+            PanelContainer.ResumeLayout();
 
-        private void AddNote(NoteControl note)
-        {
-            note.Dock = DockStyle.Top;
-            RemoveNote(note);
-            PanelContainer.Controls.Add(note);
-            PanelContainer.Controls.SetChildIndex(note, 0);
-            if (note is NoteControlParent asParent)
-                SetupAddNoteButton(asParent);
         }
 
         private NoteAdd CreateAddButton(NoteControlParent parent)
@@ -91,8 +103,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             PartialInnerNotes = InnerNotes.ToList();
             return;
         }
-
-        private void RefreshRender()
+        private int refreshDelay = 0;
+        private void RefreshNoteContainerDelayed()
+        {
+            refreshDelay = 20;
+        }
+        private void RefreshNoteContainer()
         {
             PanelContainer.SuspendLayout();
             PanelContainer.Controls.Clear();
@@ -116,11 +132,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     .ToArray()
             );
             PanelContainer.ResumeLayout();
-        }
-
-        private void RemoveNote(NoteControl note)
-        {
-            PanelContainer.Controls.Remove(note);
         }
     }
 }

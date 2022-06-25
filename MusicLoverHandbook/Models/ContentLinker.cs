@@ -22,14 +22,13 @@ namespace MusicLoverHandbook.Models
             {
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems != null)
-                        foreach (NoteControl item in e.NewItems)
-                            Note.AddNote(item);
+                        Note.AddNotes(e.NewItems.Cast<object>().Where(x=>x is NoteControl).Cast<NoteControl>().ToArray(),this);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems != null)
                         foreach (NoteControl item in e.OldItems)
-                            Note.RemoveNote(item);
+                            Note.RemoveNote(item,this);
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
@@ -42,7 +41,7 @@ namespace MusicLoverHandbook.Models
                         )
                         {
                             var ind = Note.Controls.IndexOf(item.First);
-                            Note.ReplaceNote(item.First, item.Second, ind);
+                            Note.ReplaceNote(item.First, item.Second, ind,this);
                         }
                     break;
 
@@ -52,11 +51,11 @@ namespace MusicLoverHandbook.Models
                         && e.NewItems.Count == 1
                         && e.NewItems[0] is NoteControl note
                     )
-                        Note.MoveNote(note, e.NewStartingIndex);
+                        Note.MoveNote(note, e.NewStartingIndex,this);
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    Note.ResetNotes();
+                    Note.ResetNotes(this);
                     break;
             }
         }
