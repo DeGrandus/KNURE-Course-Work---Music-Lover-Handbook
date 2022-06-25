@@ -58,7 +58,7 @@
             Click,DoubleClick
         }
         public SwitchMode SwitchType { get; set; } = SwitchMode.DoubleClick;
-        private bool initialState = false;
+        public bool InitialState = false;
         private bool colorsInited = false;
         private void OnHandleCreated(object? sender, EventArgs e)
         {
@@ -67,11 +67,11 @@
                 BasicBackColor = Parent.BackColor;
                 SpecialBackColor = ControlPaint.Light(BasicBackColor, -2f);
             }
-            SpecialState = initialState;
+            SpecialState = InitialState;
         }
         public BasicSwitchLabel(bool initialState) : this()
         {
-            this.initialState = initialState;
+            this.InitialState = initialState;
         }
         public BasicSwitchLabel(Color basicBackColor, Color specialBackColor) : this(false)
         {
@@ -81,7 +81,7 @@
         }
         public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState) : this(basicBackColor,specialBackColor)
         {
-            this.initialState = initialState;
+            this.InitialState = initialState;
         }
 
         public delegate void StateChangedEventHandler(object? sender, bool IsSpecialState);

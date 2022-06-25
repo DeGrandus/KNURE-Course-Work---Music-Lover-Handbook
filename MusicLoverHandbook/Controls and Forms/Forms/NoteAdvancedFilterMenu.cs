@@ -136,7 +136,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
 
             noteTypeSelectFlow.BackColor = previewFilteredPanel.BackColor;
-            actionsTable.BackColor = previewFilteredPanel.BackColor;
+            advFiltersFlow.BackColor = previewFilteredPanel.BackColor;
             BackColor = ControlPaint.LightLight(previewFilteredPanel.BackColor);
 
             originalLiteNotes = MainForm.NotesContainer.InnerNotes
@@ -182,12 +182,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 var advFilt = new FilteringControl(this, oneTyped)
                 {
-                    Dock = DockStyle.Left,
-                    Size = new(200, 10),
+                    Size = new(200, advFiltersFlow.Height-2),
                 };
                 filters.Add(advFilt);
             };
-
+            advFiltersFlow.Controls.AddRange(filters.ToArray());
 
         }
 

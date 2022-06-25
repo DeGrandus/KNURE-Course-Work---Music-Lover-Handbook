@@ -445,5 +445,18 @@ namespace MusicLoverHandbook.Models.Abstract
             else
                 toToggle.Show();
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is NoteControl control &&
+                   NoteDescription == control.NoteDescription &&
+                   NoteName == control.NoteName &&
+                   NoteType == control.NoteType;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NoteDescription, NoteName, NoteType);
+        }
     }
 }

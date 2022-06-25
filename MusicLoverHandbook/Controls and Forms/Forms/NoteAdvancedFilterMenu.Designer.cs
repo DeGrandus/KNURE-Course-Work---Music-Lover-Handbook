@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.mainContentTable = new System.Windows.Forms.TableLayoutPanel();
-            this.actionsTable = new System.Windows.Forms.TableLayoutPanel();
             this.filteringTable = new System.Windows.Forms.TableLayoutPanel();
             this.byDescInput = new System.Windows.Forms.TextBox();
             this.byNameInput = new System.Windows.Forms.TextBox();
@@ -42,6 +41,7 @@
             this.applyButtonsTable = new System.Windows.Forms.TableLayoutPanel();
             this.applyFilterButton = new System.Windows.Forms.Button();
             this.applyFilterRoughButton = new System.Windows.Forms.Button();
+            this.advFiltersFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.mainContentTable.SuspendLayout();
             this.filteringTable.SuspendLayout();
             this.applyButtonsTable.SuspendLayout();
@@ -51,9 +51,9 @@
             // 
             this.mainContentTable.ColumnCount = 1;
             this.mainContentTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainContentTable.Controls.Add(this.actionsTable, 0, 1);
             this.mainContentTable.Controls.Add(this.filteringTable, 0, 0);
             this.mainContentTable.Controls.Add(this.applyButtonsTable, 0, 2);
+            this.mainContentTable.Controls.Add(this.advFiltersFlow, 0, 1);
             this.mainContentTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContentTable.Location = new System.Drawing.Point(0, 0);
             this.mainContentTable.Margin = new System.Windows.Forms.Padding(4);
@@ -64,18 +64,6 @@
             this.mainContentTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.mainContentTable.Size = new System.Drawing.Size(1336, 787);
             this.mainContentTable.TabIndex = 0;
-            // 
-            // actionsTable
-            // 
-            this.actionsTable.ColumnCount = 1;
-            this.actionsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.actionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.actionsTable.Location = new System.Drawing.Point(3, 371);
-            this.actionsTable.Name = "actionsTable";
-            this.actionsTable.RowCount = 1;
-            this.actionsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.actionsTable.Size = new System.Drawing.Size(1330, 362);
-            this.actionsTable.TabIndex = 0;
             // 
             // filteringTable
             // 
@@ -227,6 +215,16 @@
             this.applyFilterRoughButton.Text = "Apply rough filtering";
             this.applyFilterRoughButton.UseVisualStyleBackColor = false;
             // 
+            // advFiltersFlow
+            // 
+            this.advFiltersFlow.AutoScroll = true;
+            this.advFiltersFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.advFiltersFlow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.advFiltersFlow.Location = new System.Drawing.Point(3, 371);
+            this.advFiltersFlow.Name = "advFiltersFlow";
+            this.advFiltersFlow.Size = new System.Drawing.Size(1330, 362);
+            this.advFiltersFlow.TabIndex = 3;
+            // 
             // NoteAdvancedFilterMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
@@ -248,7 +246,6 @@
         #endregion
 
         private TableLayoutPanel mainContentTable;
-        private TableLayoutPanel actionsTable;
         private TableLayoutPanel filteringTable;
         private TextBox byNameInput;
         private Label searchNameLabel;
@@ -261,5 +258,6 @@
         private Button applyFilterButton;
         private Button applyFilterRoughButton;
         public Label titleLabel;
+        private FlowLayoutPanel advFiltersFlow;
     }
 }

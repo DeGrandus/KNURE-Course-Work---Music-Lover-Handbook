@@ -37,29 +37,53 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         {
             Font = filterMenu.Font;
             BackColor = filterMenu.BackColor;
-            noteNameLabel.Font = new(Font.FontFamily, 50, GraphicsUnit.Pixel);
+            noteNameLabel.Text = FilterNoteType.ToString(true);
             noteNameLabel.BackColor = filterMenu.titleLabel.BackColor;
 
-            var hierTypes = lites.Where(x => x.Ref.UsedCreationOrder != null).SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder()).Distinct();
-
+            var doSelect = true;
+            var hierTypes = lites.Where(x => x.Ref.UsedCreationOrder != null).SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder()).Distinct().Reverse();
             foreach (var type in hierTypes)
             {
-                options.Add(new(Color.Gray, ControlPaint.Light(type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, -0.4f), false)
+                var button = new BasicSwitchLabel(Color.Gray, ControlPaint.Light(type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, -0.5f), false)
                 {
+                    Text = type.ToString(true),
                     Dock = DockStyle.Top,
+                    Font = new(Font.FontFamily, 12),
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Font = Font,
-                    Size = new(10, 100),
+                    Size = new(2, 50),
+                    SwitchType = BasicSwitchLabel.SwitchMode.Click,
                     BasicTooltipText = "No affect",
-                    SpecialTooltipText = $"All occurances of \"{type.ToString(true)}\" will be found in all prefiltered \"{FilterNoteType.ToString(true)}\" notes",
+                    SpecialTooltipText = $@"All occurances of ""{type.ToString(true)}"" will be selected in ""{FilterNoteType.ToString(true)}""",
                     Tag = type,
-                    SwitchType=BasicSwitchLabel.SwitchMode.Click
-                });
+                };
+                if (type == FilterNoteType)
+                {
+                    button.Enabled = false;
+                    button.BasicBackColor = Color.LightGray;
+                    button.ForeColor = Color.Gray;
+                } else if (doSelect)
+                {
+                    button.InitialState = true;
+                    doSelect = false;
+                }
+
+                options.Add(button);
             }
             ButtonsLinker();
 
-            optionsFlow.Controls.AddRange(options.ToArray());
+            optionsPanel.Controls.AddRange(options.ToArray());
+
+            sslnSwitch = new(Color.OrangeRed, Color.LightGreen, true)
+            {
+                Text = "S.S.L.N",
+                BasicTooltipText = "Save Same-Level Notes (NO)",
+                SpecialTooltipText = "Save Same-Level Notes (YES)",
+                Dock=DockStyle.Fill,
+                TextAlign=ContentAlignment.MiddleCenter
+            };
+            mainTable.Controls.Add(sslnSwitch,1,2);
         }
+        private BasicSwitchLabel sslnSwitch;
         private void ButtonsLinker()
         {
             options.ForEach(x=>x.SpecialStateChanged+=OnFilteringModeChange);
