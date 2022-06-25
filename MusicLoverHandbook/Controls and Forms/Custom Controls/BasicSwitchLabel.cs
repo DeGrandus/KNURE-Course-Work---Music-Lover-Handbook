@@ -21,7 +21,10 @@
 
         public BasicSwitchLabel()
         {
-            toolTip = new ToolTip();
+            toolTip = new ToolTip()
+            {
+                IsBalloon = true,
+            };
             HandleCreated += OnHandleCreated;
             MouseEnter += (sender, e) =>
             {
@@ -81,7 +84,7 @@
             this.initialState = initialState;
         }
 
-        public delegate void StateChangedEventHandler(bool IsSpecialState);
+        public delegate void StateChangedEventHandler(object? sender, bool IsSpecialState);
 
         public event StateChangedEventHandler SpecialStateChanged
         {
@@ -126,7 +129,7 @@
         protected virtual void OnSpecialStateChanged()
         {
             if (specialStateChanged != null)
-                specialStateChanged(SpecialState);
+                specialStateChanged(this,SpecialState);
         }
 
         protected virtual void OnTooltipTextChanged()

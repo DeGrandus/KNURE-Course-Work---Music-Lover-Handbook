@@ -1,23 +1,24 @@
-﻿using Microsoft.VisualBasic.Devices;
-using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
+using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks.Sources;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class NoteAdvancedFilterMenu : Form
     {
+        private List<BasicSwitchLabel> currentButtons = new();
         private List<NoteLite> originalLiteNotes;
         private List<NoteLite> previewFiltered;
+        private int previewUpdateCooldown = 100;
+
+        private System.Windows.Forms.Timer previewUpdateTimer;
+
         private Dictionary<
-            StringTagTools.TagName,
+                            StringTagTools.TagName,
             Dictionary<StringTagTools.TagValue, NoteLite[]>
         > taggedData = new();
 
@@ -43,7 +44,39 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
         }
 
+        public void UpdatePreview()
+        {
+            previewFilteredPanel.Controls.Clear();
+            previewFilteredPanel.Controls.AddRange(PreviewFiltered.ToArray());
+        }
+
+        public void UpdatePreviewDelayed()
+        {
+            previewUpdateCooldown = 40;
+        }
+
         private NoteFilter CreateFilter() => new(byNameInput.Text, byDescInput.Text);
+
+        private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
+        {
+            var types = PreviewFiltered.Select(x => x.Ref.NoteType).Distinct();
+            foreach (var type in types)
+            {
+                Size bSize = new(noteTypeSelectFlow.Width / 8, noteTypeSelectFlow.Height);
+                var basic = new BasicSwitchLabel(Color.LightGray, type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, true)
+                {
+                    Text = type.ToString(true),
+                    Size = bSize,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    BasicTooltipText = $"{type.ToString(true)} type isn't included",
+                    SpecialTooltipText = $"{type.ToString(true)} type included",
+                    SwitchType = BasicSwitchLabel.SwitchMode.Click,
+                    Tag = type,
+                };
+
+                yield return basic;
+            }
+        }
 
         private void DrawPreviewBorder()
         {
@@ -61,16 +94,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void InvokeFiltering()
         {
-            PreviewFiltered = CreateFilter().ApplyOn(originalLiteNotes);
+            PreviewFiltered = CreateFilter().ApplyOn(originalLiteNotes).Where(x => currentButtons.Find(f => (NoteType)f.Tag == x.Ref.NoteType)?.SpecialState ?? true).ToList();
+            OnPreFilteredResultChanged();
             UpdateSwitchButtons();
         }
 
-        private void OnDescInputChanged(object? sender, EventArgs e) { }
+        private void OnDescInputChanged(object? sender, EventArgs e)
+        {
+        }
 
         private void OnInputTextChanged(object? sender, EventArgs e)
         {
             InvokeFiltering();
         }
+
         private void SetupLayout()
         {
             titleLabel.BackColor = MainForm.LabelBackColor;
@@ -88,8 +125,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 Interval = 1,
                 Enabled = true,
             };
-            previewUpdateTimer.Tick+=(sender, e) => 
-            {  
+            previewUpdateTimer.Tick += (sender, e) =>
+            {
                 if (previewUpdateCooldown >= 0)
                 {
                     if (previewUpdateCooldown == 0)
@@ -113,53 +150,47 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             InvokeFiltering();
         }
-        private System.Windows.Forms.Timer previewUpdateTimer;
-        private int previewUpdateCooldown = 100;
 
-        private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
-        {
-            var types = PreviewFiltered.Select(x => x.Ref.NoteType).Distinct();
-            foreach (var type in types)
-            {
-                Size bSize = new(noteTypeSelectFlow.Width / 8, noteTypeSelectFlow.Height);
-                var basic = new BasicSwitchLabel(Color.LightGray, type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, true)
-                {
-                    Text = type.ToString(true),
-                    Size = bSize,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    BasicTooltipText = $"{type.ToString(true)} type isn't included",
-                    SpecialTooltipText = $"{type.ToString(true)} type included",
-                    SwitchType = BasicSwitchLabel.SwitchMode.Click,
-                    Tag = type,
-                };
-                
-                yield return basic;
-            }
-
-        }
-        private BasicSwitchLabel[] currentButtons = new BasicSwitchLabel[0];
         private void UpdateSwitchButtons()
         {
             noteTypeSelectFlow.Controls.Clear();
             foreach (var button in CreateSwitchButtons())
-                button.SpecialStateChanged += (state) =>
+                button.SpecialStateChanged += (sender, state) =>
                 {
                     UpdatePreviewDelayed();
                 };
             noteTypeSelectFlow.Controls.AddRange(CreateSwitchButtons().ToArray());
             var newButtons = noteTypeSelectFlow.Controls.Cast<BasicSwitchLabel>().ToList();
-            newButtons.ForEach(x => x.SpecialState=currentButtons.ToList().Find(f=>(NoteType)f.Tag== (NoteType)x.Tag)?.SpecialState??x.SpecialState);
-            currentButtons = newButtons.ToArray();
+            newButtons.ForEach(x => x.SpecialState = currentButtons.Find(f => (NoteType)f.Tag == (NoteType)x.Tag)?.SpecialState ?? x.SpecialState);
+            currentButtons = newButtons;
         }
-        public void UpdatePreviewDelayed()
+        public delegate void PreFilteringResultChangedEventHandler(List<NoteLite> prefilteredResults);
+        public event PreFilteringResultChangedEventHandler PreFilteringResultChanged
         {
-            previewUpdateCooldown = 40;
+            add => preFilteringResultChanged += value;
+            remove => preFilteringResultChanged -= value;
         }
-        public void UpdatePreview()
+        private PreFilteringResultChangedEventHandler? preFilteringResultChanged;
+        private void OnPreFilteredResultChanged()
         {
-            previewFilteredPanel.Controls.Clear();
-            previewFilteredPanel.Controls.AddRange(PreviewFiltered.Where(x => currentButtons.ToList().Find(f => (NoteType)f.Tag == x.Ref.NoteType)?.SpecialState ?? true).ToArray());
+            if (preFilteringResultChanged != null)
+                preFilteringResultChanged(PreviewFiltered);
+
+            var advancedWorkWith = PreviewFiltered.GroupBy(x => x.Ref.NoteType).Select(x=>x.ToArray());
+            var filters = new List<FilteringControl>();
+            foreach(var oneTyped in advancedWorkWith)
+            {
+                var advFilt = new FilteringControl(this, oneTyped)
+                {
+                    Dock = DockStyle.Left,
+                    Size = new(200, 10),
+                };
+                filters.Add(advFilt);
+            };
+
+
         }
+
 
         public class NoteFilter
         {
@@ -290,9 +321,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     }
                     result = query2.SelectMany(x => x.Value).ToList();
                     return exceptionMode ? lites.Except(result).ToList() : result;
-
                 }
-
             }
 
             private List<NoteLite> NameFilterize(List<NoteLite> lites, string nameCompare)

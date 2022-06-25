@@ -21,7 +21,7 @@ namespace MusicLoverHandbook.Logic
         {
             this.searchBar = searchBar;
             this.switchLabel = switchLabel;
-            switchLabel.SpecialStateChanged += (state) => PerformSearching();
+            switchLabel.SpecialStateChanged += (sender,state) => PerformSearching();
             notesContainer = container;
             SearchResults = container.InnerNotes.ToList();
             searchBar.TextChanged += SearchBarTextChanged;
