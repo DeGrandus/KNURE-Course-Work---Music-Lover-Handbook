@@ -148,8 +148,23 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             byNameInput.TextChanged += OnInputTextChanged;
             byDescInput.TextChanged += OnInputTextChanged;
 
+            smartFiltersSwitch = new(Color.LightGray, Color.DeepSkyBlue, false)
+            {
+                Text = "Smart filters",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill
+            };
+            smartFiltersTable.Controls.Add(smartFiltersSwitch, 1, 0);
+            smartFiltersSwitch.SpecialStateChanged += (sender, state) =>
+            {
+                advFiltersFlow.Visible = state;
+
+
+            };
+
             InvokeFiltering();
         }
+        private BasicSwitchLabel smartFiltersSwitch;
 
         private void UpdateSwitchButtons()
         {
@@ -178,14 +193,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             var advancedWorkWith = PreviewFiltered.GroupBy(x => x.Ref.NoteType).Select(x=>x.ToArray());
             var filters = new List<FilteringControl>();
+            
             foreach(var oneTyped in advancedWorkWith)
             {
                 var advFilt = new FilteringControl(this, oneTyped)
                 {
-                    Size = new(200, advFiltersFlow.Height-2),
+                    Size = new(200, advFiltersFlow.Height),
                 };
                 filters.Add(advFilt);
             };
+            advFiltersFlow.Controls.Clear();
             advFiltersFlow.Controls.AddRange(filters.ToArray());
 
         }
