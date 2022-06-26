@@ -265,7 +265,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public virtual List<NoteLite> Flatten()
         {
-            return new() { new(NoteName, NoteDescription, this) };
+            return new(){ new(NoteName, NoteDescription, this) };
         }
         public NoteLite SingleFlatten()
         {

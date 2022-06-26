@@ -18,7 +18,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     {
         private NoteAdvancedFilterMenu filterMenu;
         public NoteType FilterNoteType { get; set; }
-        private NoteLite[] lites;
+        public bool IsValid
+        {
+            get => isValid; set
+            {
+                if (!value)
+                    BackColor = Color.FromArgb(50,Color.Red);
+                else
+                    BackColor = filterMenu.BackColor;
+                isValid = value;
+                
+            }
+        }
+
+        public NoteLite[] OneTypeNotes;
         public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, NoteLite[] oneTypedLites)
         {
             InitializeComponent();
@@ -27,11 +40,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             if (types.Count() != 1)
                 throw new ArgumentException("Unable to handle more than one type of notes in FilteringControl constructor");
             FilterNoteType = types.First();
-            lites = oneTypedLites;
+            OneTypeNotes = oneTypedLites;
             this.filterMenu = filterMenu;
 
             SetupLayout();
         }
+        private bool isValid = true;
         private List<BasicSwitchLabel> options = new List<BasicSwitchLabel>();
         private void SetupLayout()
         {
@@ -40,8 +54,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             noteNameLabel.Text = FilterNoteType.ToString(true);
             noteNameLabel.BackColor = filterMenu.titleLabel.BackColor;
 
+            noteNameLabel.Click += (sender, e) =>
+            {
+                IsValid = !IsValid;
+            };
+
             var doSelect = true;
-            var hierTypes = lites.Where(x => x.Ref.UsedCreationOrder != null).SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder()).Distinct().Reverse();
+            var hierTypes = OneTypeNotes.Where(x => x.Ref.UsedCreationOrder != null).SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder()).Distinct().Reverse();
             foreach (var type in hierTypes)
             {
                 var button = new BasicSwitchLabel(Color.Gray, ControlPaint.Light(type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, -0.5f), false)
@@ -70,10 +89,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 options.Add(button);
             }
             ButtonsLinker();
-
+            
             optionsPanel.Controls.AddRange(options.ToArray());
 
-            sslnSwitch = new(Color.OrangeRed, Color.LightGreen, true)
+            SSLNSwitch = new(Color.OrangeRed, Color.LightGreen, true)
             {
                 Text = "S.S.L.N",
                 BasicTooltipText = "Save Same-Level Notes (NO)",
@@ -81,17 +100,23 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 Dock=DockStyle.Fill,
                 TextAlign=ContentAlignment.MiddleCenter
             };
-            mainTable.Controls.Add(sslnSwitch,1,2);
+            mainTable.Controls.Add(SSLNSwitch,1,2);
         }
-        private BasicSwitchLabel sslnSwitch;
+        public BasicSwitchLabel SSLNSwitch;
         private void ButtonsLinker()
         {
             options.ForEach(x=>x.SpecialStateChanged+=OnFilteringModeChange);
         }
+        public NoteType? CurrentlySelectedTypeOption;
         private void OnFilteringModeChange(object? self, bool isSpecial)
         {
             if (isSpecial)
-                options.Where(x => x != (BasicSwitchLabel)self!).ToList().ForEach(x=>x.SpecialState = false);
+            {
+                CurrentlySelectedTypeOption = ((BasicSwitchLabel)self!).Tag is NoteType type ? type : null;
+                options.Where(x => x != (BasicSwitchLabel)self!).ToList().ForEach(x => x.SpecialState = false);
+            } else if (options.Where(x=>x.SpecialState==true).Count()==0){
+                CurrentlySelectedTypeOption = null;
+            }
         }
         public delegate void AdvancedFilteringModeChangeEventHandler(BasicSwitchLabel self,bool isSpecial);
         private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;

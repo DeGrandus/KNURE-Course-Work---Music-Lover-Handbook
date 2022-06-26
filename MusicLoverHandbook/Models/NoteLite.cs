@@ -16,6 +16,7 @@ namespace MusicLoverHandbook.Models
         public Image? Icon { get; }
         public NoteControl Ref { get; }
         public int MainHeight { get; set; } = 30;
+        public int ID { get; set; }
 
         public NoteLite(string name, string description, NoteControl noteRef)
         {
@@ -24,6 +25,7 @@ namespace MusicLoverHandbook.Models
             NoteType = noteRef.NoteType;
             Icon = noteRef.Icon;
             Ref = noteRef;
+            ID = Random.Shared.Next(int.MinValue, int.MaxValue);
             SetupLayout();
         }
 

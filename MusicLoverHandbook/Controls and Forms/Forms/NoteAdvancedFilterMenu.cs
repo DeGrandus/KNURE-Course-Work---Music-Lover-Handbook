@@ -85,6 +85,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 control.Add(ctrl);
             Debug.WriteLine("Update Preview add end");
             previewFilteredPanel.ResumeLayout();
+            OnBasicFilteringResultsChange();
         }
 
         public void DelayedPreviewUpdate()
@@ -134,8 +135,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             Debug.WriteLine("OCCURANCES FILTERING BEGIN");
                             SmartOccurancesLeaver(asParent, inc.LiteFind);
                             Debug.WriteLine("OCCURANCES FILTERING END");
-                        }
-                        ;
+                        };
+                        
                         output.Add((INoteControlChild)inc.Head);
                     }
                     foreach (var o in output)
@@ -147,7 +148,37 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     return output;
                 }
             }
-            else { }
+            else 
+            {
+                List<INoteControlChild> retValues = new();
+                foreach (var smartFilter in smartFilterOptions)
+                {
+                    if (smartFilter.CurrentlySelectedTypeOption is null) continue;
+
+                    NoteType toFindType = (NoteType)smartFilter.CurrentlySelectedTypeOption;
+                    var ssln = smartFilter.SSLNSwitch.SpecialState;
+                    Debug.WriteLine(toFindType);
+                    foreach (var note in smartFilter.OneTypeNotes)
+                    {
+                        Debug.WriteLine($"Smart Research started for note : {note.NoteName} {note.NoteType}");
+                        if (note.Ref is INoteControlChild asChild && GetParents(asChild).Find(x => x is INoteControlParent cp && cp.NoteType == toFindType) is INoteControlParent parent)
+                        {
+                            Debug.WriteLine($"Foudation in parents for note : {note.NoteName} {note.NoteType}");
+                            parent = (INoteControlParent)parent.Clone();
+                            if (!ssln) SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes);
+                            retValues.Add((INoteControlChild)parent);
+                        } else if (note.Ref is INoteControlParent asParent && asParent.Flatten().FindAll(x=>x.NoteType==toFindType) is List<NoteLite> { Count:>0 } childResults)
+                        {
+                            Debug.WriteLine($"Foundation in children started for note : {note.NoteName} {note.NoteType}");
+
+                            retValues.AddRange(childResults.Where(x=>x.Ref is INoteControlChild).Select(x=>x.Ref.Clone()).Cast<INoteControlChild>());
+                        }
+                    }
+                }
+                foreach (var ch in retValues)
+                    Debug.WriteLine(ch);
+                return retValues;
+            }
             throw new NotImplementedException();
         }
 
@@ -229,7 +260,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             UpdateSwitchButtons();
         }
 
-        private bool SmartOccurancesLeaver(INoteControlParent parent, List<NoteLite> included)
+        private bool SmartOccurancesLeaver(INoteControlParent parent, IEnumerable<NoteLite> included)
         {
             bool usefull = false;
             Debug.WriteLine("");
@@ -285,9 +316,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             Debug.WriteLine("OnPreFilteredResultChanges invoking start");
             if (basicFilteringResultsChange != null)
-                basicFilteringResultsChange(FilteredNotesSwitchless);
+                basicFilteringResultsChange(FilteredNotesFinal);
 
-            var advancedWorkWith = FilteredNotesSwitchless
+            var advancedWorkWith = FilteredNotesFinal
                 .GroupBy(x => x.Ref.NoteType)
                 .Select(x => x.ToArray());
 
