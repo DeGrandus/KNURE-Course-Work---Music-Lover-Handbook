@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface IControlParent
+    public interface IParentControl
     {
         ObservableCollection<INoteControlChild> InnerNotes { get; }
     }
 
-    public interface INoteControlParent : INoteControl, IControlParent
+    public interface INoteControlParent : INoteControl, IParentControl
     {
         bool IsOpened { get; set; }
         ContentLinker Linker { get; }

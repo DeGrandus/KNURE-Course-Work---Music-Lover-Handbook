@@ -19,7 +19,7 @@ namespace MusicLoverHandbook.Logic.Notes
         {
             return RecreateFromImported(
                 model,
-                new (Type, object?)[] { (typeof(IControlParent), mainForm?.Container) }
+                new (Type, object?)[] { (typeof(IParentControl), mainForm?.Container) }
             );
         }
 

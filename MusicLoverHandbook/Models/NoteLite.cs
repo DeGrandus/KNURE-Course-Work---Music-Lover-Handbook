@@ -12,6 +12,7 @@ namespace MusicLoverHandbook.Models
     {
         public string NoteName { get; }
         public string Description { get; }
+        public NoteType NoteType { get; }
         public Image? Icon { get; }
         public NoteControl Ref { get; }
         public int MainHeight { get; set; } = 30;
@@ -20,6 +21,7 @@ namespace MusicLoverHandbook.Models
         {
             NoteName = name;
             Description = description;
+            NoteType = noteRef.NoteType;
             Icon = noteRef.Icon;
             Ref = noteRef;
             SetupLayout();
@@ -95,6 +97,26 @@ namespace MusicLoverHandbook.Models
             BackColor = Color.White;
 
             ResumeLayout();
+        }
+        public NoteLite Clone()
+        {
+            return new NoteLite(NoteName,Description,Ref);
+        }
+        public override string ToString()
+        {
+            return $@"Lite: {{Name: {NoteName} | Desc: {Description} | Type: {NoteType}}}";
+        }
+        public override bool Equals(object? obj)
+        {
+            return obj is NoteLite lite &&
+                   NoteName == lite.NoteName &&
+                   Description == lite.Description &&
+                   NoteType == lite.NoteType;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NoteName, Description, NoteType);
         }
     }
 }

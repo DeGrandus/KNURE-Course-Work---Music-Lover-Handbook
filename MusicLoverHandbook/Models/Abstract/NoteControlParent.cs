@@ -10,8 +10,7 @@ namespace MusicLoverHandbook.Models.Abstract
     public abstract class NoteControlParent
         : NoteControl,
           INoteParent,
-          INoteControlParent,
-          IControlParent
+          INoteControlParent
     {
         protected NoteControlParent(
             string text,
@@ -137,7 +136,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override string ToString()
         {
-            return $"{NoteName}: [ {string.Join(", ", InnerNotes)} ]";
+            return base.ToString()+"\n"+string.Join('\n', InnerNotes.Select(x => "- " + x.ToString()));
         }
 
         public virtual void UpdateSize()

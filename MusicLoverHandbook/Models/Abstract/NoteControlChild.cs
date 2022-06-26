@@ -10,7 +10,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private bool inited = false;
 
         protected NoteControlChild(
-            IControlParent parent,
+            IParentControl parent,
             string text,
             string description,
             NoteType noteType,
@@ -25,7 +25,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         private delegate void DelayedSetup();
 
-        public IControlParent ParentNote { get; set; }
+        public IParentControl ParentNote { get; set; }
 
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
@@ -57,7 +57,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 delayedSetup += () => base.InitValues(text, description);
         }
 
-        public IControlParent GetFirstParent()
+        public IParentControl GetFirstParent()
         {
             return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
         }
@@ -69,6 +69,15 @@ namespace MusicLoverHandbook.Models.Abstract
                   ? child.GetFirstNoteControlParent()
                   : parent
               : null;
+        }
+
+        public bool ContainsInParentTree(IContainerControl potentialParent)
+        {
+            if (potentialParent == ParentNote)
+                return true;
+            if (ParentNote is INoteControlChild asChild)
+                return asChild.ContainsInParentTree(potentialParent);
+            return false;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿using System.Diagnostics;
+
+namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class BasicSwitchLabel : Label
     {
@@ -129,9 +131,11 @@
         protected virtual void OnSpecialStateChanged()
         {
             if (specialStateChanged != null)
-                specialStateChanged(this,SpecialState);
+                specialStateChanged(this, SpecialState);
+            
         }
 
+        public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
         protected virtual void OnTooltipTextChanged()
         {
             toolTip.SetToolTip(this, SpecialState ? SpecialTooltipText : BasicTooltipText);

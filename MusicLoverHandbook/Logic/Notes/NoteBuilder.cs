@@ -49,7 +49,7 @@ namespace MusicLoverHandbook.Logic.Notes
                         .GetConstructors()[0].Invoke(
                         new object?[]
                         {
-                            parent as IControlParent ?? Form.NotesContainer,
+                            parent as IParentControl ?? Form.NotesContainer,
                             currentInfo.Text,
                             currentInfo.Description,
                             creationOrder

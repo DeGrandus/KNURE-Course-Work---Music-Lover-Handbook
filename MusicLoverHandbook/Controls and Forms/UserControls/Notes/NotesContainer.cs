@@ -10,7 +10,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
-    public class NotesContainer : IControlParent
+    public class NotesContainer : IParentControl
     {
         private List<INoteControlChild> partialInnerNotes = new();
 

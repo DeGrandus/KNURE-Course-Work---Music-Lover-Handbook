@@ -1,8 +1,22 @@
-﻿using MusicLoverHandbook.Models.Enums;
+﻿using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.JSON;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControl : INote, IControlTheme
+    public interface INoteSerializable
+    {
+        string Serialize();
+        NoteRawImportModel Deserialize();
+        INoteControl Clone();
+    }
+    public interface INoteWidelyComparable
+    {
+        bool RoughEquals(object? obj);
+        bool Equals(object? obj);
+        int GetHashCode();
+    }
+    public interface INoteControl : INote, IControlTheme, INoteSerializable, INoteWidelyComparable
     {
         Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
@@ -10,6 +24,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
         new string NoteName { get; set; }
         void ChangeSize(int size);
 
+        NoteLite SingleFlatten();
         List<NoteLite> Flatten();
     }
 }

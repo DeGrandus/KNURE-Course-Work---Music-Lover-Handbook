@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace MusicLoverHandbook.Models
 {
-    public class ContentLinker : IControlParent
+    public class ContentLinker : IParentControl
     {
         public ContentLinker(NoteControlParent note)
         {

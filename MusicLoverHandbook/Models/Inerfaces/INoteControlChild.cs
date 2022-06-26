@@ -4,8 +4,9 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControlChild : INoteControl
     {
-        IControlParent ParentNote { get; set; }
-        IControlParent GetFirstParent();
+        IParentControl ParentNote { get; set; }
+        IParentControl GetFirstParent();
         INoteControlParent? GetFirstNoteControlParent();
+        bool ContainsInParentTree(IContainerControl potentialParent);
     }
 }

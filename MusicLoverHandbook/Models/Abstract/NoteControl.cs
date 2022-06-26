@@ -184,7 +184,7 @@ namespace MusicLoverHandbook.Models.Abstract
             InitCustomLayout();
         }
 
-        public NoteRawImportModel DeserializeToImports()
+        public NoteRawImportModel Deserialize()
         {
             return JsonConvert.DeserializeObject<NoteRawImportModel>(
                 Serialize(),
@@ -192,11 +192,15 @@ namespace MusicLoverHandbook.Models.Abstract
             )!;
         }
 
-        public NoteControl Clone()
+        public INoteControl Clone()
         {
-            var impToClone = DeserializeToImports();
+            var impToClone = Deserialize();
             var recreator = FindForm() is MainForm mf ? mf.NoteManager : new();
-            return recreator.RecreateFromImported(impToClone);
+
+            Debug.WriteLine("Clonning before: "+this);
+            var tes = recreator.RecreateFromImported(impToClone);
+            Debug.WriteLine("Clonning after: "+tes);
+            return tes;
         }
 
         public void OnColorChanged()
@@ -222,7 +226,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override string ToString()
         {
-            return $"{NoteName}";
+            return $@"{GetType().Name} : [ Name: {NoteName} | Desc: {NoteDescription} | Type: {NoteType} ]";
         }
 
         protected void EditClick()
@@ -249,7 +253,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 if (asChild.NoteType.IsInformaionCarrier())
                     chain.AddFirst((SimpleNoteModel)(NoteControl)asChild);
                 for (
-                    var curr = (asChild as IControlParent) ?? asChild.ParentNote;
+                    var curr = (asChild as IParentControl) ?? asChild.ParentNote;
                     curr != null && curr is NoteControl asCtrl;
                     curr = (curr as INoteControlChild)?.ParentNote
                 )
@@ -262,6 +266,10 @@ namespace MusicLoverHandbook.Models.Abstract
         public virtual List<NoteLite> Flatten()
         {
             return new() { new(NoteName, NoteDescription, this) };
+        }
+        public NoteLite SingleFlatten()
+        {
+            return new(NoteName, NoteDescription, this);
         }
 
         protected virtual void InitCustomLayout()
@@ -448,10 +456,19 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override bool Equals(object? obj)
         {
-            return obj is NoteControl control &&
-                   NoteDescription == control.NoteDescription &&
-                   NoteName == control.NoteName &&
-                   NoteType == control.NoteType;
+            return obj is NoteControl control
+                && NoteDescription == control.NoteDescription
+                && NoteName == control.NoteName
+                && NoteType == control.NoteType;
+        }
+
+        public bool RoughEquals(object? obj)
+        {
+            return Equals(obj)
+                || obj is NoteLite lite
+                    && NoteDescription == lite.Description
+                    && NoteName == lite.NoteName
+                    && NoteType == lite.NoteType;
         }
 
         public override int GetHashCode()

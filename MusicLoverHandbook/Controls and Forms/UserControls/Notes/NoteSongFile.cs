@@ -9,7 +9,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteSongFile : NoteControlChild
     {
         public NoteSongFile(
-            IControlParent song,
+            IParentControl song,
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder

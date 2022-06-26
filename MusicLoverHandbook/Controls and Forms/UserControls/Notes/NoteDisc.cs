@@ -8,7 +8,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public partial class NoteDisc : NoteControlMidder
     {
         public NoteDisc(
-            IControlParent author,
+            IParentControl author,
             string text,
             string description,
             NoteCreationOrder? usedCreationOrder
