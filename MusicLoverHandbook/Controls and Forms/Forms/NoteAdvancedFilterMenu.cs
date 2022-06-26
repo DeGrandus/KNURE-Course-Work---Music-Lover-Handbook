@@ -13,41 +13,41 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
     public partial class NoteAdvancedFilterMenu : Form
     {
         public List<INoteControlChild> FinalizedOutput = new();
-        private List<BasicSwitchLabel> currentButtons = new();
-        private List<NoteLite> originalLiteNotes;
-        private PreFilteringResultChangedEventHandler? preFilteringResultChanged;
-        private List<NoteLite> previewFiltered;
-        private int previewUpdateCooldown = 100;
-        private System.Windows.Forms.Timer previewUpdateTimer;
-        private BasicSwitchLabel smartFiltersSwitch;
-        private BasicSwitchLabel sslnSwitch;
+        private List<BasicSwitchLabel> currentFilteredSwitch = new();
+        private List<NoteLite> initialNotes;
+        private BasicFilterResultsChangeEventHandler? basicFilteringResultsChange;
+        private List<NoteLite> filteredNotesSwitchless;
+        private int previewUpdatingCooldown = 100;
+        private System.Windows.Forms.Timer previewUpdatingTimer;
+        private BasicSwitchLabel smartFilterIncludeSwitch;
+        private BasicSwitchLabel SSLNSwitch;
 
         private Dictionary<
             StringTagTools.TagName,
             Dictionary<StringTagTools.TagValue, NoteLite[]>
-        > taggedData = new();
+        > taggedInformation = new();
 
         public MainForm MainForm { get; }
 
-        private List<NoteLite> NoteLiteFilteredExceptButtons
+        private List<NoteLite> FilteredNotesSwitchless
         {
-            get => previewFiltered;
+            get => filteredNotesSwitchless;
             set
             {
                 var cloned = value.Select(x => x.Clone()).ToList();
                 cloned.ForEach(x => x.Dock = DockStyle.Top);
-                previewFiltered = cloned;
-                UpdatePreviewDelayed();
+                filteredNotesSwitchless = cloned;
+                DelayedPreviewUpdate();
             }
         }
 
-        private List<NoteLite> NoteLiteFilteredFull
+        private List<NoteLite> FilteredNotesFinal
         {
             get =>
-                NoteLiteFilteredExceptButtons
+                FilteredNotesSwitchless
                     .Where(
                         x =>
-                            currentButtons
+                            currentFilteredSwitch
                                 .Find(f => (NoteType)f.Tag == x.Ref.NoteType)
                                 ?.SpecialState ?? true
                     )
@@ -81,31 +81,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             Debug.WriteLine("Update Preview add start");
             //previewFilteredPanel.Controls.AddRange(NoteLiteFilteredBase.ToArray());
-            foreach (var ctrl in NoteLiteFilteredFull)
+            foreach (var ctrl in FilteredNotesFinal)
                 control.Add(ctrl);
             Debug.WriteLine("Update Preview add end");
             previewFilteredPanel.ResumeLayout();
         }
 
-        public void UpdatePreviewDelayed()
+        public void DelayedPreviewUpdate()
         {
-            previewUpdateCooldown = 40;
+            previewUpdatingCooldown = 40;
         }
 
-        private NoteFilter CreateFilter() => new(byNameInput.Text, byDescInput.Text);
+        private NoteFilter CreateBasicFilter() => new(byNameInput.Text, byDescInput.Text);
 
         private List<INoteControlChild> CreateFinalizedOutput()
         {
-            if (!smartFiltersSwitch.SpecialState)
+            if (!smartFilterIncludeSwitch.SpecialState)
             {
-                var parentless = NoteLiteFilteredFull.Where(
+                var parentless = FilteredNotesFinal.Where(
                     x =>
                         x.Ref is INoteControlChild child
-                        && GetMostIncluded(
-                            new(GetAllParents(child).Select(x => x).Reverse().ToList())
+                        && GetFirstIncludedInFinal(
+                            new(GetParents(child).Select(x => x).Reverse().ToList())
                         ) == null
                 );
-                if (sslnSwitch.SpecialState)
+                if (SSLNSwitch.SpecialState)
                     return parentless
                         .Select(x => x.Ref.Clone())
                         .Where(x => x is INoteControlChild)
@@ -119,9 +119,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                                 Head: x.Ref.Clone(),
                                 LiteFind: x.Ref
                                     .Flatten()
-                                    .Where(
-                                        s => NoteLiteFilteredFull.Any(k => k.Equals(s) && k != x)
-                                    )
+                                    .Where(s => FilteredNotesFinal.Any(k => k.Equals(s) && k != x))
                                     .ToList()
                             )
                     );
@@ -134,9 +132,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         if (inc.Head is INoteControlParent asParent)
                         {
                             Debug.WriteLine("OCCURANCES FILTERING BEGIN");
-                            Debug.WriteLine("");
-                            LeaveOccurances(asParent, inc.LiteFind);
-                            Debug.WriteLine("");
+                            SmartOccurancesLeaver(asParent, inc.LiteFind);
                             Debug.WriteLine("OCCURANCES FILTERING END");
                         }
                         ;
@@ -145,9 +141,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     foreach (var o in output)
                     {
                         Debug.WriteLine("");
-                        Debug.WriteLine("");
                         Debug.WriteLine(o.ToString());
-                        Debug.WriteLine("");
                         Debug.WriteLine("");
                     }
                     return output;
@@ -159,7 +153,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
         {
-            var types = NoteLiteFilteredExceptButtons.Select(x => x.Ref.NoteType).Distinct();
+            var types = FilteredNotesSwitchless.Select(x => x.Ref.NoteType).Distinct();
             foreach (var type in types)
             {
                 Debug.WriteLine($"Creating note enabler button type : {type}");
@@ -200,10 +194,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void Filtering()
         {
             Debug.WriteLine("Invoking filtering");
-            NoteLiteFilteredExceptButtons = CreateFilter().ApplyOn(originalLiteNotes).ToList();
+            FilteredNotesSwitchless = CreateBasicFilter().ApplyOn(initialNotes).ToList();
             Debug.WriteLine("Filtering raw filter ready");
             Debug.WriteLine("Calling on onPreFilteredChanged");
-            OnPreFilteredResultChanged();
+            OnBasicFilteringResultsChange();
         }
 
         private void Finalization()
@@ -211,33 +205,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             FinalizedOutput = CreateFinalizedOutput();
         }
 
-        private List<IParentControl> GetAllParents(INoteControlChild child)
+        private List<IParentControl> GetParents(INoteControlChild child)
         {
             return new List<IParentControl>() { child.ParentNote }
-                .Concat(
-                    child.ParentNote is INoteControlChild inchild ? GetAllParents(inchild) : new()
-                )
+                .Concat(child.ParentNote is INoteControlChild inchild ? GetParents(inchild) : new())
                 .ToList();
         }
 
-        private NoteLite? GetMostIncluded(LinkedList<IParentControl> parents)
+        private NoteLite? GetFirstIncludedInFinal(LinkedList<IParentControl> parents)
         {
             for (var note = parents.First; note != null; note = note.Next)
             {
-                if (NoteLiteFilteredFull.Find(x => x.Ref == note.Value) is NoteLite lite)
+                if (FilteredNotesFinal.Find(x => x.Ref == note.Value) is NoteLite lite)
                     return lite;
             }
             return null;
         }
 
-        private void InputsChangedFiltering()
+        private void InvokeFiltering()
         {
             Filtering();
             Debug.WriteLine("Calling updating switches");
             UpdateSwitchButtons();
         }
 
-        private bool LeaveOccurances(INoteControlParent parent, List<NoteLite> included)
+        private bool SmartOccurancesLeaver(INoteControlParent parent, List<NoteLite> included)
         {
             bool usefull = false;
             Debug.WriteLine("");
@@ -250,7 +242,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     Debug.WriteLine("Included name: " + child.NoteName + " " + child.NoteType);
                     usefull = true;
                     if (child is INoteControlParent asParent)
-                        LeaveOccurances(asParent, included);
+                        SmartOccurancesLeaver(asParent, included);
                 }
                 else
                 {
@@ -261,7 +253,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             "Not inc parent name: " + child.NoteName + " " + child.NoteType
                         );
 
-                        if (!LeaveOccurances(asParent, included))
+                        if (!SmartOccurancesLeaver(asParent, included))
                         {
                             Debug.WriteLine(
                                 "Parent left useless: " + child.NoteName + " " + child.NoteType
@@ -283,39 +275,37 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             return usefull;
         }
 
-        private void OnDescInputChanged(object? sender, EventArgs e) { }
-
         private void OnInputTextChanged(object? sender, EventArgs e)
         {
             Debug.WriteLine("On input changed");
-            InputsChangedFiltering();
+            InvokeFiltering();
         }
 
-        private void OnPreFilteredResultChanged()
+        private void OnBasicFilteringResultsChange()
         {
             Debug.WriteLine("OnPreFilteredResultChanges invoking start");
-            if (preFilteringResultChanged != null)
-                preFilteringResultChanged(NoteLiteFilteredExceptButtons);
+            if (basicFilteringResultsChange != null)
+                basicFilteringResultsChange(FilteredNotesSwitchless);
 
-            var advancedWorkWith = NoteLiteFilteredExceptButtons
+            var advancedWorkWith = FilteredNotesSwitchless
                 .GroupBy(x => x.Ref.NoteType)
                 .Select(x => x.ToArray());
-            var filters = new List<FilteringControl>();
 
+            smartFilterOptions = new List<SmartFilteringOptionMenu>();
             foreach (var oneTyped in advancedWorkWith)
-            {
-                var advFilt = new FilteringControl(this, oneTyped)
-                {
-                    Size = new(200, advFiltersFlow.Height),
-                };
-                filters.Add(advFilt);
-            }
-            ;
-            Debug.WriteLine("Clearing adv filters");
+                smartFilterOptions.Add(
+                    new SmartFilteringOptionMenu(this, oneTyped)
+                    {
+                        Size = new(200, advFiltersFlow.Height),
+                    }
+                );
+            Debug.WriteLine("Clearing smart filters");
             advFiltersFlow.Controls.Clear();
-            advFiltersFlow.Controls.AddRange(filters.ToArray());
-            Debug.WriteLine("Adv filters added");
+            advFiltersFlow.Controls.AddRange(smartFilterOptions.ToArray());
+            Debug.WriteLine("Smart filters added");
         }
+
+        private List<SmartFilteringOptionMenu> smartFilterOptions = new();
 
         private void SetupLayout()
         {
@@ -329,18 +319,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
             DrawPreviewBorder();
 
-            previewUpdateTimer = new System.Windows.Forms.Timer() { Interval = 1, Enabled = true, };
-            previewUpdateTimer.Tick += (sender, e) =>
+            previewUpdatingTimer = new System.Windows.Forms.Timer()
             {
-                if (previewUpdateCooldown >= 0)
+                Interval = 1,
+                Enabled = true,
+            };
+            previewUpdatingTimer.Tick += (sender, e) =>
+            {
+                if (previewUpdatingCooldown >= 0)
                 {
-                    if (previewUpdateCooldown == 0)
+                    if (previewUpdatingCooldown == 0)
                     {
                         Debug.WriteLine("Timed update start");
                         UpdatePreview();
                         Debug.WriteLine("Timed update end");
                     }
-                    previewUpdateCooldown--;
+                    previewUpdatingCooldown--;
                 }
                 ;
             };
@@ -349,28 +343,26 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             advFiltersFlow.BackColor = previewFilteredPanel.BackColor;
             BackColor = ControlPaint.LightLight(previewFilteredPanel.BackColor);
 
-            originalLiteNotes = MainForm.NotesContainer.InnerNotes
-                .SelectMany(x => x.Flatten())
-                .ToList();
-            originalLiteNotes.ForEach(x => x.Dock = DockStyle.Top);
+            initialNotes = MainForm.NotesContainer.InnerNotes.SelectMany(x => x.Flatten()).ToList();
+            initialNotes.ForEach(x => x.Dock = DockStyle.Top);
 
-            NoteLiteFilteredExceptButtons = originalLiteNotes;
+            FilteredNotesSwitchless = initialNotes;
 
             byNameInput.TextChanged += OnInputTextChanged;
             byDescInput.TextChanged += OnInputTextChanged;
 
-            smartFiltersSwitch = new(Color.LightGray, Color.DeepSkyBlue, false)
+            smartFilterIncludeSwitch = new(Color.LightGray, Color.DeepSkyBlue, false)
             {
                 Text = "Smart filters",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill
             };
-            smartFiltersTable.Controls.Add(smartFiltersSwitch, 1, 0);
-            smartFiltersSwitch.SpecialStateChanged += (sender, state) =>
+            smartFiltersTable.Controls.Add(smartFilterIncludeSwitch, 1, 0);
+            smartFilterIncludeSwitch.SpecialStateChanged += (sender, state) =>
             {
                 advFiltersFlow.Visible = state;
             };
-            sslnSwitch = new(Color.OrangeRed, Color.LightGreen, true)
+            SSLNSwitch = new(Color.OrangeRed, Color.LightGreen, true)
             {
                 Text = "S.S.L.N",
                 BasicTooltipText = "Save Same-Level Notes (NO)",
@@ -378,11 +370,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
             };
-            filteringTable.Controls.Add(sslnSwitch, 0, 1);
+            filteringTable.Controls.Add(SSLNSwitch, 0, 1);
 
             applyFilterButton.Click += OnApplyFilteringButtonClick;
 
-            InputsChangedFiltering();
+            InvokeFiltering();
         }
 
         private void UpdateSwitchButtons()
@@ -393,7 +385,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 button.SpecialStateChanged += (sender, state) =>
                 {
-                    UpdatePreviewDelayed();
+                    DelayedPreviewUpdate();
                 };
             }
 
@@ -403,22 +395,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 .ForEach(
                     x =>
                         x.SpecialState =
-                            currentButtons
+                            currentFilteredSwitch
                                 .Find(f => (NoteType)f.Tag == (NoteType)x.Tag)
                                 ?.SpecialState ?? x.SpecialState
                 );
-            currentButtons = buttons.ToList();
-            Debug.WriteLine($"Switch buttons ready: {currentButtons.Count}");
+            currentFilteredSwitch = buttons.ToList();
+            Debug.WriteLine($"Switch buttons ready: {currentFilteredSwitch.Count}");
         }
 
-        public delegate void PreFilteringResultChangedEventHandler(
+        public delegate void BasicFilterResultsChangeEventHandler(
             List<NoteLite> prefilteredResults
         );
 
-        public event PreFilteringResultChangedEventHandler PreFilteringResultChanged
+        public event BasicFilterResultsChangeEventHandler BasicFilterResultsChange
         {
-            add => preFilteringResultChanged += value;
-            remove => preFilteringResultChanged -= value;
+            add => basicFilteringResultsChange += value;
+            remove => basicFilteringResultsChange -= value;
         }
 
         public class NoteFilter
@@ -442,12 +434,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
                 var nameOrCheck = Name.Replace(@"\|", "\n");
                 if (nameOrCheck.Count(x => x == '|') == 0)
-                    filtered = NameFilterize(filtered, nameOrCheck);
+                    filtered = NameFiltering(filtered, nameOrCheck);
                 else
                 {
                     var forOr = nameOrCheck.Split('|').Select(x => x.Replace("\n", @"|").Trim());
                     var combFiltered = forOr
-                        .Select(x => NameFilterize(filtered, x))
+                        .Select(x => NameFiltering(filtered, x))
                         .Aggregate((c, n) => c.Concat(n).ToList());
                     filtered = combFiltered;
                 }
@@ -455,14 +447,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 {
                     var descPartOrCheck = compStr.Replace(@"\|", "\n");
                     if (descPartOrCheck.Count(x => x == '|') == 0)
-                        filtered = DescFilterize(filtered, compStr);
+                        filtered = DescFiltering(filtered, compStr);
                     else
                     {
                         var forOr = descPartOrCheck
                             .Split('|')
                             .Select(x => x.Replace("\n", @"|").Trim());
                         var combFiltered = forOr
-                            .Select(x => DescFilterize(filtered, x))
+                            .Select(x => DescFiltering(filtered, x))
                             .Aggregate((c, n) => c.Concat(n).ToList());
                         filtered = combFiltered;
                     }
@@ -471,7 +463,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 return filtered;
             }
 
-            private List<NoteLite> DescFilterize(List<NoteLite> inputLites, string rawcomp)
+            private List<NoteLite> DescFiltering(List<NoteLite> inputLites, string rawcomp)
             {
                 var lites = inputLites.ToList();
 
@@ -560,7 +552,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 }
             }
 
-            private List<NoteLite> NameFilterize(List<NoteLite> lites, string nameCompare)
+            private List<NoteLite> NameFiltering(List<NoteLite> lites, string nameCompare)
             {
                 if (nameCompare == "")
                     return lites;

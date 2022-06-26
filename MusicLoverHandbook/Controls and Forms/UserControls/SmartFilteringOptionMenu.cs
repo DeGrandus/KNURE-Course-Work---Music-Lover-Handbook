@@ -14,12 +14,12 @@ using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    public partial class FilteringControl : UserControl
+    public partial class SmartFilteringOptionMenu : UserControl
     {
         private NoteAdvancedFilterMenu filterMenu;
         public NoteType FilterNoteType { get; set; }
         private NoteLite[] lites;
-        public FilteringControl(NoteAdvancedFilterMenu filterMenu, NoteLite[] oneTypedLites)
+        public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, NoteLite[] oneTypedLites)
         {
             InitializeComponent();
 
