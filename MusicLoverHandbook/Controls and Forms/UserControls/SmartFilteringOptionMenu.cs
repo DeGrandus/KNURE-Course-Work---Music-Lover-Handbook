@@ -19,7 +19,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         public bool IsValid
         {
-            get => isValid; set
+            get => isValid;
+            set
             {
                 if (!value)
                     BackColor = Color.FromArgb(50, Color.Red);
@@ -35,7 +36,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
             var types = oneTypedLites.Select(x => x.Ref.NoteType).Distinct();
             if (types.Count() != 1)
-                throw new ArgumentException("Unable to handle more than one type of notes in FilteringControl constructor");
+                throw new ArgumentException(
+                    "Unable to handle more than one type of notes in FilteringControl constructor"
+                );
             FilterNoteType = types.First();
             OneTypeNotes = oneTypedLites;
             this.filterMenu = filterMenu;
@@ -52,8 +55,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         {
             if (isSpecial)
             {
-                CurrentlySelectedTypeOption = ((BasicSwitchLabel)self!).Tag is NoteType type ? type : null;
-                options.Where(x => x != (BasicSwitchLabel)self!).ToList().ForEach(x => x.SpecialState = false);
+                CurrentlySelectedTypeOption = ((BasicSwitchLabel)self!).Tag is NoteType type
+                    ? type
+                    : null;
+                options
+                    .Where(x => x != (BasicSwitchLabel)self!)
+                    .ToList()
+                    .ForEach(x => x.SpecialState = false);
             }
             else if (options.Where(x => x.SpecialState == true).Count() == 0)
             {
@@ -74,10 +82,21 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             };
 
             var doSelect = true;
-            var hierTypes = OneTypeNotes.Where(x => x.Ref.UsedCreationOrder != null).SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder()).Distinct().Reverse();
+            var hierTypes = OneTypeNotes
+                .Where(x => x.Ref.UsedCreationOrder != null)
+                .SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder())
+                .Distinct()
+                .Reverse();
             foreach (var type in hierTypes)
             {
-                var button = new BasicSwitchLabel(Color.Gray, ControlPaint.Light(type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen, -0.5f), false)
+                var button = new BasicSwitchLabel(
+                    Color.Gray,
+                    ControlPaint.Light(
+                        type.GetLiteColor() ?? type.GetColor() ?? Color.LightGreen,
+                        -0.5f
+                    ),
+                    false
+                )
                 {
                     Text = type.ToString(true),
                     Dock = DockStyle.Top,
@@ -86,7 +105,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     Size = new(2, 50),
                     SwitchType = BasicSwitchLabel.SwitchMode.Click,
                     BasicTooltipText = "No affect",
-                    SpecialTooltipText = $@"All occurances of ""{type.ToString(true)}"" will be selected in ""{FilterNoteType.ToString(true)}""",
+                    SpecialTooltipText =
+                        $@"All occurances of ""{type.ToString(true)}"" will be selected in ""{FilterNoteType.ToString(true)}""",
                     Tag = type,
                 };
                 if (type == FilterNoteType)
@@ -118,7 +138,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             mainTable.Controls.Add(SSLNSwitch, 1, 2);
         }
 
-        public delegate void AdvancedFilteringModeChangeEventHandler(BasicSwitchLabel self, bool isSpecial);
+        public delegate void AdvancedFilteringModeChangeEventHandler(
+            BasicSwitchLabel self,
+            bool isSpecial
+        );
 
         public event AdvancedFilteringModeChangeEventHandler AdvancedFilteringModeChange
         {

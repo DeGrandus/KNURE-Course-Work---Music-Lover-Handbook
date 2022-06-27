@@ -31,10 +31,10 @@ namespace MusicLoverHandbook.Models
 
         public override bool Equals(object? obj)
         {
-            return obj is NoteLite lite &&
-                   NoteName == lite.NoteName &&
-                   Description == lite.Description &&
-                   NoteType == lite.NoteType;
+            return obj is NoteLite lite
+                && NoteName == lite.NoteName
+                && Description == lite.Description
+                && NoteType == lite.NoteType;
         }
 
         public override int GetHashCode()

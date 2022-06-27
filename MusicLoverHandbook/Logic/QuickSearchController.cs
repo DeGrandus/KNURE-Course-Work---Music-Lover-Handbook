@@ -13,9 +13,7 @@ namespace MusicLoverHandbook.Logic
         public bool IsDescriptionIncluded { get; set; } = false;
         private IEnumerable<INoteControlChild> searchingSource => container.CurrentlyActiveNotes;
 
-        public QuickSearchController(
-            NotesContainer container
-        )
+        public QuickSearchController(NotesContainer container)
         {
             this.container = container;
         }

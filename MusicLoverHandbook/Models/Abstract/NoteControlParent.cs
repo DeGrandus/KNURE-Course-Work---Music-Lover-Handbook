@@ -6,10 +6,7 @@ using System.Diagnostics;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlParent
-        : NoteControl,
-          INoteParent,
-          INoteControlParent
+    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent
     {
         private ObservableCollection<INoteControlChild> innerNotes = new();
 
@@ -19,7 +16,8 @@ namespace MusicLoverHandbook.Models.Abstract
         //    base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
         public ObservableCollection<INoteControlChild> InnerNotes
         {
-            get => innerNotes; set
+            get => innerNotes;
+            set
             {
                 innerNotes = value;
                 Debug.WriteLine("Setting new Inner Notes: ");
@@ -42,11 +40,11 @@ namespace MusicLoverHandbook.Models.Abstract
         protected TableLayoutPanel TableOffsetter { get; }
 
         protected NoteControlParent(
-                                                                            string text,
-                    string description,
-                    NoteType noteType,
-                    NoteCreationOrder? order
-                ) : base(text, description, noteType, order)
+            string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        ) : base(text, description, noteType, order)
         {
             Offset = sizeS * 2 / 3;
             TableOffsetter = new TableLayoutPanel()
@@ -135,7 +133,12 @@ namespace MusicLoverHandbook.Models.Abstract
             UpdateSize();
         }
 
-        public void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex, ContentLinker linker)
+        public void ReplaceNote(
+            NoteControl oldNote,
+            NoteControl newNote,
+            int newIndex,
+            ContentLinker linker
+        )
         {
             RemoveNote(oldNote, linker);
             AddNote(newNote, linker);
@@ -159,7 +162,9 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override string ToString()
         {
-            return base.ToString() + "\n" + string.Join('\n', InnerNotes.Select(x => "- " + x.ToString()));
+            return base.ToString()
+                + "\n"
+                + string.Join('\n', InnerNotes.Select(x => "- " + x.ToString()));
         }
 
         public virtual void UpdateSize()

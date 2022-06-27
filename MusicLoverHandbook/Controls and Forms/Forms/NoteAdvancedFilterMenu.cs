@@ -136,7 +136,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             Debug.WriteLine("OCCURANCES FILTERING BEGIN");
                             SmartOccurancesLeaver(asParent, inc.LiteFind);
                             Debug.WriteLine("OCCURANCES FILTERING END");
-                        };
+                        }
+                        ;
 
                         output.Add((INoteControlChild)inc.Head);
                     }
@@ -155,31 +156,61 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 foreach (var smartFilter in smartFilterOptions)
                 {
                     var loadedParents = new List<IParentControl>();
-                    if (smartFilter.CurrentlySelectedTypeOption is null) continue;
+                    if (smartFilter.CurrentlySelectedTypeOption is null)
+                        continue;
 
                     NoteType toFindType = (NoteType)smartFilter.CurrentlySelectedTypeOption;
                     var ssln = smartFilter.SSLNSwitch.SpecialState;
                     Debug.WriteLine(toFindType);
                     foreach (var note in smartFilter.OneTypeNotes)
                     {
-                        Debug.WriteLine($"Smart Research started for note : {note.NoteName} {note.NoteType}");
-                        if (note.Ref is INoteControlChild asChild && GetParents(asChild) is var parents && parents.FindIndex(x => x is INoteControlParent cp && cp.NoteType == toFindType) is int parentInd && parentInd > -1)
+                        Debug.WriteLine(
+                            $"Smart Research started for note : {note.NoteName} {note.NoteType}"
+                        );
+                        if (
+                            note.Ref is INoteControlChild asChild
+                            && GetParents(asChild) is var parents
+                            && parents.FindIndex(
+                                x => x is INoteControlParent cp && cp.NoteType == toFindType
+                            )
+                                is int parentInd
+                            && parentInd > -1
+                        )
                         {
-                            var affectedParents = new ArraySegment<IParentControl>(parents.ToArray(), 0, parentInd + 1);
-                            if (loadedParents.Any(x => affectedParents.Contains(x))) continue;
+                            var affectedParents = new ArraySegment<IParentControl>(
+                                parents.ToArray(),
+                                0,
+                                parentInd + 1
+                            );
+                            if (loadedParents.Any(x => affectedParents.Contains(x)))
+                                continue;
 
                             loadedParents.AddRange(affectedParents);
                             var parent = (INoteControlParent)parents[parentInd];
-                            Debug.WriteLine($"Foudation in parents for note : {note.NoteName} {note.NoteType}");
+                            Debug.WriteLine(
+                                $"Foudation in parents for note : {note.NoteName} {note.NoteType}"
+                            );
                             parent = (INoteControlParent)parent.Clone();
-                            if (!ssln) SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes);
+                            if (!ssln)
+                                SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes);
                             retValues.Add((INoteControlChild)parent);
                         }
-                        else if (note.Ref is INoteControlParent asParent && asParent.Flatten().FindAll(x => x.NoteType == toFindType) is List<NoteLite> { Count: > 0 } childResults)
+                        else if (
+                            note.Ref is INoteControlParent asParent
+                            && asParent.Flatten().FindAll(x => x.NoteType == toFindType)
+                                is List<NoteLite> { Count: > 0 } childResults
+                        )
                         {
-                            Debug.WriteLine($"Foundation in children started for note : {note.NoteName} {note.NoteType}");
+                            Debug.WriteLine(
+                                $"Foundation in children started for note : {note.NoteName} {note.NoteType}"
+                            );
 
-                            retValues.AddRange(childResults.Where(x => x.Ref is INoteControlChild).Select(x => x.Ref.Clone()).Cast<INoteControlChild>());
+                            retValues.AddRange(
+                                childResults
+                                    .Where(x => x.Ref is INoteControlChild)
+                                    .Select(x => x.Ref.Clone())
+                                    .Cast<INoteControlChild>()
+                            );
                         }
                     }
                 }
@@ -369,7 +400,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             InvokeFiltering();
         }
 
-        private bool SmartOccurancesLeaver(INoteControlParent parent, IEnumerable<NoteLite> included, NoteType? stopClearingOn = null)
+        private bool SmartOccurancesLeaver(
+            INoteControlParent parent,
+            IEnumerable<NoteLite> included,
+            NoteType? stopClearingOn = null
+        )
         {
             bool usefull = false;
             Debug.WriteLine("");
@@ -393,7 +428,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             "Not inc parent name: " + child.NoteName + " " + child.NoteType
                         );
 
-                        if (!(stopClearingOn == child.NoteType || SmartOccurancesLeaver(asParent, included, stopClearingOn)))
+                        if (
+                            !(
+                                stopClearingOn == child.NoteType
+                                || SmartOccurancesLeaver(asParent, included, stopClearingOn)
+                            )
+                        )
                         {
                             Debug.WriteLine(
                                 "Parent left useless: " + child.NoteName + " " + child.NoteType

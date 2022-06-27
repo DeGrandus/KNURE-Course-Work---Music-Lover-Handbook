@@ -25,7 +25,7 @@ namespace MusicLoverHandbook.Models.JSON
         public NoteCreationOrder? UsedCreationOrder { get; }
 
         public NoteRawImportModel(
-                                                            string noteName,
+            string noteName,
             string noteDescription,
             NoteType noteType,
             NoteCreationOrder usedCreationOrder,

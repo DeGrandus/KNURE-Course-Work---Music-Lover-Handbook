@@ -30,7 +30,7 @@ namespace MusicLoverHandbook.Models.Enums
         public override string Message => base.Message;
 
         public MissingRequiredAttributeException(object source, Type missingAttirbute)
-                    : base(Decorate(source, missingAttirbute))
+            : base(Decorate(source, missingAttirbute))
         {
             Source = source.ToString();
         }

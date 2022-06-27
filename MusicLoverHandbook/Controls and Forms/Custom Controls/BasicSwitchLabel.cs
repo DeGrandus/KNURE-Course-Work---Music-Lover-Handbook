@@ -42,7 +42,8 @@
 
         public bool SpecialState
         {
-            get => specialState; set
+            get => specialState;
+            set
             {
                 specialState = value;
                 SetBackColor();
@@ -65,10 +66,7 @@
 
         public BasicSwitchLabel()
         {
-            toolTip = new ToolTip()
-            {
-                IsBalloon = true,
-            };
+            toolTip = new ToolTip() { IsBalloon = true, };
             HandleCreated += OnHandleCreated;
             MouseEnter += (sender, e) =>
             {
@@ -110,7 +108,8 @@
             SpecialBackColor = specialBackColor;
         }
 
-        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState) : this(basicBackColor, specialBackColor)
+        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState)
+            : this(basicBackColor, specialBackColor)
         {
             this.InitialState = initialState;
         }
@@ -153,7 +152,8 @@
 
         public enum SwitchMode
         {
-            Click, DoubleClick
+            Click,
+            DoubleClick
         }
     }
 }

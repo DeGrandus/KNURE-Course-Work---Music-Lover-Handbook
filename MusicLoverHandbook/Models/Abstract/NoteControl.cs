@@ -142,7 +142,7 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
         protected NoteControl(
-                                                                                                                                                                    string text,
+            string text,
             string description,
             NoteType noteType,
             NoteCreationOrder? order

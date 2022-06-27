@@ -53,7 +53,9 @@ namespace MusicLoverHandbook.Logic
             {
                 var settings = new JsonSerializerSettings()
                 {
-                    ContractResolver = new CertainTypedContractResolver(typeof(INoteParent)) | new CertainTypedContractResolver(typeof(INote)),
+                    ContractResolver =
+                        new CertainTypedContractResolver(typeof(INoteParent))
+                        | new CertainTypedContractResolver(typeof(INote)),
                     Formatting = Formatting.Indented,
                 };
                 settings.Converters = new List<JsonConverter>()
@@ -131,7 +133,9 @@ namespace MusicLoverHandbook.Logic
             if (!IsDataFileValid())
                 File.Create(dataFilePath);
             using (var writter = new StreamWriter(dataFilePath))
-                writter.Write(JsonConvert.SerializeObject(parentingControl.InnerNotes, SerializerSettings));
+                writter.Write(
+                    JsonConvert.SerializeObject(parentingControl.InnerNotes, SerializerSettings)
+                );
         }
     }
 }

@@ -72,10 +72,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 loadButton.Dock = DockStyle.Right;
                 saveButton.Text = "S";
                 saveButton.TextAlign = ContentAlignment.MiddleRight;
-                saveButton.Size = new((int)mainLayoutTable.RowStyles[1].Height + 20, (int)mainLayoutTable.RowStyles[1].Height);
+                saveButton.Size = new(
+                    (int)mainLayoutTable.RowStyles[1].Height + 20,
+                    (int)mainLayoutTable.RowStyles[1].Height
+                );
                 loadButton.Text = "L";
                 loadButton.TextAlign = ContentAlignment.MiddleRight;
-                loadButton.Size = new((int)mainLayoutTable.RowStyles[1].Height + 20, (int)mainLayoutTable.RowStyles[1].Height);
+                loadButton.Size = new(
+                    (int)mainLayoutTable.RowStyles[1].Height + 20,
+                    (int)mainLayoutTable.RowStyles[1].Height
+                );
             }
             else
             {
@@ -91,7 +97,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 loadButton.TextAlign = ContentAlignment.MiddleCenter;
             }
             using (var g = Graphics.FromHwnd(qSSwitchLabel.Handle))
-                qSSwitchLabel.Size = new((int)g.MeasureString(qSSwitchLabel.Text, qSSwitchLabel.Font).Width + 5, 1);
+                qSSwitchLabel.Size = new(
+                    (int)g.MeasureString(qSSwitchLabel.Text, qSSwitchLabel.Font).Width + 5,
+                    1
+                );
         }
 
         private void AdvancedSearchButton_Click(object? sender, EventArgs e)
@@ -404,10 +413,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, mainColor));
             panelLabel.BackColor = LabelBackColor;
             mainLayoutTable.BackColor = Color.White;
-            ContentBackColor = ControlPaint.Light(
-                Color.FromArgb(255, mainColor),
-                1.5f
-            );
+            ContentBackColor = ControlPaint.Light(Color.FromArgb(255, mainColor), 1.5f);
             contentPanel.BackColor = ContentBackColor;
             contentPanel.AutoScroll = true;
             searchBarLayout.BackColor = LabelBackColor;

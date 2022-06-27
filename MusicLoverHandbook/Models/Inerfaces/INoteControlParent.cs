@@ -17,7 +17,12 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
         void RemoveNote(NoteControl note, ContentLinker linker);
 
-        void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex, ContentLinker linker);
+        void ReplaceNote(
+            NoteControl oldNote,
+            NoteControl newNote,
+            int newIndex,
+            ContentLinker linker
+        );
 
         void ResetNotes(ContentLinker linker);
 

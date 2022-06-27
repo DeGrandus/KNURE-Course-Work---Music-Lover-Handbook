@@ -11,7 +11,7 @@ namespace MusicLoverHandbook.Models.Abstract
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
 
         protected NoteControlMidder(
-                            IParentControl parent,
+            IParentControl parent,
             string text,
             string description,
             NoteType noteType,

@@ -204,7 +204,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public NoteType Type { get; }
 
             public OutputInfo(
-                                                                            NoteType type,
+                NoteType type,
                 string? text,
                 string description,
                 string? replacementText,

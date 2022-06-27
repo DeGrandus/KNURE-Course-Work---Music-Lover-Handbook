@@ -11,17 +11,18 @@
             public Taggable(TagDataType type, string? value = null)
             {
                 ValueType = type;
-                if (ValueType == TagDataType.General) return;
+                if (ValueType == TagDataType.General)
+                    return;
 
                 Value = value;
             }
 
             public override bool Equals(object? obj)
             {
-                return obj is Taggable taggable &&
-                       Type == taggable.Type &&
-                       ValueType == taggable.ValueType &&
-                       Value == taggable.Value;
+                return obj is Taggable taggable
+                    && Type == taggable.Type
+                    && ValueType == taggable.ValueType
+                    && Value == taggable.Value;
             }
 
             public override int GetHashCode()
@@ -31,7 +32,8 @@
 
             public override string ToString()
             {
-                return $"Type: [{Type}] | ValueType: [{ValueType}]" + (ValueType == TagDataType.General ? "" : $" | Value: [{Value}]");
+                return $"Type: [{Type}] | ValueType: [{ValueType}]"
+                    + (ValueType == TagDataType.General ? "" : $" | Value: [{Value}]");
             }
         }
     }

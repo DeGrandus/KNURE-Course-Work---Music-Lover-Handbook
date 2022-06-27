@@ -83,10 +83,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         public void CheckTextValidation()
         {
             CheckForStatus();
-            if (Text != Format(Text)) Text = Format(Text);
+            if (Text != Format(Text))
+                Text = Format(Text);
             if ((!CanBeEmpty && Status == InputStatus.EMPTY_FIELD) || Status.IsError())
             {
-                new ToolTip() { IsBalloon = true, ToolTipIcon = ToolTipIcon.Error, ToolTipTitle = "Naming error" }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
+                new ToolTip()
+                {
+                    IsBalloon = true,
+                    ToolTipIcon = ToolTipIcon.Error,
+                    ToolTipTitle = "Naming error"
+                }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
                 Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
             }
         }
@@ -186,9 +192,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
-        private void OnItemSelected(object? sender, EventArgs e)
-        {
-        }
+        private void OnItemSelected(object? sender, EventArgs e) { }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
