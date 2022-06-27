@@ -7,13 +7,13 @@ using System.Data;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    public partial class InputData : UserControl
+    public partial class CreationParamsControl : UserControl
     {
         private bool canNameBeEmpty = false;
         private NoteType inputType;
         private bool isRenameInvalid = false;
 
-        public InputData()
+        public CreationParamsControl()
         {
             InitializeComponent();
             InputDescriptionBox = descriptionBox;
@@ -44,7 +44,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             };
         }
 
-        public InputData(NoteType mainType) : this()
+        public CreationParamsControl(NoteType mainType) : this()
         {
             InputType = mainType;
             SetLabel(InputType.ToString(true));

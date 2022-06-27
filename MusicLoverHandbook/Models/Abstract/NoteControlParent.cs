@@ -12,12 +12,14 @@ namespace MusicLoverHandbook.Models.Abstract
           INoteParent,
           INoteControlParent
     {
+        private ObservableCollection<INoteControlChild> innerNotes = new();
+
         protected NoteControlParent(
-            string text,
-            string description,
-            NoteType noteType,
-            NoteCreationOrder? order
-        ) : base(text, description, noteType, order)
+                    string text,
+                    string description,
+                    NoteType noteType,
+                    NoteCreationOrder? order
+                ) : base(text, description, noteType, order)
         {
             Offset = sizeS * 2 / 3;
             TableOffsetter = new TableLayoutPanel()
@@ -47,17 +49,27 @@ namespace MusicLoverHandbook.Models.Abstract
             base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
 
         public Panel InnerContentPanel { get; }
-        public ObservableCollection<INoteControlChild> InnerNotes { get; set; } = new();
-
+        public ObservableCollection<INoteControlChild> InnerNotes
+        {
+            get => innerNotes; set
+            {
+                innerNotes = value;
+                SetupLinker();
+            }
+        }
+        private void SetupLinker()
+        {
+            Linker = new ContentLinker(this);
+        }
         IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
             InnerNotes.Select(x => (INoteChild)x).ToList();
 
         public bool IsOpened { get; set; } = false;
-        public ContentLinker Linker { get; }
+        public ContentLinker Linker { get; private set; }
         public int Offset { get; set; }
         protected TableLayoutPanel TableOffsetter { get; }
 
-        public void AddNote(NoteControl note,ContentLinker linker)
+        public void AddNote(NoteControl note, ContentLinker linker)
         {
             note.Dock = DockStyle.Top;
             InnerContentPanel.Controls.Add(note);
@@ -72,7 +84,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 note.Dock = DockStyle.Top;
                 note.SetupColorTheme(note.NoteType);
             }
-            InnerContentPanel.Controls.AddRange(notes);
+            InnerContentPanel.Controls.AddRange(notes.Reverse().ToArray());
             UpdateSize();
         }
 
@@ -114,7 +126,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public void ReplaceNote(NoteControl oldNote, NoteControl newNote, int newIndex, ContentLinker linker)
         {
-            RemoveNote(oldNote,linker);
+            RemoveNote(oldNote, linker);
             AddNote(newNote, linker);
             MoveNote(newNote, newIndex, linker);
             UpdateSize();
@@ -136,7 +148,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override string ToString()
         {
-            return base.ToString()+"\n"+string.Join('\n', InnerNotes.Select(x => "- " + x.ToString()));
+            return base.ToString() + "\n" + string.Join('\n', InnerNotes.Select(x => "- " + x.ToString()));
         }
 
         public virtual void UpdateSize()

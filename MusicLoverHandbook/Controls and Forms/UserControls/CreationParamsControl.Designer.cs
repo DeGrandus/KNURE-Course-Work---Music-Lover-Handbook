@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    partial class InputData
+    partial class CreationParamsControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

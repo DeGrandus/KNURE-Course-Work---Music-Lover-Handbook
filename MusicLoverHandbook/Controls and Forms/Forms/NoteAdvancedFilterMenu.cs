@@ -64,7 +64,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             SetupLayout();
         }
 
-        public void OnApplyFilteringButtonClick(object? sender, EventArgs e)
+        public void ApplyFilterButton_Click(object? sender, EventArgs e)
         {
             Finalization();
         }
@@ -185,7 +185,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     Debug.WriteLine(ch);
                 return retValues;
             }
-            throw new NotImplementedException();
         }
 
         private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
@@ -240,6 +239,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void Finalization()
         {
             FinalizedOutput = CreateFinalizedOutput();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private List<IParentControl> GetParents(INoteControlChild child)
@@ -409,7 +410,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
             filteringTable.Controls.Add(SSLNSwitch, 0, 1);
 
-            applyFilterButton.Click += OnApplyFilteringButtonClick;
+            applyFilterButton.Click += ApplyFilterButton_Click;
 
             InvokeFiltering();
         }

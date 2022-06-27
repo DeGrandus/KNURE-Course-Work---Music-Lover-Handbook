@@ -2,7 +2,9 @@
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Inerfaces;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
@@ -116,22 +118,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             return gradiented.ToArray();
         }
 
-        private Font GetScaledFontWidthUpscaled()
-        {
-            var fontfam = FontContainer.Instance.Families[0];
-            var font = new Font(fontfam, 12);
-            var pts =
-                (MinimumSize.Width)
-                * 12
-                / (Graphics.FromHwnd(Handle).MeasureString(createNoteButton.Text, font).Width + 30);
-            return new Font(font.FontFamily, (float)pts);
-        }
 
-        private void ReassignFonts()
+        private void Setup_ReassignFonts()
         {
             Font = new Font(FontContainer.Instance.Families[0], 15);
-            title.Font = ConvertToDesiredHeight(GetScaledFontWidthUpscaled(), title.Height);
-            createNoteButton.Font = GetScaledFontWidthUpscaled();
+            title.Font = ConvertToDesiredHeight(Font,title.Height);
+            createNoteButton.Font = Font;
         }
 
         private void SetupLayout()
@@ -139,43 +131,82 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, Color.FromArgb(0x768DE2)));
             panelLabel.BackColor = LabelBackColor;
             mainLayoutTable.BackColor = Color.White;
-
-            contentPanel.AutoScroll = true;
             ContentBackColor = ControlPaint.Light(
                 Color.FromArgb(255, Color.FromArgb(0x768DE2)),
                 1.5f
             );
             contentPanel.BackColor = ContentBackColor;
+            contentPanel.AutoScroll = true;
             searchBarLayout.BackColor = LabelBackColor;
 
-            createNoteButton.FlatAppearance.BorderSize = 2;
+            Setup_CreateNoteButton_Base();
+            Setup_CreateNoteButton_AnimationWorker();
 
-            qSSwitchLabel.BasicTooltipText = "[ Match only names ]";
-            qSSwitchLabel.SpecialTooltipText = "[ Match both names and descriptions ]";
-            qSSwitchLabel.BackColorChanged += (sender, e) =>
+            Setup_SortingStripButton_Base();
+            Setup_SortingStripButton_MenuStrip();
+
+            Setup_QSSwitch();
+
+            Setup_AdvancedSearchButton();
+            
+            Setup_ReassignFonts();
+        }
+
+        private void Setup_SortingStripButton_MenuStrip()
+        {
+            var strip = new ContextMenuStrip()
             {
-                qSPanel.BackColor = qSSwitchLabel.BackColor;
+            };
+            var alphabeticalSortRadio = new RadioButton()
+            {
+                Text = "Alphabeticaly",
+                Tag = (IEnumerable<INoteControlChild> children) => children.OrderBy(x => x.NoteName)
+            };
+            var contentSortRadio = new RadioButton()
+            {
+                Text = "By content amount",
+                Tag = (IEnumerable<INoteControlChild> children) => children.OrderBy(x => x is IParentControl p ? p.InnerNotes.Count : 0)
+            };
+            var radioGroup = new[] { alphabeticalSortRadio, contentSortRadio }.ToList();
+            var reversiveSortCheck = new CheckBox()
+            {
+                Text = "Reverse",
+                Tag = (IEnumerable<INoteControlChild> children) => children.Reverse()
+            };
+            var applyFilteringButton = new ToolStripButton()
+            {
+                Text = "Apply sorting"
+            };
+            var clearFilteringButton = new ToolStripButton()
+            {
+                Text = "Clear filters"
+            };
+            applyFilteringButton.Click += (sender, e) =>
+            {
+                var filter = radioGroup.FirstOrDefault(x => x.Checked)?.Tag;
+                var reverse = reversiveSortCheck.Checked ? reversiveSortCheck.Tag : null;
+                var filtersConverted = new List<object?>() { filter, reverse }.OfType<Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>>>();
+                NotesContainer.Filters = filtersConverted.ToList();
+            };
+            clearFilteringButton.Click += (sender, e) =>
+            {
+                radioGroup.ForEach(x => x.Checked = false);
+                reversiveSortCheck.Checked = false;
+                NotesContainer.Filters = new();
             };
 
-            advFilterButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            advFilterButton.FlatAppearance.BorderColor = ControlPaint.Dark(
-                advFilterButton.Parent.BackColor,
-                0.2f
-            );
-            advFilterButton.FlatAppearance.BorderSize = 1;
-            advFilterButton.Click += (sender, e) =>
-            {
-                var filterMenu = new NoteAdvancedFilterMenu(this).ShowDialog();
-                if (filterMenu == DialogResult.OK)
-                    return;
-            };
-            sortStripButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            sortStripButton.FlatAppearance.BorderColor = ControlPaint.Dark(
-                advFilterButton.Parent.BackColor,
-                0.2f
-            );
-            sortStripButton.FlatAppearance.BorderSize = 1;
+            strip.Items.Add(new ToolStripControlHost(alphabeticalSortRadio));
+            strip.Items.Add(new ToolStripControlHost(contentSortRadio));
+            strip.Items.Add(new ToolStripControlHost(reversiveSortCheck));
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(applyFilteringButton);
+            strip.Items.Add(clearFilteringButton);
+            sortStripButton.MenuStrip = strip;
+            strip.PerformLayout();
+        }
 
+        private void Setup_CreateNoteButton_AnimationWorker()
+        {
             var buttonGradientWorker = new BackgroundWorker();
             buttonGradientWorker.DoWork += (sender, e) =>
             {
@@ -208,16 +239,74 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 AdaptToSize();
             };
+        }
 
+        private void Setup_SortingStripButton_Base()
+        {
+            sortStripButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            sortStripButton.FlatAppearance.BorderColor = ControlPaint.Dark(
+                advFilterButton.Parent.BackColor,
+                0.2f
+            );
+            sortStripButton.FlatAppearance.BorderSize = 1;
+            sortStripButton.ImageStripColor = advFilterButton.Parent.BackColor;
+        }
+
+        private void Setup_AdvancedSearchButton()
+        {
+            advFilterButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            advFilterButton.FlatAppearance.BorderColor = ControlPaint.Dark(
+                advFilterButton.Parent.BackColor,
+                0.2f
+            );
+            advFilterButton.FlatAppearance.BorderSize = 1;
+            advFilterButton.Click += (sender, e) =>
+            {
+                var filterMenu = new NoteAdvancedFilterMenu(this).ShowDialog();
+                if (filterMenu == DialogResult.OK)
+                    return;
+            };
+        }
+
+        private void Setup_QSSwitch()
+        {
+            qSSwitchLabel.BasicTooltipText = "[ Match only names ]";
+            qSSwitchLabel.SpecialTooltipText = "[ Match both names and descriptions ]";
+            qSSwitchLabel.BackColorChanged += (sender, e) =>
+            {
+                qSPanel.BackColor = qSSwitchLabel.BackColor;
+            };
+        }
+
+        private void Setup_CreateNoteButton_Base()
+        {
+            createNoteButton.FlatAppearance.BorderSize = 2;
+            createNoteButton.Text = "Create new Note";
             createNoteButton.Click += (sender, e) =>
             {
                 var controller = new NoteCreationMenuController(this);
 
                 var creationResult = controller.OpenCreationMenu();
+                SuspendLayout();
                 creationResult?.CreateNote();
+                NotesContainer.InvokeQuickSearch();
+                ResumeLayout();
             };
-
-            ReassignFonts();
         }
+    }
+    public class CustomProfessionalColorTable : ProfessionalColorTable
+    {
+        public CustomProfessionalColorTable(Color imageStripColor)
+        {
+            this.imageStripColor = imageStripColor;
+        }
+        private Color imageStripColor;
+        public override Color ImageMarginGradientBegin => imageStripColor;
+        public override Color ImageMarginGradientEnd => imageStripColor;
+        public override Color ImageMarginRevealedGradientMiddle => imageStripColor;
+    }
+    public class ColoredIconsBarToolStripRenderer : ToolStripProfessionalRenderer
+    {
+        public ColoredIconsBarToolStripRenderer(Color color) : base(new CustomProfessionalColorTable(color)) { }
     }
 }

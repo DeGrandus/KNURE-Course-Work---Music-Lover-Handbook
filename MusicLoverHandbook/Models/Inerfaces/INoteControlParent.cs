@@ -13,6 +13,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
         bool IsOpened { get; set; }
         ContentLinker Linker { get; }
 
+        new ObservableCollection<INoteControlChild> InnerNotes { get; set; }
         void AddNote(NoteControl note, ContentLinker linker);
         void AddNotes(NoteControl[] notes, ContentLinker linker);
 

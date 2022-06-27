@@ -9,13 +9,13 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox;
-using static MusicLoverHandbook.Controls_and_Forms.UserControls.InputData;
+using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 
 namespace MusicLoverHandbook.View.Forms
 {
     public partial class NoteCreationMenu : Form
     {
-        public LinkedList<InputData> InputDataOrdered = new();
+        public LinkedList<CreationParamsControl> InputDataOrdered = new();
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
         private NoteCreationOrder creationOrder = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
@@ -24,12 +24,12 @@ namespace MusicLoverHandbook.View.Forms
         {
             InitializeComponent();
             MainForm = mainForm;
-            InputDataOrdered = new LinkedList<InputData>();
+            InputDataOrdered = new LinkedList<CreationParamsControl>();
             SetupSwitchButtons();
             SetupLayout();
         }
 
-        public NoteCreationOrder CreationType
+        public NoteCreationOrder CreationOrder
         {
             get => creationOrder;
             set
@@ -49,7 +49,7 @@ namespace MusicLoverHandbook.View.Forms
 
         public NoteControlMidder? FinalNote { get; private set; }
         public MainForm MainForm { get; }
-        private List<InputData> allInputs => InputDataOrdered.ToList();
+        private List<CreationParamsControl> allInputs => InputDataOrdered.ToList();
 
         private Label SelectedCreationTypeLabel
         {
@@ -104,7 +104,7 @@ namespace MusicLoverHandbook.View.Forms
                     input.InputNameBox.Text = kp.Value.Name;
                 if (kp.Value.Description != null)
                     input.InputDescriptionBox.Text = kp.Value.Description;
-                input.InputNameBox.CheckValid();
+                input.InputNameBox.CheckTextValidation();
             }
         }
 
@@ -124,7 +124,7 @@ namespace MusicLoverHandbook.View.Forms
                 );
                 if (data != null)
                 {
-                    if (CreationType == NoteCreationOrder.AuthorThenDisc)
+                    if (CreationOrder == NoteCreationOrder.AuthorThenDisc)
                         secondary.SetDataSource<NoteDisc>(data);
                     else
                         secondary.SetDataSource<NoteAuthor>(data);
@@ -137,8 +137,8 @@ namespace MusicLoverHandbook.View.Forms
                 InputSong.ClearDataSource();
             }
 
-            secondary.InputNameBox.CheckValid();
-            InputSong.InputNameBox.CheckValid();
+            secondary.InputNameBox.CheckTextValidation();
+            InputSong.InputNameBox.CheckTextValidation();
         }
 
         private void SecondaryInputStateChanged(SmartComboBox box, InputStatus state)
@@ -160,7 +160,7 @@ namespace MusicLoverHandbook.View.Forms
                 if (box.NoteParent != null)
                     InputSong.SetDataSource<NoteSong>(box.NoteParent);
             }
-            InputSong.InputNameBox.CheckValid();
+            InputSong.InputNameBox.CheckTextValidation();
         }
 
         private void SetupButtons()
@@ -195,6 +195,10 @@ namespace MusicLoverHandbook.View.Forms
                 }
                 DialogResult = DialogResult.OK;
                 Close();
+            };
+            createButton.MouseEnter += (sender, e) =>
+            {
+                (sender as Control)?.Focus();
             };
         }
 
@@ -274,7 +278,7 @@ namespace MusicLoverHandbook.View.Forms
             if (InputDataOrdered.First == null)
                 throw new Exception("Something went in Input Field Organization Setup");
 
-            if (CreationType == NoteCreationOrder.AuthorThenDisc)
+            if (CreationOrder == NoteCreationOrder.AuthorThenDisc)
                 InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
             else
                 InputDataOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
@@ -295,16 +299,18 @@ namespace MusicLoverHandbook.View.Forms
             foreach (var input in allInputs)
             {
                 input.SetLabelFont(new Font(Font.FontFamily, 18, GraphicsUnit.Point));
-                input.InputNameBox.CheckValid();
+                input.InputNameBox.CheckTextValidation();
             }
         }
 
         private void SetupInputsOrder()
         {
+            InputDataOrdered.ToList().ForEach(x => x.InputDescriptionBox.Text = "");
+
             InputDataOrdered.Clear();
-            InputData main = InputAuthor,
+            CreationParamsControl main = InputAuthor,
                 secondary = InputDisc;
-            if (CreationType == NoteCreationOrder.DiscThenAuthor)
+            if (CreationOrder == NoteCreationOrder.DiscThenAuthor)
                 (main, secondary) = (secondary, main);
             InputDataOrdered.AddLast(main);
             InputDataOrdered.AddLast(secondary);
@@ -339,10 +345,10 @@ namespace MusicLoverHandbook.View.Forms
         {
             selectedCreationTypeLabel = discInAuthorLabel;
             discInAuthorLabel.Click += (sender, e) =>
-                CreationType = NoteCreationOrder.AuthorThenDisc;
+                CreationOrder = NoteCreationOrder.AuthorThenDisc;
             authorInDiscLabel.Click += (sender, e) =>
-                CreationType = NoteCreationOrder.DiscThenAuthor;
-            allInputs.ForEach(x => x.InputNameBox.CheckValid());
+                CreationOrder = NoteCreationOrder.DiscThenAuthor;
+            allInputs.ForEach(x => x.InputNameBox.CheckTextValidation());
         }
 
         private void SongInputStateChanged(SmartComboBox box, InputStatus state)
@@ -370,7 +376,7 @@ namespace MusicLoverHandbook.View.Forms
             else
                 InputSongFile.Enabled = true;
 
-            InputSongFile.InputNameBox.CheckValid();
+            InputSongFile.InputNameBox.CheckTextValidation();
         }
     }
 }

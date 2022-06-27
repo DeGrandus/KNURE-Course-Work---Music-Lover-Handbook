@@ -4,6 +4,7 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
@@ -97,11 +98,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
-        public void CheckValid()
+        public void CheckTextValidation()
         {
-            CheckText();
-            if (!CanBeEmpty && Status.IsError())
+            CheckForStatus();
+            if (Text!=Format(Text)) Text = Format(Text);
+            if ((!CanBeEmpty && Status == InputStatus.EMPTY_FIELD) || Status.IsError())
+            {
+                new ToolTip() { IsBalloon = true, ToolTipIcon = ToolTipIcon.Error,ToolTipTitle="Naming error"}.Show("Name is not valid!",this,Width-20,-70-Height/2,2000);
                 Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
+            }
+        }
+        private string Format(string toFormat)
+        {
+            return Regex.Replace(toFormat,@"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]])+","$1").Trim();
         }
 
         public void ClearDataSource()
@@ -145,7 +154,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Items.AddRange(InnerData.Select(x => x.NoteName).ToArray());
         }
 
-        private void CheckText()
+        private void CheckForStatus()
         {
             if (!CanBeEmpty && Text.Length == 0)
             {
@@ -192,13 +201,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             return cont != null ? inner.IndexOf(cont) : null;
         }
 
-        private void OnInputDetected(object? sender, EventArgs e) => CheckText();
+        private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
         private void OnItemSelected(object? sender, EventArgs e) { }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
-            CheckValid();
+            CheckTextValidation();
         }
 
         private void OnStatusChanged()

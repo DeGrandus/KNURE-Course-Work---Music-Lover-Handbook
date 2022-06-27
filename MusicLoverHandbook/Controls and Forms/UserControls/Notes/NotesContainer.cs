@@ -6,6 +6,7 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
@@ -13,22 +14,38 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     public class NotesContainer : IParentControl
     {
         private List<INoteControlChild> partialInnerNotes = new();
-
-        public NotesContainer(Panel panelContainer, TextBox QSBar, BasicSwitchLabel QSSwitchLabel)
+        private TextBox qSTextBox;
+        public NotesContainer(Panel panelContainer, TextBox QSTextBox, BasicSwitchLabel QSSwitchLabel)
         {
             PanelContainer = panelContainer;
 
             InnerNotes = new ObservableCollection<INoteControlChild>();
-            InnerNotes.CollectionChanged += OnHierarchyChanged;
 
-            QSController = new(QSBar, this, QSSwitchLabel);
-            QSController.ResultsChanged += (res) =>
+            QSController = new(this);
+            QSController.ResultsChanged += (result) =>
             {
-                if (res == null)
-                    PartialInnerNotes = InnerNotes.ToList();
-                else
-                    PartialInnerNotes = res;
+                Debug.WriteLine($"QSResults: {result.Count()}");
+                PartialInnerNotes = result.ToList();
             };
+            qSTextBox = QSTextBox;
+            QSTextBox.TextChanged += (sender, e) =>
+            
+                InvokeQuickSearch();
+            
+            QSSwitchLabel.SpecialStateChanged += (sender, state) =>
+            {
+                QSController.IsDescriptionIncluded = state;
+                InvokeQuickSearch();
+            };
+            InnerNotes.CollectionChanged+= (sender, e) =>
+            {
+                Debug.WriteLine($"Container logging: changing collection");
+                Debug.WriteLine($"Container logging: InnerNotes count - {InnerNotes.Count}");
+                Debug.WriteLine($"Container logging: CurrentNotes count - {CurrentlyActiveNotes.Count}");
+                InvokeQuickSearch();
+            };
+            
+            
 
             renderRefreshTimer = new Timer()
             {
@@ -40,11 +57,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 if (refreshDelay >= 0)
                 {
                     if (refreshDelay == 0)
-                        RefreshNoteContainer();
+                        ContainmentRefreshing();
                     refreshDelay--;
                 }
             };
         }
+        public void InvokeQuickSearch() => QSController.InvokeQuickSearch(qSTextBox.Text);
+        public List<INoteControlChild> CurrentlyActiveNotes => AdvancedFilteredNotes ?? InnerNotes.ToList();
 
         private Timer renderRefreshTimer;
         public ObservableCollection<INoteControlChild> InnerNotes { get; }
@@ -56,11 +75,26 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             private set
             {
                 partialInnerNotes = value;
-                RefreshNoteContainerDelayed();
+                DelayedContainmentRefreshing();
             }
         }
 
         public QuickSearchController QSController { get; }
+        public List<Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>>> Filters
+        {
+            get => filters; set
+            {
+                filters = value;
+                ContainmentRefreshing();
+            }
+        }
+        public List<INoteControlChild>? AdvancedFilteredNotes
+        {
+            get => advancedFilteredNotes; set
+            {
+                advancedFilteredNotes = value;
+            }
+        }
 
         public void SetupAddNoteButton(NoteControlParent note)
         {
@@ -70,7 +104,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 note.InnerNotes.Remove(potentialAdd);
             var add = CreateAddButton(note);
             note.InnerNotes.Add(add);
-            note.InnerContentPanel.Controls.SetChildIndex(add,0);
+            note.InnerContentPanel.Controls.SetChildIndex(add, 0);
             foreach (var inner in note.InnerNotes)
                 if (inner is NoteControlParent innertParent)
                     SetupAddNoteButton(innertParent);
@@ -97,22 +131,31 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 next = parent.NoteType + 1;
             return new NoteAdd(parent, $"Add new {next}", "Click on me to add new note");
         }
-
-        private void OnHierarchyChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            PartialInnerNotes = InnerNotes.ToList();
-            return;
-        }
         private int refreshDelay = 0;
-        private void RefreshNoteContainerDelayed()
+        private void DelayedContainmentRefreshing()
         {
             refreshDelay = 20;
         }
-        private void RefreshNoteContainer()
+        private List<Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>>> filters = new();
+        private List<INoteControlChild>? advancedFilteredNotes;
+
+        private IEnumerable<INoteControlChild> RecursiveFiltering(IEnumerable<INoteControlChild> notes, Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>> filteringFunc)
+        {
+            var output = filteringFunc(notes);
+            foreach (var note in notes)
+                if (note is INoteControlParent asParent)
+                    asParent.InnerNotes = new(filteringFunc(asParent.InnerNotes));
+            return output;
+        }
+        private void ContainmentRefreshing()
         {
             PanelContainer.SuspendLayout();
+
             PanelContainer.Controls.Clear();
-            var renderFinal = PartialInnerNotes;
+            IEnumerable<INoteControlChild> renderFinal = PartialInnerNotes;
+
+            foreach (var filter in Filters)
+                renderFinal = RecursiveFiltering(renderFinal, filter);
 
             foreach (var child in renderFinal)
             {
@@ -121,12 +164,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 if (child is NoteControlParent asParent)
                     SetupAddNoteButton(asParent);
             }
-            //MAY BE SOME ACTIONS ON RENDER FINAL FROM SORT
-
 
             PanelContainer.Controls.AddRange(
                 renderFinal
-                    .Reverse<INoteControlChild>()
+                    .Reverse()
                     .Where(x => x is Control)
                     .Cast<Control>()
                     .ToArray()

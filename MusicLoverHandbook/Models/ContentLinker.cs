@@ -10,7 +10,14 @@ namespace MusicLoverHandbook.Models
         public ContentLinker(NoteControlParent note)
         {
             Note = note;
+
+            var linkContent = InnerNotes.Reverse().ToList();
+            InnerNotes.Clear();
+
             InnerNotes.CollectionChanged += OnCollectionChanged;
+
+            foreach(var cont in linkContent)
+                InnerNotes.Add(cont);
         }
 
         public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;

@@ -32,12 +32,12 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.createButton = new System.Windows.Forms.Button();
             this.tableInputs = new System.Windows.Forms.TableLayoutPanel();
-            this.InputSongFile = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
-            this.InputDisc = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
-            this.InputAuthor = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputSongFile = new MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl();
+            this.InputDisc = new MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl();
+            this.InputAuthor = new MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl();
             this.dragDropPanel = new System.Windows.Forms.Panel();
             this.dragDropText = new System.Windows.Forms.Label();
-            this.InputSong = new MusicLoverHandbook.Controls_and_Forms.UserControls.InputData();
+            this.InputSong = new MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl();
             this.tableSwap = new System.Windows.Forms.TableLayoutPanel();
             this.discInAuthorLabel = new System.Windows.Forms.Label();
             this.authorInDiscLabel = new System.Windows.Forms.Label();
@@ -240,9 +240,9 @@
         private TableLayoutPanel tableSwap;
         private Label discInAuthorLabel;
         private Label authorInDiscLabel;
-        public Controls_and_Forms.UserControls.InputData InputAuthor;
-        public Controls_and_Forms.UserControls.InputData InputDisc;
-        public Controls_and_Forms.UserControls.InputData InputSong;
-        public Controls_and_Forms.UserControls.InputData InputSongFile;
+        public Controls_and_Forms.UserControls.CreationParamsControl InputAuthor;
+        public Controls_and_Forms.UserControls.CreationParamsControl InputDisc;
+        public Controls_and_Forms.UserControls.CreationParamsControl InputSong;
+        public Controls_and_Forms.UserControls.CreationParamsControl InputSongFile;
     }
 }

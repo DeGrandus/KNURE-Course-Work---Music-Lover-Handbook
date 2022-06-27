@@ -23,7 +23,7 @@ namespace MusicLoverHandbook.Logic
         {
             if (model.NoteType is NoteType inputType)
             {
-                InputData? data = menu.InputDataOrdered
+                CreationParamsControl? data = menu.InputDataOrdered
                     .ToList()
                     .Find(x => x.InputType == inputType);
                 if (data == null)
@@ -39,7 +39,7 @@ namespace MusicLoverHandbook.Logic
                 models.First?.Value.NoteType.GetConnectedCreationOrder()
                 is NoteCreationOrder creationType
             )
-                menu.CreationType = creationType;
+                menu.CreationOrder = creationType;
             foreach (var model in models)
                 AddInfo(model);
         }

@@ -133,6 +133,16 @@ namespace MusicLoverHandbook.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap reverse {
+            get {
+                object obj = ResourceManager.GetObject("reverse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap song {
             get {
                 object obj = ResourceManager.GetObject("song", resourceCulture);
@@ -146,6 +156,26 @@ namespace MusicLoverHandbook.Properties {
         internal static System.Drawing.Bitmap songfile {
             get {
                 object obj = ResourceManager.GetObject("songfile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sortAlphabet {
+            get {
+                object obj = ResourceManager.GetObject("sortAlphabet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sortContent {
+            get {
+                object obj = ResourceManager.GetObject("sortContent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

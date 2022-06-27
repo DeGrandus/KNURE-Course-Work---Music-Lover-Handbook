@@ -2,7 +2,7 @@
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using static MusicLoverHandbook.Controls_and_Forms.UserControls.InputData;
+using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
