@@ -12,7 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             InitializeComponent();
             SideButtons.Deactivate(ButtonType.Delete);
             SideButtons.Deactivate(ButtonType.Edit);
-            Icon = Properties.Resources.add;
+            Icon = Properties.Resources.AddIcon;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
 

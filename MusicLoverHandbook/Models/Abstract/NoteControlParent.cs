@@ -45,8 +45,8 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        protected override CertainTypedContractResolver ContractResolver =>
-            base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
+        //protected override CertainTypedContractResolver ContractResolver =>
+        //    base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
 
         public Panel InnerContentPanel { get; }
         public ObservableCollection<INoteControlChild> InnerNotes
@@ -54,6 +54,10 @@ namespace MusicLoverHandbook.Models.Abstract
             get => innerNotes; set
             {
                 innerNotes = value;
+                Debug.WriteLine("Setting new Inner Notes: ");
+                Debug.WriteLine(String.Join("\n", value.Select(x => x.NoteName)));
+                Debug.WriteLine("Setting new Inner Notes END");
+
                 SetupLinker();
             }
         }
@@ -77,6 +81,12 @@ namespace MusicLoverHandbook.Models.Abstract
             note.SetupColorTheme(note.NoteType);
             UpdateSize();
         }
+        public override void InvokeActionHierarcaly(Action<INoteControl> action)
+        {
+            base.InvokeActionHierarcaly(action);
+            foreach (var note in InnerNotes)
+                note.InvokeActionHierarcaly(action);
+        }
         public void AddNotes(NoteControl[] notes, ContentLinker linker)
         {
             foreach (var note in notes)
@@ -84,7 +94,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 note.Dock = DockStyle.Top;
                 note.SetupColorTheme(note.NoteType);
             }
-            InnerContentPanel.Controls.AddRange(notes.Reverse().ToArray());
+            InnerContentPanel.Controls.AddRange(notes.ToArray());
             UpdateSize();
         }
 
@@ -161,7 +171,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 .Aggregate((c, n) => c + n);
             var baseHeight = TextLabel.Size.Height;
             Size = IsOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
-            Debug.WriteLine(Size);
+            //Debug.WriteLine(Size);
             ResumeLayout();
         }
 

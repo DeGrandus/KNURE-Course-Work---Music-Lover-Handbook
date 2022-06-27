@@ -22,5 +22,53 @@ namespace MusicLoverHandbook.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Handbook Data\\Music\\")]
+        public string DefaultMusicFilesFolderPath {
+            get {
+                return ((string)(this["DefaultMusicFilesFolderPath"]));
+            }
+            set {
+                this["DefaultMusicFilesFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Handbook Data\\Handbook.json")]
+        public string DefaultDataFilePath {
+            get {
+                return ((string)(this["DefaultDataFilePath"]));
+            }
+            set {
+                this["DefaultDataFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CustomMusicFilesFolderPath {
+            get {
+                return ((string)(this["CustomMusicFilesFolderPath"]));
+            }
+            set {
+                this["CustomMusicFilesFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CustomDataFilePath {
+            get {
+                return ((string)(this["CustomDataFilePath"]));
+            }
+            set {
+                this["CustomDataFilePath"] = value;
+            }
+        }
     }
 }

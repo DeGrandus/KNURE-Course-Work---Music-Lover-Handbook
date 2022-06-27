@@ -109,7 +109,10 @@ namespace MusicLoverHandbook.Models.Abstract
                 noteText = value;
             }
         }
-
+        public virtual void InvokeActionHierarcaly(Action<INoteControl> action)
+        {
+            action(this);
+        }
         public NoteType NoteType { get; }
         public SideButtonsPanel SideButtons { get; private set; }
         public Label TextLabel { get; private set; }
@@ -125,8 +128,8 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public NoteCreationOrder? UsedCreationOrder { get; }
-        protected virtual CertainTypedContractResolver ContractResolver =>
-            new CertainTypedContractResolver(typeof(INote));
+        //protected virtual CertainTypedContractResolver ContractResolver =>
+        //    new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
@@ -161,19 +164,19 @@ namespace MusicLoverHandbook.Models.Abstract
                 mainTable.Controls.Remove(mark);
         }
 
-        private JsonSerializerSettings SerializerSettings
-        {
-            get
-            {
-                var settings = new JsonSerializerSettings()
-                {
-                    ContractResolver = ContractResolver,
-                    Formatting = Formatting.Indented,
-                };
-                settings.Converters = GetConverters(settings);
-                return settings;
-            }
-        }
+        //private JsonSerializerSettings SerializerSettings
+        //{
+        //    get
+        //    {
+        //        var settings = new JsonSerializerSettings()
+        //        {
+        //            ContractResolver = ContractResolver,
+        //            Formatting = Formatting.Indented,
+        //        };
+        //        settings.Converters = GetConverters(settings);
+        //        return settings;
+        //    }
+        //}
 
         public static explicit operator SimpleNoteModel(NoteControl from) =>
             new SimpleNoteModel(from);
@@ -188,17 +191,17 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             return JsonConvert.DeserializeObject<NoteRawImportModel>(
                 Serialize(),
-                SerializerSettings
+                FileManager.Instance.SerializerSettings
             )!;
         }
 
         public INoteControl Clone()
         {
             var impToClone = Deserialize();
-            var recreator = FindForm() is MainForm mf ? mf.NoteManager : new();
+            var manager = FindForm() is MainForm mf ? mf.NoteManager : new();
 
             Debug.WriteLine("Clonning before: "+this);
-            var tes = recreator.RecreateFromImported(impToClone);
+            var tes = manager.RecreateFromImported(impToClone);
             Debug.WriteLine("Clonning after: "+tes);
             return tes;
         }
@@ -212,7 +215,7 @@ namespace MusicLoverHandbook.Models.Abstract
         public string Serialize()
         {
             var selfJson = JsonConvert.DeserializeObject<JToken>(
-                JsonConvert.SerializeObject(this, SerializerSettings)
+                JsonConvert.SerializeObject(this, FileManager.Instance.SerializerSettings)
             );
             var jObj = new JObject();
             jObj.Add(NoteType.ToString(true), selfJson);
@@ -323,7 +326,7 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 BackColor = ControlPaint.Light(ThemeColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = Properties.Resources.info,
+                BackgroundImage = Properties.Resources.InfoIcon,
                 Size = new Size(sizeS, sizeS)
             };
             ballonTip.SetToolTip(InfoButton, NoteDescription);
@@ -331,7 +334,7 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 BackColor = ControlPaint.Light(ThemeColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = Properties.Resources.delete,
+                BackgroundImage = Properties.Resources.DeleteIcon,
                 Size = new Size(sizeS, sizeS)
             };
             DeleteButton.Click += (sender, e) =>
@@ -355,7 +358,7 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 BackColor = ControlPaint.Light(ThemeColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = Properties.Resources.edit,
+                BackgroundImage = Properties.Resources.EditIcon,
                 Size = new Size(sizeS, sizeS),
             };
             EditButton.Click += (sender, e) => EditClick();
@@ -413,15 +416,15 @@ namespace MusicLoverHandbook.Models.Abstract
             NoteDescription = description;
         }
 
-        private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
-        {
-            return new()
-            {
-                new StringEnumConverter(),
-                new InnerNotesConverter(settings),
-                new NoteDesrializationConverter()
-            };
-        }
+        //private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
+        //{
+        //    return new()
+        //    {
+        //        new StringEnumConverter(),
+        //        new InnerNotesConverter(settings),
+        //        new NoteDesrializationConverter()
+        //    };
+        //}
 
         private void InitCustomization()
         {

@@ -39,9 +39,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             };
             InnerNotes.CollectionChanged+= (sender, e) =>
             {
-                Debug.WriteLine($"Container logging: changing collection");
-                Debug.WriteLine($"Container logging: InnerNotes count - {InnerNotes.Count}");
-                Debug.WriteLine($"Container logging: CurrentNotes count - {CurrentlyActiveNotes.Count}");
+                qSTextBox.Text = "";
                 InvokeQuickSearch();
             };
             
@@ -85,14 +83,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             get => filters; set
             {
                 filters = value;
-                ContainmentRefreshing();
+                InvokeQuickSearch();
             }
         }
         public List<INoteControlChild>? AdvancedFilteredNotes
         {
             get => advancedFilteredNotes; set
             {
+                
                 advancedFilteredNotes = value;
+                InvokeQuickSearch();
             }
         }
 
@@ -142,10 +142,36 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         private IEnumerable<INoteControlChild> RecursiveFiltering(IEnumerable<INoteControlChild> notes, Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>> filteringFunc)
         {
             var output = filteringFunc(notes);
+            //Debug.WriteLine(String.Join("\n", notes.Select(x => x.NoteName)));
+            //Debug.WriteLine(String.Join("\n", output.Select(x => x.NoteName)));
             foreach (var note in notes)
                 if (note is INoteControlParent asParent)
-                    asParent.InnerNotes = new(filteringFunc(asParent.InnerNotes));
+                {
+                    Debug.WriteLine("INSIDE RECUR");
+                    Debug.WriteLine(String.Join("\n", asParent.InnerNotes.Select(x => x.NoteName)));
+                    Debug.WriteLine("---------------------");
+                    var k = RecursiveFiltering(asParent.InnerNotes, filteringFunc);
+                    Debug.WriteLine($" SEMI-END INSIDE RECUR {note.NoteType} ");
+
+                    Debug.WriteLine(String.Join("\n", k));
+                    Debug.WriteLine("INSIDE RECUR END");
+                    asParent.InnerNotes = new(k);
+                }
             return output;
+        }
+        private void RemoveInformationlessNotes(INoteControlParent note)
+        {
+
+            foreach (var nt in note.InnerNotes.ToList())
+            {
+                if (!nt.NoteType.IsInformaionCarrier())
+                {
+                    note.InnerNotes.Remove(nt);
+                    continue;
+                }
+                if (nt is INoteControlParent asP)
+                    RemoveInformationlessNotes(asP);
+            }
         }
         private void ContainmentRefreshing()
         {
@@ -154,8 +180,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             PanelContainer.Controls.Clear();
             IEnumerable<INoteControlChild> renderFinal = PartialInnerNotes;
 
+            //Debug.WriteLine(filters.Count);
+            renderFinal.ToList().ForEach(x => { if (x is INoteControlParent s)RemoveInformationlessNotes(s); });
+
             foreach (var filter in Filters)
+            {
+                Debug.WriteLine("________________________________________");
+                Debug.WriteLine(String.Join("\n", renderFinal));
                 renderFinal = RecursiveFiltering(renderFinal, filter);
+                Debug.WriteLine(String.Join("\n", renderFinal));
+
+
+            }
 
             foreach (var child in renderFinal)
             {

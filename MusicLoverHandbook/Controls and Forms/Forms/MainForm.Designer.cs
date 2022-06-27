@@ -41,8 +41,11 @@
             this.toolsTable = new System.Windows.Forms.TableLayoutPanel();
             this.advFilterButton = new System.Windows.Forms.Button();
             this.sortStripButton = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton();
+            this.cancelFilteringButton = new System.Windows.Forms.Button();
             this.panelLabel = new System.Windows.Forms.Panel();
             this.title = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
             this.mainLayoutTable.SuspendLayout();
             this.noteContentTable.SuspendLayout();
             this.searchBarLayout.SuspendLayout();
@@ -66,6 +69,8 @@
             this.mainLayoutTable.Controls.Add(this.createNoteButton, 2, 4);
             this.mainLayoutTable.Controls.Add(this.noteContentTable, 1, 2);
             this.mainLayoutTable.Controls.Add(this.panelLabel, 0, 0);
+            this.mainLayoutTable.Controls.Add(this.saveButton, 2, 1);
+            this.mainLayoutTable.Controls.Add(this.loadButton, 4, 1);
             this.mainLayoutTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayoutTable.Location = new System.Drawing.Point(0, 0);
             this.mainLayoutTable.Name = "mainLayoutTable";
@@ -175,6 +180,7 @@
             // 
             // qSSwitchLabel
             // 
+            this.qSSwitchLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(223)))), ((int)(((byte)(234)))));
             this.qSSwitchLabel.BasicBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(223)))), ((int)(((byte)(234)))));
             this.qSSwitchLabel.BasicTooltipText = "";
             this.qSSwitchLabel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -182,25 +188,28 @@
             this.qSSwitchLabel.Name = "qSSwitchLabel";
             this.qSSwitchLabel.Size = new System.Drawing.Size(160, 50);
             this.qSSwitchLabel.SpecialBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(191)))), ((int)(((byte)(214)))));
+            this.qSSwitchLabel.SpecialState = false;
             this.qSSwitchLabel.SpecialTooltipText = "";
+            this.qSSwitchLabel.SwitchType = MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel.SwitchMode.DoubleClick;
             this.qSSwitchLabel.TabIndex = 0;
             this.qSSwitchLabel.Text = "Quick search:";
             this.qSSwitchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // toolsTable
             // 
-            this.toolsTable.ColumnCount = 2;
-            this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.16792F));
-            this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.83208F));
+            this.toolsTable.ColumnCount = 3;
+            this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
+            this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.77778F));
+            this.toolsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.toolsTable.Controls.Add(this.advFilterButton, 1, 0);
             this.toolsTable.Controls.Add(this.sortStripButton, 0, 0);
+            this.toolsTable.Controls.Add(this.cancelFilteringButton, 2, 0);
             this.toolsTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolsTable.Location = new System.Drawing.Point(669, 0);
             this.toolsTable.Margin = new System.Windows.Forms.Padding(0);
             this.toolsTable.Name = "toolsTable";
             this.toolsTable.RowCount = 1;
             this.toolsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.toolsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.toolsTable.Size = new System.Drawing.Size(669, 50);
             this.toolsTable.TabIndex = 1;
             // 
@@ -208,9 +217,9 @@
             // 
             this.advFilterButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.advFilterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.advFilterButton.Location = new System.Drawing.Point(117, 3);
+            this.advFilterButton.Location = new System.Drawing.Point(140, 3);
             this.advFilterButton.Name = "advFilterButton";
-            this.advFilterButton.Size = new System.Drawing.Size(549, 44);
+            this.advFilterButton.Size = new System.Drawing.Size(475, 44);
             this.advFilterButton.TabIndex = 1;
             this.advFilterButton.Text = "Advanced Search";
             this.advFilterButton.UseVisualStyleBackColor = true;
@@ -221,10 +230,21 @@
             this.sortStripButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sortStripButton.Location = new System.Drawing.Point(3, 3);
             this.sortStripButton.Name = "sortStripButton";
-            this.sortStripButton.Size = new System.Drawing.Size(108, 44);
+            this.sortStripButton.Size = new System.Drawing.Size(131, 44);
             this.sortStripButton.TabIndex = 2;
             this.sortStripButton.Text = "Sort";
             this.sortStripButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelFilteringButton
+            // 
+            this.cancelFilteringButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cancelFilteringButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelFilteringButton.Location = new System.Drawing.Point(621, 3);
+            this.cancelFilteringButton.Name = "cancelFilteringButton";
+            this.cancelFilteringButton.Size = new System.Drawing.Size(45, 44);
+            this.cancelFilteringButton.TabIndex = 3;
+            this.cancelFilteringButton.Text = "Cancel";
+            this.cancelFilteringButton.UseVisualStyleBackColor = true;
             // 
             // panelLabel
             // 
@@ -247,6 +267,27 @@
             this.title.TabIndex = 0;
             this.title.Text = "Music Lover Handbook";
             this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // saveButton
+            // 
+            this.saveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.saveButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.saveButton.Location = new System.Drawing.Point(118, 53);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(144, 44);
+            this.saveButton.TabIndex = 6;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            // 
+            // loadButton
+            // 
+            this.loadButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loadButton.Location = new System.Drawing.Point(1112, 53);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(144, 44);
+            this.loadButton.TabIndex = 7;
+            this.loadButton.Text = "Load";
+            this.loadButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -286,5 +327,8 @@
         private Custom_Controls.RenderPanel contentPanel;
         private Custom_Controls.BasicSwitchLabel qSSwitchLabel;
         private Custom_Controls.StripMenuButton sortStripButton;
+        private Button cancelFilteringButton;
+        private Button saveButton;
+        private Button loadButton;
     }
 }

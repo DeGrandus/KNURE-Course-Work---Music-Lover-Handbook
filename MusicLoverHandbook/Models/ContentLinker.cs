@@ -11,7 +11,7 @@ namespace MusicLoverHandbook.Models
         {
             Note = note;
 
-            var linkContent = InnerNotes.Reverse().ToList();
+            var linkContent = InnerNotes.ToList();
             InnerNotes.Clear();
 
             InnerNotes.CollectionChanged += OnCollectionChanged;
@@ -29,7 +29,8 @@ namespace MusicLoverHandbook.Models
             {
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems != null)
-                        Note.AddNotes(e.NewItems.Cast<object>().Where(x=>x is NoteControl).Cast<NoteControl>().ToArray(),this);
+                        foreach (NoteControl item in e.NewItems)
+                            Note.AddNote(item,this);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:

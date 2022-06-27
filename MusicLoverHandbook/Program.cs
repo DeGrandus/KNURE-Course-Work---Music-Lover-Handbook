@@ -1,4 +1,6 @@
 using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Properties;
+using Newtonsoft.Json;
 
 namespace MusicLoverHandbook
 {
@@ -12,8 +14,10 @@ namespace MusicLoverHandbook
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         {
             InitializeComponent();
 
-            Icon = Properties.Resources.songfile;
+            Icon = Properties.Resources.SongFileIcon;
 
             TextLabel.DoubleClick += (sender, e) =>
             {

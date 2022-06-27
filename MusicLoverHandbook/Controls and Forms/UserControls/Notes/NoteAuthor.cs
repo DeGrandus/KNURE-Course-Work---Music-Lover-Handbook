@@ -15,7 +15,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         ) : base(disc, text, description, NoteType.Author, usedOrder)
         {
             InitializeComponent();
-            Icon = Properties.Resources.author;
+            Icon = Properties.Resources.AuthorIcon;
         }
     }
 }

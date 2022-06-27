@@ -1,6 +1,18 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MusicLoverHandbook.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultMusicFilesFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Handbook Data\Music\</Value>
+    </Setting>
+    <Setting Name="DefaultDataFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Handbook Data\Handbook.json</Value>
+    </Setting>
+    <Setting Name="CustomMusicFilesFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomDataFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>

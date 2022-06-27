@@ -68,7 +68,7 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackgroundImage = Properties.Resources.info,
+                BackgroundImage = Properties.Resources.InfoIcon,
                 BackgroundImageLayout = ImageLayout.Stretch,
                 BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
                 Dock = DockStyle.Fill,

@@ -1,6 +1,4 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
-using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models.Abstract;
+﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
@@ -9,10 +7,12 @@ namespace MusicLoverHandbook.Logic
 {
     public class QuickSearchController
     {
-        private IEnumerable<INoteControlChild> searchResults;
-        private IEnumerable<INoteControlChild> searchingSource => container.CurrentlyActiveNotes;
-        private QuickSearchResultEventHandler? resultsChanged;
         private NotesContainer container;
+        private QuickSearchResultEventHandler? resultsChanged;
+        private IEnumerable<INoteControlChild> searchResults;
+        public bool IsDescriptionIncluded { get; set; } = false;
+        private IEnumerable<INoteControlChild> searchingSource => container.CurrentlyActiveNotes;
+
         public QuickSearchController(
             NotesContainer container
         )
@@ -20,12 +20,27 @@ namespace MusicLoverHandbook.Logic
             this.container = container;
         }
 
-        public delegate void QuickSearchResultEventHandler(IEnumerable<INoteControlChild> QSResult);
-
-        public event QuickSearchResultEventHandler ResultsChanged
+        public void InvokeQuickSearch(string compareString)
         {
-            add => resultsChanged += value;
-            remove => resultsChanged -= value;
+            Debug.WriteLine(compareString);
+            Debug.WriteLine(searchingSource.Count());
+            if (compareString == "")
+            {
+                searchResults = searchingSource;
+            }
+            else
+            {
+                List<INoteControlChild> results = new();
+                foreach (var child in searchingSource)
+                    if (child is INoteControlParent asParent)
+                        if (
+                            CheckForSearchString(asParent, compareString, new())
+                            is INoteControlChild validResult
+                        )
+                            results.Add(validResult);
+                searchResults = results;
+            }
+            OnResultsChanged();
         }
 
         protected void OnResultsChanged()
@@ -89,29 +104,13 @@ namespace MusicLoverHandbook.Logic
             var resultDescriptionMatch = note.NoteDescription.ToLower().Contains(toMatch);
             return resultNameMatch || (IsDescriptionIncluded ? resultDescriptionMatch : false);
         }
-        public bool IsDescriptionIncluded { get; set; } = false;
-        public void InvokeQuickSearch(string compareString)
-        {
-            Debug.WriteLine(compareString);
-            Debug.WriteLine(searchingSource.Count());
-            if (compareString == "")
-            {
 
-                searchResults = searchingSource;
-            }
-            else
-            {
-                List<INoteControlChild> results = new();
-                foreach (var child in searchingSource)
-                    if (child is INoteControlParent asParent)
-                        if (
-                            CheckForSearchString(asParent, compareString, new())
-                            is INoteControlChild validResult
-                        )
-                            results.Add(validResult);
-                searchResults = results;
-            }
-            OnResultsChanged();
+        public delegate void QuickSearchResultEventHandler(IEnumerable<INoteControlChild> QSResult);
+
+        public event QuickSearchResultEventHandler ResultsChanged
+        {
+            add => resultsChanged += value;
+            remove => resultsChanged -= value;
         }
     }
 }

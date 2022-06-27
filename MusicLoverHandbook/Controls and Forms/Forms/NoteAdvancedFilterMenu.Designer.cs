@@ -169,6 +169,7 @@
             // 
             // previewFilteredPanel
             // 
+            this.previewFilteredPanel.AutoScroll = true;
             this.previewFilteredPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.previewFilteredPanel.Location = new System.Drawing.Point(931, 35);
             this.previewFilteredPanel.Name = "previewFilteredPanel";

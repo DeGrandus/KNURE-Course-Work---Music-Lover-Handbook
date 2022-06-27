@@ -23,7 +23,11 @@ namespace MusicLoverHandbook.Models.Inerfaces
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
         void ChangeSize(int size);
+        public bool IsDeleteShown { get; set; }
+        public void InvokeActionHierarcaly(Action<INoteControl> action);
+        public bool IsEditShown { get; set; }
 
+        public bool IsInfoShown { get; set; }
         NoteLite SingleFlatten();
         List<NoteLite> Flatten();
     }

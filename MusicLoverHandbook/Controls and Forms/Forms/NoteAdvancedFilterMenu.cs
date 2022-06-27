@@ -171,7 +171,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             var parent = (INoteControlParent)parents[parentInd];
                             Debug.WriteLine($"Foudation in parents for note : {note.NoteName} {note.NoteType}");
                             parent = (INoteControlParent)parent.Clone();
-                            if (!ssln) SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes, note.NoteType);
+                            if (!ssln) SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes);
                             retValues.Add((INoteControlChild)parent);
                         } else if (note.Ref is INoteControlParent asParent && asParent.Flatten().FindAll(x=>x.NoteType==toFindType) is List<NoteLite> { Count:>0 } childResults)
                         {
@@ -242,6 +242,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             DialogResult = DialogResult.OK;
             Close();
         }
+        
 
         private List<IParentControl> GetParents(INoteControlChild child)
         {
@@ -306,7 +307,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         Debug.WriteLine(
                             "Not inc useless name: " + child.NoteName + " " + child.NoteType
                         );
-                        parent.InnerNotes.Remove(child);
+                        //parent.InnerNotes.Remove(child);
                     }
                 }
             }
