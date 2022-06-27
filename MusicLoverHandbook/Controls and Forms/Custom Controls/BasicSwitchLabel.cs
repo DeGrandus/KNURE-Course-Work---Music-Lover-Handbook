@@ -1,9 +1,45 @@
-﻿using System.Diagnostics;
-
-namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class BasicSwitchLabel : Label
     {
+        public bool InitialState = false;
+
+        private string basicTooltipText = "";
+
+        private bool colorsInited = false;
+
+        private bool specialState = false;
+
+        private StateChangedEventHandler? specialStateChanged;
+
+        private string specialTooltipText = "";
+
+        private ToolTip toolTip;
+
+        public Color BasicBackColor { get; set; }
+
+        public string BasicTooltipText
+        {
+            get => basicTooltipText;
+            set
+            {
+                basicTooltipText = value;
+                OnTooltipTextChanged();
+            }
+        }
+
+        public Color HoveringColor =>
+            Color.FromArgb(
+                (BasicBackColor.A + SpecialBackColor.A) / 2,
+                Color.FromArgb(
+                    (BasicBackColor.R + SpecialBackColor.R) / 2,
+                    (BasicBackColor.G + SpecialBackColor.G) / 2,
+                    (BasicBackColor.B + SpecialBackColor.B) / 2
+                )
+            );
+
+        public Color SpecialBackColor { get; set; }
+
         public bool SpecialState
         {
             get => specialState; set
@@ -15,11 +51,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
-        private string basicTooltipText = "";
-        private StateChangedEventHandler? specialStateChanged;
-        private string specialTooltipText = "";
-        private ToolTip toolTip;
-        private bool specialState = false;
+        public string SpecialTooltipText
+        {
+            get => specialTooltipText;
+            set
+            {
+                specialTooltipText = value;
+                OnTooltipTextChanged();
+            }
+        }
+
+        public SwitchMode SwitchType { get; set; } = SwitchMode.DoubleClick;
 
         public BasicSwitchLabel()
         {
@@ -51,17 +93,41 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             };
             Click += (sender, e) =>
             {
-                if (SwitchType==SwitchMode.Click)
+                if (SwitchType == SwitchMode.Click)
                     SpecialState = !SpecialState;
             };
         }
-        public enum SwitchMode
+
+        public BasicSwitchLabel(bool initialState) : this()
         {
-            Click,DoubleClick
+            this.InitialState = initialState;
         }
-        public SwitchMode SwitchType { get; set; } = SwitchMode.DoubleClick;
-        public bool InitialState = false;
-        private bool colorsInited = false;
+
+        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor) : this(false)
+        {
+            colorsInited = true;
+            BasicBackColor = basicBackColor;
+            SpecialBackColor = specialBackColor;
+        }
+
+        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState) : this(basicBackColor, specialBackColor)
+        {
+            this.InitialState = initialState;
+        }
+
+        public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
+
+        protected virtual void OnSpecialStateChanged()
+        {
+            if (specialStateChanged != null)
+                specialStateChanged(this, SpecialState);
+        }
+
+        protected virtual void OnTooltipTextChanged()
+        {
+            toolTip.SetToolTip(this, SpecialState ? SpecialTooltipText : BasicTooltipText);
+        }
+
         private void OnHandleCreated(object? sender, EventArgs e)
         {
             if (!colorsInited)
@@ -71,19 +137,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
             SpecialState = InitialState;
         }
-        public BasicSwitchLabel(bool initialState) : this()
+
+        private void SetBackColor()
         {
-            this.InitialState = initialState;
-        }
-        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor) : this(false)
-        {
-            colorsInited = true;
-            BasicBackColor = basicBackColor;
-            SpecialBackColor = specialBackColor;
-        }
-        public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState) : this(basicBackColor,specialBackColor)
-        {
-            this.InitialState = initialState;
+            BackColor = SpecialState ? SpecialBackColor : BasicBackColor;
         }
 
         public delegate void StateChangedEventHandler(object? sender, bool IsSpecialState);
@@ -94,56 +151,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             remove => specialStateChanged -= value;
         }
 
-
-
-        public string BasicTooltipText
+        public enum SwitchMode
         {
-            get => basicTooltipText;
-            set
-            {
-                basicTooltipText = value;
-                OnTooltipTextChanged();
-            }
-        }
-
-        public Color HoveringColor =>
-            Color.FromArgb(
-                (BasicBackColor.A + SpecialBackColor.A) / 2,
-                Color.FromArgb(
-                    (BasicBackColor.R + SpecialBackColor.R) / 2,
-                    (BasicBackColor.G + SpecialBackColor.G) / 2,
-                    (BasicBackColor.B + SpecialBackColor.B) / 2
-                )
-            );
-        public Color BasicBackColor { get; set; }
-        public Color SpecialBackColor { get; set; }
-
-        public string SpecialTooltipText
-        {
-            get => specialTooltipText;
-            set
-            {
-                specialTooltipText = value;
-                OnTooltipTextChanged();
-            }
-        }
-
-        protected virtual void OnSpecialStateChanged()
-        {
-            if (specialStateChanged != null)
-                specialStateChanged(this, SpecialState);
-            
-        }
-
-        public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
-        protected virtual void OnTooltipTextChanged()
-        {
-            toolTip.SetToolTip(this, SpecialState ? SpecialTooltipText : BasicTooltipText);
-        }
-
-        private void SetBackColor()
-        {
-            BackColor = SpecialState ? SpecialBackColor : BasicBackColor;
+            Click, DoubleClick
         }
     }
 }

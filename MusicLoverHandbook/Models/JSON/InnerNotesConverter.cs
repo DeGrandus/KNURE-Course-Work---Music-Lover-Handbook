@@ -9,12 +9,12 @@ namespace MusicLoverHandbook.Models.JSON
     {
         private JsonSerializerSettings usedSettings;
 
+        public override bool CanRead => false;
+
         public InnerNotesConverter(JsonSerializerSettings usedSettings)
         {
             this.usedSettings = usedSettings;
         }
-
-        public override bool CanRead => false;
 
         public override bool CanConvert(Type objectType)
         {

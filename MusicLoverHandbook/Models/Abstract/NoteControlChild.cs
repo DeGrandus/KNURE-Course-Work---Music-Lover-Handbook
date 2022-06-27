@@ -9,8 +9,12 @@ namespace MusicLoverHandbook.Models.Abstract
         private DelayedSetup? delayedSetup;
         private bool inited = false;
 
+        public IParentControl ParentNote { get; set; }
+
+        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+
         protected NoteControlChild(
-            IParentControl parent,
+                            IParentControl parent,
             string text,
             string description,
             NoteType noteType,
@@ -23,11 +27,28 @@ namespace MusicLoverHandbook.Models.Abstract
             inited = true;
         }
 
-        private delegate void DelayedSetup();
+        public bool ContainsInParentTree(IContainerControl potentialParent)
+        {
+            if (potentialParent == ParentNote)
+                return true;
+            if (ParentNote is INoteControlChild asChild)
+                return asChild.ContainsInParentTree(potentialParent);
+            return false;
+        }
 
-        public IParentControl ParentNote { get; set; }
+        public INoteControlParent? GetFirstNoteControlParent()
+        {
+            return ParentNote is INoteControlParent parent
+              ? parent is INoteControlChild child
+                  ? child.GetFirstNoteControlParent()
+                  : parent
+              : null;
+        }
 
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+        public IParentControl GetFirstParent()
+        {
+            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
+        }
 
         public override void SetupColorTheme(NoteType type)
         {
@@ -57,27 +78,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 delayedSetup += () => base.InitValues(text, description);
         }
 
-        public IParentControl GetFirstParent()
-        {
-            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
-        }
-
-        public INoteControlParent? GetFirstNoteControlParent()
-        {
-            return ParentNote is INoteControlParent parent
-              ? parent is INoteControlChild child
-                  ? child.GetFirstNoteControlParent()
-                  : parent
-              : null;
-        }
-
-        public bool ContainsInParentTree(IContainerControl potentialParent)
-        {
-            if (potentialParent == ParentNote)
-                return true;
-            if (ParentNote is INoteControlChild asChild)
-                return asChild.ContainsInParentTree(potentialParent);
-            return false;
-        }
+        private delegate void DelayedSetup();
     }
 }

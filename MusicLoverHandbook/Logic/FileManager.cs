@@ -4,20 +4,27 @@ using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
 namespace MusicLoverHandbook.Logic
 {
     public interface IFileManager
     {
         string DataFilePath { get; }
-        bool IsDataFileValid();
-        bool IsMusicFilesFolderValid();
         string MusicFilesFolderPath { get; }
+
+        JsonSerializerSettings SerializerSettings { get; }
 
         string GetData();
 
         string GetMusicFilePathByName(string name);
+
+        bool IsDataFilePathDefault();
+
+        bool IsDataFileValid();
+
+        bool IsMusicFilesFolderPathDefault();
+
+        bool IsMusicFilesFolderValid();
 
         NoteControl[] RecreateNotesFromData();
 
@@ -28,14 +35,13 @@ namespace MusicLoverHandbook.Logic
         void SetMusicFilesFolderPath(string path);
 
         void WriteToDataFile(IParentControl parentingControl);
-        bool IsDataFilePathDefault();
-        bool IsMusicFilesFolderPathDefault();
+
         void WriteToDataFile(IParentControl parentingControl, string dataFilePath);
-        JsonSerializerSettings SerializerSettings { get; }
     }
 
     public class FileManager : IFileManager
     {
+        private Settings settings;
         public static FileManager Instance { get; }
 
         public string DataFilePath { get; private set; }
@@ -59,8 +65,6 @@ namespace MusicLoverHandbook.Logic
                 return settings;
             }
         }
-
-        private Settings settings;
 
         static FileManager()
         {
@@ -93,6 +97,15 @@ namespace MusicLoverHandbook.Logic
             throw new NotImplementedException();
         }
 
+        public bool IsDataFilePathDefault() => DataFilePath == settings.DefaultDataFilePath;
+
+        public bool IsDataFileValid() => File.Exists(DataFilePath);
+
+        public bool IsMusicFilesFolderPathDefault() =>
+            MusicFilesFolderPath == settings.DefaultMusicFilesFolderPath;
+
+        public bool IsMusicFilesFolderValid() => Directory.Exists(MusicFilesFolderPath);
+
         public NoteControl[] RecreateNotesFromData()
         {
             throw new NotImplementedException();
@@ -120,14 +133,5 @@ namespace MusicLoverHandbook.Logic
             using (var writter = new StreamWriter(dataFilePath))
                 writter.Write(JsonConvert.SerializeObject(parentingControl.InnerNotes, SerializerSettings));
         }
-
-        public bool IsDataFileValid() => File.Exists(DataFilePath);
-
-        public bool IsMusicFilesFolderValid() => Directory.Exists(MusicFilesFolderPath);
-
-        public bool IsDataFilePathDefault() => DataFilePath == settings.DefaultDataFilePath;
-
-        public bool IsMusicFilesFolderPathDefault() =>
-            MusicFilesFolderPath == settings.DefaultMusicFilesFolderPath;
     }
 }

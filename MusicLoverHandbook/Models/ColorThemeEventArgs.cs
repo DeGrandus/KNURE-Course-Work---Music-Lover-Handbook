@@ -2,11 +2,11 @@
 {
     public class ColorThemeEventArgs : EventArgs
     {
+        public Color Color { get; }
+
         public ColorThemeEventArgs(Color color)
         {
             Color = color;
         }
-
-        public Color Color { get; }
     }
 }

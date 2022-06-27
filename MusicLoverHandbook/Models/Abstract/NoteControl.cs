@@ -5,7 +5,6 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.JSON;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
@@ -19,31 +18,25 @@ namespace MusicLoverHandbook.Models.Abstract
         private bool isDeleteShown;
         private bool isEditShown;
         private bool isInfoShown;
+        private bool isMarked;
         private TableLayoutPanel mainTable;
+
+        private Panel mark =
+            new()
+            {
+                BackColor = Color.FromArgb(150, 255, 150),
+                Dock = DockStyle.Fill,
+                Width = 14,
+                Margin = new(0)
+            };
+
         private string noteDescription;
         private string noteText;
         private Color theme;
-        private bool isMarked;
-
-        protected NoteControl(
-            string text,
-            string description,
-            NoteType noteType,
-            NoteCreationOrder? order
-        )
-        {
-            BackColor = Color.Transparent;
-            UsedCreationOrder = order;
-            NoteType = noteType;
-            SetupColorTheme(NoteType);
-            InitCustomLayout();
-            InitValues(text, description);
-        }
-
-        public event ThemeChangeEventHandler? ColorChanged;
-
         ControlCollection INoteControl.Controls => Controls;
+
         public ButtonPanel DeleteButton { get; private set; }
+
         public ButtonPanel EditButton { get; private set; }
 
         public Image? Icon
@@ -57,6 +50,7 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public Panel IconPanel { get; private set; }
+
         public ButtonPanel InfoButton { get; private set; }
 
         public bool IsDeleteShown
@@ -89,6 +83,19 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
+        public bool IsMarked
+        {
+            get => isMarked;
+            set
+            {
+                if (isMarked != value)
+                {
+                    isMarked = value;
+                    RedrawMarked();
+                }
+            }
+        }
+
         public string NoteDescription
         {
             get => noteDescription;
@@ -109,12 +116,11 @@ namespace MusicLoverHandbook.Models.Abstract
                 noteText = value;
             }
         }
-        public virtual void InvokeActionHierarcaly(Action<INoteControl> action)
-        {
-            action(this);
-        }
+
         public NoteType NoteType { get; }
+
         public SideButtonsPanel SideButtons { get; private set; }
+
         public Label TextLabel { get; private set; }
 
         public Color ThemeColor
@@ -128,41 +134,30 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         public NoteCreationOrder? UsedCreationOrder { get; }
+
         //protected virtual CertainTypedContractResolver ContractResolver =>
         //    new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
+
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
-        public bool IsMarked
+        protected NoteControl(
+                                                                                                                                                                    string text,
+            string description,
+            NoteType noteType,
+            NoteCreationOrder? order
+        )
         {
-            get => isMarked;
-            set
-            {
-                if (isMarked != value)
-                {
-                    isMarked = value;
-                    RedrawMarked();
-                }
-            }
+            BackColor = Color.Transparent;
+            UsedCreationOrder = order;
+            NoteType = noteType;
+            SetupColorTheme(NoteType);
+            InitCustomLayout();
+            InitValues(text, description);
         }
-        private Panel mark =
-            new()
-            {
-                BackColor = Color.FromArgb(150, 255, 150),
-                Dock = DockStyle.Fill,
-                Width = 14,
-                Margin = new(0)
-            };
 
-        private void RedrawMarked()
-        {
-            if (mainTable == null)
-                return;
-            if (IsMarked)
-                mainTable.Controls.Add(mark, 0, 0);
-            else
-                mainTable.Controls.Remove(mark);
-        }
+        public static explicit operator SimpleNoteModel(NoteControl from) =>
+            new SimpleNoteModel(from);
 
         //private JsonSerializerSettings SerializerSettings
         //{
@@ -177,14 +172,21 @@ namespace MusicLoverHandbook.Models.Abstract
         //        return settings;
         //    }
         //}
-
-        public static explicit operator SimpleNoteModel(NoteControl from) =>
-            new SimpleNoteModel(from);
-
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
             InitCustomLayout();
+        }
+
+        public INoteControl Clone()
+        {
+            var impToClone = Deserialize();
+            var manager = FindForm() is MainForm mf ? mf.NoteManager : new();
+
+            Debug.WriteLine("Clonning before: " + this);
+            var tes = manager.RecreateFromImported(impToClone);
+            Debug.WriteLine("Clonning after: " + tes);
+            return tes;
         }
 
         public NoteRawImportModel Deserialize()
@@ -195,21 +197,42 @@ namespace MusicLoverHandbook.Models.Abstract
             )!;
         }
 
-        public INoteControl Clone()
+        public override bool Equals(object? obj)
         {
-            var impToClone = Deserialize();
-            var manager = FindForm() is MainForm mf ? mf.NoteManager : new();
+            return obj is NoteControl control
+                && NoteDescription == control.NoteDescription
+                && NoteName == control.NoteName
+                && NoteType == control.NoteType;
+        }
 
-            Debug.WriteLine("Clonning before: "+this);
-            var tes = manager.RecreateFromImported(impToClone);
-            Debug.WriteLine("Clonning after: "+tes);
-            return tes;
+        public virtual List<NoteLite> Flatten()
+        {
+            return new() { new(NoteName, NoteDescription, this) };
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NoteDescription, NoteName, NoteType);
+        }
+
+        public virtual void InvokeActionHierarcaly(Action<INoteControl> action)
+        {
+            action(this);
         }
 
         public void OnColorChanged()
         {
             if (ColorChanged != null)
                 ColorChanged(this, new(ThemeColor));
+        }
+
+        public bool RoughEquals(object? obj)
+        {
+            return Equals(obj)
+                || obj is NoteLite lite
+                    && NoteDescription == lite.Description
+                    && NoteName == lite.NoteName
+                    && NoteType == lite.NoteType;
         }
 
         public string Serialize()
@@ -225,6 +248,11 @@ namespace MusicLoverHandbook.Models.Abstract
         public virtual void SetupColorTheme(NoteType type)
         {
             ThemeColor = type.GetColor() ?? Color.Transparent;
+        }
+
+        public NoteLite SingleFlatten()
+        {
+            return new(NoteName, NoteDescription, this);
         }
 
         public override string ToString()
@@ -264,15 +292,6 @@ namespace MusicLoverHandbook.Models.Abstract
                         chain.AddFirst((SimpleNoteModel)asCtrl);
             }
             return chain;
-        }
-
-        public virtual List<NoteLite> Flatten()
-        {
-            return new(){ new(NoteName, NoteDescription, this) };
-        }
-        public NoteLite SingleFlatten()
-        {
-            return new(NoteName, NoteDescription, this);
         }
 
         protected virtual void InitCustomLayout()
@@ -416,16 +435,6 @@ namespace MusicLoverHandbook.Models.Abstract
             NoteDescription = description;
         }
 
-        //private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
-        //{
-        //    return new()
-        //    {
-        //        new StringEnumConverter(),
-        //        new InnerNotesConverter(settings),
-        //        new NoteDesrializationConverter()
-        //    };
-        //}
-
         private void InitCustomization()
         {
             foreach (
@@ -437,6 +446,15 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
+        //private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
+        //{
+        //    return new()
+        //    {
+        //        new StringEnumConverter(),
+        //        new InnerNotesConverter(settings),
+        //        new NoteDesrializationConverter()
+        //    };
+        //}
         private void OnButtonMouseEnter(object? sender, EventArgs e)
         {
             if (sender is Control control)
@@ -449,6 +467,16 @@ namespace MusicLoverHandbook.Models.Abstract
                 control.BackColor = ThemeColor;
         }
 
+        private void RedrawMarked()
+        {
+            if (mainTable == null)
+                return;
+            if (IsMarked)
+                mainTable.Controls.Add(mark, 0, 0);
+            else
+                mainTable.Controls.Remove(mark);
+        }
+
         private void ToogleViewing(bool isVis, Control toToggle)
         {
             if (!isVis)
@@ -457,26 +485,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 toToggle.Show();
         }
 
-        public override bool Equals(object? obj)
-        {
-            return obj is NoteControl control
-                && NoteDescription == control.NoteDescription
-                && NoteName == control.NoteName
-                && NoteType == control.NoteType;
-        }
-
-        public bool RoughEquals(object? obj)
-        {
-            return Equals(obj)
-                || obj is NoteLite lite
-                    && NoteDescription == lite.Description
-                    && NoteName == lite.NoteName
-                    && NoteType == lite.NoteType;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(NoteDescription, NoteName, NoteType);
-        }
+        public event ThemeChangeEventHandler? ColorChanged;
     }
 }

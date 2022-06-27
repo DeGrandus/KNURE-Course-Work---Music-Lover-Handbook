@@ -1,6 +1,4 @@
 using MusicLoverHandbook.Controls_and_Forms.Forms;
-using MusicLoverHandbook.Properties;
-using Newtonsoft.Json;
 
 namespace MusicLoverHandbook
 {
@@ -17,7 +15,6 @@ namespace MusicLoverHandbook
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
-
         }
     }
 }

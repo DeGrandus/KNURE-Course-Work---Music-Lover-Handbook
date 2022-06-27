@@ -4,7 +4,7 @@
     {
         public enum TagType
         {
-            Name,Value
+            Name, Value
         }
     }
 }

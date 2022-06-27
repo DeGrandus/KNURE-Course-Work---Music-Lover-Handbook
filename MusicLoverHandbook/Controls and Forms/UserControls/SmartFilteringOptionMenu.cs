@@ -2,36 +2,33 @@
 using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
     public partial class SmartFilteringOptionMenu : UserControl
     {
+        public NoteType? CurrentlySelectedTypeOption;
+        public NoteLite[] OneTypeNotes;
+        public BasicSwitchLabel SSLNSwitch;
+        private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;
         private NoteAdvancedFilterMenu filterMenu;
+        private bool isValid = true;
+        private List<BasicSwitchLabel> options = new List<BasicSwitchLabel>();
         public NoteType FilterNoteType { get; set; }
+
         public bool IsValid
         {
             get => isValid; set
             {
                 if (!value)
-                    BackColor = Color.FromArgb(50,Color.Red);
+                    BackColor = Color.FromArgb(50, Color.Red);
                 else
                     BackColor = filterMenu.BackColor;
                 isValid = value;
-                
             }
         }
 
-        public NoteLite[] OneTypeNotes;
         public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, NoteLite[] oneTypedLites)
         {
             InitializeComponent();
@@ -45,8 +42,25 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
             SetupLayout();
         }
-        private bool isValid = true;
-        private List<BasicSwitchLabel> options = new List<BasicSwitchLabel>();
+
+        private void ButtonsLinker()
+        {
+            options.ForEach(x => x.SpecialStateChanged += OnFilteringModeChange);
+        }
+
+        private void OnFilteringModeChange(object? self, bool isSpecial)
+        {
+            if (isSpecial)
+            {
+                CurrentlySelectedTypeOption = ((BasicSwitchLabel)self!).Tag is NoteType type ? type : null;
+                options.Where(x => x != (BasicSwitchLabel)self!).ToList().ForEach(x => x.SpecialState = false);
+            }
+            else if (options.Where(x => x.SpecialState == true).Count() == 0)
+            {
+                CurrentlySelectedTypeOption = null;
+            }
+        }
+
         private void SetupLayout()
         {
             Font = filterMenu.Font;
@@ -80,7 +94,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     button.Enabled = false;
                     button.BasicBackColor = Color.LightGray;
                     button.ForeColor = Color.Gray;
-                } else if (doSelect)
+                }
+                else if (doSelect)
                 {
                     button.InitialState = true;
                     doSelect = false;
@@ -89,7 +104,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 options.Add(button);
             }
             ButtonsLinker();
-            
+
             optionsPanel.Controls.AddRange(options.ToArray());
 
             SSLNSwitch = new(Color.OrangeRed, Color.LightGreen, true)
@@ -97,29 +112,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 Text = "S.S.L.N",
                 BasicTooltipText = "Save Same-Level Notes (NO)",
                 SpecialTooltipText = "Save Same-Level Notes (YES)",
-                Dock=DockStyle.Fill,
-                TextAlign=ContentAlignment.MiddleCenter
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
             };
-            mainTable.Controls.Add(SSLNSwitch,1,2);
+            mainTable.Controls.Add(SSLNSwitch, 1, 2);
         }
-        public BasicSwitchLabel SSLNSwitch;
-        private void ButtonsLinker()
-        {
-            options.ForEach(x=>x.SpecialStateChanged+=OnFilteringModeChange);
-        }
-        public NoteType? CurrentlySelectedTypeOption;
-        private void OnFilteringModeChange(object? self, bool isSpecial)
-        {
-            if (isSpecial)
-            {
-                CurrentlySelectedTypeOption = ((BasicSwitchLabel)self!).Tag is NoteType type ? type : null;
-                options.Where(x => x != (BasicSwitchLabel)self!).ToList().ForEach(x => x.SpecialState = false);
-            } else if (options.Where(x=>x.SpecialState==true).Count()==0){
-                CurrentlySelectedTypeOption = null;
-            }
-        }
-        public delegate void AdvancedFilteringModeChangeEventHandler(BasicSwitchLabel self,bool isSpecial);
-        private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;
+
+        public delegate void AdvancedFilteringModeChangeEventHandler(BasicSwitchLabel self, bool isSpecial);
+
         public event AdvancedFilteringModeChangeEventHandler AdvancedFilteringModeChange
         {
             add => advancedFilteringModeChange += value;

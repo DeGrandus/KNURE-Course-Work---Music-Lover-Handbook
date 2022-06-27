@@ -7,6 +7,10 @@ namespace MusicLoverHandbook.Models
 {
     public class ContentLinker : IParentControl
     {
+        public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;
+
+        public NoteControlParent Note { get; }
+
         public ContentLinker(NoteControlParent note)
         {
             Note = note;
@@ -16,12 +20,9 @@ namespace MusicLoverHandbook.Models
 
             InnerNotes.CollectionChanged += OnCollectionChanged;
 
-            foreach(var cont in linkContent)
+            foreach (var cont in linkContent)
                 InnerNotes.Add(cont);
         }
-
-        public ObservableCollection<INoteControlChild> InnerNotes => Note.InnerNotes;
-        public NoteControlParent Note { get; }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -30,13 +31,13 @@ namespace MusicLoverHandbook.Models
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems != null)
                         foreach (NoteControl item in e.NewItems)
-                            Note.AddNote(item,this);
+                            Note.AddNote(item, this);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems != null)
                         foreach (NoteControl item in e.OldItems)
-                            Note.RemoveNote(item,this);
+                            Note.RemoveNote(item, this);
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
@@ -49,7 +50,7 @@ namespace MusicLoverHandbook.Models
                         )
                         {
                             var ind = Note.Controls.IndexOf(item.First);
-                            Note.ReplaceNote(item.First, item.Second, ind,this);
+                            Note.ReplaceNote(item.First, item.Second, ind, this);
                         }
                     break;
 
@@ -59,7 +60,7 @@ namespace MusicLoverHandbook.Models
                         && e.NewItems.Count == 1
                         && e.NewItems[0] is NoteControl note
                     )
-                        Note.MoveNote(note, e.NewStartingIndex,this);
+                        Note.MoveNote(note, e.NewStartingIndex, this);
                     break;
 
                 case NotifyCollectionChangedAction.Reset:

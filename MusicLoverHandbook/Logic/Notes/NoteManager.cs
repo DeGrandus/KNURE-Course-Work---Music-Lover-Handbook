@@ -15,17 +15,17 @@ namespace MusicLoverHandbook.Logic.Notes
             this.mainForm = mainForm;
         }
 
+        public NoteManager()
+        {
+            mainForm = null;
+        }
+
         public NoteControl RecreateFromImported(NoteRawImportModel model)
         {
             return RecreateFromImported(
                 model,
                 new (Type, object?)[] { (typeof(IParentControl), mainForm?.Container) }
             );
-        }
-
-        public NoteManager()
-        {
-            mainForm = null;
         }
 
         public NoteControl RecreateFromImported(NoteRawImportModel model, (Type, object?)[] adj)

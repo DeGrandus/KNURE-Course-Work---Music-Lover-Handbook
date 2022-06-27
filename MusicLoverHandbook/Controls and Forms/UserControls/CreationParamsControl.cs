@@ -13,6 +13,29 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         private NoteType inputType;
         private bool isRenameInvalid = false;
 
+        public bool AutoFill { get; set; } = true;
+
+        public TextBox InputDescriptionBox { get; }
+
+        public SmartComboBox InputNameBox { get; }
+
+        [Category("Data")]
+        public NoteType InputType
+        {
+            get => inputType;
+            set
+            {
+                inputType = value;
+                SetInputType(value);
+            }
+        }
+
+        private bool IsRenameFieldTextInvalid
+        {
+            get => isRenameInvalid;
+            set { isRenameInvalid = value; }
+        }
+
         public CreationParamsControl()
         {
             InitializeComponent();
@@ -48,29 +71,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         {
             InputType = mainType;
             SetLabel(InputType.ToString(true));
-        }
-
-        public bool AutoFill { get; set; } = true;
-
-        public TextBox InputDescriptionBox { get; }
-
-        public SmartComboBox InputNameBox { get; }
-
-        [Category("Data")]
-        public NoteType InputType
-        {
-            get => inputType;
-            set
-            {
-                inputType = value;
-                SetInputType(value);
-            }
-        }
-
-        private bool IsRenameFieldTextInvalid
-        {
-            get => isRenameInvalid;
-            set { isRenameInvalid = value; }
         }
 
         public void Clean()
@@ -193,8 +193,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         public class OutputInfo
         {
+            public string Description { get; }
+
+            public bool Enabled { get; }
+
+            public string? ReplacementText { get; }
+
+            public string? Text { get; }
+
+            public NoteType Type { get; }
+
             public OutputInfo(
-                NoteType type,
+                                                                            NoteType type,
                 string? text,
                 string description,
                 string? replacementText,
@@ -207,12 +217,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 Description = description;
                 ReplacementText = replacementText;
             }
-
-            public string Description { get; }
-            public bool Enabled { get; }
-            public string? ReplacementText { get; }
-            public string? Text { get; }
-            public NoteType Type { get; }
 
             public bool IsValid() => Enabled && Text != null;
         }

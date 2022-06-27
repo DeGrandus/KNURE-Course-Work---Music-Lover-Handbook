@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Logic
 {
@@ -20,7 +19,8 @@ namespace MusicLoverHandbook.Logic
             "#\n" +
             "# \n" +
             "# #####justempty";
-        public static Dictionary<TagName,TagValue> GetTagged(string source, char tagMarker)
+
+        public static Dictionary<TagName, TagValue> GetTagged(string source, char tagMarker)
         {
             if (!source.Contains(tagMarker)) return new();
             var output = new Dictionary<TagName, TagValue>();
@@ -36,8 +36,8 @@ namespace MusicLoverHandbook.Logic
                 var tagname = wds.FirstOrDefault("");
                 var tagvalue = string.Join(tagname, tagdataf.Split(tagname).Skip(1)).Trim();
                 tagname = tagname.Trim();
-                var name = new TagName(tagname.Trim()==""?TagDataType.General:TagDataType.Valued,tagname);
-                var value = new TagValue(tagvalue.Trim()==""?TagDataType.General:TagDataType.Valued,tagvalue);
+                var name = new TagName(tagname.Trim() == "" ? TagDataType.General : TagDataType.Valued, tagname);
+                var value = new TagValue(tagvalue.Trim() == "" ? TagDataType.General : TagDataType.Valued, tagvalue);
                 output.Add(name, value);
             }
             return output;

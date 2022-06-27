@@ -6,8 +6,12 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
     {
+        public IParentControl ParentNote { get; set; }
+
+        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+
         protected NoteControlMidder(
-            IParentControl parent,
+                            IParentControl parent,
             string text,
             string description,
             NoteType noteType,
@@ -17,8 +21,28 @@ namespace MusicLoverHandbook.Models.Abstract
             ParentNote = parent;
         }
 
-        public IParentControl ParentNote { get; set; }
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+        public bool ContainsInParentTree(IContainerControl potentialParent)
+        {
+            if (potentialParent == ParentNote)
+                return true;
+            if (ParentNote is INoteControlChild asChild)
+                return asChild.ContainsInParentTree(potentialParent);
+            return false;
+        }
+
+        public INoteControlParent? GetFirstNoteControlParent()
+        {
+            return ParentNote is INoteControlParent parent
+              ? parent is INoteControlChild child
+                  ? child.GetFirstNoteControlParent()
+                  : parent
+              : null;
+        }
+
+        public IParentControl GetFirstParent()
+        {
+            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
+        }
 
         public override void SetupColorTheme(NoteType type)
         {
@@ -37,28 +61,6 @@ namespace MusicLoverHandbook.Models.Abstract
             base.UpdateSize();
             if (ParentNote is INoteControlParent noteParent)
                 noteParent.UpdateSize();
-        }
-
-        public IParentControl GetFirstParent()
-        {
-            return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
-        }
-
-        public INoteControlParent? GetFirstNoteControlParent()
-        {
-            return ParentNote is INoteControlParent parent
-              ? parent is INoteControlChild child
-                  ? child.GetFirstNoteControlParent()
-                  : parent
-              : null;
-        }
-        public bool ContainsInParentTree(IContainerControl potentialParent)
-        {
-            if (potentialParent == ParentNote)
-                return true;
-            if (ParentNote is INoteControlChild asChild)
-                return asChild.ContainsInParentTree(potentialParent);
-            return false;
         }
     }
 }

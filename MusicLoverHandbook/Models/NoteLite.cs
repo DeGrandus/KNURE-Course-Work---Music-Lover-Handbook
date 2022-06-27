@@ -1,22 +1,17 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicLoverHandbook.Models
 {
     public class NoteLite : Control
     {
-        public string NoteName { get; }
         public string Description { get; }
-        public NoteType NoteType { get; }
         public Image? Icon { get; }
-        public NoteControl Ref { get; }
-        public int MainHeight { get; set; } = 30;
         public int ID { get; set; }
+        public int MainHeight { get; set; } = 30;
+        public string NoteName { get; }
+        public NoteType NoteType { get; }
+        public NoteControl Ref { get; }
 
         public NoteLite(string name, string description, NoteControl noteRef)
         {
@@ -27,6 +22,29 @@ namespace MusicLoverHandbook.Models
             Ref = noteRef;
             ID = Random.Shared.Next(int.MinValue, int.MaxValue);
             SetupLayout();
+        }
+
+        public NoteLite Clone()
+        {
+            return new NoteLite(NoteName, Description, Ref);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is NoteLite lite &&
+                   NoteName == lite.NoteName &&
+                   Description == lite.Description &&
+                   NoteType == lite.NoteType;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NoteName, Description, NoteType);
+        }
+
+        public override string ToString()
+        {
+            return $@"Lite: {{Name: {NoteName} | Desc: {Description} | Type: {NoteType}}}";
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -99,26 +117,6 @@ namespace MusicLoverHandbook.Models
             BackColor = Color.White;
 
             ResumeLayout();
-        }
-        public NoteLite Clone()
-        {
-            return new NoteLite(NoteName,Description,Ref);
-        }
-        public override string ToString()
-        {
-            return $@"Lite: {{Name: {NoteName} | Desc: {Description} | Type: {NoteType}}}";
-        }
-        public override bool Equals(object? obj)
-        {
-            return obj is NoteLite lite &&
-                   NoteName == lite.NoteName &&
-                   Description == lite.Description &&
-                   NoteType == lite.NoteType;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(NoteName, Description, NoteType);
         }
     }
 }

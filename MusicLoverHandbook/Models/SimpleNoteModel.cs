@@ -5,6 +5,12 @@ namespace MusicLoverHandbook.Models
 {
     public class SimpleNoteModel
     {
+        public string Description { get; }
+
+        public string Name { get; }
+
+        public NoteType NoteType { get; }
+
         public SimpleNoteModel(INoteControl note)
         {
             NoteType = note.NoteType;
@@ -18,9 +24,5 @@ namespace MusicLoverHandbook.Models
             Description = description;
             NoteType = noteType;
         }
-
-        public string Description { get; }
-        public string Name { get; }
-        public NoteType NoteType { get; }
     }
 }

@@ -27,13 +27,13 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class MissingRequiredAttributeException : Exception
     {
+        public override string Message => base.Message;
+
         public MissingRequiredAttributeException(object source, Type missingAttirbute)
-            : base(Decorate(source, missingAttirbute))
+                    : base(Decorate(source, missingAttirbute))
         {
             Source = source.ToString();
         }
-
-        public override string Message => base.Message;
 
         private static string Decorate(object source, Type missing)
         {

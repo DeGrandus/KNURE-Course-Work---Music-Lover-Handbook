@@ -1,5 +1,4 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.UserControls;
-using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -24,39 +23,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private ToolTip tooltip = new ToolTip() { InitialDelay = 0 };
 
-        public SmartComboBox()
-        {
-            tooltip.OwnerDraw = true;
-            tooltip.Draw += (sender, e) =>
-            {
-                e.DrawBackground();
-                e.DrawBorder();
-                e.DrawText();
-            };
-            TextChanged += OnInputDetected;
-            LostFocus += OnLostFocus;
-        }
-
-        public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
-
-        public event StateChangedEvent StatusChanged
-        {
-            add => statusChanged += value;
-            remove => statusChanged -= value;
-        }
-
-        public event StateChangedEvent StatusChangedRepeatedly
-        {
-            add => statusChangedRepeatedly += value;
-            remove => statusChangedRepeatedly -= value;
-        }
-
-        public event StateChangedEvent TempStatusChangedRepeatedly
-        {
-            add => tempStatusChangedRepeatedly += value;
-            remove => tempStatusChangedRepeatedly -= value;
-        }
-
         public List<NoteControl> InnerData =>
             (
                 NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
@@ -74,8 +40,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 .ToList();
 
         public NoteType InputType { get; set; }
+
         public NoteControlParent? NoteParent { get; set; }
+
         public NotesContainer? NotesContainer { get; set; }
+
         public Type RestrictedType { get; set; } = typeof(object);
 
         public InputStatus Status
@@ -98,19 +67,28 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
+        public SmartComboBox()
+        {
+            tooltip.OwnerDraw = true;
+            tooltip.Draw += (sender, e) =>
+            {
+                e.DrawBackground();
+                e.DrawBorder();
+                e.DrawText();
+            };
+            TextChanged += OnInputDetected;
+            LostFocus += OnLostFocus;
+        }
+
         public void CheckTextValidation()
         {
             CheckForStatus();
-            if (Text!=Format(Text)) Text = Format(Text);
+            if (Text != Format(Text)) Text = Format(Text);
             if ((!CanBeEmpty && Status == InputStatus.EMPTY_FIELD) || Status.IsError())
             {
-                new ToolTip() { IsBalloon = true, ToolTipIcon = ToolTipIcon.Error,ToolTipTitle="Naming error"}.Show("Name is not valid!",this,Width-20,-70-Height/2,2000);
+                new ToolTip() { IsBalloon = true, ToolTipIcon = ToolTipIcon.Error, ToolTipTitle = "Naming error" }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
                 Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
             }
-        }
-        private string Format(string toFormat)
-        {
-            return Regex.Replace(toFormat,@"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]])+","$1").Trim();
         }
 
         public void ClearDataSource()
@@ -188,6 +166,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Status = InputStatus.OK;
         }
 
+        private string Format(string toFormat)
+        {
+            return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]])+", "$1").Trim();
+        }
+
         private int? HasAnalog()
         {
             var inner = InnerData.Select(n => n.NoteName).ToList();
@@ -203,7 +186,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
-        private void OnItemSelected(object? sender, EventArgs e) { }
+        private void OnItemSelected(object? sender, EventArgs e)
+        {
+        }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
@@ -244,6 +229,26 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                         Enabled = true;
                     break;
             }
+        }
+
+        public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
+
+        public event StateChangedEvent StatusChanged
+        {
+            add => statusChanged += value;
+            remove => statusChanged -= value;
+        }
+
+        public event StateChangedEvent StatusChangedRepeatedly
+        {
+            add => statusChangedRepeatedly += value;
+            remove => statusChangedRepeatedly -= value;
+        }
+
+        public event StateChangedEvent TempStatusChangedRepeatedly
+        {
+            add => tempStatusChangedRepeatedly += value;
+            remove => tempStatusChangedRepeatedly -= value;
         }
     }
 }

@@ -94,33 +94,33 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class ConnectedNoteCreationTypeAttribute : Attribute
     {
+        public NoteCreationOrder Type { get; }
+
         public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
         {
             Type = type;
         }
-
-        public NoteCreationOrder Type { get; }
     }
 
     public class ConnectedNoteTypeAttribute : Attribute
     {
+        public Type ConnectedType { get; }
+
         public ConnectedNoteTypeAttribute(Type noteType)
         {
             ConnectedType = noteType;
         }
-
-        public Type ConnectedType { get; }
     }
 
     public class InformationCarrierAttribute : Attribute { }
 
     public class StringValueAttribute : Attribute
     {
+        public string Value { get; }
+
         public StringValueAttribute(string value)
         {
             Value = value;
         }
-
-        public string Value { get; }
     }
 }

@@ -1,34 +1,41 @@
-﻿using MusicLoverHandbook.Models.Abstract;
-using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.Models.JSON;
+﻿using MusicLoverHandbook.Models.JSON;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteSerializable
-    {
-        string Serialize();
-        NoteRawImportModel Deserialize();
-        INoteControl Clone();
-    }
-    public interface INoteWidelyComparable
-    {
-        bool RoughEquals(object? obj);
-        bool Equals(object? obj);
-        int GetHashCode();
-    }
     public interface INoteControl : INote, IControlTheme, INoteSerializable, INoteWidelyComparable
     {
         Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
+        public bool IsDeleteShown { get; set; }
+        public bool IsEditShown { get; set; }
+        public bool IsInfoShown { get; set; }
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
-        void ChangeSize(int size);
-        public bool IsDeleteShown { get; set; }
-        public void InvokeActionHierarcaly(Action<INoteControl> action);
-        public bool IsEditShown { get; set; }
 
-        public bool IsInfoShown { get; set; }
-        NoteLite SingleFlatten();
+        void ChangeSize(int size);
+
         List<NoteLite> Flatten();
+
+        public void InvokeActionHierarcaly(Action<INoteControl> action);
+
+        NoteLite SingleFlatten();
+    }
+
+    public interface INoteSerializable
+    {
+        INoteControl Clone();
+
+        NoteRawImportModel Deserialize();
+
+        string Serialize();
+    }
+
+    public interface INoteWidelyComparable
+    {
+        bool Equals(object? obj);
+
+        int GetHashCode();
+
+        bool RoughEquals(object? obj);
     }
 }

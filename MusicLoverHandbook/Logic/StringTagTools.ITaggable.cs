@@ -5,8 +5,8 @@
         public interface ITaggable
         {
             TagType Type { get; }
+            string? Value { get; }
             TagDataType ValueType { get; }
-            string? Value { get; }            
         }
     }
 }

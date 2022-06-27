@@ -1,6 +1,5 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
-using MusicLoverHandbook.Models.JSON;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -14,8 +13,36 @@ namespace MusicLoverHandbook.Models.Abstract
     {
         private ObservableCollection<INoteControlChild> innerNotes = new();
 
+        public Panel InnerContentPanel { get; }
+
+        //protected override CertainTypedContractResolver ContractResolver =>
+        //    base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
+        public ObservableCollection<INoteControlChild> InnerNotes
+        {
+            get => innerNotes; set
+            {
+                innerNotes = value;
+                Debug.WriteLine("Setting new Inner Notes: ");
+                Debug.WriteLine(String.Join("\n", value.Select(x => x.NoteName)));
+                Debug.WriteLine("Setting new Inner Notes END");
+
+                SetupLinker();
+            }
+        }
+
+        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
+            InnerNotes.Select(x => (INoteChild)x).ToList();
+
+        public bool IsOpened { get; set; } = false;
+
+        public ContentLinker Linker { get; private set; }
+
+        public int Offset { get; set; }
+
+        protected TableLayoutPanel TableOffsetter { get; }
+
         protected NoteControlParent(
-                    string text,
+                                                                            string text,
                     string description,
                     NoteType noteType,
                     NoteCreationOrder? order
@@ -45,34 +72,6 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        //protected override CertainTypedContractResolver ContractResolver =>
-        //    base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
-
-        public Panel InnerContentPanel { get; }
-        public ObservableCollection<INoteControlChild> InnerNotes
-        {
-            get => innerNotes; set
-            {
-                innerNotes = value;
-                Debug.WriteLine("Setting new Inner Notes: ");
-                Debug.WriteLine(String.Join("\n", value.Select(x => x.NoteName)));
-                Debug.WriteLine("Setting new Inner Notes END");
-
-                SetupLinker();
-            }
-        }
-        private void SetupLinker()
-        {
-            Linker = new ContentLinker(this);
-        }
-        IReadOnlyCollection<INoteChild> INoteParent.InnerNotes =>
-            InnerNotes.Select(x => (INoteChild)x).ToList();
-
-        public bool IsOpened { get; set; } = false;
-        public ContentLinker Linker { get; private set; }
-        public int Offset { get; set; }
-        protected TableLayoutPanel TableOffsetter { get; }
-
         public void AddNote(NoteControl note, ContentLinker linker)
         {
             note.Dock = DockStyle.Top;
@@ -81,12 +80,7 @@ namespace MusicLoverHandbook.Models.Abstract
             note.SetupColorTheme(note.NoteType);
             UpdateSize();
         }
-        public override void InvokeActionHierarcaly(Action<INoteControl> action)
-        {
-            base.InvokeActionHierarcaly(action);
-            foreach (var note in InnerNotes)
-                note.InvokeActionHierarcaly(action);
-        }
+
         public void AddNotes(NoteControl[] notes, ContentLinker linker)
         {
             foreach (var note in notes)
@@ -115,6 +109,13 @@ namespace MusicLoverHandbook.Models.Abstract
                 if (note.NoteType.IsInformaionCarrier())
                     curr = curr.Concat(note.Flatten()).ToList();
             return curr;
+        }
+
+        public override void InvokeActionHierarcaly(Action<INoteControl> action)
+        {
+            base.InvokeActionHierarcaly(action);
+            foreach (var note in InnerNotes)
+                note.InvokeActionHierarcaly(action);
         }
 
         public void MoveNote(NoteControl note, int newIndex, ContentLinker linker)
@@ -179,6 +180,11 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             base.InitCustomLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
+        }
+
+        private void SetupLinker()
+        {
+            Linker = new ContentLinker(this);
         }
     }
 }

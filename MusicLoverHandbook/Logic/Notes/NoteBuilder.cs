@@ -8,12 +8,12 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteBuilder
     {
+        public MainForm Form { get; }
+
         public NoteBuilder(MainForm form)
         {
             Form = form;
         }
-
-        public MainForm Form { get; }
 
         public NoteControlMidder CreateNote(
             IEnumerable<OutputInfo> infoOrdered,

@@ -5,8 +5,8 @@
         public abstract class Taggable : ITaggable
         {
             public abstract TagType Type { get; }
-            public TagDataType ValueType { get; }
             public string? Value { get; }
+            public TagDataType ValueType { get; }
 
             public Taggable(TagDataType type, string? value = null)
             {
@@ -28,9 +28,10 @@
             {
                 return HashCode.Combine(Type, ValueType, Value);
             }
+
             public override string ToString()
             {
-                return $"Type: [{Type}] | ValueType: [{ValueType}]"+(ValueType==TagDataType.General?"":$" | Value: [{Value}]");
+                return $"Type: [{Type}] | ValueType: [{ValueType}]" + (ValueType == TagDataType.General ? "" : $" | Value: [{Value}]");
             }
         }
     }

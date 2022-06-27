@@ -3,13 +3,11 @@ using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox;
-using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 
 namespace MusicLoverHandbook.View.Forms
 {
@@ -19,15 +17,6 @@ namespace MusicLoverHandbook.View.Forms
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
         private NoteCreationOrder creationOrder = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
-
-        public NoteCreationMenu(MainForm mainForm)
-        {
-            InitializeComponent();
-            MainForm = mainForm;
-            InputDataOrdered = new LinkedList<CreationParamsControl>();
-            SetupSwitchButtons();
-            SetupLayout();
-        }
 
         public NoteCreationOrder CreationOrder
         {
@@ -48,7 +37,9 @@ namespace MusicLoverHandbook.View.Forms
         }
 
         public NoteControlMidder? FinalNote { get; private set; }
+
         public MainForm MainForm { get; }
+
         private List<CreationParamsControl> allInputs => InputDataOrdered.ToList();
 
         private Label SelectedCreationTypeLabel
@@ -63,6 +54,15 @@ namespace MusicLoverHandbook.View.Forms
                     );
                 selectedCreationTypeLabel = value;
             }
+        }
+
+        public NoteCreationMenu(MainForm mainForm)
+        {
+            InitializeComponent();
+            MainForm = mainForm;
+            InputDataOrdered = new LinkedList<CreationParamsControl>();
+            SetupSwitchButtons();
+            SetupLayout();
         }
 
         private void ClearInputEvents()

@@ -1,11 +1,13 @@
-﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
-using MusicLoverHandbook.Models;
-using System;
+﻿using MusicLoverHandbook.Models;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class StripMenuButton : Button
     {
+        public Color? ImageStripColor;
+
+        public ContextMenuStrip MenuStrip { get; set; }
+
         public StripMenuButton()
         {
             MenuStrip = new ContextMenuStrip();
@@ -14,10 +16,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 MenuStrip.Font = FindForm().Font ?? DefaultFont;
                 MenuStrip.BackColor = ControlPaint.Light(BackColor, 0.5f);
                 MenuStrip.Show(this, Location + new Size(0, Height));
-                MenuStrip.Renderer = new ColoredIconsBarToolStripRenderer(ImageStripColor??BackColor);
+                MenuStrip.Renderer = new ColoredIconsBarToolStripRenderer(ImageStripColor ?? BackColor);
             };
         }
-        public Color? ImageStripColor;
-        public ContextMenuStrip MenuStrip { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
-using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.View.Forms;
 
 namespace MusicLoverHandbook.Logic
@@ -57,13 +56,13 @@ namespace MusicLoverHandbook.Logic
         {
             private MainForm mainForm;
 
+            public NoteControlMidder? Result { get; }
+
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? result)
             {
                 Result = result;
                 this.mainForm = mainForm;
             }
-
-            public NoteControlMidder? Result { get; }
 
             public void CreateNote()
             {

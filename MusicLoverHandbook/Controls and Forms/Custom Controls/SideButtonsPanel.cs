@@ -8,15 +8,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         private List<ButtonPanel> deactivatedButtons = new();
         private DockStyle dockStyle;
 
+        public IReadOnlyCollection<ButtonPanel> ActiveButtons => activatedButtons;
+
+        private new ControlCollection Controls => base.Controls;
+
+        public IReadOnlyCollection<ButtonPanel> DeactivatedButtons => deactivatedButtons;
+
         public SideButtonsPanel(DockStyle dock)
         {
             Margin = Padding = new Padding(0);
             Dock = dockStyle = dock;
         }
-
-        public IReadOnlyCollection<ButtonPanel> ActiveButtons => activatedButtons;
-        private new ControlCollection Controls => base.Controls;
-        public IReadOnlyCollection<ButtonPanel> DeactivatedButtons => deactivatedButtons;
 
         public void Activate(ButtonType type)
         {
