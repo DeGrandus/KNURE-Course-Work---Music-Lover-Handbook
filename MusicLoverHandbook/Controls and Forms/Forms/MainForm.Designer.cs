@@ -61,9 +61,9 @@
             this.mainLayoutTable.ColumnCount = 7;
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.mainLayoutTable.Controls.Add(this.createNoteButton, 2, 4);
@@ -274,7 +274,7 @@
             this.saveButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.saveButton.Location = new System.Drawing.Point(118, 53);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(144, 44);
+            this.saveButton.Size = new System.Drawing.Size(174, 44);
             this.saveButton.TabIndex = 6;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -282,9 +282,9 @@
             // loadButton
             // 
             this.loadButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.loadButton.Location = new System.Drawing.Point(1112, 53);
+            this.loadButton.Location = new System.Drawing.Point(1082, 53);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(144, 44);
+            this.loadButton.Size = new System.Drawing.Size(174, 44);
             this.loadButton.TabIndex = 7;
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = true;

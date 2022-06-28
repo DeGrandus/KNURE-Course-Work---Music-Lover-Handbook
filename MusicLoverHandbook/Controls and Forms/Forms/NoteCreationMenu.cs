@@ -305,7 +305,10 @@ namespace MusicLoverHandbook.View.Forms
 
         private void SetupInputsOrder()
         {
-            InputDataOrdered.ToList().ForEach(x => x.InputDescriptionBox.Text = "");
+            InputDataOrdered.ToList().ForEach(x => {
+                x.InputDescriptionBox.Text = "";
+                x.InputNameBox.SkipNextErrorToolTip = true;
+            });
 
             InputDataOrdered.Clear();
             CreationParamsControl main = InputAuthor,

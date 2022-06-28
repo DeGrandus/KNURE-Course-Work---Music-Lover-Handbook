@@ -7,6 +7,7 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
@@ -246,8 +247,29 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void Finalization()
         {
             FinalizedOutput = CreateFinalizedOutput();
+            RemoveDuplications(FinalizedOutput);
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void RemoveDuplications(List<INoteControlChild> notes)
+        {
+            var dupes =
+                from note in notes
+                from flat in note.Flatten()
+                group flat by flat.GetHashCode() into flatGroup
+                where flatGroup.Count() > 1
+                select flatGroup.Skip(1) into restInGroup
+                from restNote in restInGroup
+                select restNote;
+            foreach (var dupe in dupes)
+                if (notes.Contains((INoteControlChild)dupe.Ref))
+                    notes.Remove((INoteControlChild)dupe.Ref);
+                else if (
+                    dupe.Ref is INoteControlChild dupeChild
+                    && dupeChild.ParentNote is IParentControl parenter
+                )
+                    parenter.InnerNotes.Remove(dupeChild);
         }
 
         private NoteLite? GetFirstIncludedInFinal(LinkedList<IParentControl> parents)

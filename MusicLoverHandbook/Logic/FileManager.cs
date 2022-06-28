@@ -86,9 +86,11 @@ namespace MusicLoverHandbook.Logic
                 ? musicPath
                 : settings.DefaultMusicFilesFolderPath;
 
-            Directory.CreateDirectory(musicfolder);
+            if (!Directory.Exists(musicfolder))
+                Directory.CreateDirectory(musicfolder);
             MusicFilesFolderPath = musicfolder;
-            File.Create(datapath);
+            if (!File.Exists(datapath))
+                File.Create(datapath).Close();
             DataFilePath = datapath;
         }
 
@@ -126,7 +128,9 @@ namespace MusicLoverHandbook.Logic
             return RecreateNotesFromData(DataFilePath);
         }
 
-        [Obsolete("Difference only in using the query LINQ expressions by newer one instead of methods in current method")]
+        [Obsolete(
+            "Difference only in using the query LINQ expressions by newer one instead of methods in current method"
+        )]
         public List<NoteControl> RecreateNotesFromData_Old(string dataFilePath)
         {
             string data = GetData(dataFilePath);
@@ -150,10 +154,17 @@ namespace MusicLoverHandbook.Logic
                 select manager.RecreateFromImported(rawModel)
             ).ToList();
 
-        public void SetDataPath(string path) => settings.CustomDataFilePath = DataFilePath = path;
+        public void SetDataPath(string path)
+        {
+            settings.CustomDataFilePath = DataFilePath = path;
+            settings.Save();
+        }
 
-        public void SetMusicFilesFolderPath(string path) =>
+        public void SetMusicFilesFolderPath(string path)
+        {
             settings.CustomMusicFilesFolderPath = MusicFilesFolderPath = path;
+            settings.Save();
+        }
 
         public void WriteToDataFile(IParentControl parentingControl)
         {
@@ -163,7 +174,7 @@ namespace MusicLoverHandbook.Logic
         public void WriteToDataFile(IParentControl parentingControl, string dataFilePath)
         {
             if (!IsDataFileValid())
-                File.Create(dataFilePath);
+                File.Create(dataFilePath).Close();
             using (var writter = new StreamWriter(dataFilePath))
                 writter.Write(
                     JsonConvert.SerializeObject(parentingControl.InnerNotes, SerializerSettings)

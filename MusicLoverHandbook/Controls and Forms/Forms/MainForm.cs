@@ -6,6 +6,8 @@ using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Properties;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
@@ -63,25 +65,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             : (((float)hDiff - 100) / hLim)
                         : 1
                 ) * 50;
-            if (wDiff < 180)
+
+            mainLayoutTable.ColumnStyles[2].Width =
+                wDiff <= 180 ? 100 + (float)wDiff / 180 * 100 : 200;
+            mainLayoutTable.ColumnStyles[4].Width =
+                wDiff <= 180 ? 100 + (float)wDiff / 180 * 100 : 200;
+            if (wDiff < 250)
             {
-                sortStripButton.Margin = new(0, 3, 0, 3);
-                advFilterButton.Margin = new(0, 3, 0, 3);
-                qSSwitchLabel.Text = "QS: ";
-                saveButton.Dock = DockStyle.Left;
-                loadButton.Dock = DockStyle.Right;
-                saveButton.Text = "S";
-                saveButton.TextAlign = ContentAlignment.MiddleRight;
-                saveButton.Size = new(
-                    (int)mainLayoutTable.RowStyles[1].Height + 20,
-                    (int)mainLayoutTable.RowStyles[1].Height
-                );
-                loadButton.Text = "L";
-                loadButton.TextAlign = ContentAlignment.MiddleRight;
-                loadButton.Size = new(
-                    (int)mainLayoutTable.RowStyles[1].Height + 20,
-                    (int)mainLayoutTable.RowStyles[1].Height
-                );
+                if (wDiff < 140)
+                {
+                    sortStripButton.Margin = new(0, 3, 0, 3);
+                    advFilterButton.Margin = new(0, 3, 0, 3);
+                }
+                if (wDiff < 80)
+                    qSSwitchLabel.Text = "QS: ";
+                else
+                    qSSwitchLabel.Text = "QSearch: ";
             }
             else
             {
@@ -89,8 +88,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 advFilterButton.Margin = new(3);
                 qSSwitchLabel.Text = "Quick search: ";
                 qSSwitchLabel.Size = new(150, 1);
-                saveButton.Dock = DockStyle.Fill;
-                loadButton.Dock = DockStyle.Fill;
+            }
+            if (wDiff < 60)
+            {
+                saveButton.Text = "S";
+                saveButton.TextAlign = ContentAlignment.MiddleRight;
+                loadButton.Text = "L";
+                loadButton.TextAlign = ContentAlignment.MiddleRight;
+            }
+            else
+            {
                 saveButton.Text = "Save";
                 saveButton.TextAlign = ContentAlignment.MiddleCenter;
                 loadButton.Text = "Load";
@@ -330,19 +337,91 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 e.Graphics.DrawImage(Resources.DownloadIcon, getIcoRect((Button)sender!));
             saveButton.Click += (sender, e) =>
             {
-                FileManager.Instance.WriteToDataFile(NotesContainer);
+                if (ModifierKeys == Keys.Shift)
+                {
+                    var saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "JSON file|*.json";
+                    saveFileDialog.RestoreDirectory = true;
+                    saveFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
+                        FileManager.Instance.DataFilePath
+                    );
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var defaultQuestion = MessageBox.Show(
+                            "Do you want to make this file default?\n(non-shift & on-close save etc. will store data in it)\n(\"cancel\" cancels saving operation)",
+                            "Default save file",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question
+                        );
+                        if (defaultQuestion == DialogResult.Cancel)
+                            return;
+
+                        if (defaultQuestion == DialogResult.Yes)
+                            FileManager.Instance.SetDataPath(saveFileDialog.FileName);
+
+                        FileManager.Instance.WriteToDataFile(
+                            NotesContainer,
+                            saveFileDialog.FileName
+                        );
+                    }
+                }
+                else
+                    FileManager.Instance.WriteToDataFile(NotesContainer);
+            };
+            var saveButtonModeTimer = new Timer() { Interval = 1, Enabled = false };
+            saveButtonModeTimer.Tick += (sender, e) =>
+            {
+                saveButton.BackColor =
+                    ModifierKeys == Keys.Shift
+                        ? ControlPaint.Light(Color.FromArgb(255, Color.FromArgb(0xEEE82C)))
+                        : sortStripButton.BackColor;
+                if (saveButton.Text == "S")
+                    return;
+                saveButton.Text = ModifierKeys == Keys.Shift ? "Save As" : "Save";
+            };
+
+            saveButton.MouseEnter += (sender, e) =>
+            {
+                saveButtonModeTimer.Start();
+            };
+            saveButton.MouseLeave += (sender, e) =>
+            {
+                saveButtonModeTimer.Stop();
+                saveButton.BackColor = sortStripButton.BackColor;
             };
 
             loadButton.Paint += (sender, e) =>
                 e.Graphics.DrawImage(Resources.UploadIcon, getIcoRect((Button)sender!));
             loadButton.Click += (sender, e) =>
             {
-                Debug.WriteLine(FileManager.Instance.RecreateNotesFromData());
+                var openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "JSON file|*.json";
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
+                    FileManager.Instance.DataFilePath
+                );
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var notes = FileManager.Instance.RecreateNotesFromData(openFileDialog.FileName);
+                    NotesContainer.InnerNotes.Clear();
+                    foreach (var note in notes.OfType<INoteControlChild>())
+                        NotesContainer.InnerNotes.Add(note);
+                }
             };
             saveButton.BackColor = sortStripButton.BackColor;
             saveButton.FlatStyle = FlatStyle.Flat;
+            saveButton.Font = new Font(
+                FontContainer.Instance.Families[0],
+                saveButton.Height * 2 / 3,
+                GraphicsUnit.Pixel
+            );
             loadButton.BackColor = sortStripButton.BackColor;
             loadButton.FlatStyle = FlatStyle.Flat;
+            loadButton.Font = new Font(
+                FontContainer.Instance.Families[0],
+                saveButton.Height * 2 / 3,
+                GraphicsUnit.Pixel
+            );
         }
 
         private void Setup_SortingStripButton_Base()

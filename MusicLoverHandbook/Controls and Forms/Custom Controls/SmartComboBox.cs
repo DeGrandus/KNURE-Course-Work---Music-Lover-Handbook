@@ -87,15 +87,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Text = Format(Text);
             if ((!CanBeEmpty && Status == InputStatus.EMPTY_FIELD) || Status.IsError())
             {
+                
+                Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
+                if (SkipNextErrorToolTip == true && !(SkipNextErrorToolTip = false))
+                    return;
+
                 new ToolTip()
                 {
                     IsBalloon = true,
                     ToolTipIcon = ToolTipIcon.Error,
                     ToolTipTitle = "Naming error"
                 }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
-                Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
             }
         }
+        public bool SkipNextErrorToolTip = false;
 
         public void ClearDataSource()
         {
