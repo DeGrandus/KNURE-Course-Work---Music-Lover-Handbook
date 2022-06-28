@@ -46,6 +46,9 @@
             this.title = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
+            this.undoRedoTable = new System.Windows.Forms.TableLayoutPanel();
+            this.redoButton = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.mainLayoutTable.SuspendLayout();
             this.noteContentTable.SuspendLayout();
             this.searchBarLayout.SuspendLayout();
@@ -53,6 +56,7 @@
             this.tableQSCentrize.SuspendLayout();
             this.toolsTable.SuspendLayout();
             this.panelLabel.SuspendLayout();
+            this.undoRedoTable.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainLayoutTable
@@ -71,6 +75,7 @@
             this.mainLayoutTable.Controls.Add(this.panelLabel, 0, 0);
             this.mainLayoutTable.Controls.Add(this.saveButton, 2, 1);
             this.mainLayoutTable.Controls.Add(this.loadButton, 4, 1);
+            this.mainLayoutTable.Controls.Add(this.undoRedoTable, 3, 1);
             this.mainLayoutTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayoutTable.Location = new System.Drawing.Point(0, 0);
             this.mainLayoutTable.Name = "mainLayoutTable";
@@ -289,6 +294,45 @@
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = true;
             // 
+            // undoRedoTable
+            // 
+            this.undoRedoTable.ColumnCount = 5;
+            this.undoRedoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.undoRedoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.undoRedoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.undoRedoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.undoRedoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.undoRedoTable.Controls.Add(this.redoButton, 3, 0);
+            this.undoRedoTable.Controls.Add(this.undoButton, 1, 0);
+            this.undoRedoTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.undoRedoTable.Location = new System.Drawing.Point(295, 50);
+            this.undoRedoTable.Margin = new System.Windows.Forms.Padding(0);
+            this.undoRedoTable.Name = "undoRedoTable";
+            this.undoRedoTable.RowCount = 1;
+            this.undoRedoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.undoRedoTable.Size = new System.Drawing.Size(784, 50);
+            this.undoRedoTable.TabIndex = 8;
+            // 
+            // redoButton
+            // 
+            this.redoButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.redoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.redoButton.Location = new System.Drawing.Point(420, 3);
+            this.redoButton.Name = "redoButton";
+            this.redoButton.Size = new System.Drawing.Size(44, 44);
+            this.redoButton.TabIndex = 1;
+            this.redoButton.UseVisualStyleBackColor = true;
+            // 
+            // undoButton
+            // 
+            this.undoButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.undoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.undoButton.Location = new System.Drawing.Point(320, 3);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(44, 44);
+            this.undoButton.TabIndex = 0;
+            this.undoButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
@@ -307,6 +351,7 @@
             this.tableQSCentrize.PerformLayout();
             this.toolsTable.ResumeLayout(false);
             this.panelLabel.ResumeLayout(false);
+            this.undoRedoTable.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -330,5 +375,8 @@
         private Button cancelFilteringButton;
         private Button saveButton;
         private Button loadButton;
+        private TableLayoutPanel undoRedoTable;
+        private Button undoButton;
+        private Button redoButton;
     }
 }

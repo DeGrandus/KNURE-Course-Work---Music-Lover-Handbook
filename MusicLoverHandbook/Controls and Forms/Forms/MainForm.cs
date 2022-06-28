@@ -312,6 +312,38 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Text = "Create new Note";
             createNoteButton.Click += CreateNoteButton_Click;
         }
+        private void Setup_BasicTooltips()
+        {
+            var tooltip = new ToolTip()
+            {
+                IsBalloon = true,
+                ToolTipIcon = ToolTipIcon.Info,
+                ToolTipTitle = "Information"
+            };
+            tooltip.SetToolTip(loadButton, "Loads notes from choosen file");
+            tooltip.SetToolTip(undoButton, "Undo latest action");
+            tooltip.SetToolTip(redoButton, "Redo latest action");
+            tooltip.SetToolTip(cancelFilteringButton, "Resets view to all notes. \n( Needs two clicks )");
+            tooltip.SetToolTip(advFilterButton, "Open Advanced Filtering menu");
+            tooltip.SetToolTip(sortStripButton, "Opens strip menu for sorting.\n> applyed sorting also will be performed after any change of view automaticly;\n> sorting will not affect initial notes structure;") ;
+            tooltip.SetToolTip(createNoteButton, "Opens menu for creating new notes");
+        }
+        private void Setup_UndoRedoButtons()
+        {
+            undoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            undoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor,0.75f);
+            undoButton.FlatAppearance.BorderSize = 1;
+            undoButton.BackgroundImage = Resources.UndoIcon;
+            undoButton.BackgroundImageLayout = ImageLayout.Zoom;
+            redoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            redoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor, 0.75f);
+            redoButton.FlatAppearance.BorderSize = 1;
+            var redo = new Bitmap(Resources.UndoIcon);
+            redo.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            redoButton.BackgroundImage = redo;
+            redoButton.BackgroundImageLayout = ImageLayout.Zoom;
+
+        }
 
         private void Setup_QSSwitch()
         {
@@ -518,6 +550,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Setup_CancelFilterButton();
             Setup_AdvancedSearchButton();
             Setup_SaveLoadButtons();
+            Setup_UndoRedoButtons();
+
+            Setup_BasicTooltips();
 
             Setup_ReassignFonts();
         }

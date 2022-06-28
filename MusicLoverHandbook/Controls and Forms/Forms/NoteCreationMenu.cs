@@ -32,7 +32,7 @@ namespace MusicLoverHandbook.View.Forms
                     SelectedCreationTypeLabel = authorInDiscLabel;
 
                 creationOrder = value;
-                SetupInputs();
+                Setup_InputsBase();
             }
         }
 
@@ -61,7 +61,8 @@ namespace MusicLoverHandbook.View.Forms
             InitializeComponent();
             MainForm = mainForm;
             InputDataOrdered = new LinkedList<CreationParamsControl>();
-            SetupSwitchButtons();
+
+            Setup_SwitchButtons();
             SetupLayout();
         }
 
@@ -163,7 +164,7 @@ namespace MusicLoverHandbook.View.Forms
             InputSong.InputNameBox.CheckTextValidation();
         }
 
-        private void SetupButtons()
+        private void Setup_Buttons()
         {
             createButton.Size = new Size(0, 70);
             createButton.Font = new Font(Font.FontFamily, 50, GraphicsUnit.Pixel);
@@ -202,7 +203,7 @@ namespace MusicLoverHandbook.View.Forms
             };
         }
 
-        private void SetupDragDrop()
+        private void Setup_DragDrop()
         {
             dragDropPanel.BackColor = MainForm.title.BackColor;
             dragDropText.BackColor = ControlPaint.LightLight(MainForm.title.BackColor);
@@ -243,7 +244,7 @@ namespace MusicLoverHandbook.View.Forms
             };
         }
 
-        private void SetupEventOrder()
+        private void Setup_EventOrder()
         {
             InputEventsOrdered.Clear();
             InputEventsOrdered.AddLast(MainInputStateChanged);
@@ -251,7 +252,7 @@ namespace MusicLoverHandbook.View.Forms
             InputEventsOrdered.AddLast(SongInputStateChanged);
         }
 
-        private void SetupInputEvents()
+        private void Setup_InputEvents()
         {
             ClearInputEvents();
             if (InputEventsOrdered.First != null && InputDataOrdered.First != null)
@@ -270,9 +271,9 @@ namespace MusicLoverHandbook.View.Forms
             }
         }
 
-        private void SetupInputs()
+        private void Setup_InputsBase()
         {
-            SetupInputsOrder();
+            Setup_InputsOrder();
             ClearInputEvents();
 
             if (InputDataOrdered.First == null)
@@ -292,9 +293,9 @@ namespace MusicLoverHandbook.View.Forms
                 inp.InputNameBox.Text = "";
             }
 
-            SetupEventOrder();
+            Setup_EventOrder();
 
-            SetupInputEvents();
+            Setup_InputEvents();
 
             foreach (var input in allInputs)
             {
@@ -303,12 +304,17 @@ namespace MusicLoverHandbook.View.Forms
             }
         }
 
-        private void SetupInputsOrder()
+        private void Setup_InputsOrder()
         {
-            InputDataOrdered.ToList().ForEach(x => {
-                x.InputDescriptionBox.Text = "";
-                x.InputNameBox.SkipNextErrorToolTip = true;
-            });
+            InputDataOrdered
+                .ToList()
+                .ForEach(
+                    x =>
+                    {
+                        x.InputDescriptionBox.Text = "";
+                        x.InputNameBox.SkipNextErrorToolTip = true;
+                    }
+                );
 
             InputDataOrdered.Clear();
             CreationParamsControl main = InputAuthor,
@@ -339,12 +345,12 @@ namespace MusicLoverHandbook.View.Forms
             title.Size = MainForm.title.Size;
             title.Font = MainForm.title.Font;
 
-            SetupButtons();
-            SetupDragDrop();
-            SetupInputs();
+            Setup_Buttons();
+            Setup_DragDrop();
+            Setup_InputsBase();
         }
 
-        private void SetupSwitchButtons()
+        private void Setup_SwitchButtons()
         {
             selectedCreationTypeLabel = discInAuthorLabel;
             discInAuthorLabel.Click += (sender, e) =>
