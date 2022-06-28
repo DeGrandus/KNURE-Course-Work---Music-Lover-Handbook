@@ -63,11 +63,13 @@ namespace MusicLoverHandbook.Logic.Notes
                     var data = (
                         from lite in lites
                         let rawtagdata = StringTagTools.GetTagged(lite.Description, '#')
-                        from taggedinfo in from tagdata in rawtagdata
-                                           select (Name: tagdata.Key, tagdata.Value, NoteLite: lite)
-                        group taggedinfo by taggedinfo.Name.GetHashCode() into tagged_groupped
-                        select from tg in tagged_groupped
-                               group tg by tg.Value
+                        let taggedinfo = (
+                            from tagdata in rawtagdata
+                            select (Name: tagdata.Key, tagdata.Value, NoteLite: lite)
+                        )
+                        from taggedcluster in taggedinfo
+                        group taggedcluster by taggedcluster.Name.GetHashCode() into tagged_groupped
+                        select (from tg in tagged_groupped group tg by tg.Value)
                     ).ToDictionary(
                         key => key.First().First().Name,
                         value =>
@@ -121,7 +123,7 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         private List<NoteLite> MultiComparisonApplicator(
-                    (string[] CompStrings, Func<
+            (string[] CompStrings, Func<
                 List<NoteLite>,
                 string,
                 List<NoteLite>

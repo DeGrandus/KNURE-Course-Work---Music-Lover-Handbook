@@ -30,55 +30,6 @@ namespace MusicLoverHandbook.Controller
                         )
                 )
                 .ToDictionary(k => k.Type, v => v.Data);
-
-            //allInputs.ForEach(x => x.AutoFill = false);
-            //if (
-            //    allInputs
-            //        .Select(x => x.InputNameBox.Status)
-            //        .Where(x => x == InputState.OK || x == InputState.CREATION)
-            //        .Count() > 1
-            //)
-            //{
-            //    var result = MessageBox.Show(
-            //        "There are some fields that are already filled with some data. Replace with file data (YES) or fill up only remain data (NO)",
-            //        "Information load question",
-            //        MessageBoxButtons.YesNo,
-            //        MessageBoxIcon.Question
-            //    );
-            //    if (result != DialogResult.Cancel)
-            //    {
-            //        if (result == DialogResult.Yes)
-            //        {
-            //            inputAuthor.InputNameBox.Text = authors;
-            //            inputDisc.InputNameBox.Text = album;
-            //            inputSong.InputNameBox.Text = name;
-            //            inputSong.InputDescriptionBox.Text = descSong;
-            //        }
-            //        if (
-            //            inputSong.InputNameBox.Status is InputState x
-            //            && !(x == InputState.OK || x == InputState.CREATION)
-            //        )
-            //            inputSong.InputNameBox.Text = name;
-            //        inputSongFile.InputNameBox.Text = filename;
-            //        inputSongFile.InputDescriptionBox.Text = descFile;
-            //    }
-            //}
-            //else
-            //{
-            //    inputAuthor.InputNameBox.Text = authors;
-            //    inputDisc.InputNameBox.Text = album;
-            //    inputSong.InputNameBox.Text = name;
-            //    inputSong.InputDescriptionBox.Text = descSong;
-            //    inputSongFile.InputNameBox.Text = filename;
-            //    inputSongFile.InputDescriptionBox.Text = descFile;
-            //}
-
-            //allInputs.ForEach(
-            //    x =>
-            //    {
-            //        x.InputNameBox.CheckValid();
-            //    }
-            //);
         }
 
         private static Dictionary<NoteType, string> GetDescriptions(

@@ -1,8 +1,10 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using System.ComponentModel;
 
 namespace MusicLoverHandbook.Models
 {
+    [DesignerCategory("Code")]
     public class NoteLite : Control
     {
         public string Description { get; }

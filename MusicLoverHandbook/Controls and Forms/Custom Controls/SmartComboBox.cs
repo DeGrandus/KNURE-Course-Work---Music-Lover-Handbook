@@ -25,19 +25,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         public List<NoteControl> InnerData =>
             (
-                NoteParent?.InnerNotes.Where(x => x is NoteControl).Cast<NoteControl>().ToList()
-                ?? NotesContainer
-                    ?.InnerNotes.Where(x => x is NoteControl)
-                    .Cast<NoteControl>()
-                    .ToList()
-                ?? new()
-            )
-                .Where(
-                    x =>
-                        x.GetType().IsSubclassOf(RestrictedType)
-                        || x.GetType().Equals(RestrictedType)
+                from note in (
+                    NoteParent?.InnerNotes.OfType<NoteControl>().ToList()
+                    ?? NotesContainer?.InnerNotes.OfType<NoteControl>().ToList()
+                    ?? new()
                 )
-                .ToList();
+                where
+                    note.GetType().IsSubclassOf(RestrictedType)
+                    || note.GetType().Equals(RestrictedType)
+                select note
+            ).ToList();
 
         public NoteType InputType { get; set; }
 
@@ -87,7 +84,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 Text = Format(Text);
             if ((!CanBeEmpty && Status == InputStatus.EMPTY_FIELD) || Status.IsError())
             {
-                
                 Text = DefaultReplacement ?? $"Unknown {InputType.ToString() ?? "???"}";
                 if (SkipNextErrorToolTip == true && !(SkipNextErrorToolTip = false))
                     return;
@@ -100,6 +96,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
             }
         }
+
         public bool SkipNextErrorToolTip = false;
 
         public void ClearDataSource()
