@@ -570,7 +570,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     }
                 }
 
-                return filtered;
+                return filtered.Distinct().ToList();
             }
 
             private List<NoteLite> DescFiltering(List<NoteLite> inputLites, string rawcomp)
@@ -591,113 +591,115 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 if (comparer == "")
                     return lites;
 
-                if (comparer[0] != '#')
+                List<NoteLite> result = new();
+                do
                 {
-                    //var result = lites
-                    //    .Where(x => x.Description.ToLower().Trim().Contains(comparer))
-                    //    .ToList();
-                    var result = (
-                        from lite in lites
-                        where lite.Description.ToLower().Trim().Contains(comparer)
-                        select lite
-                    ).ToList();
-                    return exceptionMode ? lites.Except(result).ToList() : result;
-                }
-                else
-                {
-                    //var data = lites
-                    //    .SelectMany(
-                    //        n =>
-                    //            StringTagTools
-                    //                .GetTagged(n.Description, '#')
-                    //                .Select(x => (Name: x.Key, Value: x.Value, NoteLite: n))
-                    //    )
-                    //    .GroupBy(x => x.Name.GetHashCode())
-                    //    .Select(x => x.GroupBy(d => d.Value))
-                    //    .ToDictionary(
-                    //        k => k.First().First().Name,
-                    //        v =>
-                    //            v.ToDictionary(
-                    //                k2 => k2.First().Value,
-                    //                v2 => v2.Select(x => x.NoteLite).ToArray()
-                    //            )
-                    //    );
-                    var data = (
-                        from lite in lites
-                        let rawtagdata = StringTagTools.GetTagged(lite.Description, '#')
-                        from taggedinfo in (
-                            from tagdata in rawtagdata
-                            select (Name: tagdata.Key, Value: tagdata.Value, NoteLite: lite)
-                        )
-                        group taggedinfo by taggedinfo.Name.GetHashCode() into tagged_groupped
-                        select from tg in tagged_groupped
-                        group tg by tg.Value
-                    ).ToDictionary(
-                        key => key.First().First().Name,
-                        value =>
-                            value.ToDictionary(
-                                key => key.First().Value,
-                                value => (from tagdata in value select tagdata.NoteLite).ToArray()
+                    if (comparer[0] != '#')
+                    {
+                        //var result = lites
+                        //    .Where(x => x.Description.ToLower().Trim().Contains(comparer))
+                        //    .ToList();
+                        result = (
+                            from lite in lites
+                            where lite.Description.ToLower().Trim().Contains(comparer)
+                            select lite
+                        ).ToList();
+                    }
+                    else
+                    {
+                        //var data = lites
+                        //    .SelectMany(
+                        //        n =>
+                        //            StringTagTools
+                        //                .GetTagged(n.Description, '#')
+                        //                .Select(x => (Name: x.Key, Value: x.Value, NoteLite: n))
+                        //    )
+                        //    .GroupBy(x => x.Name.GetHashCode())
+                        //    .Select(x => x.GroupBy(d => d.Value))
+                        //    .ToDictionary(
+                        //        k => k.First().First().Name,
+                        //        v =>
+                        //            v.ToDictionary(
+                        //                k2 => k2.First().Value,
+                        //                v2 => v2.Select(x => x.NoteLite).ToArray()
+                        //            )
+                        //    );
+                        var data = (
+                            from lite in lites
+                            let rawtagdata = StringTagTools.GetTagged(lite.Description, '#')
+                            from taggedinfo in (
+                                from tagdata in rawtagdata
+                                select (Name: tagdata.Key, Value: tagdata.Value, NoteLite: lite)
                             )
-                    );
-
-                    var result = new List<NoteLite>();
-                    if (data.Count == 0)
-                    {
-                        //lites = exceptionMode ? lites.Except(result).ToList() : result;
-                        return exceptionMode ? lites.Except(result).ToList() : result;
-                    }
-                    var tagname = Regex.Match(comparer, @"[^\s]+").Value;
-                    var value = string.Join(tagname, comparer.Split(tagname).Skip(1))
-                        .Trim()
-                        .ToLower();
-                    tagname = tagname.ToLower().Trim();
-                    var queryTagNames = data.Select(x => x);
-                    if (tagname != "#")
-                        //query = query.Where(
-                        //    x =>
-                        //        x.Key.ValueType == StringTagTools.TagDataType.Valued
-                        //        && x.Key.Value!
-                        //            .ToLower()
-                        //            .Trim()
-                        //            .Contains(tag.Substring(1, tag.Length - 1))
-                        //);
-                        queryTagNames =
-                            from pair in queryTagNames
-                            where
-                                pair.Key.ValueType == StringTagTools.TagDataType.Valued
-                                && pair.Key.Value!
-                                    .ToLower()
-                                    .Trim()
-                                    .Contains(tagname.Substring(1, tagname.Length - 1))
-                            select pair;
-
-                    if (queryTagNames.Count() == 0)
-                    {
-                        //lites = exceptionMode ? lites.Except(result).ToList() : result;
-                        return exceptionMode ? lites.Except(result).ToList() : result;
-                    }
-
-                    var queryTagValues = queryTagNames.SelectMany(x => x.Value);
-                    if (value != "")
-                    {
-                        var splittedValue = value.Split(' ');
-                        foreach (var subvalue in splittedValue)
-                            //queryTagValues = queryTagValues.Where(
+                            group taggedinfo by taggedinfo.Name.GetHashCode() into tagged_groupped
+                            select from tg in tagged_groupped
+                            group tg by tg.Value
+                        ).ToDictionary(
+                            key => key.First().First().Name,
+                            value =>
+                                value.ToDictionary(
+                                    key => key.First().Value,
+                                    value =>
+                                        (from tagdata in value select tagdata.NoteLite).ToArray()
+                                )
+                        );
+                        if (data.Count == 0)
+                        {
+                            //lites = exceptionMode ? lites.Except(result).ToList() : result;
+                            break;
+                        }
+                        var tagname = Regex.Match(comparer, @"[^\s]+").Value;
+                        var value = string.Join(tagname, comparer.Split(tagname).Skip(1))
+                            .Trim()
+                            .ToLower();
+                        tagname = tagname.ToLower().Trim();
+                        var queryTagNames = data.Select(x => x);
+                        if (tagname != "#")
+                            //query = query.Where(
                             //    x =>
                             //        x.Key.ValueType == StringTagTools.TagDataType.Valued
-                            //        && x.Key.Value!.ToLower().Trim().Contains(subvalue)
+                            //        && x.Key.Value!
+                            //            .ToLower()
+                            //            .Trim()
+                            //            .Contains(tag.Substring(1, tag.Length - 1))
                             //);
-                            queryTagValues =
-                                from tagvalue in queryTagValues
+                            queryTagNames =
+                                from pair in queryTagNames
                                 where
-                                    tagvalue.Key.ValueType == StringTagTools.TagDataType.Valued
-                                    && tagvalue.Key.Value!.ToLower().Trim().Contains(subvalue)
-                                select tagvalue;
+                                    pair.Key.ValueType == StringTagTools.TagDataType.Valued
+                                    && pair.Key.Value!
+                                        .ToLower()
+                                        .Trim()
+                                        .Contains(tagname.Substring(1, tagname.Length - 1))
+                                select pair;
+
+                        if (queryTagNames.Count() == 0)
+                        {
+                            //lites = exceptionMode ? lites.Except(result).ToList() : result;
+                            break;
+                        }
+
+                        var queryTagValues = queryTagNames.SelectMany(x => x.Value);
+                        if (value != "")
+                        {
+                            var splittedValue = value.Split(' ');
+                            foreach (var subvalue in splittedValue)
+                                //queryTagValues = queryTagValues.Where(
+                                //    x =>
+                                //        x.Key.ValueType == StringTagTools.TagDataType.Valued
+                                //        && x.Key.Value!.ToLower().Trim().Contains(subvalue)
+                                //);
+                                queryTagValues =
+                                    from tagvalue in queryTagValues
+                                    where
+                                        tagvalue.Key.ValueType == StringTagTools.TagDataType.Valued
+                                        && tagvalue.Key.Value!.ToLower().Trim().Contains(subvalue)
+                                    select tagvalue;
+                        }
+                        result = queryTagValues.SelectMany(x => x.Value).ToList();
                     }
-                    result = queryTagValues.SelectMany(x => x.Value).ToList();
-                    return exceptionMode ? lites.Except(result).ToList() : result;
-                }
+                } while (false);
+                return exceptionMode ? lites.Except(result).ToList() : result;
             }
 
             private List<NoteLite> NameFiltering(List<NoteLite> lites, string nameCompare)
@@ -713,6 +715,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 }
                 if (name == "")
                     return lites;
+
                 var result = new List<NoteLite>();
                 result = lites.Where(x => x.NoteName.ToLower().Trim().Contains(name)).ToList();
                 return exceptionMode ? lites.Except(result).ToList() : result;
