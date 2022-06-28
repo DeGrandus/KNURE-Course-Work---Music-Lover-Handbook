@@ -1,5 +1,4 @@
-﻿using MusicLoverHandbook.Logic;
-using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models;
 using System.Data;
 using System.Text.RegularExpressions;
 
@@ -22,61 +21,12 @@ namespace MusicLoverHandbook.Logic.Notes
         public List<NoteLite> ApplyOn(List<NoteLite> lites)
         {
             var filtered = lites.ToList();
-            filtered = MultiComparisonApplicator((NameCompareStrings,NameFiltering,filtered));
-            filtered = MultiComparisonApplicator((DescriptionCompareStrings,DescFiltering,filtered));
-            //foreach (var compStr in NameCompareStrings)
-            //{
-            //    var nameOrCheck = compStr.Replace(@"\|", "\n");
-            //    if (nameOrCheck.Count(x => x == '|') == 0)
-            //        filtered = NameFiltering(filtered, nameOrCheck);
-            //    else
-            //    {
-            //        var forOr = nameOrCheck.Split('|').Select(x => x.Replace("\n", @"|").Trim());
-            //        var combFiltered = forOr
-            //            .Select(x => NameFiltering(filtered, x))
-            //            .Aggregate((c, n) => c.Concat(n).ToList());
-            //        filtered = combFiltered;
-            //    }
-            //}
-            //foreach (var compStr in DescriptionCompareStrings)
-            //{
-            //    var descPartOrCheck = compStr.Replace(@"\|", "\n");
-            //    if (descPartOrCheck.Count(x => x == '|') == 0)
-            //        filtered = DescFiltering(filtered, compStr);
-            //    else
-            //    {
-            //        var forOr = descPartOrCheck
-            //            .Split('|')
-            //            .Select(x => x.Replace("\n", @"|").Trim());
-            //        var combFiltered = forOr
-            //            .Select(x => DescFiltering(filtered, x))
-            //            .Aggregate((c, n) => c.Concat(n).ToList());
-            //        filtered = combFiltered;
-            //    }
-            //}
+            filtered = MultiComparisonApplicator((NameCompareStrings, NameFiltering, filtered));
+            filtered = MultiComparisonApplicator(
+                (DescriptionCompareStrings, DescFiltering, filtered)
+            );
 
             return filtered.Distinct().ToList();
-        }
-        private List<NoteLite> MultiComparisonApplicator((string[] CompStrings, Func<List<NoteLite>,string,List<NoteLite>> FilterFunc, List<NoteLite> ApplyOn) applicationInfo)
-        {
-            var filtered = applicationInfo.ApplyOn;
-            foreach (var compStr in applicationInfo.CompStrings)
-            {
-                var descPartOrCheck = compStr.Replace(@"\|", "\n");
-                if (descPartOrCheck.Count(x => x == '|') == 0)
-                    filtered = applicationInfo.FilterFunc(filtered, compStr);
-                else
-                {
-                    var forOr = descPartOrCheck
-                        .Split('|')
-                        .Select(x => x.Replace("\n", @"|").Trim());
-                    var combFiltered = forOr
-                        .Select(x => applicationInfo.FilterFunc(filtered, x))
-                        .Aggregate((c, n) => c.Concat(n).ToList());
-                    filtered = combFiltered;
-                }
-            }
-            return filtered;
         }
 
         private List<NoteLite> DescFiltering(List<NoteLite> inputLites, string rawcomp)
@@ -102,9 +52,6 @@ namespace MusicLoverHandbook.Logic.Notes
             {
                 if (comparer[0] != '#')
                 {
-                    //var result = lites
-                    //    .Where(x => x.Description.ToLower().Trim().Contains(comparer))
-                    //    .ToList();
                     result = (
                         from lite in lites
                         where lite.Description.ToLower().Trim().Contains(comparer)
@@ -113,31 +60,14 @@ namespace MusicLoverHandbook.Logic.Notes
                 }
                 else
                 {
-                    //var data = lites
-                    //    .SelectMany(
-                    //        n =>
-                    //            StringTagTools
-                    //                .GetTagged(n.Description, '#')
-                    //                .Select(x => (Name: x.Key, Value: x.Value, NoteLite: n))
-                    //    )
-                    //    .GroupBy(x => x.Name.GetHashCode())
-                    //    .Select(x => x.GroupBy(d => d.Value))
-                    //    .ToDictionary(
-                    //        k => k.First().First().Name,
-                    //        v =>
-                    //            v.ToDictionary(
-                    //                k2 => k2.First().Value,
-                    //                v2 => v2.Select(x => x.NoteLite).ToArray()
-                    //            )
-                    //    );
                     var data = (
                         from lite in lites
                         let rawtagdata = StringTagTools.GetTagged(lite.Description, '#')
                         from taggedinfo in from tagdata in rawtagdata
-                        select (Name: tagdata.Key, tagdata.Value, NoteLite: lite)
+                                           select (Name: tagdata.Key, tagdata.Value, NoteLite: lite)
                         group taggedinfo by taggedinfo.Name.GetHashCode() into tagged_groupped
                         select from tg in tagged_groupped
-                        group tg by tg.Value
+                               group tg by tg.Value
                     ).ToDictionary(
                         key => key.First().First().Name,
                         value =>
@@ -148,7 +78,6 @@ namespace MusicLoverHandbook.Logic.Notes
                     );
                     if (data.Count == 0)
                     {
-                        //lites = exceptionMode ? lites.Except(result).ToList() : result;
                         break;
                     }
                     var tagname = Regex.Match(comparer, @"[^\s]+").Value;
@@ -158,14 +87,6 @@ namespace MusicLoverHandbook.Logic.Notes
                     tagname = tagname.ToLower().Trim();
                     var queryTagNames = data.Select(x => x);
                     if (tagname != "#")
-                        //query = query.Where(
-                        //    x =>
-                        //        x.Key.ValueType == StringTagTools.TagDataType.Valued
-                        //        && x.Key.Value!
-                        //            .ToLower()
-                        //            .Trim()
-                        //            .Contains(tag.Substring(1, tag.Length - 1))
-                        //);
                         queryTagNames =
                             from pair in queryTagNames
                             where
@@ -178,7 +99,6 @@ namespace MusicLoverHandbook.Logic.Notes
 
                     if (queryTagNames.Count() == 0)
                     {
-                        //lites = exceptionMode ? lites.Except(result).ToList() : result;
                         break;
                     }
 
@@ -187,11 +107,6 @@ namespace MusicLoverHandbook.Logic.Notes
                     {
                         var splittedValue = value.Split(' ');
                         foreach (var subvalue in splittedValue)
-                            //queryTagValues = queryTagValues.Where(
-                            //    x =>
-                            //        x.Key.ValueType == StringTagTools.TagDataType.Valued
-                            //        && x.Key.Value!.ToLower().Trim().Contains(subvalue)
-                            //);
                             queryTagValues =
                                 from tagvalue in queryTagValues
                                 where
@@ -203,6 +118,34 @@ namespace MusicLoverHandbook.Logic.Notes
                 }
             } while (false);
             return exceptionMode ? lites.Except(result).ToList() : result;
+        }
+
+        private List<NoteLite> MultiComparisonApplicator(
+                    (string[] CompStrings, Func<
+                List<NoteLite>,
+                string,
+                List<NoteLite>
+            > FilterFunc, List<NoteLite> ApplyOn) applicationInfo
+        )
+        {
+            var filtered = applicationInfo.ApplyOn;
+            foreach (var compStr in applicationInfo.CompStrings)
+            {
+                var descPartOrCheck = compStr.Replace(@"\|", "\n");
+                if (descPartOrCheck.Count(x => x == '|') == 0)
+                    filtered = applicationInfo.FilterFunc(filtered, compStr);
+                else
+                {
+                    var forOr = descPartOrCheck
+                        .Split('|')
+                        .Select(x => x.Replace("\n", @"|").Trim());
+                    var combFiltered = forOr
+                        .Select(x => applicationInfo.FilterFunc(filtered, x))
+                        .Aggregate((c, n) => c.Concat(n).ToList());
+                    filtered = combFiltered;
+                }
+            }
+            return filtered;
         }
 
         private List<NoteLite> NameFiltering(List<NoteLite> lites, string nameCompare)
