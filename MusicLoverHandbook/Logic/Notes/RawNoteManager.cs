@@ -36,14 +36,18 @@ namespace MusicLoverHandbook.Logic.Notes
             var suitableConstructor = modelConstructors
                 .ToList()
                 .Find(
-                    x =>
-                        x.GetParameters()
-                            .Select(x => x.ParameterType)
+                    constructor =>
+                        constructor
+                            .GetParameters()
+                            .Select(parameter => parameter.ParameterType)
                             .All(
-                                x =>
+                                type =>
                                     modelData
-                                        .Select(k => k.Type)
-                                        .Any(k => k == x || k.IsAssignableTo(x))
+                                        .Select(dataCluster => dataCluster.Type)
+                                        .Any(
+                                            clusterType =>
+                                                clusterType == type || clusterType.IsAssignableTo(type)
+                                        )
                             )
                 );
             if (suitableConstructor == null)
@@ -55,7 +59,7 @@ namespace MusicLoverHandbook.Logic.Notes
             foreach (var param in suitableConstructor.GetParameters())
             {
                 var objset = modelData.Find(
-                    x => x.Type == param.ParameterType || x.Type.IsAssignableTo(param.ParameterType)
+                    dataCluster => dataCluster.Type == param.ParameterType || dataCluster.Type.IsAssignableTo(param.ParameterType)
                 );
                 modelData.Remove(objset);
                 orderedConstructorParamObjects.Add(objset.Data);

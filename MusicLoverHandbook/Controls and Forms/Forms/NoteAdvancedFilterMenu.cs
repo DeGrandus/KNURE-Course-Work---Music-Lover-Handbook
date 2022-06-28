@@ -33,15 +33,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private List<NoteLite> FilteredNotesFinal
         {
-            //get =>
-            //    FilteredNotesSwitchless
-            //        .Where(
-            //            x =>
-            //                currentFilteredSwitch
-            //                    .Find(f => (NoteType)f.Tag == x.Ref.NoteType)
-            //                    ?.SpecialState ?? true
-            //        )
-            //        .ToList();
             get =>
                 (
                     from switchlessNote in FilteredNotesSwitchless
@@ -88,18 +79,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public void UpdatePreview()
         {
             previewFilteredPanel.SuspendLayout();
-            Debug.WriteLine("Update Preview Clear start");
             var control = previewFilteredPanel.Controls;
 
             while (control.Count > 0)
                 control.RemoveAt(0);
-            Debug.WriteLine("Update Preview Clear end");
 
-            Debug.WriteLine("Update Preview add start");
-            //previewFilteredPanel.Controls.AddRange(NoteLiteFilteredBase.ToArray());
             foreach (var ctrl in FilteredNotesFinal)
                 control.Add(ctrl);
-            Debug.WriteLine("Update Preview add end");
             previewFilteredPanel.ResumeLayout();
             OnBasicFilteringResultsChange();
         }
@@ -120,11 +106,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     select filteredNote;
 
                 if (SSLNSwitch.SpecialState)
-                    //return parentless
-                    //    .Select(x => x.Ref.Clone())
-                    //    .Where(x => x is INoteControlChild)
-                    //    .Cast<INoteControlChild>()
-                    //    .ToList();
                     return (
                         from parentlessNote in parentless
                         select parentlessNote.Ref.Clone() into parentlessClone
@@ -133,16 +114,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     ).ToList();
                 else
                 {
-                    //var included = parentless.Select(
-                    //    x =>
-                    //        (
-                    //            Head: x.Ref.Clone(),
-                    //            LiteFind: x.Ref
-                    //                .Flatten()
-                    //                .Where(s => FilteredNotesFinal.Any(k => k.Equals(s) && k != x))
-                    //                .ToList()
-                    //        )
-                    //);
                     var included =
                         from lite in parentless
                         select (
@@ -153,25 +124,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         );
 
                     var output = new List<INoteControlChild>();
-                    Debug.WriteLine(included.Count());
                     foreach (var inc in included)
                     {
                         if (inc.Head is not INoteControlChild asChild)
                             continue;
                         if (inc.Head is INoteControlParent asParent)
                         {
-                            Debug.WriteLine("OCCURANCES FILTERING BEGIN");
                             SmartOccurancesLeaver(asParent, inc.LiteFind);
-                            Debug.WriteLine("OCCURANCES FILTERING END");
                         }
                         ;
                         output.Add((INoteControlChild)inc.Head);
-                    }
-                    foreach (var o in output)
-                    {
-                        Debug.WriteLine("");
-                        Debug.WriteLine(o.ToString());
-                        Debug.WriteLine("");
                     }
                     return output;
                 }
@@ -188,12 +150,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     NoteType toFindType = (NoteType)smartFilter.CurrentlySelectedTypeOption;
                     var ssln = smartFilter.SSLNSwitch.SpecialState;
 
-                    Debug.WriteLine(toFindType);
                     foreach (var note in smartFilter.OneTypeNotes)
                     {
-                        Debug.WriteLine(
-                            $"Smart Research started for note : {note.NoteName} {note.NoteType}"
-                        );
                         if (
                             note.Ref is INoteControlChild noteRefAsChild
                             && GetParents(noteRefAsChild) is var noteRefParents
@@ -216,9 +174,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
                             loadedParents.AddRange(affectedParents);
                             var parent = (INoteControlParent)noteRefParents[parentInd];
-                            Debug.WriteLine(
-                                $"Foudation in parents for note : {note.NoteName} {note.NoteType}"
-                            );
                             parent = (INoteControlParent)parent.Clone();
                             if (!ssln)
                                 SmartOccurancesLeaver(parent, smartFilter.OneTypeNotes);
@@ -230,13 +185,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                                 is List<NoteLite> { Count: > 0 } childResults
                         )
                         {
-                            Debug.WriteLine(
-                                $"Foundation in children started for note : {note.NoteName} {note.NoteType}"
-                            );
-                            //childResults
-                            //    .Where(x => x.Ref is INoteControlChild)
-                            //    .Select(x => x.Ref.Clone())
-                            //    .Cast<INoteControlChild>()
                             retValues.AddRange(
                                 (
                                     from child in childResults
@@ -246,8 +194,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         }
                     }
                 }
-                foreach (var ch in retValues)
-                    Debug.WriteLine(ch);
                 return retValues;
             }
         }
@@ -257,7 +203,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             var types = FilteredNotesSwitchless.Select(x => x.Ref.NoteType).Distinct();
             foreach (var type in types)
             {
-                Debug.WriteLine($"Creating note enabler button type : {type}");
                 Size bSize = new(noteTypeSelectFlow.Width / 8, noteTypeSelectFlow.Height);
                 var basic = new BasicSwitchLabel(
                     Color.LightGray,
@@ -294,10 +239,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void Filtering()
         {
-            Debug.WriteLine("Invoking filtering");
             FilteredNotesSwitchless = CreateBasicFilter().ApplyOn(initialNotes).ToList();
-            Debug.WriteLine("Filtering raw filter ready");
-            Debug.WriteLine("Calling on onPreFilteredChanged");
             OnBasicFilteringResultsChange();
         }
 
@@ -328,13 +270,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void InvokeFiltering()
         {
             Filtering();
-            Debug.WriteLine("Calling updating switches");
             UpdateSwitchButtons();
         }
 
         private void OnBasicFilteringResultsChange()
         {
-            Debug.WriteLine("OnPreFilteredResultChanges invoking start");
             if (basicFilteringResultsChange != null)
                 basicFilteringResultsChange(FilteredNotesFinal);
 
@@ -350,15 +290,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         Size = new(200, advFiltersFlow.Height),
                     }
                 );
-            Debug.WriteLine("Clearing smart filters");
             advFiltersFlow.Controls.Clear();
             advFiltersFlow.Controls.AddRange(smartFilterOptions.ToArray());
-            Debug.WriteLine("Smart filters added");
         }
 
         private void OnInputTextChanged(object? sender, EventArgs e)
         {
-            Debug.WriteLine("On input changed");
             InvokeFiltering();
         }
 
@@ -385,9 +322,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 {
                     if (previewUpdatingCooldown == 0)
                     {
-                        Debug.WriteLine("Timed update start");
                         UpdatePreview();
-                        Debug.WriteLine("Timed update end");
                     }
                     previewUpdatingCooldown--;
                 }
@@ -439,49 +374,30 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         )
         {
             bool usefull = false;
-            Debug.WriteLine("");
 
             foreach (var child in parent.InnerNotes.ToList())
             {
-                Debug.WriteLine("Begin check name: " + child.NoteName + " " + child.NoteType);
                 if (included.Any(x => child.RoughEquals(x)))
                 {
-                    Debug.WriteLine("Included name: " + child.NoteName + " " + child.NoteType);
                     usefull = true;
                     if (child is INoteControlParent asParent)
                         SmartOccurancesLeaver(asParent, included);
                 }
                 else
                 {
-                    Debug.WriteLine("Not included name: " + child.NoteName + " " + child.NoteType);
                     if (child is INoteControlParent asParent)
                     {
-                        Debug.WriteLine(
-                            "Not inc parent name: " + child.NoteName + " " + child.NoteType
-                        );
-
                         if (
-                            !(
-                                stopClearingOn == child.NoteType
-                                || SmartOccurancesLeaver(asParent, included, stopClearingOn)
-                            )
+                            stopClearingOn != child.NoteType
+                            && !SmartOccurancesLeaver(asParent, included, stopClearingOn)
                         )
                         {
-                            Debug.WriteLine(
-                                "Parent left useless: " + child.NoteName + " " + child.NoteType
-                            );
                             parent.InnerNotes.Remove(child);
                         }
                         else
                             usefull = true;
                     }
-                    else
-                    {
-                        Debug.WriteLine(
-                            "Not inc useless name: " + child.NoteName + " " + child.NoteType
-                        );
-                        //parent.InnerNotes.Remove(child);
-                    }
+                    else { }
                 }
             }
             return usefull;
@@ -510,7 +426,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                                 ?.SpecialState ?? x.SpecialState
                 );
             currentFilteredSwitch = buttons.ToList();
-            Debug.WriteLine($"Switch buttons ready: {currentFilteredSwitch.Count}");
         }
 
         public delegate void BasicFilterResultsChangeEventHandler(
