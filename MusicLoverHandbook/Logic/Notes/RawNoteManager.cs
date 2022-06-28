@@ -6,16 +6,16 @@ using MusicLoverHandbook.Models.JSON;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
-    public class NoteManager
+    public class RawNoteManager
     {
         private MainForm? mainForm;
 
-        public NoteManager(MainForm mainForm)
+        public RawNoteManager(MainForm mainForm)
         {
             this.mainForm = mainForm;
         }
 
-        public NoteManager()
+        public RawNoteManager()
         {
             mainForm = null;
         }

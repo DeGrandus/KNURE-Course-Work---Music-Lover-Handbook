@@ -133,7 +133,7 @@ namespace MusicLoverHandbook.Logic
             var rawNotes =
                 JsonConvert.DeserializeObject<List<NoteRawImportModel>>(data, SerializerSettings)
                 ?? new();
-            var noteManager = new NoteManager();
+            var noteManager = new RawNoteManager();
             var output = rawNotes.Select(x => noteManager.RecreateFromImported(x)).ToList();
             return output;
         }
@@ -146,7 +146,7 @@ namespace MusicLoverHandbook.Logic
                         SerializerSettings
                     ) ?? new()
                 )
-                let manager = new NoteManager()
+                let manager = new RawNoteManager()
                 select manager.RecreateFromImported(rawModel)
             ).ToList();
 

@@ -14,7 +14,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public Color ContentBackColor;
         public Color LabelBackColor;
         public NoteBuilder Builder { get; }
-        public NoteManager NoteManager { get; }
+        public RawNoteManager NoteManager { get; }
 
         public NotesContainer NotesContainer { get; }
 
