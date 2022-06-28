@@ -328,9 +328,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             var getIcoRect = (Button bt) => new Rectangle(0, 3, bt.Height - 6, bt.Height - 6);
             saveButton.Paint += (sender, e) =>
                 e.Graphics.DrawImage(Resources.DownloadIcon, getIcoRect((Button)sender!));
+            saveButton.Click += (sender, e) =>
+            {
+                FileManager.Instance.WriteToDataFile(NotesContainer);
+            };
 
             loadButton.Paint += (sender, e) =>
                 e.Graphics.DrawImage(Resources.UploadIcon, getIcoRect((Button)sender!));
+            loadButton.Click += (sender, e) =>
+            {
+                Debug.WriteLine(FileManager.Instance.RecreateNotesFromData());
+            };
             saveButton.BackColor = sortStripButton.BackColor;
             saveButton.FlatStyle = FlatStyle.Flat;
             loadButton.BackColor = sortStripButton.BackColor;

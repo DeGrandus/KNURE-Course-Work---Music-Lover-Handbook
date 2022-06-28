@@ -32,15 +32,24 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private List<NoteLite> FilteredNotesFinal
         {
+            //get =>
+            //    FilteredNotesSwitchless
+            //        .Where(
+            //            x =>
+            //                currentFilteredSwitch
+            //                    .Find(f => (NoteType)f.Tag == x.Ref.NoteType)
+            //                    ?.SpecialState ?? true
+            //        )
+            //        .ToList();
             get =>
-                FilteredNotesSwitchless
-                    .Where(
-                        x =>
-                            currentFilteredSwitch
-                                .Find(f => (NoteType)f.Tag == x.Ref.NoteType)
-                                ?.SpecialState ?? true
-                    )
-                    .ToList();
+                (
+                    from switchlessNote in FilteredNotesSwitchless
+                    where
+                        currentFilteredSwitch
+                            .Find(s => (NoteType)s.Tag == switchlessNote.Ref.NoteType)
+                            ?.SpecialState ?? true
+                    select switchlessNote
+                ).ToList();
         }
 
         private List<NoteLite> FilteredNotesSwitchless
@@ -100,31 +109,48 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             if (!smartFilterIncludeSwitch.SpecialState)
             {
-                var parentless = FilteredNotesFinal.Where(
-                    x =>
-                        x.Ref is INoteControlChild child
+                var parentless =
+                    from filteredNote in FilteredNotesFinal
+                    where
+                        filteredNote.Ref is INoteControlChild child
                         && GetFirstIncludedInFinal(
-                            new(GetParents(child).Select(x => x).Reverse().ToList())
+                            new((from par in GetParents(child) select par).Reverse().ToList())
                         ) == null
-                );
+                    select filteredNote;
+
                 if (SSLNSwitch.SpecialState)
-                    return parentless
-                        .Select(x => x.Ref.Clone())
-                        .Where(x => x is INoteControlChild)
-                        .Cast<INoteControlChild>()
-                        .ToList();
+                    //return parentless
+                    //    .Select(x => x.Ref.Clone())
+                    //    .Where(x => x is INoteControlChild)
+                    //    .Cast<INoteControlChild>()
+                    //    .ToList();
+                    return (
+                        from parentlessNote in parentless
+                        select parentlessNote.Ref.Clone() into parentlessClone
+                        where parentlessClone is INoteControlChild
+                        select (INoteControlChild)parentlessClone
+                    ).ToList();
                 else
                 {
-                    var included = parentless.Select(
-                        x =>
-                            (
-                                Head: x.Ref.Clone(),
-                                LiteFind: x.Ref
-                                    .Flatten()
-                                    .Where(s => FilteredNotesFinal.Any(k => k.Equals(s) && k != x))
-                                    .ToList()
-                            )
-                    );
+                    //var included = parentless.Select(
+                    //    x =>
+                    //        (
+                    //            Head: x.Ref.Clone(),
+                    //            LiteFind: x.Ref
+                    //                .Flatten()
+                    //                .Where(s => FilteredNotesFinal.Any(k => k.Equals(s) && k != x))
+                    //                .ToList()
+                    //        )
+                    //);
+                    var included =
+                        from lite in parentless
+                        select (
+                            Head: lite.Ref.Clone(),
+                            LiteFind: from flattened in lite.Ref.Flatten()
+                            where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
+                            select flattened
+                        );
+
                     var output = new List<INoteControlChild>();
                     Debug.WriteLine(included.Count());
                     foreach (var inc in included)
@@ -138,7 +164,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             Debug.WriteLine("OCCURANCES FILTERING END");
                         }
                         ;
-
                         output.Add((INoteControlChild)inc.Head);
                     }
                     foreach (var o in output)
@@ -161,6 +186,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
                     NoteType toFindType = (NoteType)smartFilter.CurrentlySelectedTypeOption;
                     var ssln = smartFilter.SSLNSwitch.SpecialState;
+
                     Debug.WriteLine(toFindType);
                     foreach (var note in smartFilter.OneTypeNotes)
                     {
@@ -168,17 +194,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             $"Smart Research started for note : {note.NoteName} {note.NoteType}"
                         );
                         if (
-                            note.Ref is INoteControlChild asChild
-                            && GetParents(asChild) is var parents
-                            && parents.FindIndex(
-                                x => x is INoteControlParent cp && cp.NoteType == toFindType
+                            note.Ref is INoteControlChild noteRefAsChild
+                            && GetParents(noteRefAsChild) is var noteRefParents
+                            && noteRefParents.FindIndex(
+                                noteParent =>
+                                    noteParent is INoteControlParent controlParent
+                                    && controlParent.NoteType == toFindType
                             )
                                 is int parentInd
                             && parentInd > -1
                         )
                         {
                             var affectedParents = new ArraySegment<IParentControl>(
-                                parents.ToArray(),
+                                noteRefParents.ToArray(),
                                 0,
                                 parentInd + 1
                             );
@@ -186,7 +214,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                                 continue;
 
                             loadedParents.AddRange(affectedParents);
-                            var parent = (INoteControlParent)parents[parentInd];
+                            var parent = (INoteControlParent)noteRefParents[parentInd];
                             Debug.WriteLine(
                                 $"Foudation in parents for note : {note.NoteName} {note.NoteType}"
                             );
@@ -204,12 +232,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             Debug.WriteLine(
                                 $"Foundation in children started for note : {note.NoteName} {note.NoteType}"
                             );
-
+                            //childResults
+                            //    .Where(x => x.Ref is INoteControlChild)
+                            //    .Select(x => x.Ref.Clone())
+                            //    .Cast<INoteControlChild>()
                             retValues.AddRange(
-                                childResults
-                                    .Where(x => x.Ref is INoteControlChild)
-                                    .Select(x => x.Ref.Clone())
-                                    .Cast<INoteControlChild>()
+                                (
+                                    from child in childResults
+                                    select child.Ref.Clone()
+                                ).OfType<INoteControlChild>()
                             );
                         }
                     }

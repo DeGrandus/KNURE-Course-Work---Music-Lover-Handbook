@@ -1,9 +1,11 @@
-﻿using MusicLoverHandbook.Models.Abstract;
+﻿using MusicLoverHandbook.Logic.Notes;
+using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Logic
 {
@@ -15,8 +17,9 @@ namespace MusicLoverHandbook.Logic
         JsonSerializerSettings SerializerSettings { get; }
 
         string GetData();
+        string GetData(string dataFilePath);
 
-        string GetMusicFilePathByName(string name);
+        string? GetMusicFilePathByName(string name);
 
         bool IsDataFilePathDefault();
 
@@ -26,9 +29,9 @@ namespace MusicLoverHandbook.Logic
 
         bool IsMusicFilesFolderValid();
 
-        NoteControl[] RecreateNotesFromData();
+        List<NoteControl> RecreateNotesFromData();
 
-        NoteControl[] RecreateNotesFromData(string dataFilePath);
+        List<NoteControl> RecreateNotesFromData(string dataFilePath);
 
         void SetDataPath(string path);
 
@@ -91,12 +94,22 @@ namespace MusicLoverHandbook.Logic
 
         public string GetData()
         {
-            throw new NotImplementedException();
+            return GetData(DataFilePath);
         }
 
-        public string GetMusicFilePathByName(string name)
+        public string GetData(string dataFilePath)
         {
-            throw new NotImplementedException();
+            using (var reader = new StreamReader(dataFilePath))
+                return reader.ReadToEnd();
+        }
+
+        public string? GetMusicFilePathByName(string name)
+        {
+            if (!IsMusicFilesFolderValid())
+                Directory.CreateDirectory(MusicFilesFolderPath);
+            return Directory
+                .GetFiles(MusicFilesFolderPath)
+                .FirstOrDefault(x => x?.Contains(name) == true, null);
         }
 
         public bool IsDataFilePathDefault() => DataFilePath == settings.DefaultDataFilePath;
@@ -108,15 +121,34 @@ namespace MusicLoverHandbook.Logic
 
         public bool IsMusicFilesFolderValid() => Directory.Exists(MusicFilesFolderPath);
 
-        public NoteControl[] RecreateNotesFromData()
+        public List<NoteControl> RecreateNotesFromData()
         {
-            throw new NotImplementedException();
+            return RecreateNotesFromData(DataFilePath);
         }
 
-        public NoteControl[] RecreateNotesFromData(string dataFilePath)
+        [Obsolete("Difference only in using the query LINQ expressions by newer one instead of methods in current method")]
+        public List<NoteControl> RecreateNotesFromData_Old(string dataFilePath)
         {
-            throw new NotImplementedException();
+            string data = GetData(dataFilePath);
+            var rawNotes =
+                JsonConvert.DeserializeObject<List<NoteRawImportModel>>(data, SerializerSettings)
+                ?? new();
+            var noteManager = new NoteManager();
+            var output = rawNotes.Select(x => noteManager.RecreateFromImported(x)).ToList();
+            return output;
         }
+
+        public List<NoteControl> RecreateNotesFromData(string dataFilePath) =>
+            (
+                from rawModel in (
+                    JsonConvert.DeserializeObject<List<NoteRawImportModel>>(
+                        GetData(dataFilePath),
+                        SerializerSettings
+                    ) ?? new()
+                )
+                let manager = new NoteManager()
+                select manager.RecreateFromImported(rawModel)
+            ).ToList();
 
         public void SetDataPath(string path) => settings.CustomDataFilePath = DataFilePath = path;
 
@@ -125,7 +157,7 @@ namespace MusicLoverHandbook.Logic
 
         public void WriteToDataFile(IParentControl parentingControl)
         {
-            throw new NotImplementedException();
+            WriteToDataFile(parentingControl, DataFilePath);
         }
 
         public void WriteToDataFile(IParentControl parentingControl, string dataFilePath)

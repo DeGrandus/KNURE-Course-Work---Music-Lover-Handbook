@@ -150,7 +150,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     ctrl.Dock = DockStyle.Top;
                 if (child is NoteControlParent asParent)
                     SetupAddNoteButton(asParent);
+                child.ParentNote = this;
             }
+            
 
             PanelContainer.Controls.AddRange(
                 renderFinal.Reverse().Where(x => x is Control).Cast<Control>().ToArray()

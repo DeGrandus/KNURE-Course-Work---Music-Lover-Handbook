@@ -73,6 +73,8 @@ namespace MusicLoverHandbook.Models.Abstract
         public void AddNote(NoteControl note, ContentLinker linker)
         {
             note.Dock = DockStyle.Top;
+            if (note is INoteControlChild child)
+                child.ParentNote = this;
             InnerContentPanel.Controls.Add(note);
             InnerContentPanel.Controls.SetChildIndex(note, 0);
             note.SetupColorTheme(note.NoteType);
@@ -85,6 +87,8 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 note.Dock = DockStyle.Top;
                 note.SetupColorTheme(note.NoteType);
+                if (note is INoteControlChild child)
+                    child.ParentNote = this;
             }
             InnerContentPanel.Controls.AddRange(notes.ToArray());
             UpdateSize();
@@ -130,6 +134,8 @@ namespace MusicLoverHandbook.Models.Abstract
         public void RemoveNote(NoteControl note, ContentLinker linker)
         {
             InnerContentPanel.Controls.Remove(note);
+            if (note is INoteControlChild child)
+                child.ParentNote = null;
             UpdateSize();
         }
 
