@@ -40,11 +40,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             MinimumSize = new Size(300, 565);
             Builder = new(this);
             NoteManager = new(this);
-            NotesContainer = new NotesContainer(
-                contentPanel.MovingBox,
-                qSTextBox,
-                qSSwitchLabel
-            );
+            NotesContainer = new NotesContainer(contentPanel.MovingBox, qSTextBox, qSSwitchLabel);
             FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
 
             Debug.WriteLine(FileManager.Instance.DataFilePath);

@@ -21,11 +21,7 @@
             mainTable.ColumnStyles.Add(new(SizeType.Absolute, 24));
             mainTable.RowStyles.Add(new(SizeType.Percent, 100));
 
-            MovingBox = new Panel()
-            {
-                Dock = DockStyle.Top,
-                Margin = new(0)
-            };
+            MovingBox = new Panel() { Dock = DockStyle.Top, Margin = new(0) };
             var movingBoxContainer = new Panel()
             {
                 Dock = DockStyle.Fill,
@@ -51,12 +47,17 @@
         {
             var width = MovingBox.Width;
             MovingBox.Dock = DockStyle.None;
-            MovingBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+            MovingBox.Anchor =
+                AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
             MovingBox.Width = width;
 
             MovingBox.Paint += (sender, e) =>
             {
-                var h = MovingBox.Controls.Cast<Control>().Select(x => x.Height).Concat(new[] { 0 }).Aggregate((c, n) => c + n);
+                var h = MovingBox.Controls
+                    .Cast<Control>()
+                    .Select(x => x.Height)
+                    .Concat(new[] { 0 })
+                    .Aggregate((c, n) => c + n);
                 MovingBox.Height = h > Height ? h : Height;
             };
             base.OnHandleCreated(e);

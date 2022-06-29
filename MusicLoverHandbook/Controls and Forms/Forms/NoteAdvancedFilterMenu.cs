@@ -150,8 +150,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         select (
                             Head: lite.OriginalNoteRefference.Clone(),
                             LiteFind: from flattened in lite.OriginalNoteRefference.Flatten()
-                                      where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
-                                      select flattened
+                            where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
+                            select flattened
                         );
 
                     var output = new List<INoteControlChild>();

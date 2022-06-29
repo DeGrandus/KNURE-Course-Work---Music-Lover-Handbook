@@ -226,9 +226,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
-        private void OnItemSelected(object? sender, EventArgs e)
-        {
-        }
+        private void OnItemSelected(object? sender, EventArgs e) { }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {

@@ -27,7 +27,8 @@ namespace MusicLoverHandbook.Models.Managers
 
         public bool SaveOnClose
         {
-            get => settings.SaveOnClose; set
+            get => settings.SaveOnClose;
+            set
             {
                 settings.SaveOnClose = value;
                 settings.Save();
