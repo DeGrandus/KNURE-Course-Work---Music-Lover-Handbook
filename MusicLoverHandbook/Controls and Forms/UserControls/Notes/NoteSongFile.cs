@@ -1,4 +1,4 @@
-﻿using MusicLoverHandbook.Logic;
+﻿using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -28,10 +28,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 if (
                     splitted.Length > 0
                     && ((Path.IsPathRooted(splitted[0])
-                    && File.Exists(splitted[0])) || FileManager.Instance.CheckMusicFilePathOrName(splitted[0]))
+                    && File.Exists(splitted[0])) || FileManager.Instance.GetMusicFilePathByName(splitted[0]) is string)
                 )
                 {
-                    Process.Start("explorer.exe", splitted[0]);
+                    Process.Start("explorer.exe", FileManager.Instance.GetMusicFilePathByName(splitted[0])??splitted[0]);
                 }
             };
         }

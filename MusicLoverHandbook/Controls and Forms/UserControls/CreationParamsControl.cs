@@ -1,6 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Logic;
+using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using System.ComponentModel;
@@ -69,7 +69,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             {
                 if (FileManager.Instance.CheckMusicFilePathOrName(observedString))
                 {
-                    ReplacePath(Path.GetRelativePath(".",observedString));
+                    ReplacePath(Path.GetFileName(observedString));
                     return PathAnalyzerResult.FileInDefault;
                 }
                 if (!Path.IsPathRooted(observedString))
@@ -212,6 +212,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         private BoxPathAnalyzer? pathAnalyzer;
 
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            UseDescriptionPathAnalyzer = false;
+            base.OnHandleDestroyed(e);
+        }
         private void PathAnalyzerResultsChanged(PathAnalyzerResult result, string observed)
         {
             Control? control;

@@ -4,8 +4,8 @@ using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
-using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
+using MusicLoverHandbook.View.Forms;
 using System.ComponentModel;
 using System.Diagnostics;
 using Timer = System.Windows.Forms.Timer;
@@ -14,12 +14,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class MainForm : Form
     {
+        #region Public Fields
+
         public Color ContentBackColor;
         public Color LabelBackColor;
+
+        #endregion Public Fields
+
+
+
+        #region Public Properties
+
         public NoteBuilder Builder { get; }
         public RawNoteManager NoteManager { get; }
 
         public NotesContainer NotesContainer { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public MainForm()
         {
@@ -34,6 +49,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             SetupLayout();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Private Methods
 
         private void AdaptToSize()
         {
@@ -198,6 +219,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
 
             ResumeLayout();
+        }
+
+        private void FillWithNew(IEnumerable<INoteControlChild> newNotes)
+        {
+            NotesContainer.InnerNotes.Clear();
+            foreach (var note in newNotes)
+                NotesContainer.InnerNotes.Add(note);
         }
 
         private void LoadButton_Click(object? sender, EventArgs e)
@@ -551,15 +579,63 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 if (FileManager.Instance.HistoryManager.RedoNotes() is List<NoteControl> newNotes)
                     FillWithNew(newNotes.OfType<INoteControlChild>());
             };
-
         }
-        private void FillWithNew(IEnumerable<INoteControlChild> newNotes)
+        private void Setup_SettingsButton()
         {
-            NotesContainer.InnerNotes.Clear();
-            foreach (var note in newNotes)
-                NotesContainer.InnerNotes.Add(note);
-        }
+            Load += (sender, e) => settingsButton.Size = new(settingsButton.Height, settingsButton.Height);
+            settingsButton.BackgroundImage = Resources.SettingsIcon;
+            settingsButton.BackgroundImageLayout = ImageLayout.Zoom;
+            settingsButton.FlatAppearance.BorderSize = 0;
+            settingsButton.FlatStyle = FlatStyle.Flat;
+            var motionLimits = (min: 0, curr: 0, max: 45);
+            var motionTimer = new Timer()
+            {
+                Interval = 1,
+                Tag = 1
+            };
+            settingsButton.Click += (sender, e) =>
+            {
+                new SettingsForm(this).ShowDialog();
+            };
 
+            settingsButton.MouseEnter += (sender, e) =>
+            {
+                motionTimer.Enabled = true;
+                motionTimer.Tag = 1;
+            };
+            settingsButton.MouseLeave += (sender, e) => motionTimer.Tag = -1;
+           
+            motionTimer.Tick += (sender, e) =>
+            {
+                var inc = (int)motionTimer.Tag!;
+                if (inc == -1 && motionLimits.curr == 0)
+                {
+                    motionTimer.Stop();
+                    return;
+                }
+                motionLimits.curr += inc;
+                motionLimits.curr = motionLimits.curr >= motionLimits.max ? motionLimits.max : motionLimits.curr;
+                motionLimits.curr = motionLimits.curr <= motionLimits.min ? motionLimits.min : motionLimits.curr;
+                var index = ((float)motionLimits.curr)/(float)(motionLimits.max-motionLimits.min);
+                var scaling = (float)((1-(Math.Pow(1 - Math.Abs(index * 2 - 1), 3)))*0.2+0.8);
+                var placement = Resources.SettingsIcon;
+                var image = new Bitmap(placement.Width,placement.Height);
+                using (var g = Graphics.FromImage(image))
+                {
+                    g.TranslateTransform(((float)image.Width)/2, ((float)image.Height)/2);
+                    g.RotateTransform((float)((Math.Sin(-Math.PI / 2 + Math.PI * index) + 1) / 2 * 270));
+                    
+                    g.ScaleTransform(scaling, scaling);
+                    g.TranslateTransform(-((float)image.Width)/2, -((float)image.Height)/2);
+                    
+                    g.DrawImage(placement,new Rectangle(0,0,image.Width,image.Height));
+                }
+                Debug.WriteLine(index*180);
+                settingsButton.BackgroundImage = image;
+                settingsButton.BackgroundImageLayout = ImageLayout.Zoom;
+            };
+
+        }
         private void SetupLayout()
         {
             var mainColor = Color.FromArgb(0x768DE2);
@@ -585,10 +661,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Setup_AdvancedSearchButton();
             Setup_SaveLoadButtons();
             Setup_UndoRedoButtons();
+            Setup_SettingsButton();
 
             Setup_BasicTooltips();
 
             Setup_ReassignFonts();
         }
+
+        #endregion Private Methods
     }
 }

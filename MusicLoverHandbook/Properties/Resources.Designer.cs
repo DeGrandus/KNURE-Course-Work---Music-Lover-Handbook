@@ -163,6 +163,16 @@ namespace MusicLoverHandbook.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SettingsIcon {
+            get {
+                object obj = ResourceManager.GetObject("SettingsIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SongFileIcon {
             get {
                 object obj = ResourceManager.GetObject("SongFileIcon", resourceCulture);

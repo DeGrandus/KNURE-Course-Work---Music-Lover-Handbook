@@ -5,118 +5,11 @@ using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Text;
 
-namespace MusicLoverHandbook.Logic
+namespace MusicLoverHandbook.Models
 {
-    public interface IFileManager
-    {
-        string DataFilePath { get; }
-        string MusicFilesFolderPath { get; }
 
-        JsonSerializerSettings SerializerSettings { get; }
-
-        string GetData();
-        string GetData(string dataFilePath);
-
-        string? GetMusicFilePathByName(string name);
-
-        bool IsDataFilePathDefault();
-
-        bool IsDataFileValid();
-
-        bool IsMusicFilesFolderPathDefault();
-
-        bool IsMusicFilesFolderValid();
-
-        List<NoteControl> RecreateNotesFromData();
-
-        List<NoteControl> RecreateNotesFromData(string dataFilePath);
-
-        void SetDataPath(string path);
-
-        string MoveToMusicFolder(string filePath);
-        void SetMusicFilesFolderPath(string path);
-
-        void WriteToDataFile(IParentControl parentingControl);
-
-        void WriteToDataFile(IParentControl parentingControl, string dataFilePath);
-        string CopyToMusicFolder(string filePath);
-        bool CheckMusicFilePathOrName(string filePath);
-        HistoryManager HistoryManager { get; }
-    }
-    public class HistoryManager
-    {
-        public static HistoryManager Instance;
-        static HistoryManager() => Instance = new HistoryManager();
-        private HistoryManager()
-        {
-            var path = "HandbookHistory.json";
-
-            HistoryFileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, FileOptions.DeleteOnClose);
-        }
-        public FileStream HistoryFileStream { get; }
-        public int MaxHistoryLength { get; } = 10;
-        public int CurrentHistoryBranchIndex { get; private set; } = 0;
-        public int CurrentHistoryLength { get; private set; } = 0;
-        public List<NoteControl>? UndoNotes()
-        {
-            if (CurrentHistoryBranchIndex == 0)
-                return null;
-            CurrentHistoryBranchIndex--;
-
-            return GetHistoryBranch();
-        }
-        public List<NoteControl>? RedoNotes()
-        {
-            if (CurrentHistoryBranchIndex == MaxHistoryLength-1 || CurrentHistoryLength - 1 == CurrentHistoryBranchIndex)
-                return null;
-           
-            CurrentHistoryBranchIndex++;
-
-            return GetHistoryBranch();
-        }
-        public void UpdateHistory(IParentControl container)
-        {
-            WriteHistory(container.InnerNotes.Cast<NoteControl>().ToList());
-        }
-        private List<NoteControl>? GetHistoryBranch()
-        {
-            var history = ReadHistory();
-            var rawHistoryBranch = history[CurrentHistoryBranchIndex].ToObject<List<NoteRawImportModel>>(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
-            return rawHistoryBranch!.Select(b=> new RawNoteManager().RecreateFromImported(b)).ToList();
-        }
-        public List<JArray> ReadHistory()
-        {
-            using (var reader = new StreamReader(HistoryFileStream, Encoding.UTF8, true, 4096, true))
-            {
-                HistoryFileStream.Seek(0, SeekOrigin.Begin);
-                var readed = reader.ReadToEnd();
-                Debug.WriteLine(readed);
-                return JsonConvert.DeserializeObject<List<JArray>>(readed) ?? new();
-            }
-        }
-        public void WriteHistory(List<NoteControl> notes)
-        {
-            var history = ReadHistory();
-            var historyBranch = JsonConvert.DeserializeObject<JArray>(JsonConvert.SerializeObject(notes,FileManager.Instance.SerializerSettings));
-
-            history = history.SkipLast(CurrentHistoryLength>0?CurrentHistoryLength- 1-CurrentHistoryBranchIndex:0).Skip(history.Count < MaxHistoryLength ? 0 : 1).Concat(new JArray[] { historyBranch! }).ToList();
-            CurrentHistoryLength = history.Count;
-            CurrentHistoryBranchIndex = history.Count - 1;
-
-            using (var writer = new StreamWriter(HistoryFileStream,null,-1,true))
-            {
-                HistoryFileStream.Seek(0, SeekOrigin.Begin);
-
-                var serializedHistory = JsonConvert.SerializeObject(history, FileManager.Instance.SerializerSettings);
-                HistoryFileStream.SetLength(0);
-                writer.Write(serializedHistory);
-            }
-        }
-    }
     public class FileManager : IFileManager
     {
         private Settings settings;
@@ -158,15 +51,32 @@ namespace MusicLoverHandbook.Logic
             var datapath = settings.CustomDataFilePath is { Length: > 0 } dataPath
                 ? dataPath
                 : settings.DefaultDataFilePath;
-            var musicfolder = settings.CustomMusicFilesFolderPath is { Length: > 0 } musicPath
+            var musicFolder = settings.CustomMusicFilesFolderPath is { Length: > 0 } musicPath
                 ? musicPath
                 : settings.DefaultMusicFilesFolderPath;
 
-            if (!Directory.Exists(musicfolder))
-                Directory.CreateDirectory(musicfolder);
-            MusicFilesFolderPath = musicfolder;
+            if (!Directory.Exists(musicFolder))
+                try
+                {
+                    Directory.CreateDirectory(musicFolder);
+                }
+                catch
+                {
+                    ResetMusicFilesFolderPathToDefalut();
+                    Directory.CreateDirectory(MusicFilesFolderPath!);
+                }
+            MusicFilesFolderPath = musicFolder;
             if (!File.Exists(datapath))
-                File.Create(datapath).Close();
+                try
+                {
+                    File.Create(datapath).Close();
+                }
+                catch
+                {
+                    ResetMusicFilesFolderPathToDefalut();
+                    File.Create(DataFilePath!).Close();
+                }
+
             DataFilePath = datapath;
         }
 
@@ -187,7 +97,10 @@ namespace MusicLoverHandbook.Logic
                 Directory.CreateDirectory(MusicFilesFolderPath);
             return Directory
                 .GetFiles(MusicFilesFolderPath)
-                .FirstOrDefault(x => x?.Contains(name) == true, null);
+                .FirstOrDefault(x =>
+                {
+                    return Path.GetFileNameWithoutExtension(x) is var ex && ex?.Contains(Path.GetFileNameWithoutExtension(name)) == true;
+                }, null);
         }
 
         public bool IsDataFilePathDefault() => DataFilePath == settings.DefaultDataFilePath;
@@ -220,25 +133,33 @@ namespace MusicLoverHandbook.Logic
 
         public List<NoteControl> RecreateNotesFromData(string dataFilePath) =>
             (
-                from rawModel in (
+                from rawModel in
                     JsonConvert.DeserializeObject<List<NoteRawImportModel>>(
                         GetData(dataFilePath),
                         SerializerSettings
                     ) ?? new()
-                )
+
                 let manager = new RawNoteManager()
                 select manager.RecreateFromImported(rawModel)
             ).ToList();
 
         public void SetDataPath(string path)
         {
-            settings.CustomDataFilePath = DataFilePath = path;
+            settings.CustomDataFilePath = "";
+            if (path != "")
+                settings.CustomDataFilePath = DataFilePath = path;
+            else
+                DataFilePath = settings.DefaultDataFilePath;
             settings.Save();
         }
 
         public void SetMusicFilesFolderPath(string path)
         {
-            settings.CustomMusicFilesFolderPath = MusicFilesFolderPath = path;
+            settings.CustomMusicFilesFolderPath = "";
+            if (path != "")
+                settings.CustomMusicFilesFolderPath = MusicFilesFolderPath = path;
+            else
+                MusicFilesFolderPath = settings.DefaultMusicFilesFolderPath;
             settings.Save();
         }
 
@@ -263,6 +184,7 @@ namespace MusicLoverHandbook.Logic
             File.Move(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
             return newPath;
         }
+
         public string CopyToMusicFolder(string filePath)
         {
             var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
@@ -272,13 +194,22 @@ namespace MusicLoverHandbook.Logic
 
         public bool CheckMusicFilePathOrName(string filePath)
         {
+            Debug.WriteLine(filePath);
+            Debug.WriteLine(Path.GetDirectoryName(filePath));
             if (GetMusicFilePathByName(filePath) != null)
                 return true;
             if (!File.Exists(filePath))
                 return false;
-            if (Path.GetFullPath(Path.GetDirectoryName(filePath)!).TrimEnd('\\', '/').ToLower() == Path.GetFullPath(MusicFilesFolderPath).TrimEnd('\\', '/').ToLower())
+            if (
+                Path.GetFullPath(Path.GetDirectoryName(Path.GetFullPath(filePath))!).TrimEnd('\\', '/').ToLower()
+                == Path.GetFullPath(MusicFilesFolderPath).TrimEnd('\\', '/').ToLower()
+            )
                 return true;
             return false;
         }
+
+        public void ResetDataFilePathToDefault() => SetDataPath("");
+
+        public void ResetMusicFilesFolderPathToDefalut() => SetMusicFilesFolderPath("");
     }
 }

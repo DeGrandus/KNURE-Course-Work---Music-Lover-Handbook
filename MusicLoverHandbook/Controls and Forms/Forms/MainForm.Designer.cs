@@ -43,13 +43,13 @@
             this.sortStripButton = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton();
             this.cancelFilteringButton = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.settingsButton = new System.Windows.Forms.Button();
             this.title = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.undoRedoTable = new System.Windows.Forms.TableLayoutPanel();
             this.redoButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
-            this.settingsButton = new System.Windows.Forms.Button();
             this.mainLayoutTable.SuspendLayout();
             this.noteContentTable.SuspendLayout();
             this.searchBarLayout.SuspendLayout();
@@ -265,6 +265,16 @@
             this.topPanel.Size = new System.Drawing.Size(1374, 50);
             this.topPanel.TabIndex = 5;
             // 
+            // settingsButton
+            // 
+            this.settingsButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.settingsButton.Location = new System.Drawing.Point(1324, 0);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(50, 50);
+            this.settingsButton.TabIndex = 1;
+            this.settingsButton.UseVisualStyleBackColor = true;
+            // 
             // title
             // 
             this.title.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -334,16 +344,6 @@
             this.undoButton.Size = new System.Drawing.Size(44, 44);
             this.undoButton.TabIndex = 0;
             this.undoButton.UseVisualStyleBackColor = true;
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.settingsButton.Location = new System.Drawing.Point(1262, 0);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(112, 50);
-            this.settingsButton.TabIndex = 1;
-            this.settingsButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
