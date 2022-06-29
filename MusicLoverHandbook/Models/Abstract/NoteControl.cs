@@ -367,10 +367,13 @@ namespace MusicLoverHandbook.Models.Abstract
                         MessageBoxIcon.Warning
                     );
                     if (box == DialogResult.Yes)
+                    {
                         if (asChild.ParentNote is INoteControlParent asParent)
                             asParent.Linker.InnerNotes.Remove(asChild);
                         else
                             asChild.ParentNote.InnerNotes.Remove(asChild);
+                        FileManager.Instance.HistoryManager.UpdateHistory(asChild.GetFirstParent());
+                    }
                 }
             };
             EditButton = new ButtonPanel(ButtonType.Edit, 1)

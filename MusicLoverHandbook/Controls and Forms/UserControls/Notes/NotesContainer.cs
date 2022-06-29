@@ -87,6 +87,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             {
                 qSTextBox.Text = "";
                 InvokeQuickSearch();
+
             };
 
             renderRefreshTimer = new Timer() { Interval = 1, Enabled = true, };

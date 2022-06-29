@@ -42,20 +42,21 @@
             this.advFilterButton = new System.Windows.Forms.Button();
             this.sortStripButton = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton();
             this.cancelFilteringButton = new System.Windows.Forms.Button();
-            this.panelLabel = new System.Windows.Forms.Panel();
+            this.topPanel = new System.Windows.Forms.Panel();
             this.title = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.undoRedoTable = new System.Windows.Forms.TableLayoutPanel();
             this.redoButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
+            this.settingsButton = new System.Windows.Forms.Button();
             this.mainLayoutTable.SuspendLayout();
             this.noteContentTable.SuspendLayout();
             this.searchBarLayout.SuspendLayout();
             this.qSPanel.SuspendLayout();
             this.tableQSCentrize.SuspendLayout();
             this.toolsTable.SuspendLayout();
-            this.panelLabel.SuspendLayout();
+            this.topPanel.SuspendLayout();
             this.undoRedoTable.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +73,7 @@
             this.mainLayoutTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.mainLayoutTable.Controls.Add(this.createNoteButton, 2, 4);
             this.mainLayoutTable.Controls.Add(this.noteContentTable, 1, 2);
-            this.mainLayoutTable.Controls.Add(this.panelLabel, 0, 0);
+            this.mainLayoutTable.Controls.Add(this.topPanel, 0, 0);
             this.mainLayoutTable.Controls.Add(this.saveButton, 2, 1);
             this.mainLayoutTable.Controls.Add(this.loadButton, 4, 1);
             this.mainLayoutTable.Controls.Add(this.undoRedoTable, 3, 1);
@@ -251,17 +252,18 @@
             this.cancelFilteringButton.Text = "Cancel";
             this.cancelFilteringButton.UseVisualStyleBackColor = true;
             // 
-            // panelLabel
+            // topPanel
             // 
-            this.panelLabel.BackColor = System.Drawing.Color.Beige;
-            this.mainLayoutTable.SetColumnSpan(this.panelLabel, 7);
-            this.panelLabel.Controls.Add(this.title);
-            this.panelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLabel.Location = new System.Drawing.Point(0, 0);
-            this.panelLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.panelLabel.Name = "panelLabel";
-            this.panelLabel.Size = new System.Drawing.Size(1374, 50);
-            this.panelLabel.TabIndex = 5;
+            this.topPanel.BackColor = System.Drawing.Color.Beige;
+            this.mainLayoutTable.SetColumnSpan(this.topPanel, 7);
+            this.topPanel.Controls.Add(this.settingsButton);
+            this.topPanel.Controls.Add(this.title);
+            this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.topPanel.Location = new System.Drawing.Point(0, 0);
+            this.topPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.topPanel.Name = "topPanel";
+            this.topPanel.Size = new System.Drawing.Size(1374, 50);
+            this.topPanel.TabIndex = 5;
             // 
             // title
             // 
@@ -333,6 +335,16 @@
             this.undoButton.TabIndex = 0;
             this.undoButton.UseVisualStyleBackColor = true;
             // 
+            // settingsButton
+            // 
+            this.settingsButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.settingsButton.Location = new System.Drawing.Point(1262, 0);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(112, 50);
+            this.settingsButton.TabIndex = 1;
+            this.settingsButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
@@ -350,7 +362,7 @@
             this.tableQSCentrize.ResumeLayout(false);
             this.tableQSCentrize.PerformLayout();
             this.toolsTable.ResumeLayout(false);
-            this.panelLabel.ResumeLayout(false);
+            this.topPanel.ResumeLayout(false);
             this.undoRedoTable.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -360,7 +372,7 @@
 
         private TableLayoutPanel mainLayoutTable;
         private Button createNoteButton;
-        private Panel panelLabel;
+        private Panel topPanel;
         public Label title;
         private TableLayoutPanel noteContentTable;
         private TableLayoutPanel searchBarLayout;
@@ -378,5 +390,6 @@
         private TableLayoutPanel undoRedoTable;
         private Button undoButton;
         private Button redoButton;
+        private Button settingsButton;
     }
 }

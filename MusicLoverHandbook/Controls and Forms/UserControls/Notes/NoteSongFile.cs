@@ -1,7 +1,9 @@
-﻿using MusicLoverHandbook.Models.Abstract;
+﻿using MusicLoverHandbook.Logic;
+using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
@@ -22,11 +24,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             TextLabel.DoubleClick += (sender, e) =>
             {
                 var desc = NoteDescription;
-                var splitted = desc.Split("\r");
+                var splitted = Regex.Replace(desc, @"(\r|\n)+", "\r\n").Split("\r\n");
                 if (
                     splitted.Length > 0
-                    && Path.IsPathFullyQualified(splitted[0])
-                    && File.Exists(splitted[0])
+                    && ((Path.IsPathRooted(splitted[0])
+                    && File.Exists(splitted[0])) || FileManager.Instance.CheckMusicFilePathOrName(splitted[0]))
                 )
                 {
                     Process.Start("explorer.exe", splitted[0]);

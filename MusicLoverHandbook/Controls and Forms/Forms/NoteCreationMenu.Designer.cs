@@ -112,6 +112,8 @@
             this.InputSongFile.Name = "InputSongFile";
             this.InputSongFile.Size = new System.Drawing.Size(959, 187);
             this.InputSongFile.TabIndex = 3;
+            this.InputSongFile.TipText = "";
+            this.InputSongFile.UseDescriptionPathAnalyzer = true;
             // 
             // InputDisc
             // 
@@ -123,6 +125,8 @@
             this.InputDisc.Name = "InputDisc";
             this.InputDisc.Size = new System.Drawing.Size(959, 187);
             this.InputDisc.TabIndex = 1;
+            this.InputDisc.TipText = "";
+            this.InputDisc.UseDescriptionPathAnalyzer = false;
             // 
             // InputAuthor
             // 
@@ -134,6 +138,8 @@
             this.InputAuthor.Name = "InputAuthor";
             this.InputAuthor.Size = new System.Drawing.Size(959, 187);
             this.InputAuthor.TabIndex = 0;
+            this.InputAuthor.TipText = "";
+            this.InputAuthor.UseDescriptionPathAnalyzer = false;
             // 
             // dragDropPanel
             // 
@@ -169,6 +175,8 @@
             this.InputSong.Name = "InputSong";
             this.InputSong.Size = new System.Drawing.Size(959, 187);
             this.InputSong.TabIndex = 5;
+            this.InputSong.TipText = "\"single\" is created when field above is empty";
+            this.InputSong.UseDescriptionPathAnalyzer = false;
             // 
             // tableSwap
             // 
@@ -208,7 +216,7 @@
             this.authorInDiscLabel.Text = "Create Author in Disc";
             this.authorInDiscLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // AddNoteMenu
+            // NoteCreationMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -219,7 +227,7 @@
             this.Controls.Add(this.title);
             this.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(5);
-            this.Name = "AddNoteMenu";
+            this.Name = "NoteCreationMenu";
             this.Text = "AddNoteMenu";
             this.title.ResumeLayout(false);
             this.tableInputs.ResumeLayout(false);

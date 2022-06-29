@@ -5,7 +5,9 @@ using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Text;
 
 namespace MusicLoverHandbook.Logic
 {
@@ -35,13 +37,86 @@ namespace MusicLoverHandbook.Logic
 
         void SetDataPath(string path);
 
+        string MoveToMusicFolder(string filePath);
         void SetMusicFilesFolderPath(string path);
 
         void WriteToDataFile(IParentControl parentingControl);
 
         void WriteToDataFile(IParentControl parentingControl, string dataFilePath);
+        string CopyToMusicFolder(string filePath);
+        bool CheckMusicFilePathOrName(string filePath);
+        HistoryManager HistoryManager { get; }
     }
+    public class HistoryManager
+    {
+        public static HistoryManager Instance;
+        static HistoryManager() => Instance = new HistoryManager();
+        private HistoryManager()
+        {
+            var path = "HandbookHistory.json";
 
+            HistoryFileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, FileOptions.DeleteOnClose);
+        }
+        public FileStream HistoryFileStream { get; }
+        public int MaxHistoryLength { get; } = 10;
+        public int CurrentHistoryBranchIndex { get; private set; } = 0;
+        public int CurrentHistoryLength { get; private set; } = 0;
+        public List<NoteControl>? UndoNotes()
+        {
+            if (CurrentHistoryBranchIndex == 0)
+                return null;
+            CurrentHistoryBranchIndex--;
+
+            return GetHistoryBranch();
+        }
+        public List<NoteControl>? RedoNotes()
+        {
+            if (CurrentHistoryBranchIndex == MaxHistoryLength-1 || CurrentHistoryLength - 1 == CurrentHistoryBranchIndex)
+                return null;
+           
+            CurrentHistoryBranchIndex++;
+
+            return GetHistoryBranch();
+        }
+        public void UpdateHistory(IParentControl container)
+        {
+            WriteHistory(container.InnerNotes.Cast<NoteControl>().ToList());
+        }
+        private List<NoteControl>? GetHistoryBranch()
+        {
+            var history = ReadHistory();
+            var rawHistoryBranch = history[CurrentHistoryBranchIndex].ToObject<List<NoteRawImportModel>>(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
+            return rawHistoryBranch!.Select(b=> new RawNoteManager().RecreateFromImported(b)).ToList();
+        }
+        public List<JArray> ReadHistory()
+        {
+            using (var reader = new StreamReader(HistoryFileStream, Encoding.UTF8, true, 4096, true))
+            {
+                HistoryFileStream.Seek(0, SeekOrigin.Begin);
+                var readed = reader.ReadToEnd();
+                Debug.WriteLine(readed);
+                return JsonConvert.DeserializeObject<List<JArray>>(readed) ?? new();
+            }
+        }
+        public void WriteHistory(List<NoteControl> notes)
+        {
+            var history = ReadHistory();
+            var historyBranch = JsonConvert.DeserializeObject<JArray>(JsonConvert.SerializeObject(notes,FileManager.Instance.SerializerSettings));
+
+            history = history.SkipLast(CurrentHistoryLength>0?CurrentHistoryLength- 1-CurrentHistoryBranchIndex:0).Skip(history.Count < MaxHistoryLength ? 0 : 1).Concat(new JArray[] { historyBranch! }).ToList();
+            CurrentHistoryLength = history.Count;
+            CurrentHistoryBranchIndex = history.Count - 1;
+
+            using (var writer = new StreamWriter(HistoryFileStream,null,-1,true))
+            {
+                HistoryFileStream.Seek(0, SeekOrigin.Begin);
+
+                var serializedHistory = JsonConvert.SerializeObject(history, FileManager.Instance.SerializerSettings);
+                HistoryFileStream.SetLength(0);
+                writer.Write(serializedHistory);
+            }
+        }
+    }
     public class FileManager : IFileManager
     {
         private Settings settings;
@@ -70,6 +145,7 @@ namespace MusicLoverHandbook.Logic
                 return settings;
             }
         }
+        public HistoryManager HistoryManager => HistoryManager.Instance;
 
         static FileManager()
         {
@@ -179,6 +255,30 @@ namespace MusicLoverHandbook.Logic
                 writter.Write(
                     JsonConvert.SerializeObject(parentingControl.InnerNotes, SerializerSettings)
                 );
+        }
+
+        public string MoveToMusicFolder(string filePath)
+        {
+            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
+            File.Move(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
+            return newPath;
+        }
+        public string CopyToMusicFolder(string filePath)
+        {
+            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
+            File.Copy(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
+            return newPath;
+        }
+
+        public bool CheckMusicFilePathOrName(string filePath)
+        {
+            if (GetMusicFilePathByName(filePath) != null)
+                return true;
+            if (!File.Exists(filePath))
+                return false;
+            if (Path.GetFullPath(Path.GetDirectoryName(filePath)!).TrimEnd('\\', '/').ToLower() == Path.GetFullPath(MusicFilesFolderPath).TrimEnd('\\', '/').ToLower())
+                return true;
+            return false;
         }
     }
 }

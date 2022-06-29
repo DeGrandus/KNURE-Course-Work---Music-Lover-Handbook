@@ -2,11 +2,12 @@
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.JSON;
 using MusicLoverHandbook.Properties;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
@@ -193,7 +194,57 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             SuspendLayout();
             creationResult?.CreateNote();
             NotesContainer.InvokeQuickSearch();
+
+            FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
+
             ResumeLayout();
+        }
+
+        private void LoadButton_Click(object? sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JSON file|*.json";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
+                FileManager.Instance.DataFilePath
+            );
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var notes = FileManager.Instance.RecreateNotesFromData(openFileDialog.FileName);
+                FillWithNew(notes.OfType<INoteControlChild>());
+                FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
+            }
+        }
+
+        private void SaveButton_Click(object? sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Shift)
+            {
+                var saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "JSON file|*.json";
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
+                    FileManager.Instance.DataFilePath
+                );
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var defaultQuestion = MessageBox.Show(
+                        "Do you want to make this file default?\n(non-shift & on-close save etc. will store data in it)\n(\"cancel\" cancels saving operation)",
+                        "Default save file",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Question
+                    );
+                    if (defaultQuestion == DialogResult.Cancel)
+                        return;
+
+                    if (defaultQuestion == DialogResult.Yes)
+                        FileManager.Instance.SetDataPath(saveFileDialog.FileName);
+
+                    FileManager.Instance.WriteToDataFile(NotesContainer, saveFileDialog.FileName);
+                }
+            }
+            else
+                FileManager.Instance.WriteToDataFile(NotesContainer);
         }
 
         private void Setup_AdvancedSearchButton()
@@ -205,6 +256,29 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             );
             advFilterButton.FlatAppearance.BorderSize = 1;
             advFilterButton.Click += AdvancedSearchButton_Click;
+        }
+
+        private void Setup_BasicTooltips()
+        {
+            var tooltip = new ToolTip()
+            {
+                IsBalloon = true,
+                ToolTipIcon = ToolTipIcon.Info,
+                ToolTipTitle = "Information"
+            };
+            tooltip.SetToolTip(loadButton, "Loads notes from choosen file");
+            tooltip.SetToolTip(undoButton, "Undo latest action");
+            tooltip.SetToolTip(redoButton, "Redo latest action");
+            tooltip.SetToolTip(
+                cancelFilteringButton,
+                "Resets view to all notes. \n( Needs two clicks )"
+            );
+            tooltip.SetToolTip(advFilterButton, "Open Advanced Filtering menu");
+            tooltip.SetToolTip(
+                sortStripButton,
+                "Opens strip menu for sorting.\n> applyed sorting also will be performed after any change of view automaticly;\n> sorting will not affect initial notes structure;"
+            );
+            tooltip.SetToolTip(createNoteButton, "Opens menu for creating new notes");
         }
 
         private void Setup_CancelFilterButton()
@@ -312,38 +386,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Text = "Create new Note";
             createNoteButton.Click += CreateNoteButton_Click;
         }
-        private void Setup_BasicTooltips()
-        {
-            var tooltip = new ToolTip()
-            {
-                IsBalloon = true,
-                ToolTipIcon = ToolTipIcon.Info,
-                ToolTipTitle = "Information"
-            };
-            tooltip.SetToolTip(loadButton, "Loads notes from choosen file");
-            tooltip.SetToolTip(undoButton, "Undo latest action");
-            tooltip.SetToolTip(redoButton, "Redo latest action");
-            tooltip.SetToolTip(cancelFilteringButton, "Resets view to all notes. \n( Needs two clicks )");
-            tooltip.SetToolTip(advFilterButton, "Open Advanced Filtering menu");
-            tooltip.SetToolTip(sortStripButton, "Opens strip menu for sorting.\n> applyed sorting also will be performed after any change of view automaticly;\n> sorting will not affect initial notes structure;") ;
-            tooltip.SetToolTip(createNoteButton, "Opens menu for creating new notes");
-        }
-        private void Setup_UndoRedoButtons()
-        {
-            undoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            undoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor,0.75f);
-            undoButton.FlatAppearance.BorderSize = 1;
-            undoButton.BackgroundImage = Resources.UndoIcon;
-            undoButton.BackgroundImageLayout = ImageLayout.Zoom;
-            redoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
-            redoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor, 0.75f);
-            redoButton.FlatAppearance.BorderSize = 1;
-            var redo = new Bitmap(Resources.UndoIcon);
-            redo.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            redoButton.BackgroundImage = redo;
-            redoButton.BackgroundImageLayout = ImageLayout.Zoom;
-
-        }
 
         private void Setup_QSSwitch()
         {
@@ -362,44 +404,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Font = Font;
         }
 
-        private void Setup_SaveLoadButtons()
+        private void Setup_SaveButtonStateTimer()
         {
-            var getIcoRect = (Button bt) => new Rectangle(0, 3, bt.Height - 6, bt.Height - 6);
-            saveButton.Paint += (sender, e) =>
-                e.Graphics.DrawImage(Resources.DownloadIcon, getIcoRect((Button)sender!));
-            saveButton.Click += (sender, e) =>
-            {
-                if (ModifierKeys == Keys.Shift)
-                {
-                    var saveFileDialog = new SaveFileDialog();
-                    saveFileDialog.Filter = "JSON file|*.json";
-                    saveFileDialog.RestoreDirectory = true;
-                    saveFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
-                        FileManager.Instance.DataFilePath
-                    );
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        var defaultQuestion = MessageBox.Show(
-                            "Do you want to make this file default?\n(non-shift & on-close save etc. will store data in it)\n(\"cancel\" cancels saving operation)",
-                            "Default save file",
-                            MessageBoxButtons.YesNoCancel,
-                            MessageBoxIcon.Question
-                        );
-                        if (defaultQuestion == DialogResult.Cancel)
-                            return;
-
-                        if (defaultQuestion == DialogResult.Yes)
-                            FileManager.Instance.SetDataPath(saveFileDialog.FileName);
-
-                        FileManager.Instance.WriteToDataFile(
-                            NotesContainer,
-                            saveFileDialog.FileName
-                        );
-                    }
-                }
-                else
-                    FileManager.Instance.WriteToDataFile(NotesContainer);
-            };
             var saveButtonModeTimer = new Timer() { Interval = 1, Enabled = false };
             saveButtonModeTimer.Tick += (sender, e) =>
             {
@@ -421,25 +427,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 saveButtonModeTimer.Stop();
                 saveButton.BackColor = sortStripButton.BackColor;
             };
+        }
 
+        private void Setup_SaveLoadButtons()
+        {
+            var getIcoRect = (Button bt) => new Rectangle(0, 3, bt.Height - 6, bt.Height - 6);
+            saveButton.Paint += (sender, e) =>
+                e.Graphics.DrawImage(Resources.DownloadIcon, getIcoRect((Button)sender!));
             loadButton.Paint += (sender, e) =>
                 e.Graphics.DrawImage(Resources.UploadIcon, getIcoRect((Button)sender!));
-            loadButton.Click += (sender, e) =>
-            {
-                var openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "JSON file|*.json";
-                openFileDialog.RestoreDirectory = true;
-                openFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
-                    FileManager.Instance.DataFilePath
-                );
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var notes = FileManager.Instance.RecreateNotesFromData(openFileDialog.FileName);
-                    NotesContainer.InnerNotes.Clear();
-                    foreach (var note in notes.OfType<INoteControlChild>())
-                        NotesContainer.InnerNotes.Add(note);
-                }
-            };
+            saveButton.Click += SaveButton_Click;
+            loadButton.Click += LoadButton_Click;
+            Setup_SaveButtonStateTimer();
             saveButton.BackColor = sortStripButton.BackColor;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font(
@@ -526,11 +525,46 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             strip.PerformLayout();
         }
 
+        private void Setup_UndoRedoButtons()
+        {
+            undoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            undoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor, 0.75f);
+            undoButton.FlatAppearance.BorderSize = 1;
+            undoButton.BackgroundImage = Resources.UndoIcon;
+            undoButton.BackgroundImageLayout = ImageLayout.Zoom;
+
+            redoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);
+            redoButton.FlatAppearance.BorderColor = ControlPaint.Dark(undoButton.BackColor, 0.75f);
+            redoButton.FlatAppearance.BorderSize = 1;
+            var redo = new Bitmap(Resources.UndoIcon);
+            redo.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            redoButton.BackgroundImage = redo;
+            redoButton.BackgroundImageLayout = ImageLayout.Zoom;
+
+            undoButton.Click += (sender, e) =>
+            {
+                if (FileManager.Instance.HistoryManager.UndoNotes() is List<NoteControl> newNotes)
+                    FillWithNew(newNotes.OfType<INoteControlChild>());
+            };
+            redoButton.Click += (sender, e) =>
+            {
+                if (FileManager.Instance.HistoryManager.RedoNotes() is List<NoteControl> newNotes)
+                    FillWithNew(newNotes.OfType<INoteControlChild>());
+            };
+
+        }
+        private void FillWithNew(IEnumerable<INoteControlChild> newNotes)
+        {
+            NotesContainer.InnerNotes.Clear();
+            foreach (var note in newNotes)
+                NotesContainer.InnerNotes.Add(note);
+        }
+
         private void SetupLayout()
         {
             var mainColor = Color.FromArgb(0x768DE2);
             LabelBackColor = ControlPaint.LightLight(Color.FromArgb(255, mainColor));
-            panelLabel.BackColor = LabelBackColor;
+            topPanel.BackColor = LabelBackColor;
             mainLayoutTable.BackColor = Color.White;
             ContentBackColor = ControlPaint.Light(Color.FromArgb(255, mainColor), 1.5f);
             contentPanel.BackColor = ContentBackColor;
