@@ -150,7 +150,7 @@ namespace MusicLoverHandbook.Models
                     x =>
                     {
                         return Path.GetFileNameWithoutExtension(x) is var ex
-                            && ex?.Contains(Path.GetFileNameWithoutExtension(name)) == true;
+                            && ex == Path.GetFileNameWithoutExtension(name) == true;
                     },
                     null
                 );

@@ -32,7 +32,7 @@
             this.mainLayoutTable = new System.Windows.Forms.TableLayoutPanel();
             this.createNoteButton = new System.Windows.Forms.Button();
             this.noteContentTable = new System.Windows.Forms.TableLayoutPanel();
-            this.contentPanel = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.RenderPanel();
+            this.contentPanel = new MusicLoverHandbook.Controls_and_Forms.Custom_Controls.RenderingPanel();
             this.searchBarLayout = new System.Windows.Forms.TableLayoutPanel();
             this.qSPanel = new System.Windows.Forms.Panel();
             this.tableQSCentrize = new System.Windows.Forms.TableLayoutPanel();
@@ -122,10 +122,8 @@
             // 
             // contentPanel
             // 
-            this.contentPanel.AutoScroll = true;
             this.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentPanel.Location = new System.Drawing.Point(0, 50);
-            this.contentPanel.Margin = new System.Windows.Forms.Padding(0);
             this.contentPanel.Name = "contentPanel";
             this.contentPanel.Size = new System.Drawing.Size(1338, 806);
             this.contentPanel.TabIndex = 0;
@@ -381,7 +379,7 @@
         private TextBox qSTextBox;
         private TableLayoutPanel toolsTable;
         private Button advFilterButton;
-        private Custom_Controls.RenderPanel contentPanel;
+        private Custom_Controls.RenderingPanel contentPanel;
         private Custom_Controls.BasicSwitchLabel qSSwitchLabel;
         private Custom_Controls.StripMenuButton sortStripButton;
         private Button cancelFilteringButton;

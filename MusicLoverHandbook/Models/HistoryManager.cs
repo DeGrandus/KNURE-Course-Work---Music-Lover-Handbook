@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.JSON;
+using MusicLoverHandbook.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace MusicLoverHandbook.Models
 
         public FileStream HistoryFileStream { get; }
 
-        public int MaxHistoryLength { get; } = 10;
+        public int MaxHistoryLength { get; } = Settings.Default.MaxHistoryCapacity;
 
         #endregion Public Properties
 

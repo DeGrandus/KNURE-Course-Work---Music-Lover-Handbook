@@ -70,5 +70,17 @@ namespace MusicLoverHandbook.Properties {
                 this["CustomDataFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int MaxHistoryCapacity {
+            get {
+                return ((int)(this["MaxHistoryCapacity"]));
+            }
+            set {
+                this["MaxHistoryCapacity"] = value;
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             MinimumSize = new Size(300, 565);
             Builder = new(this);
             NoteManager = new(this);
-            NotesContainer = new NotesContainer(contentPanel, qSTextBox, qSSwitchLabel);
+            NotesContainer = new NotesContainer(contentPanel.MovingContentBox, qSTextBox, qSSwitchLabel);
 
             Debug.WriteLine(FileManager.Instance.DataFilePath);
 
@@ -647,7 +647,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             mainLayoutTable.BackColor = Color.White;
             ContentBackColor = ControlPaint.Light(Color.FromArgb(255, mainColor), 1.5f);
             contentPanel.BackColor = ContentBackColor;
-            contentPanel.AutoScroll = true;
             searchBarLayout.BackColor = LabelBackColor;
 
             noteContentTable.RowStyles[0].Height = 50;
