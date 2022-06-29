@@ -3,6 +3,7 @@ using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using System.ComponentModel;
 using System.Data;
 using static MusicLoverHandbook.Controls_and_Forms.UserControls.BoxPathAnalyzer;

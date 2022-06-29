@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

@@ -1,5 +1,5 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
 

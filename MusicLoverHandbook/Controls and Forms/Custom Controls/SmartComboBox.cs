@@ -1,6 +1,7 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
 using System.Text.RegularExpressions;

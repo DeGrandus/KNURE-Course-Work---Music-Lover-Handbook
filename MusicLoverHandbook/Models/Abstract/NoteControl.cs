@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.JSON;
 using Newtonsoft.Json;
@@ -158,20 +159,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public static explicit operator SimpleNoteModel(NoteControl from) =>
             new SimpleNoteModel(from);
-
-        //private JsonSerializerSettings SerializerSettings
-        //{
-        //    get
-        //    {
-        //        var settings = new JsonSerializerSettings()
-        //        {
-        //            ContractResolver = ContractResolver,
-        //            Formatting = Formatting.Indented,
-        //        };
-        //        settings.Converters = GetConverters(settings);
-        //        return settings;
-        //    }
-        //}
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
@@ -449,15 +436,6 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
-        //private List<JsonConverter> GetConverters(JsonSerializerSettings settings)
-        //{
-        //    return new()
-        //    {
-        //        new StringEnumConverter(),
-        //        new InnerNotesConverter(settings),
-        //        new NoteDesrializationConverter()
-        //    };
-        //}
         private void OnButtonMouseEnter(object? sender, EventArgs e)
         {
             if (sender is Control control)

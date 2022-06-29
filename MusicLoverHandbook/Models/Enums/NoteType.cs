@@ -1,6 +1,5 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Attributes;
-using System.Reflection;
 
 namespace MusicLoverHandbook.Models.Enums
 {
@@ -32,100 +31,5 @@ namespace MusicLoverHandbook.Models.Enums
 
         [EnumColor(255, 0xC9D3F7)]
         AddButton
-    }
-
-    public static partial class NoteTypeExtensions
-    {
-        public static Color? GetColor(this NoteType value)
-        {
-            return value
-                .GetType()
-                .GetField(value.ToString())
-                ?.GetCustomAttribute<EnumColorAttribute>(false)
-                ?.ColorMain;
-        }
-
-        public static Color? GetLiteColor(this NoteType value)
-        {
-            return value
-                .GetType()
-                .GetField(value.ToString())
-                ?.GetCustomAttribute<EnumColorAttribute>(false)
-                ?.ColorLite;
-        }
-
-        public static bool IsInformaionCarrier(this NoteType value)
-        {
-            return value
-                    .GetType()
-                    .GetField(value.ToString())!
-                    .GetCustomAttribute<InformationCarrierAttribute>() != null;
-        }
-        public static NoteCreationOrder? GetConnectedCreationOrder(this NoteType type)
-        {
-            return type.GetType()
-                .GetField(type.ToString())
-                ?.GetCustomAttribute<ConnectedNoteCreationTypeAttribute>()
-                ?.Type;
-        }
-
-        public static Type? GetConnectedNoteType(this NoteType type)
-        {
-            return type.GetType()
-                .GetField(type.ToString())
-                ?.GetCustomAttribute<ConnectedNoteTypeAttribute>()
-                ?.ConnectedType;
-        }
-
-        public static string ToString(this Enum type, bool useCustomStringValue)
-        {
-            if (useCustomStringValue)
-                return type.GetType()
-                        .GetField(type.ToString())
-                        ?.GetCustomAttribute<StringValueAttribute>()
-                        ?.Value ?? type.ToString();
-            return type.ToString();
-        }
-        public static LinkedList<NoteType> GetOrder(this NoteCreationOrder value)
-        {
-            var orderAttr = value
-                .GetType()
-                .GetField(value.ToString())!
-                .GetCustomAttribute<OrderAttribute>();
-            if (orderAttr == null)
-                throw new MissingRequiredAttributeException(value, typeof(OrderAttribute));
-            return orderAttr.Order;
-        }
-    }
-    public class ConnectedNoteCreationTypeAttribute : Attribute
-    {
-        public NoteCreationOrder Type { get; }
-
-        public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
-        {
-            Type = type;
-        }
-    }
-
-    public class ConnectedNoteTypeAttribute : Attribute
-    {
-        public Type ConnectedType { get; }
-
-        public ConnectedNoteTypeAttribute(Type noteType)
-        {
-            ConnectedType = noteType;
-        }
-    }
-
-    public class InformationCarrierAttribute : Attribute { }
-
-    public class StringValueAttribute : Attribute
-    {
-        public string Value { get; }
-
-        public StringValueAttribute(string value)
-        {
-            Value = value;
-        }
     }
 }

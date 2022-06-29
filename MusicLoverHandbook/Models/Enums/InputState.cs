@@ -31,24 +31,4 @@ namespace MusicLoverHandbook.Models.Enums
         [ErrorState]
         TOO_SHORT
     }
-
-    public static class ExtensionMethods
-    {
-        public static string? GetStringValue(this InputStatus value)
-        {
-            return
-                value.GetType().GetField(value.ToString())?.GetCustomAttribute<TextAttribute>(false)
-                    is TextAttribute attr
-              ? attr.Text
-              : null;
-        }
-
-        public static bool IsError(this InputStatus value)
-        {
-            return value
-                    .GetType()
-                    .GetField(value.ToString())
-                    ?.GetCustomAttribute<ErrorStateAttribute>(false) != null;
-        }
-    }
 }

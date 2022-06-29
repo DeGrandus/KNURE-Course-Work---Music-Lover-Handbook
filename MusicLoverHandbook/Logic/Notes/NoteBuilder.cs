@@ -1,6 +1,7 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 

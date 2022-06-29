@@ -4,6 +4,7 @@ using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Data;
 using System.Diagnostics;

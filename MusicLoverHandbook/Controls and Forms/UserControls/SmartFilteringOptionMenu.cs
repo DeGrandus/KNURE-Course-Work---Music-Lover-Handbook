@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Extensions;
 using System.Data;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
