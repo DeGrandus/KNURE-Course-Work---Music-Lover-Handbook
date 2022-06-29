@@ -14,7 +14,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         public string? DefaultReplacement;
 
-        private InputStatus state;
+        private InputStatus status;
 
         private StateChangedEvent? statusChanged;
 
@@ -47,18 +47,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         public InputStatus Status
         {
-            get => state;
+            get => status;
             set
             {
-                if (state == value)
+                if (status == value)
                 {
                     OnStatusChangedRepeatedly();
                     return;
                 }
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
                 tooltip.BackColor = ControlPaint.Light(BackColor, 0.8f);
-                state = value;
+                status = value;
                 Debug.WriteLine($"Change State to {value} is {this}");
+
                 OnStatusChanged();
                 ToggleActivity();
                 SetToolTip();
@@ -108,7 +109,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             NoteParent = null;
         }
 
-        public void ClearEvents()
+        public void ClearTempEvents()
         {
             tempStatusChangedRepeatedly = null;
         }

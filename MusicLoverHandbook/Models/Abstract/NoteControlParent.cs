@@ -12,9 +12,6 @@ namespace MusicLoverHandbook.Models.Abstract
         private ObservableCollection<INoteControlChild> innerNotes = new();
 
         public Panel InnerContentPanel { get; }
-
-        //protected override CertainTypedContractResolver ContractResolver =>
-        //    base.ContractResolver | new CertainTypedContractResolver(typeof(INoteParent));
         public ObservableCollection<INoteControlChild> InnerNotes
         {
             get => innerNotes;
@@ -105,7 +102,7 @@ namespace MusicLoverHandbook.Models.Abstract
                     note.ChangeSize(size);
         }
 
-        public override List<NoteLite> Flatten()
+        public override List<LiteNote> Flatten()
         {
             var curr = base.Flatten();
             foreach (var note in InnerNotes)
@@ -188,9 +185,9 @@ namespace MusicLoverHandbook.Models.Abstract
             ResumeLayout();
         }
 
-        protected override void InitCustomLayout()
+        protected override void SetupLayout()
         {
-            base.InitCustomLayout();
+            base.SetupLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
 

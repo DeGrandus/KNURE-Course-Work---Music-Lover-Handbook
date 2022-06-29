@@ -72,9 +72,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         public void ReorganizeControls()
         {
-            foreach (var btp in Controls.Cast<Control>())
+            foreach (var pButton in Controls.Cast<Control>())
             {
-                if (btp is ButtonPanel buttonPanel)
+                if (pButton is ButtonPanel buttonPanel)
                 {
                     Controls.SetChildIndex(buttonPanel, buttonPanel.OrderIndex);
                 }

@@ -3,26 +3,26 @@ using Newtonsoft.Json.Serialization;
 
 namespace MusicLoverHandbook.Models.JSON
 {
-    public class CertainTypedContractResolver : DefaultContractResolver
+    public class TypeRestrictedContractResolver : DefaultContractResolver
     {
         private string[] onlyNames;
         private Type[] usedTypes;
 
-        public CertainTypedContractResolver(params Type[] specials)
+        public TypeRestrictedContractResolver(params Type[] specials)
         {
             usedTypes = specials;
             onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
         }
 
-        public static CertainTypedContractResolver operator &(
-            CertainTypedContractResolver r1,
-            CertainTypedContractResolver r2
-        ) => new CertainTypedContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
+        public static TypeRestrictedContractResolver operator &(
+            TypeRestrictedContractResolver r1,
+            TypeRestrictedContractResolver r2
+        ) => new TypeRestrictedContractResolver(r1.usedTypes.Intersect(r2.usedTypes).ToArray());
 
-        public static CertainTypedContractResolver operator |(
-            CertainTypedContractResolver r1,
-            CertainTypedContractResolver r2
-        ) => new CertainTypedContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
+        public static TypeRestrictedContractResolver operator |(
+            TypeRestrictedContractResolver r1,
+            TypeRestrictedContractResolver r2
+        ) => new TypeRestrictedContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
 
         protected override IList<JsonProperty> CreateProperties(
             Type type,

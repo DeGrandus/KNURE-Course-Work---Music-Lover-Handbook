@@ -18,7 +18,7 @@ namespace MusicLoverHandbook.Logic.Notes
             DescriptionCompareStrings = andSpliting(byDesc);
         }
 
-        public List<NoteLite> ApplyOn(List<NoteLite> lites)
+        public List<LiteNote> ApplyOn(List<LiteNote> lites)
         {
             var filtered = lites.ToList();
             filtered = MultiComparisonApplicator((NameCompareStrings, NameFiltering, filtered));
@@ -29,7 +29,7 @@ namespace MusicLoverHandbook.Logic.Notes
             return filtered.Distinct().ToList();
         }
 
-        private List<NoteLite> DescFiltering(List<NoteLite> inputLites, string rawcomp)
+        private List<LiteNote> DescFiltering(List<LiteNote> inputLites, string rawcomp)
         {
             var lites = inputLites.ToList();
 
@@ -47,14 +47,14 @@ namespace MusicLoverHandbook.Logic.Notes
             if (comparer == "")
                 return lites;
 
-            List<NoteLite> result = new();
+            List<LiteNote> result = new();
             do
             {
                 if (comparer[0] != '#')
                 {
                     result = (
                         from lite in lites
-                        where lite.Description.ToLower().Trim().Contains(comparer)
+                        where lite.NoteDescription.ToLower().Trim().Contains(comparer)
                         select lite
                     ).ToList();
                 }
@@ -62,7 +62,7 @@ namespace MusicLoverHandbook.Logic.Notes
                 {
                     var data = (
                         from lite in lites
-                        let rawtagdata = StringTagTools.GetTagged(lite.Description, '#')
+                        let rawtagdata = StringTagTools.GetTagged(lite.NoteDescription, '#')
                         let taggedinfo = (
                             from tagdata in rawtagdata
                             select (Name: tagdata.Key, tagdata.Value, NoteLite: lite)
@@ -122,12 +122,12 @@ namespace MusicLoverHandbook.Logic.Notes
             return exceptionMode ? lites.Except(result).ToList() : result;
         }
 
-        private List<NoteLite> MultiComparisonApplicator(
+        private List<LiteNote> MultiComparisonApplicator(
             (string[] CompStrings, Func<
-                List<NoteLite>,
+                List<LiteNote>,
                 string,
-                List<NoteLite>
-            > FilterFunc, List<NoteLite> ApplyOn) applicationInfo
+                List<LiteNote>
+            > FilterFunc, List<LiteNote> ApplyOn) applicationInfo
         )
         {
             var filtered = applicationInfo.ApplyOn;
@@ -150,7 +150,7 @@ namespace MusicLoverHandbook.Logic.Notes
             return filtered;
         }
 
-        private List<NoteLite> NameFiltering(List<NoteLite> lites, string nameCompare)
+        private List<LiteNote> NameFiltering(List<LiteNote> lites, string nameCompare)
         {
             if (nameCompare == "")
                 return lites;
@@ -164,7 +164,7 @@ namespace MusicLoverHandbook.Logic.Notes
             if (name == "")
                 return lites;
 
-            var result = new List<NoteLite>();
+            var result = new List<LiteNote>();
             result = lites.Where(x => x.NoteName.ToLower().Trim().Contains(name)).ToList();
             return exceptionMode ? lites.Except(result).ToList() : result;
         }

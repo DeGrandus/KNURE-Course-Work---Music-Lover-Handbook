@@ -9,11 +9,11 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteBuilder
     {
-        public MainForm Form { get; }
+        public MainForm MainForm { get; }
 
         public NoteBuilder(MainForm form)
         {
-            Form = form;
+            MainForm = form;
         }
 
         public NoteControlMidder CreateNote(
@@ -21,15 +21,15 @@ namespace MusicLoverHandbook.Logic.Notes
             NoteCreationOrder creationOrder
         )
         {
-            List<INoteControl> contaierData = Form.NotesContainer.InnerNotes
+            List<INoteControl> parentContainerData = MainForm.NotesContainer.InnerNotes
                 .Cast<INoteControl>()
                 .ToList();
 
-            var order = creationOrder.GetOrder();
+            var creationOrderTypes = creationOrder.GetOrder();
 
-            NoteControlMidder? hierBase = null;
+            NoteControlMidder? hierarchyStarter = null;
             NoteControlParent? parent = null;
-            for (var currentNode = order.First; currentNode != null; currentNode = currentNode.Next)
+            for (var currentNode = creationOrderTypes.First; currentNode != null; currentNode = currentNode.Next)
             {
                 var currentType = currentNode.Value;
                 var currentInfo = infoOrdered.ToList().Find(x => x.Type == currentType);
@@ -38,7 +38,7 @@ namespace MusicLoverHandbook.Logic.Notes
                     continue;
 
                 var currentNote =
-                    contaierData.Find(
+                    parentContainerData.Find(
                         x =>
                             x.NoteName == currentInfo.Text
                             && x.GetType() == currentInfo.Type.GetConnectedNoteType()
@@ -50,7 +50,7 @@ namespace MusicLoverHandbook.Logic.Notes
                         .GetConstructors()[0].Invoke(
                         new object?[]
                         {
-                            parent as IParentControl ?? Form.NotesContainer,
+                            parent as IParentControl ?? MainForm.NotesContainer,
                             currentInfo.Text,
                             currentInfo.Description,
                             creationOrder
@@ -63,19 +63,19 @@ namespace MusicLoverHandbook.Logic.Notes
                     currentNote.NoteName = currentInfo.ReplacementText;
                 currentNote.NoteDescription = currentInfo.Description;
 
-                if (hierBase == null)
-                    hierBase = (NoteControlMidder)currentNote;
+                if (hierarchyStarter == null)
+                    hierarchyStarter = (NoteControlMidder)currentNote;
 
                 if (currentNote is not NoteControlParent)
                     break;
-                contaierData = ((NoteControlParent)currentNote).InnerNotes
+                parentContainerData = ((NoteControlParent)currentNote).InnerNotes
                     .Cast<INoteControl>()
                     .ToList();
                 parent = (NoteControlParent)currentNote;
             }
-            if (hierBase == null)
+            if (hierarchyStarter == null)
                 throw new Exception("Somthing went wrong in creating Notes. Base note is null");
-            return hierBase;
+            return hierarchyStarter;
         }
     }
 }

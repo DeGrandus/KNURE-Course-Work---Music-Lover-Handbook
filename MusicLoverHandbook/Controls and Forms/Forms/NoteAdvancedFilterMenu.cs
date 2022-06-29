@@ -18,8 +18,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public List<INoteControlChild> FinalizedOutput = new();
         private BasicFilterResultsChangeEventHandler? basicFilteringResultsChange;
         private List<BasicSwitchLabel> currentFilteredSwitch = new();
-        private List<NoteLite> filteredNotesSwitchless;
-        private List<NoteLite> initialNotes;
+        private List<LiteNote> filteredNotesSwitchless;
+        private List<LiteNote> initialNotes;
         private int previewUpdatingCooldown = 100;
         private Timer previewUpdatingTimer;
         private BasicSwitchLabel smartFilterIncludeSwitch;
@@ -28,25 +28,25 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private Dictionary<
             StringTagTools.TagName,
-            Dictionary<StringTagTools.TagValue, NoteLite[]>
+            Dictionary<StringTagTools.TagValue, LiteNote[]>
         > taggedInformation = new();
 
         public MainForm MainForm { get; }
 
-        private List<NoteLite> FilteredNotesFinal
+        private List<LiteNote> FilteredNotesFinal
         {
             get =>
                 (
                     from switchlessNote in FilteredNotesSwitchless
                     where
                         currentFilteredSwitch
-                            .Find(s => (NoteType)s.Tag == switchlessNote.Ref.NoteType)
+                            .Find(s => (NoteType)s.Tag == switchlessNote.OriginalNoteRefference.NoteType)
                             ?.SpecialState ?? true
                     select switchlessNote
                 ).ToList();
         }
 
-        private List<NoteLite> FilteredNotesSwitchless
+        private List<LiteNote> FilteredNotesSwitchless
         {
             get => filteredNotesSwitchless;
             set
@@ -101,7 +101,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 var parentless =
                     from filteredNote in FilteredNotesFinal
                     where
-                        filteredNote.Ref is INoteControlChild child
+                        filteredNote.OriginalNoteRefference is INoteControlChild child
                         && GetFirstIncludedInFinal(
                             new((from par in GetParents(child) select par).Reverse().ToList())
                         ) == null
@@ -110,7 +110,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 if (SSLNSwitch.SpecialState)
                     return (
                         from parentlessNote in parentless
-                        select parentlessNote.Ref.Clone() into parentlessClone
+                        select parentlessNote.OriginalNoteRefference.Clone() into parentlessClone
                         where parentlessClone is INoteControlChild
                         select (INoteControlChild)parentlessClone
                     ).ToList();
@@ -119,8 +119,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     var included =
                         from lite in parentless
                         select (
-                            Head: lite.Ref.Clone(),
-                            LiteFind: from flattened in lite.Ref.Flatten()
+                            Head: lite.OriginalNoteRefference.Clone(),
+                            LiteFind: from flattened in lite.OriginalNoteRefference.Flatten()
                             where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
                             select flattened
                         );
@@ -155,7 +155,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     foreach (var note in smartFilter.OneTypeNotes)
                     {
                         if (
-                            note.Ref is INoteControlChild noteRefAsChild
+                            note.OriginalNoteRefference is INoteControlChild noteRefAsChild
                             && GetParents(noteRefAsChild) is var noteRefParents
                             && noteRefParents.FindIndex(
                                 noteParent =>
@@ -182,15 +182,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                             retValues.Add((INoteControlChild)parent);
                         }
                         else if (
-                            note.Ref is INoteControlParent asParent
+                            note.OriginalNoteRefference is INoteControlParent asParent
                             && asParent.Flatten().FindAll(x => x.NoteType == toFindType)
-                                is List<NoteLite> { Count: > 0 } childResults
+                                is List<LiteNote> { Count: > 0 } childResults
                         )
                         {
                             retValues.AddRange(
                                 (
                                     from child in childResults
-                                    select child.Ref.Clone()
+                                    select child.OriginalNoteRefference.Clone()
                                 ).OfType<INoteControlChild>()
                             );
                         }
@@ -202,7 +202,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
         {
-            var types = FilteredNotesSwitchless.Select(x => x.Ref.NoteType).Distinct();
+            var types = FilteredNotesSwitchless.Select(x => x.OriginalNoteRefference.NoteType).Distinct();
             foreach (var type in types)
             {
                 Size bSize = new(noteTypeSelectFlow.Width / 8, noteTypeSelectFlow.Height);
@@ -264,20 +264,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 from restNote in restInGroup
                 select restNote;
             foreach (var dupe in dupes)
-                if (notes.Contains((INoteControlChild)dupe.Ref))
-                    notes.Remove((INoteControlChild)dupe.Ref);
+                if (notes.Contains((INoteControlChild)dupe.OriginalNoteRefference))
+                    notes.Remove((INoteControlChild)dupe.OriginalNoteRefference);
                 else if (
-                    dupe.Ref is INoteControlChild dupeChild
+                    dupe.OriginalNoteRefference is INoteControlChild dupeChild
                     && dupeChild.ParentNote is IParentControl parenter
                 )
                     parenter.InnerNotes.Remove(dupeChild);
         }
 
-        private NoteLite? GetFirstIncludedInFinal(LinkedList<IParentControl> parents)
+        private LiteNote? GetFirstIncludedInFinal(LinkedList<IParentControl> parents)
         {
             for (var note = parents.First; note != null; note = note.Next)
             {
-                if (FilteredNotesFinal.Find(x => x.Ref == note.Value) is NoteLite lite)
+                if (FilteredNotesFinal.Find(x => x.OriginalNoteRefference == note.Value) is LiteNote lite)
                     return lite;
             }
             return null;
@@ -302,7 +302,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 basicFilteringResultsChange(FilteredNotesFinal);
 
             var advancedWorkWith = FilteredNotesFinal
-                .GroupBy(x => x.Ref.NoteType)
+                .GroupBy(x => x.OriginalNoteRefference.NoteType)
                 .Select(x => x.ToArray());
 
             smartFilterOptions = new List<SmartFilteringOptionMenu>();
@@ -392,7 +392,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private bool SmartOccurancesLeaver(
             INoteControlParent parent,
-            IEnumerable<NoteLite> included,
+            IEnumerable<LiteNote> included,
             NoteType? stopClearingOn = null
         )
         {
@@ -452,7 +452,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         }
 
         public delegate void BasicFilterResultsChangeEventHandler(
-            List<NoteLite> prefilteredResults
+            List<LiteNote> prefilteredResults
         );
 
         public event BasicFilterResultsChangeEventHandler BasicFilterResultsChange

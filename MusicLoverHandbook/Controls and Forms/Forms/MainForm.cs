@@ -427,7 +427,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void Setup_ReassignFonts()
         {
-            Font = new Font(FontContainer.Instance.Families[0], 15);
+            Font = new Font(FontContainer.Instance.LoadedFamilies[0], 15);
             title.Font = ConvertToDesiredHeight(Font, title.Height);
             createNoteButton.Font = Font;
         }
@@ -470,14 +470,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             saveButton.BackColor = sortStripButton.BackColor;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font(
-                FontContainer.Instance.Families[0],
+                FontContainer.Instance.LoadedFamilies[0],
                 saveButton.Height * 2 / 3,
                 GraphicsUnit.Pixel
             );
             loadButton.BackColor = sortStripButton.BackColor;
             loadButton.FlatStyle = FlatStyle.Flat;
             loadButton.Font = new Font(
-                FontContainer.Instance.Families[0],
+                FontContainer.Instance.LoadedFamilies[0],
                 saveButton.Height * 2 / 3,
                 GraphicsUnit.Pixel
             );

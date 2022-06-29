@@ -67,7 +67,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             )
                 descriptionPanel.Controls.Remove(control);
             //Debug.WriteLine("test: "+(PathAnalyzerResult.FileHasEquivalence | PathAnalyzerResult.FileInDefault));
-            if (result == PathAnalyzerResult.NotAFile)
+            if (result == PathAnalyzerResult.IsNotAFile)
             {
                 InputDescriptionBox.BackColor = Color.White;
                 return;
@@ -76,10 +76,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 (
                     result
                     & (
-                        PathAnalyzerResult.FileHasEquivalence
-                        | PathAnalyzerResult.FileInDefault
-                        | PathAnalyzerResult.FileNotExist
-                        | PathAnalyzerResult.FileNotMp3
+                        PathAnalyzerResult.File_HasEquivalence
+                        | PathAnalyzerResult.File_InMusicFolder
+                        | PathAnalyzerResult.File_DoesNotExist
+                        | PathAnalyzerResult.File_NotMp3
                     )
                 ) > 0
             )
@@ -95,20 +95,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
                 switch (result)
                 {
-                    case PathAnalyzerResult.FileHasEquivalence:
+                    case PathAnalyzerResult.File_HasEquivalence:
                         notifyFileStateLabel.Text = "File has equivalence in the default folder";
                         notifyFileStateLabel.BackColor = Color.LightYellow;
                         descriptionPanel.Controls.Add(notifyFileStateLabel);
                         break;
-                    case PathAnalyzerResult.FileInDefault:
+                    case PathAnalyzerResult.File_InMusicFolder:
                         notifyFileStateLabel.Text = "File is contained in default folder";
                         notifyFileStateLabel.BackColor = Color.LightGreen;
                         break;
-                    case PathAnalyzerResult.FileNotExist:
+                    case PathAnalyzerResult.File_DoesNotExist:
                         notifyFileStateLabel.Text = "File not exists";
                         notifyFileStateLabel.BackColor = Color.LightGray;
                         break;
-                    case PathAnalyzerResult.FileNotMp3:
+                    case PathAnalyzerResult.File_NotMp3:
                         notifyFileStateLabel.Text = "File not an mp3";
                         notifyFileStateLabel.BackColor = Color.LightCoral;
                         break;

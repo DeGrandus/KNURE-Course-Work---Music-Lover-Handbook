@@ -69,7 +69,7 @@ namespace MusicLoverHandbook.View.Forms
         private void ClearInputEvents()
         {
             foreach (var inp in InputDataOrdered)
-                inp.InputNameBox.ClearEvents();
+                inp.InputNameBox.ClearTempEvents();
         }
 
         private void FillWithData(Dictionary<NoteType, (string? Name, string? Description)> data)
@@ -332,7 +332,7 @@ namespace MusicLoverHandbook.View.Forms
         private void SetupLayout()
         {
             StartPosition = FormStartPosition.Manual;
-            var fontfam = FontContainer.Instance.Families[0];
+            var fontfam = FontContainer.Instance.LoadedFamilies[0];
             Font = new Font(fontfam, 12, GraphicsUnit.Point);
             Size = new Size(750, MainForm.Height - 20);
             MinimumSize = new Size(400, 750);

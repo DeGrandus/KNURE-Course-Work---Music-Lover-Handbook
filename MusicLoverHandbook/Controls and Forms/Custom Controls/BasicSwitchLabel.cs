@@ -1,16 +1,18 @@
-﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿using Accessibility;
+
+namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class BasicSwitchLabel : Label
     {
-        public bool InitialState = false;
+        public bool initialState = false;
 
         private string basicTooltipText = "";
 
-        private bool colorsInited = false;
+        private bool isColorsInited = false;
 
         private bool specialState = false;
 
-        private StateChangedEventHandler? specialStateChanged;
+        private StateChangeHandler? specialStateChanged;
 
         private string specialTooltipText = "";
 
@@ -68,28 +70,28 @@
         {
             toolTip = new ToolTip() { IsBalloon = true, };
             HandleCreated += OnHandleCreated;
-            MouseEnter += (sender, e) =>
+            MouseEnter += (_, e) =>
             {
                 BackColor = HoveringColor;
             };
-            MouseLeave += (sender, e) =>
+            MouseLeave += (_, e) =>
             {
                 SetBackColor();
             };
-            MouseDown += (sender, e) =>
+            MouseDown += (_, e) =>
             {
                 BackColor = ControlPaint.Light(HoveringColor, -0.5f);
             };
-            MouseUp += (sender, e) =>
+            MouseUp += (_, e) =>
             {
                 BackColor = HoveringColor;
             };
-            DoubleClick += (sender, e) =>
+            DoubleClick += (_, e) =>
             {
                 if (SwitchType == SwitchMode.DoubleClick)
                     SpecialState = !SpecialState;
             };
-            Click += (sender, e) =>
+            Click += (_, e) =>
             {
                 if (SwitchType == SwitchMode.Click)
                     SpecialState = !SpecialState;
@@ -98,12 +100,12 @@
 
         public BasicSwitchLabel(bool initialState) : this()
         {
-            this.InitialState = initialState;
+            this.initialState = initialState;
         }
 
         public BasicSwitchLabel(Color basicBackColor, Color specialBackColor) : this(false)
         {
-            colorsInited = true;
+            isColorsInited = true;
             BasicBackColor = basicBackColor;
             SpecialBackColor = specialBackColor;
         }
@@ -111,7 +113,7 @@
         public BasicSwitchLabel(Color basicBackColor, Color specialBackColor, bool initialState)
             : this(basicBackColor, specialBackColor)
         {
-            this.InitialState = initialState;
+            this.initialState = initialState;
         }
 
         public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
@@ -129,12 +131,12 @@
 
         private void OnHandleCreated(object? sender, EventArgs e)
         {
-            if (!colorsInited)
+            if (!isColorsInited)
             {
                 BasicBackColor = Parent.BackColor;
                 SpecialBackColor = ControlPaint.Light(BasicBackColor, -2f);
             }
-            SpecialState = InitialState;
+            SpecialState = initialState;
         }
 
         private void SetBackColor()
@@ -142,9 +144,9 @@
             BackColor = SpecialState ? SpecialBackColor : BasicBackColor;
         }
 
-        public delegate void StateChangedEventHandler(object? sender, bool IsSpecialState);
+        public delegate void StateChangeHandler(object? sender, bool IsSpecialState);
 
-        public event StateChangedEventHandler SpecialStateChanged
+        public event StateChangeHandler SpecialStateChanged
         {
             add => specialStateChanged += value;
             remove => specialStateChanged -= value;

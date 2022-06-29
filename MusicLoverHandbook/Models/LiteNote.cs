@@ -6,48 +6,46 @@ using System.ComponentModel;
 namespace MusicLoverHandbook.Models
 {
     [DesignerCategory("Code")]
-    public class NoteLite : Control
+    public class LiteNote : Control
     {
-        public string Description { get; }
+        public string NoteDescription { get; }
         public Image? Icon { get; }
-        public int ID { get; set; }
         public int MainHeight { get; set; } = 30;
         public string NoteName { get; }
         public NoteType NoteType { get; }
-        public NoteControl Ref { get; }
+        public NoteControl OriginalNoteRefference { get; }
 
-        public NoteLite(string name, string description, NoteControl noteRef)
+        public LiteNote(string name, string description, NoteControl noteRef)
         {
             NoteName = name;
-            Description = description;
+            NoteDescription = description;
             NoteType = noteRef.NoteType;
             Icon = noteRef.Icon;
-            Ref = noteRef;
-            ID = Random.Shared.Next(int.MinValue, int.MaxValue);
+            OriginalNoteRefference = noteRef;
             SetupLayout();
         }
 
-        public NoteLite Clone()
+        public LiteNote Clone()
         {
-            return new NoteLite(NoteName, Description, Ref);
+            return new LiteNote(NoteName, NoteDescription, OriginalNoteRefference);
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is NoteLite lite
+            return obj is LiteNote lite
                 && NoteName == lite.NoteName
-                && Description == lite.Description
+                && NoteDescription == lite.NoteDescription
                 && NoteType == lite.NoteType;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(NoteName, Description, NoteType);
+            return HashCode.Combine(NoteName, NoteDescription, NoteType);
         }
 
         public override string ToString()
         {
-            return $@"Lite: {{Name: {NoteName} | Desc: {Description} | Type: {NoteType}}}";
+            return $@"Lite: {{Name: {NoteName} | Desc: {NoteDescription} | Type: {NoteType}}}";
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -69,7 +67,7 @@ namespace MusicLoverHandbook.Models
                 Height = MainHeight,
                 ColumnCount = 3,
                 RowCount = 1,
-                BackColor = Ref.ThemeColor
+                BackColor = OriginalNoteRefference.ThemeColor
             };
             mainTable.ColumnStyles.Add(new(SizeType.Absolute, MainHeight));
             mainTable.ColumnStyles.Add(new(SizeType.Percent, 100));
@@ -80,7 +78,7 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
+                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
                 BackgroundImage = Icon,
                 BackgroundImageLayout = ImageLayout.Stretch,
@@ -91,24 +89,24 @@ namespace MusicLoverHandbook.Models
                 Padding = new(0),
                 BackgroundImage = Properties.Resources.InfoIcon,
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
+                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
             };
             var tooltip = new ToolTip()
             {
-                BackColor = ControlPaint.Light(Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor),
+                BackColor = ControlPaint.Light(OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor),
                 IsBalloon = true,
                 InitialDelay = 50,
             };
-            tooltip.SetToolTip(infoPanel, Description);
+            tooltip.SetToolTip(infoPanel, NoteDescription);
             var nameLabel = new Label()
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = Ref.NoteType.GetLiteColor() ?? Ref.ThemeColor,
+                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
                 Text = NoteName,
-                Font = new Font(Ref.TextLabel.Font.FontFamily, MainHeight, GraphicsUnit.Pixel)
+                Font = new Font(OriginalNoteRefference.TextLabel.Font.FontFamily, MainHeight, GraphicsUnit.Pixel)
             };
 
             mainTable.Controls.Add(iconPanel, 0, 0);

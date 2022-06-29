@@ -11,44 +11,44 @@ namespace MusicLoverHandbook.Logic
     public class NoteCreationMenuController
     {
         private MainForm mainForm;
-        private NoteCreationMenu menu;
+        private NoteCreationMenu creationMenu;
 
         public NoteCreationMenuController(MainForm mainForm)
         {
-            menu = new NoteCreationMenu(mainForm);
+            creationMenu = new NoteCreationMenu(mainForm);
             this.mainForm = mainForm;
         }
 
-        public void AddInfo(SimpleNoteModel model)
+        public void AppendInformation(SimpleNoteModel simpleModel)
         {
-            if (model.NoteType is NoteType inputType)
+            if (simpleModel.NoteType is NoteType inputType)
             {
-                CreationParamsControl? data = menu.InputDataOrdered
+                CreationParamsControl? data = creationMenu.InputDataOrdered
                     .ToList()
                     .Find(x => x.InputType == inputType);
                 if (data == null)
                     return;
-                data.InputNameBox.Text = model.Name;
-                data.InputDescriptionBox.Text = model.Description;
+                data.InputNameBox.Text = simpleModel.Name;
+                data.InputDescriptionBox.Text = simpleModel.Description;
             }
         }
 
-        public void AddLinkedInfo(LinkedList<SimpleNoteModel> models)
+        public void AppendLinkedInformation(LinkedList<SimpleNoteModel> simpleModels)
         {
             if (
-                models.First?.Value.NoteType.GetConnectedCreationOrder()
+                simpleModels.First?.Value.NoteType.GetAssociatedCreationOrder()
                 is NoteCreationOrder creationType
             )
-                menu.CreationOrder = creationType;
-            foreach (var model in models)
-                AddInfo(model);
+                creationMenu.CreationOrder = creationType;
+            foreach (var sModel in simpleModels)
+                AppendInformation(sModel);
         }
 
         public NoteCreationResult? OpenCreationMenu()
         {
-            if (menu.ShowDialog() == DialogResult.OK)
+            if (creationMenu.ShowDialog() == DialogResult.OK)
             {
-                return new NoteCreationResult(mainForm, menu.FinalNote);
+                return new NoteCreationResult(mainForm, creationMenu.FinalNote);
             }
             return null;
         }
@@ -57,31 +57,31 @@ namespace MusicLoverHandbook.Logic
         {
             private MainForm mainForm;
 
-            public NoteControlMidder? Result { get; }
+            public NoteControlMidder? ResultNote { get; }
 
-            public NoteCreationResult(MainForm mainForm, NoteControlMidder? result)
+            public NoteCreationResult(MainForm mainForm, NoteControlMidder? resultNote)
             {
-                Result = result;
+                ResultNote = resultNote;
                 this.mainForm = mainForm;
             }
 
             public void CreateNote()
             {
-                if (Result != null)
+                if (ResultNote != null)
                 {
-                    var wasOpened = Result.IsOpened;
+                    var wasOpened = ResultNote.IsOpened;
                     if (wasOpened)
-                        Result.OnDoubleClick();
+                        ResultNote.OnDoubleClick();
 
-                    if (mainForm.NotesContainer.InnerNotes.Contains(Result))
-                        mainForm.NotesContainer.SetupAddNoteButton(Result);
+                    if (mainForm.NotesContainer.InnerNotes.Contains(ResultNote))
+                        mainForm.NotesContainer.Insert_AddNoteButton(ResultNote);
                     else
                     {
-                        mainForm.NotesContainer.InnerNotes.Add(Result);
+                        mainForm.NotesContainer.InnerNotes.Add(ResultNote);
                     }
 
                     if (wasOpened)
-                        Result.OnDoubleClick();
+                        ResultNote.OnDoubleClick();
                 }
             }
         }

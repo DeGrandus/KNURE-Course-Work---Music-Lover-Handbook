@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    public class BoxPathAnalyzer : IDisposable
+    public partial class BoxPathAnalyzer : IDisposable
     {
         private TextBox box;
 
@@ -26,14 +26,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             if (FileManager.Instance.CheckMusicFilePathOrName(observedString))
             {
                 ReplacePath(Path.GetFileName(observedString));
-                return PathAnalyzerResult.FileInDefault;
+                return PathAnalyzerResult.File_InMusicFolder;
             }
             if (!Path.IsPathRooted(observedString))
-                return PathAnalyzerResult.NotAFile;
+                return PathAnalyzerResult.IsNotAFile;
             if (!File.Exists(observedString))
-                return PathAnalyzerResult.FileNotExist;
+                return PathAnalyzerResult.File_DoesNotExist;
             if (Path.GetExtension(observedString).ToLower() != ".mp3")
-                return PathAnalyzerResult.FileNotMp3;
+                return PathAnalyzerResult.File_NotMp3;
 
             observedFileWatcher!.Path = Path.GetFullPath(Path.GetDirectoryName(observedString)!);
             observedFileWatcher.Filter = Path.GetFileName(observedString);
@@ -51,11 +51,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                         .GetFiles(FileManager.Instance.MusicFilesFolderPath + '\\', "*.mp3")
                         .Any(f => Path.GetFileName(f) == Path.GetFileName(observedString))
                 )
-                    return PathAnalyzerResult.FileHasEquivalence;
+                    return PathAnalyzerResult.File_HasEquivalence;
                 else
-                    return PathAnalyzerResult.FileNotInDefault;
+                    return PathAnalyzerResult.File_NotInMusicFolder;
 
-            return PathAnalyzerResult.FileInDefault;
+            return PathAnalyzerResult.File_InMusicFolder;
         }
 
         private FileSystemWatcher? observedFileWatcher;
@@ -131,22 +131,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             Setup_WatcherEvents(observedFileWatcher);
         }
 
-        [Flags]
-        public enum PathAnalyzerResult
-        {
-            FileNotMp3 = 1,
-            FileHasEquivalence = 2,
-            FileNotExist = 4,
-            FileInDefault = 8,
-            FileNotInDefault = 16,
-            NotAFile = 32,
-        }
-
         private void OnResultsChange(PathAnalyzerResult pathAnalyzerResult, string obeservedString)
         {
             if (resultsChanged != null)
                 resultsChanged(pathAnalyzerResult, obeservedString);
-            Debug.WriteLine(pathAnalyzerResult);
         }
 
         public delegate void PathAnalyzerResultHandler(

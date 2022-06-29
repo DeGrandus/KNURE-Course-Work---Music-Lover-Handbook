@@ -8,7 +8,7 @@ using MusicLoverHandbook.Models.JSON;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using static MusicLoverHandbook.Models.Inerfaces.IControlTheme;
+using static MusicLoverHandbook.Models.Inerfaces.IColorThemeSupported;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -153,16 +153,16 @@ namespace MusicLoverHandbook.Models.Abstract
             UsedCreationOrder = order;
             NoteType = noteType;
             SetupColorTheme(NoteType);
-            InitCustomLayout();
+            SetupLayout();
             InitValues(text, description);
         }
 
-        public static explicit operator SimpleNoteModel(NoteControl from) =>
-            new SimpleNoteModel(from);
+        public static explicit operator SimpleNoteModel(NoteControl fromNoteControl) =>
+            new SimpleNoteModel(fromNoteControl);
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
-            InitCustomLayout();
+            SetupLayout();
         }
 
         public INoteControl Clone()
@@ -192,7 +192,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 && NoteType == control.NoteType;
         }
 
-        public virtual List<NoteLite> Flatten()
+        public virtual List<LiteNote> Flatten()
         {
             return new() { new(NoteName, NoteDescription, this) };
         }
@@ -216,8 +216,8 @@ namespace MusicLoverHandbook.Models.Abstract
         public bool RoughEquals(object? obj)
         {
             return Equals(obj)
-                || obj is NoteLite lite
-                    && NoteDescription == lite.Description
+                || obj is LiteNote lite
+                    && NoteDescription == lite.NoteDescription
                     && NoteName == lite.NoteName
                     && NoteType == lite.NoteType;
         }
@@ -237,7 +237,7 @@ namespace MusicLoverHandbook.Models.Abstract
             ThemeColor = type.GetColor() ?? Color.Transparent;
         }
 
-        public NoteLite SingleFlatten()
+        public LiteNote SingleFlatten()
         {
             return new(NoteName, NoteDescription, this);
         }
@@ -256,7 +256,7 @@ namespace MusicLoverHandbook.Models.Abstract
             var chain = GenerateNoteChain();
 
             var creationController = new NoteCreationMenuController(mainForm);
-            creationController.AddLinkedInfo(chain);
+            creationController.AppendLinkedInformation(chain);
 
             var creationResult = creationController.OpenCreationMenu();
             creationResult?.CreateNote();
@@ -281,16 +281,15 @@ namespace MusicLoverHandbook.Models.Abstract
             return chain;
         }
 
-        protected virtual void InitCustomLayout()
+        protected virtual void SetupLayout()
         {
             SuspendLayout();
             Controls.Remove(mainTable);
 
-            var font = FontContainer.Instance.Families[0];
+            var font = FontContainer.Instance.LoadedFamilies[0];
             Font = new Font(font, sizeS * textSizeRatio, GraphicsUnit.Pixel);
 
             Padding = new Padding(0);
-
             mainTable = new TableLayoutPanel()
             {
                 Padding = new Padding(0),
@@ -308,41 +307,56 @@ namespace MusicLoverHandbook.Models.Abstract
             };
 
             var textPanel = new Panel() { Padding = new Padding(0), Margin = new Padding(0), };
-            ballonTip = new ToolTip();
-            ballonTip.IsBalloon = true;
-            ballonTip.UseFading = true;
-            ballonTip.UseAnimation = true;
-            ballonTip.ToolTipIcon = ToolTipIcon.Info;
-            ballonTip.ToolTipTitle = "Description";
-            ballonTip.InitialDelay = 100;
 
-            TextLabel = new Label()
+            Setup_MainElements();
+            Setup_MainElements_Events();
+
+            var comboPanel = new Panel()
             {
-                UseMnemonic = false,
+                Dock = DockStyle.Fill,
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-                Text = NoteName,
-                BackColor = ThemeColor,
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Dock = DockStyle.Fill
             };
 
-            InfoButton = new ButtonPanel(ButtonType.Info, 0)
-            {
-                BackColor = ControlPaint.Light(ThemeColor),
-                BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = Properties.Resources.InfoIcon,
-                Size = new Size(sizeS, sizeS)
-            };
-            ballonTip.SetToolTip(InfoButton, NoteDescription);
-            DeleteButton = new ButtonPanel(ButtonType.Delete, 2)
-            {
-                BackColor = ControlPaint.Light(ThemeColor),
-                BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = Properties.Resources.DeleteIcon,
-                Size = new Size(sizeS, sizeS)
-            };
+            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
+            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, sizeS));
+
+            textPanel.Dock = DockStyle.Fill;
+            textPanel.Controls.Add(TextLabel);
+
+            comboPanel.Controls.Add(textPanel);
+            comboPanel.Controls.Add(SideButtons);
+
+            mainTable.Controls.Add(IconPanel, 1, 0);
+            mainTable.Controls.Add(comboPanel, 2, 0);
+
+            SideButtons.AddButton(InfoButton);
+            SideButtons.AddButton(DeleteButton);
+            SideButtons.AddButton(EditButton);
+
+            mainTable.MaximumSize = new Size(0, sizeS);
+            mainTable.Controls
+                .Cast<Control>()
+                .ToList()
+                .ForEach(
+                    c =>
+                    {
+                        Padding = new Padding(0);
+                    }
+                );
+            Controls.Add(mainTable);
+            Size = new Size(10, sizeS);
+            mainTable.Size = new Size(1000, sizeS);
+
+            InitCustomization();
+            ResumeLayout();
+        }
+
+        private void Setup_MainElements_Events()
+        {
+            EditButton.Click += (sender, e) => EditClick();
             DeleteButton.Click += (sender, e) =>
             {
                 if (this is INoteControlChild asChild)
@@ -363,6 +377,40 @@ namespace MusicLoverHandbook.Models.Abstract
                     }
                 }
             };
+        }
+
+        private void Setup_MainElements()
+        {
+            TextLabel = new Label()
+            {
+                UseMnemonic = false,
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+                Text = NoteName,
+                BackColor = ThemeColor,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Dock = DockStyle.Fill
+            };
+
+            InfoButton = new ButtonPanel(ButtonType.Info, 0)
+            {
+                BackColor = ControlPaint.Light(ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = Properties.Resources.InfoIcon,
+                Size = new Size(sizeS, sizeS)
+            };
+
+            Setup_ToolTip();
+            ballonTip.SetToolTip(InfoButton, NoteDescription);
+            DeleteButton = new ButtonPanel(ButtonType.Delete, 2)
+            {
+                BackColor = ControlPaint.Light(ThemeColor),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = Properties.Resources.DeleteIcon,
+                Size = new Size(sizeS, sizeS)
+            };
+
             EditButton = new ButtonPanel(ButtonType.Edit, 1)
             {
                 BackColor = ControlPaint.Light(ThemeColor),
@@ -370,53 +418,17 @@ namespace MusicLoverHandbook.Models.Abstract
                 BackgroundImage = Properties.Resources.EditIcon,
                 Size = new Size(sizeS, sizeS),
             };
-            EditButton.Click += (sender, e) => EditClick();
+        }
 
-            var comboPanel = new Panel()
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(0),
-                Margin = new Padding(0),
-            };
-
-            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, sizeS));
-            mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, sizeS));
-
-            textPanel.Dock = DockStyle.Fill;
-
-            textPanel.Controls.Add(TextLabel);
-
-            comboPanel.Controls.Add(textPanel);
-            comboPanel.Controls.Add(SideButtons);
-
-            mainTable.Controls.Add(IconPanel, 1, 0);
-            mainTable.Controls.Add(comboPanel, 2, 0);
-
-            SideButtons.AddButton(InfoButton);
-            SideButtons.AddButton(DeleteButton);
-            SideButtons.AddButton(EditButton);
-
-            mainTable.MaximumSize = new Size(0, sizeS);
-
-            mainTable.Controls
-                .Cast<Control>()
-                .ToList()
-                .ForEach(
-                    c =>
-                    {
-                        Padding = new Padding(0);
-                    }
-                );
-
-            Controls.Add(mainTable);
-            Size = new Size(10, sizeS);
-
-            mainTable.Size = new Size(1000, sizeS);
-
-            InitCustomization();
-            ResumeLayout();
+        private void Setup_ToolTip()
+        {
+            ballonTip = new ToolTip();
+            ballonTip.IsBalloon = true;
+            ballonTip.UseFading = true;
+            ballonTip.UseAnimation = true;
+            ballonTip.ToolTipIcon = ToolTipIcon.Info;
+            ballonTip.ToolTipTitle = "Description";
+            ballonTip.InitialDelay = 100;
         }
 
         protected virtual void InitValues(string text, string description)

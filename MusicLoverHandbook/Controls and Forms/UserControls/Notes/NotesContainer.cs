@@ -105,7 +105,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         public void InvokeQuickSearch() => QSController.InvokeQuickSearch(qSTextBox.Text);
 
-        public void SetupAddNoteButton(NoteControlParent note)
+        public void Insert_AddNoteButton(NoteControlParent note)
         {
             PanelContainer.SuspendLayout();
             var potentialAdd = note.InnerNotes.ToList().Find(x => x.NoteType == NoteType.AddButton);
@@ -116,7 +116,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             note.InnerContentPanel.Controls.SetChildIndex(add, 0);
             foreach (var inner in note.InnerNotes)
                 if (inner is NoteControlParent innertParent)
-                    SetupAddNoteButton(innertParent);
+                    Insert_AddNoteButton(innertParent);
             PanelContainer.ResumeLayout();
         }
 
@@ -140,10 +140,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
             foreach (var filter in Filters)
             {
-                Debug.WriteLine("________________________________________");
-                Debug.WriteLine(String.Join("\n", renderFinal));
+                //Debug.WriteLine("________________________________________");
+                //Debug.WriteLine(String.Join("\n", renderFinal));
                 renderFinal = RecursiveFiltering(renderFinal, filter);
-                Debug.WriteLine(String.Join("\n", renderFinal));
+                //Debug.WriteLine(String.Join("\n", renderFinal));
             }
 
             foreach (var child in renderFinal)
@@ -151,7 +151,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 if (child is Control ctrl)
                     ctrl.Dock = DockStyle.Top;
                 if (child is NoteControlParent asParent)
-                    SetupAddNoteButton(asParent);
+                    Insert_AddNoteButton(asParent);
                 child.ParentNote = this;
             }
             
@@ -198,14 +198,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             foreach (var note in notes)
                 if (note is INoteControlParent asParent)
                 {
-                    Debug.WriteLine("INSIDE RECUR");
-                    Debug.WriteLine(String.Join("\n", asParent.InnerNotes.Select(x => x.NoteName)));
-                    Debug.WriteLine("---------------------");
+                    //Debug.WriteLine("INSIDE RECUR");
+                    //Debug.WriteLine(String.Join("\n", asParent.InnerNotes.Select(x => x.NoteName)));
+                    //Debug.WriteLine("---------------------");
                     var k = RecursiveFiltering(asParent.InnerNotes, filteringFunc);
-                    Debug.WriteLine($" SEMI-END INSIDE RECUR {note.NoteType} ");
+                    //Debug.WriteLine($" SEMI-END INSIDE RECUR {note.NoteType} ");
 
-                    Debug.WriteLine(String.Join("\n", k));
-                    Debug.WriteLine("INSIDE RECUR END");
+                    //Debug.WriteLine(String.Join("\n", k));
+                    //Debug.WriteLine("INSIDE RECUR END");
                     asParent.InnerNotes = new(k);
                 }
             return output;

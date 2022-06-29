@@ -58,21 +58,21 @@ namespace MusicLoverHandbook.Logic.Notes
             List<object?> orderedConstructorParamObjects = new();
             foreach (var param in suitableConstructor.GetParameters())
             {
-                var objset = modelData.Find(
+                var modelDataCluster = modelData.Find(
                     dataCluster => dataCluster.Type == param.ParameterType || dataCluster.Type.IsAssignableTo(param.ParameterType)
                 );
-                modelData.Remove(objset);
-                orderedConstructorParamObjects.Add(objset.Data);
+                modelData.Remove(modelDataCluster);
+                orderedConstructorParamObjects.Add(modelDataCluster.Data);
             }
 
             NoteControl recreated = (NoteControl)suitableConstructor.Invoke(
                 orderedConstructorParamObjects.ToArray()
             );
             if (recreated is INoteControlParent asParent)
-                foreach (var innerModel in model.InnerNotes!)
+                foreach (var innerRawNote in model.InnerNotes!)
                     asParent.InnerNotes.Add(
                         (INoteControlChild)RecreateFromImported(
-                            innerModel,
+                            innerRawNote,
                             new (Type, object?)[] { (asParent.GetType(), asParent) }
                         )
                     );

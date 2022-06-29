@@ -33,7 +33,7 @@ namespace MusicLoverHandbook.Controller
         }
 
         private static Dictionary<NoteType, string> GetDescriptions(
-            string filepath,
+            string filePath,
             TagFile file,
             TagLib.Tag tag
         )
@@ -44,13 +44,13 @@ namespace MusicLoverHandbook.Controller
             var copyright = tag.Copyright != "" ? "Copyright: " + tag.Copyright : "";
             var duration = "Duration: " + file.Properties.Duration.ToString(@"hh\:mm\:ss");
 
-            var ret = new Dictionary<NoteType, string>();
-            ret.Add(NoteType.Song, string.Join("\r\n", new object[] { year, genre, copyright }));
-            ret.Add(
+            var output = new Dictionary<NoteType, string>();
+            output.Add(NoteType.Song, string.Join("\r\n", new object[] { year, genre, copyright }));
+            output.Add(
                 NoteType.SongFile,
-                string.Join("\r\n", new object[] { filepath, duration, comment })
+                string.Join("\r\n", new object[] { filePath, duration, comment })
             );
-            return ret;
+            return output;
         }
 
         private static Dictionary<NoteType, string> GetNames(
@@ -64,12 +64,12 @@ namespace MusicLoverHandbook.Controller
             string album = tag.Album != "" ? tag.Album : "";
             string filename = Path.GetFileName(filepath);
 
-            var ret = new Dictionary<NoteType, string>();
-            ret.Add(NoteType.Author, authors);
-            ret.Add(NoteType.Disc, album);
-            ret.Add(NoteType.Song, name);
-            ret.Add(NoteType.SongFile, filename);
-            return ret;
+            var output = new Dictionary<NoteType, string>();
+            output.Add(NoteType.Author, authors);
+            output.Add(NoteType.Disc, album);
+            output.Add(NoteType.Song, name);
+            output.Add(NoteType.SongFile, filename);
+            return output;
         }
     }
 }

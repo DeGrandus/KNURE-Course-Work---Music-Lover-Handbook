@@ -25,8 +25,8 @@ namespace MusicLoverHandbook.Models
                 var settings = new JsonSerializerSettings()
                 {
                     ContractResolver =
-                        new CertainTypedContractResolver(typeof(INoteParent))
-                        | new CertainTypedContractResolver(typeof(INote)),
+                        new TypeRestrictedContractResolver(typeof(INoteParent))
+                        | new TypeRestrictedContractResolver(typeof(INote)),
                     Formatting = Formatting.Indented,
                 };
                 settings.Converters = new List<JsonConverter>()

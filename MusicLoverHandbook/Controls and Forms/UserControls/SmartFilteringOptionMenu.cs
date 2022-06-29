@@ -10,7 +10,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     public partial class SmartFilteringOptionMenu : UserControl
     {
         public NoteType? CurrentlySelectedTypeOption;
-        public NoteLite[] OneTypeNotes;
+        public LiteNote[] OneTypeNotes;
         public BasicSwitchLabel SSLNSwitch;
         private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;
         private NoteAdvancedFilterMenu filterMenu;
@@ -31,11 +31,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             }
         }
 
-        public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, NoteLite[] oneTypedLites)
+        public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, LiteNote[] oneTypedLites)
         {
             InitializeComponent();
 
-            var types = oneTypedLites.Select(x => x.Ref.NoteType).Distinct();
+            var types = oneTypedLites.Select(x => x.OriginalNoteRefference.NoteType).Distinct();
             if (types.Count() != 1)
                 throw new ArgumentException(
                     "Unable to handle more than one type of notes in FilteringControl constructor"
@@ -84,8 +84,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
             var doSelect = true;
             var hierTypes = OneTypeNotes
-                .Where(x => x.Ref.UsedCreationOrder != null)
-                .SelectMany(x => x.Ref.UsedCreationOrder!.Value.GetOrder())
+                .Where(x => x.OriginalNoteRefference.UsedCreationOrder != null)
+                .SelectMany(x => x.OriginalNoteRefference.UsedCreationOrder!.Value.GetOrder())
                 .Distinct()
                 .Reverse();
             foreach (var type in hierTypes)
@@ -118,7 +118,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 }
                 else if (doSelect)
                 {
-                    button.InitialState = true;
+                    button.initialState = true;
                     doSelect = false;
                 }
 

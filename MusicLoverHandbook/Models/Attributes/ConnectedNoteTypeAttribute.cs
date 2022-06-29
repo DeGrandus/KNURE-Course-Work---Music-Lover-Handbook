@@ -1,12 +1,12 @@
 ﻿namespace MusicLoverHandbook.Models.Attributes
 {
-    public class ConnectedNoteTypeAttribute : Attribute
+    public class AssociatedTypeAttribute : Attribute
     {
-        public Type ConnectedType { get; }
+        public Type Type { get; }
 
-        public ConnectedNoteTypeAttribute(Type noteType)
+        public AssociatedTypeAttribute(Type noteType)
         {
-            ConnectedType = noteType;
+            Type = noteType;
         }
     }
 }

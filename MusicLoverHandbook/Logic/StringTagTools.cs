@@ -4,22 +4,22 @@ namespace MusicLoverHandbook.Logic
 {
     public static partial class StringTagTools
     {
-        private static string teststring =
-            ""
-            + "#test test\n\r"
-            + "#test2: test2\n"
-            + "#test3 :test3\r"
-            + "#test4     testSpaces sentance continues "
-            + "#test5 newSentance no new line \r "
-            + "# general and named\r"
-            + "skip this "
-            + "#emptywithseparator\r"
-            + "#empty"
-            + "#emptyspace "
-            + "#\r"
-            + "#\n"
-            + "# \n"
-            + "# #####justempty";
+        //private static string teststring =
+        //    ""
+        //    + "#test test\n\r"
+        //    + "#test2: test2\n"
+        //    + "#test3 :test3\r"
+        //    + "#test4     testSpaces sentance continues "
+        //    + "#test5 newSentance no new line \r "
+        //    + "# general and named\r"
+        //    + "skip this "
+        //    + "#emptywithseparator\r"
+        //    + "#empty"
+        //    + "#emptyspace "
+        //    + "#\r"
+        //    + "#\n"
+        //    + "# \n"
+        //    + "# #####justempty";
 
         public static Dictionary<TagName, TagValue> GetTagged(string source, char tagMarker)
         {

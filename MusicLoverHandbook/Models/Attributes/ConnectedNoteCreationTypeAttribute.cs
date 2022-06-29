@@ -2,11 +2,11 @@
 
 namespace MusicLoverHandbook.Models.Attributes
 {
-    public class ConnectedNoteCreationTypeAttribute : Attribute
+    public class AssociatedNoteCreationTypeAttribute : Attribute
     {
         public NoteCreationOrder Type { get; }
 
-        public ConnectedNoteCreationTypeAttribute(NoteCreationOrder type)
+        public AssociatedNoteCreationTypeAttribute(NoteCreationOrder type)
         {
             Type = type;
         }

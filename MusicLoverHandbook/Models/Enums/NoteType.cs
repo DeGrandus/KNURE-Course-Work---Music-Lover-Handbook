@@ -7,26 +7,26 @@ namespace MusicLoverHandbook.Models.Enums
     {
         [EnumColor(255, 0x6881DD, 255, 0xADB9DF)]
         [InformationCarrier]
-        [ConnectedNoteType(typeof(NoteAuthor))]
-        [ConnectedNoteCreationType(NoteCreationOrder.AuthorThenDisc)]
+        [AssociatedType(typeof(NoteAuthor))]
+        [AssociatedNoteCreationType(NoteCreationOrder.AuthorThenDisc)]
         Author,
 
         [EnumColor(255, 0x899FF0, 255, 0xAEDFDC)]
         [InformationCarrier]
-        [ConnectedNoteType(typeof(NoteDisc))]
-        [ConnectedNoteCreationType(NoteCreationOrder.DiscThenAuthor)]
+        [AssociatedType(typeof(NoteDisc))]
+        [AssociatedNoteCreationType(NoteCreationOrder.DiscThenAuthor)]
         Disc,
 
         [EnumColor(255, 0x9DB0F3, 255, 0xE2ECAF)]
         [InformationCarrier]
         [StringValue("Song name")]
-        [ConnectedNoteType(typeof(NoteSong))]
+        [AssociatedType(typeof(NoteSong))]
         Song,
 
         [EnumColor(255, 0xAEBDF3, 255, 0xC7B1D5)]
         [InformationCarrier]
         [StringValue("Song file")]
-        [ConnectedNoteType(typeof(NoteSongFile))]
+        [AssociatedType(typeof(NoteSongFile))]
         SongFile,
 
         [EnumColor(255, 0xC9D3F7)]

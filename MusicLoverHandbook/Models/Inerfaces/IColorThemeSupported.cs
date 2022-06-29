@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface IControlTheme
+    public interface IColorThemeSupported
     {
         Color ThemeColor { get; set; }
 

@@ -6,80 +6,80 @@ namespace MusicLoverHandbook.Models.Extensions
 {
     public static class CustomExtensions
     {
-        public static Color? GetColor(this NoteType value)
+        public static Color? GetColor(this NoteType noteType)
         {
-            return value
+            return noteType
                 .GetType()
-                .GetField(value.ToString())
+                .GetField(noteType.ToString())
                 ?.GetCustomAttribute<EnumColorAttribute>(false)
                 ?.ColorMain;
         }
 
-        public static Color? GetLiteColor(this NoteType value)
+        public static Color? GetLiteColor(this NoteType noteType)
         {
-            return value
+            return noteType
                 .GetType()
-                .GetField(value.ToString())
+                .GetField(noteType.ToString())
                 ?.GetCustomAttribute<EnumColorAttribute>(false)
                 ?.ColorLite;
         }
 
-        public static bool IsInformaionCarrier(this NoteType value)
+        public static bool IsInformaionCarrier(this NoteType noteType)
         {
-            return value
+            return noteType
                     .GetType()
-                    .GetField(value.ToString())!
-                    .GetCustomAttribute<InformationCarrierAttribute>() != null;
+                    .GetField(noteType.ToString())!
+                    .GetCustomAttribute<InformationCarrierAttribute>(false) != null;
         }
-        public static NoteCreationOrder? GetConnectedCreationOrder(this NoteType type)
+        public static NoteCreationOrder? GetAssociatedCreationOrder(this NoteType noteType)
         {
-            return type.GetType()
-                .GetField(type.ToString())
-                ?.GetCustomAttribute<ConnectedNoteCreationTypeAttribute>()
+            return noteType.GetType()
+                .GetField(noteType.ToString())
+                ?.GetCustomAttribute<AssociatedNoteCreationTypeAttribute>(false)
                 ?.Type;
         }
 
-        public static Type? GetConnectedNoteType(this NoteType type)
+        public static Type? GetConnectedNoteType(this NoteType noteType)
         {
-            return type.GetType()
-                .GetField(type.ToString())
-                ?.GetCustomAttribute<ConnectedNoteTypeAttribute>()
-                ?.ConnectedType;
+            return noteType.GetType()
+                .GetField(noteType.ToString())
+                ?.GetCustomAttribute<AssociatedTypeAttribute>(false)
+                ?.Type;
         }
 
-        public static string ToString(this Enum type, bool useCustomStringValue)
+        public static string ToString(this Enum enumType, bool useCustomStringValue)
         {
             if (useCustomStringValue)
-                return type.GetType()
-                        .GetField(type.ToString())
-                        ?.GetCustomAttribute<StringValueAttribute>()
-                        ?.Value ?? type.ToString();
-            return type.ToString();
+                return enumType.GetType()
+                        .GetField(enumType.ToString())
+                        ?.GetCustomAttribute<StringValueAttribute>(false)
+                        ?.Value ?? enumType.ToString();
+            return enumType.ToString();
         }
-        public static LinkedList<NoteType> GetOrder(this NoteCreationOrder value)
+        public static LinkedList<NoteType> GetOrder(this NoteCreationOrder creationOrder)
         {
-            var orderAttr = value
+            var orderAttr = creationOrder
                 .GetType()
-                .GetField(value.ToString())!
-                .GetCustomAttribute<OrderAttribute>();
+                .GetField(creationOrder.ToString())!
+                .GetCustomAttribute<OrderAttribute>(false);
             if (orderAttr == null)
-                throw new MissingRequiredAttributeException(value, typeof(OrderAttribute));
+                throw new MissingRequiredAttributeException(creationOrder, typeof(OrderAttribute));
             return orderAttr.Order;
         }
-        public static string? GetStringValue(this InputStatus value)
+        public static string? GetStringValue(this InputStatus inputStatus)
         {
             return
-                value.GetType().GetField(value.ToString())?.GetCustomAttribute<TextAttribute>(false)
+                inputStatus.GetType().GetField(inputStatus.ToString())?.GetCustomAttribute<TextAttribute>(false)
                     is TextAttribute attr
               ? attr.Text
               : null;
         }
 
-        public static bool IsError(this InputStatus value)
+        public static bool IsError(this InputStatus inputStatus)
         {
-            return value
+            return inputStatus
                     .GetType()
-                    .GetField(value.ToString())
+                    .GetField(inputStatus.ToString())
                     ?.GetCustomAttribute<ErrorStateAttribute>(false) != null;
         }
     }

@@ -2,7 +2,7 @@
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControl : INote, IControlTheme, INoteSerializable, INoteWidelyComparable
+    public interface INoteControl : INote, IColorThemeSupported, INoteSerializable, INoteWidelyComparable
     {
         Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
@@ -14,11 +14,11 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
         void ChangeSize(int size);
 
-        List<NoteLite> Flatten();
+        List<LiteNote> Flatten();
 
         public void InvokeActionHierarcaly(Action<INoteControl> action);
 
-        NoteLite SingleFlatten();
+        LiteNote SingleFlatten();
     }
 
     public interface INoteSerializable
