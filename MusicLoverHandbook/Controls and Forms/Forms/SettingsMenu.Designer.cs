@@ -35,6 +35,7 @@
             this.resetMusicFilesFolderPathButton = new System.Windows.Forms.Button();
             this.setNewMusicFilesFolderPathButton = new System.Windows.Forms.Button();
             this.resetDataFilePathButton = new System.Windows.Forms.Button();
+            this.saveOnCloseCheck = new System.Windows.Forms.CheckBox();
             this.mainTable.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@
             this.mainTable.Controls.Add(this.resetMusicFilesFolderPathButton, 2, 6);
             this.mainTable.Controls.Add(this.setNewMusicFilesFolderPathButton, 4, 6);
             this.mainTable.Controls.Add(this.resetDataFilePathButton, 3, 3);
+            this.mainTable.Controls.Add(this.saveOnCloseCheck, 3, 1);
             this.mainTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTable.Location = new System.Drawing.Point(0, 0);
             this.mainTable.Name = "mainTable";
@@ -112,23 +114,23 @@
             this.currentDataPathField.Size = new System.Drawing.Size(819, 31);
             this.currentDataPathField.TabIndex = 1;
             // 
-            // button1resr
+            // resetMusicFilesFolderPathButton
             // 
             this.resetMusicFilesFolderPathButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resetMusicFilesFolderPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.resetMusicFilesFolderPathButton.Location = new System.Drawing.Point(142, 449);
-            this.resetMusicFilesFolderPathButton.Name = "button1resr";
+            this.resetMusicFilesFolderPathButton.Name = "resetMusicFilesFolderPathButton";
             this.resetMusicFilesFolderPathButton.Size = new System.Drawing.Size(194, 44);
             this.resetMusicFilesFolderPathButton.TabIndex = 3;
             this.resetMusicFilesFolderPathButton.Text = "Reset music folder path";
             this.resetMusicFilesFolderPathButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // setNewMusicFilesFolderPathButton
             // 
             this.setNewMusicFilesFolderPathButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.setNewMusicFilesFolderPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.setNewMusicFilesFolderPathButton.Location = new System.Drawing.Point(542, 449);
-            this.setNewMusicFilesFolderPathButton.Name = "button2";
+            this.setNewMusicFilesFolderPathButton.Name = "setNewMusicFilesFolderPathButton";
             this.setNewMusicFilesFolderPathButton.Size = new System.Drawing.Size(194, 44);
             this.setNewMusicFilesFolderPathButton.TabIndex = 4;
             this.setNewMusicFilesFolderPathButton.Text = "Set new music folder path";
@@ -145,13 +147,25 @@
             this.resetDataFilePathButton.Text = "Reset save file path";
             this.resetDataFilePathButton.UseVisualStyleBackColor = true;
             // 
-            // SettingsForm
+            // saveOnCloseCheck
+            // 
+            this.saveOnCloseCheck.AutoSize = true;
+            this.saveOnCloseCheck.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.saveOnCloseCheck.Location = new System.Drawing.Point(342, 115);
+            this.saveOnCloseCheck.Name = "saveOnCloseCheck";
+            this.saveOnCloseCheck.Size = new System.Drawing.Size(194, 29);
+            this.saveOnCloseCheck.TabIndex = 6;
+            this.saveOnCloseCheck.Text = "Save on close";
+            this.saveOnCloseCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.saveOnCloseCheck.UseVisualStyleBackColor = true;
+            // 
+            // SettingsMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 606);
             this.Controls.Add(this.mainTable);
-            this.Name = "SettingsForm";
+            this.Name = "SettingsMenu";
             this.Text = "Settings";
             this.mainTable.ResumeLayout(false);
             this.mainTable.PerformLayout();
@@ -168,5 +182,6 @@
         private Button resetMusicFilesFolderPathButton;
         private Button setNewMusicFilesFolderPathButton;
         private Button resetDataFilePathButton;
+        private CheckBox saveOnCloseCheck;
     }
 }

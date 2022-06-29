@@ -168,12 +168,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Methods
 
-
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+        }
 
         #region Private Methods
 
         private void CheckForStatus()
         {
+            Debug.WriteLine("DAMN WHO ARE YOU: " + InputType);
             if (!CanBeEmpty && Text.Length == 0)
             {
                 Status = InputStatus.EMPTY_FIELD;

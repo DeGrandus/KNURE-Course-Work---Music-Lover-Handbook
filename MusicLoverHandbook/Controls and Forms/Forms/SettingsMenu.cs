@@ -51,6 +51,11 @@ namespace MusicLoverHandbook.View.Forms
                     FileManager.Instance.SetMusicFilesFolderPath(selectFolderMenu.SelectedPath);
                 currentMusicFilesFolderField.Text = FileManager.Instance.MusicFilesFolderPath;
             };
+            saveOnCloseCheck.Checked = FileManager.Instance.SaveOnClose;
+            saveOnCloseCheck.CheckedChanged += (sender, e) =>
+            {
+                FileManager.Instance.SaveOnClose = saveOnCloseCheck.Checked;
+            };
         }
 
         #endregion Public Constructors

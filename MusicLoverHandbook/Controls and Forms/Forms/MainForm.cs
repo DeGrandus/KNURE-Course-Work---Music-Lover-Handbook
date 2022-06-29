@@ -43,7 +43,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             MinimumSize = new Size(300, 565);
             Builder = new(this);
             NoteManager = new(this);
-            NotesContainer = new NotesContainer(contentPanel.MovingContentBox, qSTextBox, qSSwitchLabel);
+            NotesContainer = new NotesContainer(
+                contentPanel.MovingContentBox,
+                qSTextBox,
+                qSSwitchLabel
+            );
+            FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
 
             Debug.WriteLine(FileManager.Instance.DataFilePath);
 
@@ -64,34 +69,36 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 cmax = mainLayoutTable.ColumnCount - 1;
             var tb = mainLayoutTable;
 
-            var wDiff = Size.Width - MinimumSize.Width;
-            var hDiff = Size.Height - MinimumSize.Height;
+            var wDiff = (float)(Size.Width - MinimumSize.Width);
+            var hDiff = (float)(Size.Height - MinimumSize.Height);
 
             var wLim = 150;
-            tb.ColumnStyles[0].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
-            tb.ColumnStyles[cmax].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 20;
+            tb.ColumnStyles[0].Width = (wDiff <= wLim ? (wDiff / wLim) : 1) * 20;
+            tb.ColumnStyles[cmax].Width = (wDiff <= wLim ? (wDiff / wLim) : 1) * 20;
             wLim = 400;
-            tb.ColumnStyles[1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
-            tb.ColumnStyles[cmax - 1].Width = (wDiff <= wLim ? ((float)wDiff / wLim) : 1) * 100;
+            tb.ColumnStyles[1].Width = (wDiff <= wLim ? (wDiff / wLim) : 1) * 100;
+            tb.ColumnStyles[cmax - 1].Width = (wDiff <= wLim ? (wDiff / wLim) : 1) * 100;
             var hLim = 100;
-            tb.RowStyles[rmax].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 20;
-            tb.RowStyles[rmax - 2].Height = (hDiff <= hLim ? ((float)hDiff / hLim) : 1) * 50;
+            tb.RowStyles[rmax].Height = (hDiff <= hLim ? (hDiff / hLim) : 1) * 20;
+            tb.RowStyles[rmax - 2].Height = (hDiff <= hLim ? (hDiff / hLim) : 1) * 50;
 
-            tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? ((float)hDiff / (hLim / 2)) : 1) * 50;
+            tb.RowStyles[0].Height = (hDiff <= hLim / 2 ? (hDiff / (hLim / 2)) : 1) * 50;
 
             tb.RowStyles[1].Height =
                 (
                     hDiff <= hLim * 2
                         ? hDiff <= hLim
                             ? 0
-                            : (((float)hDiff - 100) / hLim)
+                            : ((hDiff - 100) / hLim)
                         : 1
                 ) * 50;
 
             mainLayoutTable.ColumnStyles[2].Width =
-                wDiff <= 180 ? 100 + (float)wDiff / 180 * 100 : 200;
+                wDiff <= 410 ? 100 + ((wDiff - 290) / 120 is var t1 && t1 > 0 ? t1 : 0) * 100 : 200;
             mainLayoutTable.ColumnStyles[4].Width =
-                wDiff <= 180 ? 100 + (float)wDiff / 180 * 100 : 200;
+                wDiff <= 410 ? 100 + ((wDiff - 290) / 120 is var t2 && t2 > 0 ? t2 : 0) * 100 : 200;
+            undoRedoTable.ColumnStyles[2].Width =
+                wDiff <= 500 ? ((wDiff - 400) / 100 is var t3 && t3 > 0 ? t3 : 0) * 50 : 50;
             if (wDiff < 250)
             {
                 if (wDiff < 140)
@@ -220,7 +227,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             ResumeLayout();
         }
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            SuspendLayout();
+            base.OnResizeBegin(e);
+        }
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            ResumeLayout();
 
+            base.OnResizeEnd(e);
+        }
         private void FillWithNew(IEnumerable<INoteControlChild> newNotes)
         {
             NotesContainer.InnerNotes.Clear();
@@ -273,6 +290,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
             else
                 FileManager.Instance.WriteToDataFile(NotesContainer);
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            if (FileManager.Instance.SaveOnClose)
+                FileManager.Instance.WriteToDataFile(NotesContainer);
+            base.OnFormClosed(e);
         }
 
         private void Setup_AdvancedSearchButton()

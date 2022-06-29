@@ -82,5 +82,17 @@ namespace MusicLoverHandbook.Properties {
                 this["MaxHistoryCapacity"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveOnClose {
+            get {
+                return ((bool)(this["SaveOnClose"]));
+            }
+            set {
+                this["SaveOnClose"] = value;
+            }
+        }
     }
 }

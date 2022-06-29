@@ -7,6 +7,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
     {
         #region Public Properties
 
+        bool SaveOnClose { get; }
         string DataFilePath { get; }
         HistoryManager HistoryManager { get; }
         string MusicFilesFolderPath { get; }

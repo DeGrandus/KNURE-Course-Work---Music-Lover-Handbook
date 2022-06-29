@@ -67,8 +67,6 @@
             // 
             // boxName
             // 
-            this.boxName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.boxName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.boxName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
             this.boxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.boxName.FormattingEnabled = true;

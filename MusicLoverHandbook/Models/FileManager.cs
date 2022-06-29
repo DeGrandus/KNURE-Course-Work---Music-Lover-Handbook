@@ -46,6 +46,15 @@ namespace MusicLoverHandbook.Models
             }
         }
 
+        public bool SaveOnClose
+        {
+            get => settings.SaveOnClose; set
+            {
+                settings.SaveOnClose = value;
+                settings.Save();
+            }
+        }
+
         #endregion Public Properties
 
 
