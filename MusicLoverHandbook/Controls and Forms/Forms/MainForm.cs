@@ -595,7 +595,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
             settingsButton.Click += (sender, e) =>
             {
-                new SettingsForm(this).ShowDialog();
+                new SettingsMenu(this).ShowDialog();
             };
 
             settingsButton.MouseEnter += (sender, e) =>

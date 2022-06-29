@@ -3,9 +3,9 @@ using MusicLoverHandbook.Models;
 
 namespace MusicLoverHandbook.View.Forms
 {
-    public partial class SettingsForm : Form
+    public partial class SettingsMenu : Form
     {
-        public SettingsForm(MainForm mainForm)
+        public SettingsMenu(MainForm mainForm)
         {
             InitializeComponent();
 

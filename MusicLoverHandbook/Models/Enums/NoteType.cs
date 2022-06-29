@@ -61,10 +61,6 @@ namespace MusicLoverHandbook.Models.Enums
                     .GetField(value.ToString())!
                     .GetCustomAttribute<InformationCarrierAttribute>() != null;
         }
-    }
-
-    public static partial class NoteTypeExtensions
-    {
         public static NoteCreationOrder? GetConnectedCreationOrder(this NoteType type)
         {
             return type.GetType()
@@ -90,8 +86,17 @@ namespace MusicLoverHandbook.Models.Enums
                         ?.Value ?? type.ToString();
             return type.ToString();
         }
+        public static LinkedList<NoteType> GetOrder(this NoteCreationOrder value)
+        {
+            var orderAttr = value
+                .GetType()
+                .GetField(value.ToString())!
+                .GetCustomAttribute<OrderAttribute>();
+            if (orderAttr == null)
+                throw new MissingRequiredAttributeException(value, typeof(OrderAttribute));
+            return orderAttr.Order;
+        }
     }
-
     public class ConnectedNoteCreationTypeAttribute : Attribute
     {
         public NoteCreationOrder Type { get; }
