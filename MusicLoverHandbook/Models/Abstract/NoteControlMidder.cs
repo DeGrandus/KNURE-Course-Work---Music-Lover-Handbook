@@ -7,9 +7,17 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
     {
+        #region Public Properties
+
         public IParentControl ParentNote { get; set; }
 
         INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+
+        #endregion Public Properties
+
+
+
+        #region Protected Constructors
 
         protected NoteControlMidder(
             IParentControl parent,
@@ -21,6 +29,12 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             ParentNote = parent;
         }
+
+        #endregion Protected Constructors
+
+
+
+        #region Public Methods
 
         public bool ContainsInParentTree(IContainerControl potentialParent)
         {
@@ -63,5 +77,7 @@ namespace MusicLoverHandbook.Models.Abstract
             if (ParentNote is INoteControlParent noteParent)
                 noteParent.UpdateSize();
         }
+
+        #endregion Public Methods
     }
 }

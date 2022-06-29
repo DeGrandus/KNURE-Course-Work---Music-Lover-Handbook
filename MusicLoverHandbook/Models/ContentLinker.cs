@@ -7,9 +7,17 @@ namespace MusicLoverHandbook.Models
 {
     public class ContentLinker : IParentControl
     {
+        #region Public Properties
+
         public ObservableCollection<INoteControlChild> InnerNotes => LinkingParent.InnerNotes;
 
         public NoteControlParent LinkingParent { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public ContentLinker(NoteControlParent linkingParent)
         {
@@ -23,6 +31,12 @@ namespace MusicLoverHandbook.Models
             foreach (var cont in linkContent)
                 InnerNotes.Add(cont);
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Private Methods
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -68,5 +82,7 @@ namespace MusicLoverHandbook.Models
                     break;
             }
         }
+
+        #endregion Private Methods
     }
 }

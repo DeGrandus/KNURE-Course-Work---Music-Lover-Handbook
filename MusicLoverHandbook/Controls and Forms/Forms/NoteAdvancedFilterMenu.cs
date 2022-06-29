@@ -7,15 +7,22 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class NoteAdvancedFilterMenu : Form
     {
+        #region Public Fields
+
         public List<INoteControlChild> FinalizedOutput = new();
+
+        #endregion Public Fields
+
+
+
+        #region Private Fields
+
         private BasicFilterResultsChangeEventHandler? basicFilteringResultsChange;
         private List<BasicSwitchLabel> currentFilteredSwitch = new();
         private List<LiteNote> filteredNotesSwitchless;
@@ -31,7 +38,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Dictionary<StringTagTools.TagValue, LiteNote[]>
         > taggedInformation = new();
 
+        #endregion Private Fields
+
+        #region Public Properties
+
         public MainForm MainForm { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Private Properties
 
         private List<LiteNote> FilteredNotesFinal
         {
@@ -40,7 +57,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     from switchlessNote in FilteredNotesSwitchless
                     where
                         currentFilteredSwitch
-                            .Find(s => (NoteType)s.Tag == switchlessNote.OriginalNoteRefference.NoteType)
+                            .Find(
+                                s =>
+                                    (NoteType)s.Tag
+                                    == switchlessNote.OriginalNoteRefference.NoteType
+                            )
                             ?.SpecialState ?? true
                     select switchlessNote
                 ).ToList();
@@ -58,6 +79,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
         }
 
+        #endregion Private Properties
+
+        #region Public Constructors
+
         public NoteAdvancedFilterMenu(MainForm mainForm)
         {
             InitializeComponent();
@@ -67,6 +92,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             SetupLayout();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void ApplyFilterButton_Click(object? sender, EventArgs e)
         {
@@ -91,6 +122,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             previewFilteredPanel.ResumeLayout();
             OnBasicFilteringResultsChange();
         }
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
 
         private NoteLiteFilter CreateBasicFilter() => new(byNameInput.Text, byDescInput.Text);
 
@@ -202,7 +239,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
         {
-            var types = FilteredNotesSwitchless.Select(x => x.OriginalNoteRefference.NoteType).Distinct();
+            var types = FilteredNotesSwitchless
+                .Select(x => x.OriginalNoteRefference.NoteType)
+                .Distinct();
             foreach (var type in types)
             {
                 Size bSize = new(noteTypeSelectFlow.Width / 8, noteTypeSelectFlow.Height);
@@ -253,31 +292,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Close();
         }
 
-        private void RemoveDuplications(List<INoteControlChild> notes)
-        {
-            var dupes =
-                from note in notes
-                from flat in note.Flatten()
-                group flat by flat.GetHashCode() into flatGroup
-                where flatGroup.Count() > 1
-                select flatGroup.Skip(1) into restInGroup
-                from restNote in restInGroup
-                select restNote;
-            foreach (var dupe in dupes)
-                if (notes.Contains((INoteControlChild)dupe.OriginalNoteRefference))
-                    notes.Remove((INoteControlChild)dupe.OriginalNoteRefference);
-                else if (
-                    dupe.OriginalNoteRefference is INoteControlChild dupeChild
-                    && dupeChild.ParentNote is IParentControl parenter
-                )
-                    parenter.InnerNotes.Remove(dupeChild);
-        }
-
         private LiteNote? GetFirstIncludedInFinal(LinkedList<IParentControl> parents)
         {
             for (var note = parents.First; note != null; note = note.Next)
             {
-                if (FilteredNotesFinal.Find(x => x.OriginalNoteRefference == note.Value) is LiteNote lite)
+                if (
+                    FilteredNotesFinal.Find(x => x.OriginalNoteRefference == note.Value)
+                    is LiteNote lite
+                )
                     return lite;
             }
             return null;
@@ -320,6 +342,26 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private void OnInputTextChanged(object? sender, EventArgs e)
         {
             InvokeFiltering();
+        }
+
+        private void RemoveDuplications(List<INoteControlChild> notes)
+        {
+            var dupes =
+                from note in notes
+                from flat in note.Flatten()
+                group flat by flat.GetHashCode() into flatGroup
+                where flatGroup.Count() > 1
+                select flatGroup.Skip(1) into restInGroup
+                from restNote in restInGroup
+                select restNote;
+            foreach (var dupe in dupes)
+                if (notes.Contains((INoteControlChild)dupe.OriginalNoteRefference))
+                    notes.Remove((INoteControlChild)dupe.OriginalNoteRefference);
+                else if (
+                    dupe.OriginalNoteRefference is INoteControlChild dupeChild
+                    && dupeChild.ParentNote is IParentControl parenter
+                )
+                    parenter.InnerNotes.Remove(dupeChild);
         }
 
         private void SetupLayout()
@@ -451,14 +493,26 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             currentFilteredSwitch = buttons.ToList();
         }
 
+        #endregion Private Methods
+
+        #region Public Delegates
+
         public delegate void BasicFilterResultsChangeEventHandler(
             List<LiteNote> prefilteredResults
         );
+
+        #endregion Public Delegates
+
+
+
+        #region Public Events
 
         public event BasicFilterResultsChangeEventHandler BasicFilterResultsChange
         {
             add => basicFilteringResultsChange += value;
             remove => basicFilteringResultsChange -= value;
         }
+
+        #endregion Public Events
     }
 }

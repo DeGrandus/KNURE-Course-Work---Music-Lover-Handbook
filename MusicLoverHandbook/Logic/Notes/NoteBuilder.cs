@@ -9,12 +9,26 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteBuilder
     {
+        #region Public Properties
+
         public MainForm MainForm { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public NoteBuilder(MainForm form)
         {
             MainForm = form;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public NoteControlMidder CreateNote(
             IEnumerable<OutputInfo> infoOrdered,
@@ -29,7 +43,11 @@ namespace MusicLoverHandbook.Logic.Notes
 
             NoteControlMidder? hierarchyStarter = null;
             NoteControlParent? parent = null;
-            for (var currentNode = creationOrderTypes.First; currentNode != null; currentNode = currentNode.Next)
+            for (
+                var currentNode = creationOrderTypes.First;
+                currentNode != null;
+                currentNode = currentNode.Next
+            )
             {
                 var currentType = currentNode.Value;
                 var currentInfo = infoOrdered.ToList().Find(x => x.Type == currentType);
@@ -77,5 +95,7 @@ namespace MusicLoverHandbook.Logic.Notes
                 throw new Exception("Somthing went wrong in creating Notes. Base note is null");
             return hierarchyStarter;
         }
+
+        #endregion Public Methods
     }
 }

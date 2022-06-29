@@ -1,10 +1,16 @@
-﻿using Accessibility;
-
-namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class BasicSwitchLabel : Label
     {
+        #region Public Fields
+
         public bool initialState = false;
+
+        #endregion Public Fields
+
+
+
+        #region Private Fields
 
         private string basicTooltipText = "";
 
@@ -17,6 +23,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         private string specialTooltipText = "";
 
         private ToolTip toolTip;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public Color BasicBackColor { get; set; }
 
@@ -65,6 +75,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         }
 
         public SwitchMode SwitchType { get; set; } = SwitchMode.DoubleClick;
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public BasicSwitchLabel()
         {
@@ -116,7 +132,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             this.initialState = initialState;
         }
 
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
+
         public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
+
+        #endregion Public Methods
+
+
+
+        #region Protected Methods
 
         protected virtual void OnSpecialStateChanged()
         {
@@ -128,6 +156,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         {
             toolTip.SetToolTip(this, SpecialState ? SpecialTooltipText : BasicTooltipText);
         }
+
+        #endregion Protected Methods
+
+        #region Private Methods
 
         private void OnHandleCreated(object? sender, EventArgs e)
         {
@@ -144,7 +176,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             BackColor = SpecialState ? SpecialBackColor : BasicBackColor;
         }
 
+        #endregion Private Methods
+
+        #region Public Delegates
+
         public delegate void StateChangeHandler(object? sender, bool IsSpecialState);
+
+        #endregion Public Delegates
+
+
+
+        #region Public Events
 
         public event StateChangeHandler SpecialStateChanged
         {
@@ -152,10 +194,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             remove => specialStateChanged -= value;
         }
 
+        #endregion Public Events
+
+
+
+        #region Public Enums
+
         public enum SwitchMode
         {
             Click,
             DoubleClick
         }
+
+        #endregion Public Enums
     }
 }

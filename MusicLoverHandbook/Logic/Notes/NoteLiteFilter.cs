@@ -6,9 +6,17 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class NoteLiteFilter
     {
+        #region Public Properties
+
         public string[] DescriptionCompareStrings { get; }
 
         public string[] NameCompareStrings { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public NoteLiteFilter(string byName, string byDesc)
         {
@@ -17,6 +25,12 @@ namespace MusicLoverHandbook.Logic.Notes
             NameCompareStrings = andSpliting(byName);
             DescriptionCompareStrings = andSpliting(byDesc);
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public List<LiteNote> ApplyOn(List<LiteNote> lites)
         {
@@ -28,6 +42,12 @@ namespace MusicLoverHandbook.Logic.Notes
 
             return filtered.Distinct().ToList();
         }
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
 
         private List<LiteNote> DescFiltering(List<LiteNote> inputLites, string rawcomp)
         {
@@ -168,5 +188,7 @@ namespace MusicLoverHandbook.Logic.Notes
             result = lites.Where(x => x.NoteName.ToLower().Trim().Contains(name)).ToList();
             return exceptionMode ? lites.Except(result).ToList() : result;
         }
+
+        #endregion Private Methods
     }
 }

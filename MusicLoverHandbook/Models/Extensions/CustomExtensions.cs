@@ -6,6 +6,17 @@ namespace MusicLoverHandbook.Models.Extensions
 {
     public static class CustomExtensions
     {
+        #region Public Methods
+
+        public static NoteCreationOrder? GetAssociatedCreationOrder(this NoteType noteType)
+        {
+            return noteType
+                .GetType()
+                .GetField(noteType.ToString())
+                ?.GetCustomAttribute<AssociatedNoteCreationTypeAttribute>(false)
+                ?.Type;
+        }
+
         public static Color? GetColor(this NoteType noteType)
         {
             return noteType
@@ -13,6 +24,15 @@ namespace MusicLoverHandbook.Models.Extensions
                 .GetField(noteType.ToString())
                 ?.GetCustomAttribute<EnumColorAttribute>(false)
                 ?.ColorMain;
+        }
+
+        public static Type? GetConnectedNoteType(this NoteType noteType)
+        {
+            return noteType
+                .GetType()
+                .GetField(noteType.ToString())
+                ?.GetCustomAttribute<AssociatedTypeAttribute>(false)
+                ?.Type;
         }
 
         public static Color? GetLiteColor(this NoteType noteType)
@@ -24,38 +44,6 @@ namespace MusicLoverHandbook.Models.Extensions
                 ?.ColorLite;
         }
 
-        public static bool IsInformaionCarrier(this NoteType noteType)
-        {
-            return noteType
-                    .GetType()
-                    .GetField(noteType.ToString())!
-                    .GetCustomAttribute<InformationCarrierAttribute>(false) != null;
-        }
-        public static NoteCreationOrder? GetAssociatedCreationOrder(this NoteType noteType)
-        {
-            return noteType.GetType()
-                .GetField(noteType.ToString())
-                ?.GetCustomAttribute<AssociatedNoteCreationTypeAttribute>(false)
-                ?.Type;
-        }
-
-        public static Type? GetConnectedNoteType(this NoteType noteType)
-        {
-            return noteType.GetType()
-                .GetField(noteType.ToString())
-                ?.GetCustomAttribute<AssociatedTypeAttribute>(false)
-                ?.Type;
-        }
-
-        public static string ToString(this Enum enumType, bool useCustomStringValue)
-        {
-            if (useCustomStringValue)
-                return enumType.GetType()
-                        .GetField(enumType.ToString())
-                        ?.GetCustomAttribute<StringValueAttribute>(false)
-                        ?.Value ?? enumType.ToString();
-            return enumType.ToString();
-        }
         public static LinkedList<NoteType> GetOrder(this NoteCreationOrder creationOrder)
         {
             var orderAttr = creationOrder
@@ -66,10 +54,14 @@ namespace MusicLoverHandbook.Models.Extensions
                 throw new MissingRequiredAttributeException(creationOrder, typeof(OrderAttribute));
             return orderAttr.Order;
         }
+
         public static string? GetStringValue(this InputStatus inputStatus)
         {
             return
-                inputStatus.GetType().GetField(inputStatus.ToString())?.GetCustomAttribute<TextAttribute>(false)
+                inputStatus
+                    .GetType()
+                    .GetField(inputStatus.ToString())
+                    ?.GetCustomAttribute<TextAttribute>(false)
                     is TextAttribute attr
               ? attr.Text
               : null;
@@ -82,5 +74,26 @@ namespace MusicLoverHandbook.Models.Extensions
                     .GetField(inputStatus.ToString())
                     ?.GetCustomAttribute<ErrorStateAttribute>(false) != null;
         }
+
+        public static bool IsInformaionCarrier(this NoteType noteType)
+        {
+            return noteType
+                    .GetType()
+                    .GetField(noteType.ToString())!
+                    .GetCustomAttribute<InformationCarrierAttribute>(false) != null;
+        }
+
+        public static string ToString(this Enum enumType, bool useCustomStringValue)
+        {
+            if (useCustomStringValue)
+                return enumType
+                        .GetType()
+                        .GetField(enumType.ToString())
+                        ?.GetCustomAttribute<StringValueAttribute>(false)
+                        ?.Value ?? enumType.ToString();
+            return enumType.ToString();
+        }
+
+        #endregion Public Methods
     }
 }

@@ -4,9 +4,15 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class SideButtonsPanel : Panel
     {
+        #region Private Fields
+
         private List<ButtonPanel> activatedButtons = new();
         private List<ButtonPanel> deactivatedButtons = new();
         private DockStyle dockStyle;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public IReadOnlyCollection<ButtonPanel> ActiveButtons => activatedButtons;
 
@@ -14,11 +20,23 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         public IReadOnlyCollection<ButtonPanel> DeactivatedButtons => deactivatedButtons;
 
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
+
         public SideButtonsPanel(DockStyle dock)
         {
             Margin = Padding = new Padding(0);
             Dock = dockStyle = dock;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void Activate(ButtonType type)
         {
@@ -80,5 +98,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 }
             }
         }
+
+        #endregion Public Methods
     }
 }

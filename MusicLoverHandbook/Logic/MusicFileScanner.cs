@@ -5,6 +5,8 @@ namespace MusicLoverHandbook.Controller
 {
     public static class MusicFileScanner
     {
+        #region Public Methods
+
         public static Dictionary<NoteType, (string? Name, string? Description)> GetDataFromFile(
             string filePath
         )
@@ -31,6 +33,12 @@ namespace MusicLoverHandbook.Controller
                 )
                 .ToDictionary(k => k.Type, v => v.Data);
         }
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
 
         private static Dictionary<NoteType, string> GetDescriptions(
             string filePath,
@@ -71,5 +79,7 @@ namespace MusicLoverHandbook.Controller
             output.Add(NoteType.SongFile, filename);
             return output;
         }
+
+        #endregion Private Methods
     }
 }

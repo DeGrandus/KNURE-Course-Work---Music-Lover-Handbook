@@ -8,12 +8,20 @@ namespace MusicLoverHandbook.Models
     [DesignerCategory("Code")]
     public class LiteNote : Control
     {
-        public string NoteDescription { get; }
+        #region Public Properties
+
         public Image? Icon { get; }
         public int MainHeight { get; set; } = 30;
+        public string NoteDescription { get; }
         public string NoteName { get; }
         public NoteType NoteType { get; }
         public NoteControl OriginalNoteRefference { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public LiteNote(string name, string description, NoteControl noteRef)
         {
@@ -24,6 +32,12 @@ namespace MusicLoverHandbook.Models
             OriginalNoteRefference = noteRef;
             SetupLayout();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public LiteNote Clone()
         {
@@ -48,11 +62,21 @@ namespace MusicLoverHandbook.Models
             return $@"Lite: {{Name: {NoteName} | Desc: {NoteDescription} | Type: {NoteType}}}";
         }
 
+        #endregion Public Methods
+
+
+
+        #region Protected Methods
+
         protected override void OnPaint(PaintEventArgs e)
         {
             //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             base.OnPaint(e);
         }
+
+        #endregion Protected Methods
+
+        #region Private Methods
 
         private void SetupLayout()
         {
@@ -78,7 +102,9 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
+                BackColor =
+                    OriginalNoteRefference.NoteType.GetLiteColor()
+                    ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
                 BackgroundImage = Icon,
                 BackgroundImageLayout = ImageLayout.Stretch,
@@ -89,12 +115,17 @@ namespace MusicLoverHandbook.Models
                 Padding = new(0),
                 BackgroundImage = Properties.Resources.InfoIcon,
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
+                BackColor =
+                    OriginalNoteRefference.NoteType.GetLiteColor()
+                    ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
             };
             var tooltip = new ToolTip()
             {
-                BackColor = ControlPaint.Light(OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor),
+                BackColor = ControlPaint.Light(
+                    OriginalNoteRefference.NoteType.GetLiteColor()
+                        ?? OriginalNoteRefference.ThemeColor
+                ),
                 IsBalloon = true,
                 InitialDelay = 50,
             };
@@ -103,10 +134,16 @@ namespace MusicLoverHandbook.Models
             {
                 Margin = new(0),
                 Padding = new(0),
-                BackColor = OriginalNoteRefference.NoteType.GetLiteColor() ?? OriginalNoteRefference.ThemeColor,
+                BackColor =
+                    OriginalNoteRefference.NoteType.GetLiteColor()
+                    ?? OriginalNoteRefference.ThemeColor,
                 Dock = DockStyle.Fill,
                 Text = NoteName,
-                Font = new Font(OriginalNoteRefference.TextLabel.Font.FontFamily, MainHeight, GraphicsUnit.Pixel)
+                Font = new Font(
+                    OriginalNoteRefference.TextLabel.Font.FontFamily,
+                    MainHeight,
+                    GraphicsUnit.Pixel
+                )
             };
 
             mainTable.Controls.Add(iconPanel, 0, 0);
@@ -119,5 +156,7 @@ namespace MusicLoverHandbook.Models
 
             ResumeLayout();
         }
+
+        #endregion Private Methods
     }
 }

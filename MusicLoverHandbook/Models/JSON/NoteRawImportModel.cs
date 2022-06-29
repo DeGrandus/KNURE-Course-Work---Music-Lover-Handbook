@@ -5,6 +5,8 @@ namespace MusicLoverHandbook.Models.JSON
 {
     public class NoteRawImportModel : INote
     {
+        #region Public Properties
+
         public (Type Type, object? Data)[] ConstructorData =>
             new (Type, object?)[]
             {
@@ -24,6 +26,12 @@ namespace MusicLoverHandbook.Models.JSON
 
         public NoteCreationOrder? UsedCreationOrder { get; }
 
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
+
         public NoteRawImportModel(
             string noteName,
             string noteDescription,
@@ -39,9 +47,17 @@ namespace MusicLoverHandbook.Models.JSON
             InnerNotes = innerNotes?.ToList();
         }
 
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
+
         public override string ToString()
         {
             return $"{NoteType}/{NoteName}:\n-{string.Join("\n-", InnerNotes ?? new())}";
         }
+
+        #endregion Public Methods
     }
 }

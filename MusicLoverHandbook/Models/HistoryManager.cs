@@ -11,9 +11,37 @@ namespace MusicLoverHandbook.Models
 {
     public class HistoryManager
     {
+        #region Public Fields
+
         public static HistoryManager Instance;
 
+        #endregion Public Fields
+
+
+
+        #region Public Properties
+
+        public int CurrentHistoryBranchIndex { get; private set; } = 0;
+
+        public int CurrentHistoryLength { get; private set; } = 0;
+
+        public FileStream HistoryFileStream { get; }
+
+        public int MaxHistoryLength { get; } = 10;
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
+
         static HistoryManager() => Instance = new HistoryManager();
+
+        #endregion Public Constructors
+
+
+
+        #region Private Constructors
 
         private HistoryManager()
         {
@@ -29,18 +57,23 @@ namespace MusicLoverHandbook.Models
             );
         }
 
-        public FileStream HistoryFileStream { get; }
-        public int MaxHistoryLength { get; } = 10;
-        public int CurrentHistoryBranchIndex { get; private set; } = 0;
-        public int CurrentHistoryLength { get; private set; } = 0;
+        #endregion Private Constructors
 
-        public List<NoteControl>? UndoNotes()
+
+
+        #region Public Methods
+
+        public List<JArray> ReadHistory()
         {
-            if (CurrentHistoryBranchIndex == 0)
-                return null;
-            CurrentHistoryBranchIndex--;
-
-            return GetHistoryBranch();
+            using (
+                var reader = new StreamReader(HistoryFileStream, Encoding.UTF8, true, 4096, true)
+            )
+            {
+                HistoryFileStream.Seek(0, SeekOrigin.Begin);
+                var readed = reader.ReadToEnd();
+                Debug.WriteLine(readed);
+                return JsonConvert.DeserializeObject<List<JArray>>(readed) ?? new();
+            }
         }
 
         public List<NoteControl>? RedoNotes()
@@ -56,33 +89,18 @@ namespace MusicLoverHandbook.Models
             return GetHistoryBranch();
         }
 
+        public List<NoteControl>? UndoNotes()
+        {
+            if (CurrentHistoryBranchIndex == 0)
+                return null;
+            CurrentHistoryBranchIndex--;
+
+            return GetHistoryBranch();
+        }
+
         public void UpdateHistory(IParentControl container)
         {
             WriteHistory(container.InnerNotes.Cast<NoteControl>().ToList());
-        }
-
-        private List<NoteControl>? GetHistoryBranch()
-        {
-            var history = ReadHistory();
-            var rawHistoryBranch = history[CurrentHistoryBranchIndex].ToObject<
-                List<NoteRawImportModel>
-            >(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
-            return rawHistoryBranch!
-                .Select(b => new RawNoteManager().RecreateFromImported(b))
-                .ToList();
-        }
-
-        public List<JArray> ReadHistory()
-        {
-            using (
-                var reader = new StreamReader(HistoryFileStream, Encoding.UTF8, true, 4096, true)
-            )
-            {
-                HistoryFileStream.Seek(0, SeekOrigin.Begin);
-                var readed = reader.ReadToEnd();
-                Debug.WriteLine(readed);
-                return JsonConvert.DeserializeObject<List<JArray>>(readed) ?? new();
-            }
         }
 
         public void WriteHistory(List<NoteControl> notes)
@@ -116,5 +134,24 @@ namespace MusicLoverHandbook.Models
                 writer.Write(serializedHistory);
             }
         }
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
+
+        private List<NoteControl>? GetHistoryBranch()
+        {
+            var history = ReadHistory();
+            var rawHistoryBranch = history[CurrentHistoryBranchIndex].ToObject<
+                List<NoteRawImportModel>
+            >(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
+            return rawHistoryBranch!
+                .Select(b => new RawNoteManager().RecreateFromImported(b))
+                .ToList();
+        }
+
+        #endregion Private Methods
     }
 }

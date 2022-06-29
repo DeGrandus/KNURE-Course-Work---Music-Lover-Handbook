@@ -10,9 +10,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public class SmartComboBox : ComboBox, ISmartComboBox
     {
+        #region Public Fields
+
         public bool CanBeEmpty = false;
 
         public string? DefaultReplacement;
+
+        public bool SkipNextErrorToolTip = false;
+
+        #endregion Public Fields
+
+
+
+        #region Private Fields
 
         private InputStatus status;
 
@@ -23,6 +33,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         private StateChangedEvent? tempStatusChangedRepeatedly;
 
         private ToolTip tooltip = new ToolTip() { InitialDelay = 0 };
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public List<NoteControl> InnerData =>
             (
@@ -66,6 +80,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
+
         public SmartComboBox()
         {
             tooltip.OwnerDraw = true;
@@ -78,6 +98,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             TextChanged += OnInputDetected;
             LostFocus += OnLostFocus;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void CheckTextValidation()
         {
@@ -98,8 +124,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 }.Show("Name is not valid!", this, Width - 20, -70 - Height / 2, 2000);
             }
         }
-
-        public bool SkipNextErrorToolTip = false;
 
         public void ClearDataSource()
         {
@@ -141,6 +165,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             NoteParent = null;
             Items.AddRange(InnerData.Select(x => x.NoteName).ToArray());
         }
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
 
         private void CheckForStatus()
         {
@@ -239,7 +269,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             }
         }
 
+        #endregion Private Methods
+
+        #region Public Delegates
+
         public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
+
+        #endregion Public Delegates
+
+
+
+        #region Public Events
 
         public event StateChangedEvent StatusChanged
         {
@@ -258,5 +298,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             add => tempStatusChangedRepeatedly += value;
             remove => tempStatusChangedRepeatedly -= value;
         }
+
+        #endregion Public Events
     }
 }

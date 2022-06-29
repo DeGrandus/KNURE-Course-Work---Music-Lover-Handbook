@@ -9,13 +9,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
     public partial class SmartFilteringOptionMenu : UserControl
     {
+        #region Public Fields
+
         public NoteType? CurrentlySelectedTypeOption;
         public LiteNote[] OneTypeNotes;
         public BasicSwitchLabel SSLNSwitch;
+
+        #endregion Public Fields
+
+
+
+        #region Private Fields
+
         private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;
         private NoteAdvancedFilterMenu filterMenu;
         private bool isValid = true;
         private List<BasicSwitchLabel> options = new List<BasicSwitchLabel>();
+
+        #endregion Private Fields
+
+        #region Public Properties
+
         public NoteType FilterNoteType { get; set; }
 
         public bool IsValid
@@ -30,6 +44,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 isValid = value;
             }
         }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, LiteNote[] oneTypedLites)
         {
@@ -46,6 +66,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
             SetupLayout();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Private Methods
 
         private void ButtonsLinker()
         {
@@ -139,15 +165,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             mainTable.Controls.Add(SSLNSwitch, 1, 2);
         }
 
+        #endregion Private Methods
+
+        #region Public Delegates
+
         public delegate void AdvancedFilteringModeChangeEventHandler(
             BasicSwitchLabel self,
             bool isSpecial
         );
+
+        #endregion Public Delegates
+
+
+
+        #region Public Events
 
         public event AdvancedFilteringModeChangeEventHandler AdvancedFilteringModeChange
         {
             add => advancedFilteringModeChange += value;
             remove => advancedFilteringModeChange -= value;
         }
+
+        #endregion Public Events
     }
 }

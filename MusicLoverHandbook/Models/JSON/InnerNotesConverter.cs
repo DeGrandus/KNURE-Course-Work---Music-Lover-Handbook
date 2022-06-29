@@ -7,14 +7,32 @@ namespace MusicLoverHandbook.Models.JSON
 {
     public class InnerNotesConverter : JsonConverter
     {
+        #region Private Fields
+
         private JsonSerializerSettings usedSettings;
 
+        #endregion Private Fields
+
+        #region Public Properties
+
         public override bool CanRead => false;
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public InnerNotesConverter(JsonSerializerSettings usedSettings)
         {
             this.usedSettings = usedSettings;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public override bool CanConvert(Type objectType)
         {
@@ -48,5 +66,7 @@ namespace MusicLoverHandbook.Models.JSON
             }
             writer.WriteEndArray();
         }
+
+        #endregion Public Methods
     }
 }

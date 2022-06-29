@@ -9,13 +9,20 @@ using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models
 {
-
     public class FileManager : IFileManager
     {
+        #region Private Fields
+
         private Settings settings;
+
+        #endregion Private Fields
+
+        #region Public Properties
+
         public static FileManager Instance { get; }
 
         public string DataFilePath { get; private set; }
+        public HistoryManager HistoryManager => HistoryManager.Instance;
         public string MusicFilesFolderPath { get; private set; }
 
         public JsonSerializerSettings SerializerSettings
@@ -38,12 +45,23 @@ namespace MusicLoverHandbook.Models
                 return settings;
             }
         }
-        public HistoryManager HistoryManager => HistoryManager.Instance;
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         static FileManager()
         {
             Instance = new FileManager();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Private Constructors
 
         private FileManager()
         {
@@ -80,6 +98,37 @@ namespace MusicLoverHandbook.Models
             DataFilePath = datapath;
         }
 
+        #endregion Private Constructors
+
+
+
+        #region Public Methods
+
+        public bool CheckMusicFilePathOrName(string filePath)
+        {
+            Debug.WriteLine(filePath);
+            Debug.WriteLine(Path.GetDirectoryName(filePath));
+            if (GetMusicFilePathByName(filePath) != null)
+                return true;
+            if (!File.Exists(filePath))
+                return false;
+            if (
+                Path.GetFullPath(Path.GetDirectoryName(Path.GetFullPath(filePath))!)
+                    .TrimEnd('\\', '/')
+                    .ToLower()
+                == Path.GetFullPath(MusicFilesFolderPath).TrimEnd('\\', '/').ToLower()
+            )
+                return true;
+            return false;
+        }
+
+        public string CopyToMusicFolder(string filePath)
+        {
+            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
+            File.Copy(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
+            return newPath;
+        }
+
         public string GetData()
         {
             return GetData(DataFilePath);
@@ -97,10 +146,14 @@ namespace MusicLoverHandbook.Models
                 Directory.CreateDirectory(MusicFilesFolderPath);
             return Directory
                 .GetFiles(MusicFilesFolderPath)
-                .FirstOrDefault(x =>
-                {
-                    return Path.GetFileNameWithoutExtension(x) is var ex && ex?.Contains(Path.GetFileNameWithoutExtension(name)) == true;
-                }, null);
+                .FirstOrDefault(
+                    x =>
+                    {
+                        return Path.GetFileNameWithoutExtension(x) is var ex
+                            && ex?.Contains(Path.GetFileNameWithoutExtension(name)) == true;
+                    },
+                    null
+                );
         }
 
         public bool IsDataFilePathDefault() => DataFilePath == settings.DefaultDataFilePath;
@@ -112,10 +165,27 @@ namespace MusicLoverHandbook.Models
 
         public bool IsMusicFilesFolderValid() => Directory.Exists(MusicFilesFolderPath);
 
+        public string MoveToMusicFolder(string filePath)
+        {
+            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
+            File.Move(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
+            return newPath;
+        }
+
         public List<NoteControl> RecreateNotesFromData()
         {
             return RecreateNotesFromData(DataFilePath);
         }
+
+        public List<NoteControl> RecreateNotesFromData(string dataFilePath) =>
+            (
+                from rawModel in JsonConvert.DeserializeObject<List<NoteRawImportModel>>(
+                    GetData(dataFilePath),
+                    SerializerSettings
+                ) ?? new()
+                let manager = new RawNoteManager()
+                select manager.RecreateFromImported(rawModel)
+            ).ToList();
 
         [Obsolete(
             "Difference only in using the query LINQ expressions by newer one instead of methods in current method"
@@ -131,17 +201,9 @@ namespace MusicLoverHandbook.Models
             return output;
         }
 
-        public List<NoteControl> RecreateNotesFromData(string dataFilePath) =>
-            (
-                from rawModel in
-                    JsonConvert.DeserializeObject<List<NoteRawImportModel>>(
-                        GetData(dataFilePath),
-                        SerializerSettings
-                    ) ?? new()
+        public void ResetDataFilePathToDefault() => SetDataPath("");
 
-                let manager = new RawNoteManager()
-                select manager.RecreateFromImported(rawModel)
-            ).ToList();
+        public void ResetMusicFilesFolderPathToDefalut() => SetMusicFilesFolderPath("");
 
         public void SetDataPath(string path)
         {
@@ -178,38 +240,6 @@ namespace MusicLoverHandbook.Models
                 );
         }
 
-        public string MoveToMusicFolder(string filePath)
-        {
-            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
-            File.Move(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
-            return newPath;
-        }
-
-        public string CopyToMusicFolder(string filePath)
-        {
-            var newPath = Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath));
-            File.Copy(filePath, Path.Combine(MusicFilesFolderPath, Path.GetFileName(filePath)));
-            return newPath;
-        }
-
-        public bool CheckMusicFilePathOrName(string filePath)
-        {
-            Debug.WriteLine(filePath);
-            Debug.WriteLine(Path.GetDirectoryName(filePath));
-            if (GetMusicFilePathByName(filePath) != null)
-                return true;
-            if (!File.Exists(filePath))
-                return false;
-            if (
-                Path.GetFullPath(Path.GetDirectoryName(Path.GetFullPath(filePath))!).TrimEnd('\\', '/').ToLower()
-                == Path.GetFullPath(MusicFilesFolderPath).TrimEnd('\\', '/').ToLower()
-            )
-                return true;
-            return false;
-        }
-
-        public void ResetDataFilePathToDefault() => SetDataPath("");
-
-        public void ResetMusicFilesFolderPathToDefalut() => SetMusicFilesFolderPath("");
+        #endregion Public Methods
     }
 }

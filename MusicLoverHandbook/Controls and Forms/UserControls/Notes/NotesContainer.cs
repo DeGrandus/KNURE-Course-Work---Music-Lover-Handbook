@@ -12,14 +12,22 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public class NotesContainer : IParentControl
     {
+        #region Private Fields
+
         private List<INoteControlChild>? advancedFilteredNotes;
+
         private List<Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>>> filters =
             new();
+
         private List<INoteControlChild> partialInnerNotes = new();
         private TextBox qSTextBox;
         private int refreshDelay = 0;
 
         private Timer renderRefreshTimer;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public List<INoteControlChild>? AdvancedFilteredNotes
         {
@@ -60,6 +68,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         public QuickSearchController QSController { get; }
 
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
+
         public NotesContainer(
             Panel panelContainer,
             TextBox QSTextBox,
@@ -88,7 +102,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             {
                 qSTextBox.Text = "";
                 InvokeQuickSearch();
-
             };
 
             renderRefreshTimer = new Timer() { Interval = 1, Enabled = true, };
@@ -103,7 +116,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             };
         }
 
-        public void InvokeQuickSearch() => QSController.InvokeQuickSearch(qSTextBox.Text);
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void Insert_AddNoteButton(NoteControlParent note)
         {
@@ -119,6 +136,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     Insert_AddNoteButton(innertParent);
             PanelContainer.ResumeLayout();
         }
+
+        public void InvokeQuickSearch() => QSController.InvokeQuickSearch(qSTextBox.Text);
+
+        #endregion Public Methods
+
+
+
+        #region Private Methods
 
         private void ContainmentRefreshing()
         {
@@ -154,7 +179,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     Insert_AddNoteButton(asParent);
                 child.ParentNote = this;
             }
-            
 
             PanelContainer.Controls.AddRange(
                 renderFinal.Reverse().Where(x => x is Control).Cast<Control>().ToArray()
@@ -224,5 +248,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                     RemoveInformationlessNotes(asP);
             }
         }
+
+        #endregion Private Methods
     }
 }

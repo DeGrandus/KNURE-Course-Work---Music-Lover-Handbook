@@ -5,9 +5,17 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControlParent : INoteControl, IParentControl
     {
+        #region Public Properties
+
         new ObservableCollection<INoteControlChild> InnerNotes { get; set; }
         bool IsOpened { get; set; }
         ContentLinker Linker { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Methods
 
         void AddNote(NoteControl note, ContentLinker linker);
 
@@ -29,10 +37,16 @@ namespace MusicLoverHandbook.Models.Inerfaces
         void SwitchOpenState();
 
         void UpdateSize();
+
+        #endregion Public Methods
     }
 
     public interface IParentControl
     {
+        #region Public Properties
+
         ObservableCollection<INoteControlChild> InnerNotes { get; }
+
+        #endregion Public Properties
     }
 }

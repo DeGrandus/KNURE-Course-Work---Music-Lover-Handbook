@@ -10,14 +10,28 @@ namespace MusicLoverHandbook.Logic
 {
     public class NoteCreationMenuController
     {
-        private MainForm mainForm;
+        #region Private Fields
+
         private NoteCreationMenu creationMenu;
+        private MainForm mainForm;
+
+        #endregion Private Fields
+
+
+
+        #region Public Constructors
 
         public NoteCreationMenuController(MainForm mainForm)
         {
             creationMenu = new NoteCreationMenu(mainForm);
             this.mainForm = mainForm;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void AppendInformation(SimpleNoteModel simpleModel)
         {
@@ -53,17 +67,41 @@ namespace MusicLoverHandbook.Logic
             return null;
         }
 
+        #endregion Public Methods
+
+
+
+        #region Public Classes
+
         public class NoteCreationResult
         {
+            #region Private Fields
+
             private MainForm mainForm;
 
+            #endregion Private Fields
+
+            #region Public Properties
+
             public NoteControlMidder? ResultNote { get; }
+
+            #endregion Public Properties
+
+
+
+            #region Public Constructors
 
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? resultNote)
             {
                 ResultNote = resultNote;
                 this.mainForm = mainForm;
             }
+
+            #endregion Public Constructors
+
+
+
+            #region Public Methods
 
             public void CreateNote()
             {
@@ -84,6 +122,10 @@ namespace MusicLoverHandbook.Logic
                         ResultNote.OnDoubleClick();
                 }
             }
+
+            #endregion Public Methods
         }
+
+        #endregion Public Classes
     }
 }

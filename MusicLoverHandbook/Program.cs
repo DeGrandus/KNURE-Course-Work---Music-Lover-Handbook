@@ -4,6 +4,8 @@ namespace MusicLoverHandbook
 {
     internal static class Program
     {
+        #region Private Methods
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -16,5 +18,7 @@ namespace MusicLoverHandbook
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
         }
+
+        #endregion Private Methods
     }
 }

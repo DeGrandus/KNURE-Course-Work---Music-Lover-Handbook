@@ -6,15 +6,24 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using System.ComponentModel;
 using System.Data;
-using static MusicLoverHandbook.Controls_and_Forms.UserControls.BoxPathAnalyzer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
     public partial class CreationParamsControl : UserControl
     {
+        #region Private Fields
+
         private bool canNameBeEmpty = false;
         private NoteType inputType;
         private bool isRenameInvalid = false;
+
+        private BoxPathAnalyzer? pathAnalyzer;
+        private string tipText = "";
+        private bool useDescriptionPathAnalyzer;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public bool AutoFill { get; set; } = true;
 
@@ -30,140 +39,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             {
                 inputType = value;
                 SetInputType(value);
-            }
-        }
-        private string tipText = "";
-
-        private bool useDescriptionPathAnalyzer;
-
-        [Category("Creation Data")]
-        public bool UseDescriptionPathAnalyzer
-        {
-            get => useDescriptionPathAnalyzer;
-            set
-            {
-                useDescriptionPathAnalyzer = value;
-                Setup_Analyzers();
-            }
-        }
-
-        private BoxPathAnalyzer? pathAnalyzer;
-
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            UseDescriptionPathAnalyzer = false;
-            base.OnHandleDestroyed(e);
-        }
-        private void PathAnalyzerResultsChanged(PathAnalyzerResult result, string observed)
-        {
-            Control? control;
-            while (
-                (
-                    control = descriptionPanel.Controls
-                        .Cast<Control>()
-                        .Where(c => c is not TextBox)
-                        .FirstOrDefault(defaultValue: null)
-                ) != null
-            )
-                descriptionPanel.Controls.Remove(control);
-            //Debug.WriteLine("test: "+(PathAnalyzerResult.FileHasEquivalence | PathAnalyzerResult.FileInDefault));
-            if (result == PathAnalyzerResult.IsNotAFile)
-            {
-                InputDescriptionBox.BackColor = Color.White;
-                return;
-            }
-            else if (
-                (
-                    result
-                    & (
-                        PathAnalyzerResult.File_HasEquivalence
-                        | PathAnalyzerResult.File_InMusicFolder
-                        | PathAnalyzerResult.File_DoesNotExist
-                        | PathAnalyzerResult.File_NotMp3
-                    )
-                ) > 0
-            )
-            {
-                var notifyFileStateLabel = new Label()
-                {
-                    AutoSize = false,
-                    Size = new(100, 32),
-                    Dock = DockStyle.Bottom,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font(Font.FontFamily, 18, GraphicsUnit.Pixel)
-                };
-
-                switch (result)
-                {
-                    case PathAnalyzerResult.File_HasEquivalence:
-                        notifyFileStateLabel.Text = "File has equivalence in the default folder";
-                        notifyFileStateLabel.BackColor = Color.LightYellow;
-                        descriptionPanel.Controls.Add(notifyFileStateLabel);
-                        break;
-                    case PathAnalyzerResult.File_InMusicFolder:
-                        notifyFileStateLabel.Text = "File is contained in default folder";
-                        notifyFileStateLabel.BackColor = Color.LightGreen;
-                        break;
-                    case PathAnalyzerResult.File_DoesNotExist:
-                        notifyFileStateLabel.Text = "File not exists";
-                        notifyFileStateLabel.BackColor = Color.LightGray;
-                        break;
-                    case PathAnalyzerResult.File_NotMp3:
-                        notifyFileStateLabel.Text = "File not an mp3";
-                        notifyFileStateLabel.BackColor = Color.LightCoral;
-                        break;
-                }
-                descriptionPanel.Controls.Add(notifyFileStateLabel);
-            }
-            else
-            {
-                var moveButton = new Button()
-                {
-                    Size = new(100, 32),
-                    Dock = DockStyle.Bottom,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font(Font.FontFamily, 24, GraphicsUnit.Pixel),
-                    Text = "Move file to default folder",
-                    FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.LightSkyBlue,
-                };
-                moveButton.Click += (sender, e) =>
-                {
-                    var newPath = FileManager.Instance.MoveToMusicFolder(observed);
-                    pathAnalyzer!.ReplacePath(newPath);
-                };
-                var copyButton = new Button()
-                {
-                    Size = new(100, 32),
-                    Dock = DockStyle.Bottom,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font(Font.FontFamily, 24, GraphicsUnit.Pixel),
-                    Text = "Copy file to default folder",
-                    FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.LightSkyBlue,
-                };
-                copyButton.Click += (sender, e) =>
-                {
-                    var newPath = FileManager.Instance.CopyToMusicFolder(observed);
-                    pathAnalyzer!.ReplacePath(newPath);
-                };
-                descriptionPanel.Controls.Add(moveButton);
-                descriptionPanel.Controls.Add(copyButton);
-            }
-        }
-
-        private void Setup_Analyzers()
-        {
-            if (pathAnalyzer != null)
-            {
-                pathAnalyzer.Dispose();
-                pathAnalyzer = null;
-            }
-
-            if (UseDescriptionPathAnalyzer)
-            {
-                pathAnalyzer = new BoxPathAnalyzer(InputDescriptionBox);
-                pathAnalyzer.ResultsChanged += PathAnalyzerResultsChanged;
             }
         }
 
@@ -185,11 +60,33 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 }
             }
         }
+
+        [Category("Creation Data")]
+        public bool UseDescriptionPathAnalyzer
+        {
+            get => useDescriptionPathAnalyzer;
+            set
+            {
+                useDescriptionPathAnalyzer = value;
+                Setup_Analyzers();
+            }
+        }
+
+        #endregion Public Properties
+
+
+
+        #region Private Properties
+
         private bool IsRenameFieldTextInvalid
         {
             get => isRenameInvalid;
             set { isRenameInvalid = value; }
         }
+
+        #endregion Private Properties
+
+        #region Public Constructors
 
         public CreationParamsControl()
         {
@@ -227,6 +124,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             InputType = mainType;
             SetLabel(InputType.ToString(true));
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public void Clean()
         {
@@ -328,6 +231,138 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             UpdateRenameField();
         }
 
+        #endregion Public Methods
+
+
+
+        #region Protected Methods
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            UseDescriptionPathAnalyzer = false;
+            base.OnHandleDestroyed(e);
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private void PathAnalyzerResultsChanged(PathAnalyzerResult result, string observed)
+        {
+            Control? control;
+            while (
+                (
+                    control = descriptionPanel.Controls
+                        .Cast<Control>()
+                        .Where(c => c is not TextBox)
+                        .FirstOrDefault(defaultValue: null)
+                ) != null
+            )
+                descriptionPanel.Controls.Remove(control);
+            //Debug.WriteLine("test: "+(PathAnalyzerResult.FileHasEquivalence | PathAnalyzerResult.FileInDefault));
+            if (result == PathAnalyzerResult.IsNotAFile)
+            {
+                InputDescriptionBox.BackColor = Color.White;
+                return;
+            }
+            else if (
+                (
+                    result
+                    & (
+                        PathAnalyzerResult.File_HasEquivalence
+                        | PathAnalyzerResult.File_InMusicFolder
+                        | PathAnalyzerResult.File_DoesNotExist
+                        | PathAnalyzerResult.File_NotMp3
+                    )
+                ) > 0
+            )
+            {
+                var notifyFileStateLabel = new Label()
+                {
+                    AutoSize = false,
+                    Size = new(100, 32),
+                    Dock = DockStyle.Bottom,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, 18, GraphicsUnit.Pixel)
+                };
+
+                switch (result)
+                {
+                    case PathAnalyzerResult.File_HasEquivalence:
+                        notifyFileStateLabel.Text = "File has equivalence in the default folder";
+                        notifyFileStateLabel.BackColor = Color.LightYellow;
+                        descriptionPanel.Controls.Add(notifyFileStateLabel);
+                        break;
+
+                    case PathAnalyzerResult.File_InMusicFolder:
+                        notifyFileStateLabel.Text = "File is contained in default folder";
+                        notifyFileStateLabel.BackColor = Color.LightGreen;
+                        break;
+
+                    case PathAnalyzerResult.File_DoesNotExist:
+                        notifyFileStateLabel.Text = "File not exists";
+                        notifyFileStateLabel.BackColor = Color.LightGray;
+                        break;
+
+                    case PathAnalyzerResult.File_NotMp3:
+                        notifyFileStateLabel.Text = "File not an mp3";
+                        notifyFileStateLabel.BackColor = Color.LightCoral;
+                        break;
+                }
+                descriptionPanel.Controls.Add(notifyFileStateLabel);
+            }
+            else
+            {
+                var moveButton = new Button()
+                {
+                    Size = new(100, 32),
+                    Dock = DockStyle.Bottom,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, 24, GraphicsUnit.Pixel),
+                    Text = "Move file to default folder",
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.LightSkyBlue,
+                };
+                moveButton.Click += (sender, e) =>
+                {
+                    var newPath = FileManager.Instance.MoveToMusicFolder(observed);
+                    pathAnalyzer!.ReplacePath(newPath);
+                };
+                var copyButton = new Button()
+                {
+                    Size = new(100, 32),
+                    Dock = DockStyle.Bottom,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, 24, GraphicsUnit.Pixel),
+                    Text = "Copy file to default folder",
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.LightSkyBlue,
+                };
+                copyButton.Click += (sender, e) =>
+                {
+                    var newPath = FileManager.Instance.CopyToMusicFolder(observed);
+                    pathAnalyzer!.ReplacePath(newPath);
+                };
+                descriptionPanel.Controls.Add(moveButton);
+                descriptionPanel.Controls.Add(copyButton);
+            }
+        }
+
+        private void Setup_Analyzers()
+        {
+            if (pathAnalyzer != null)
+            {
+                pathAnalyzer.Dispose();
+                pathAnalyzer = null;
+            }
+
+            if (UseDescriptionPathAnalyzer)
+            {
+                pathAnalyzer = new BoxPathAnalyzer(InputDescriptionBox);
+                pathAnalyzer.ResultsChanged += PathAnalyzerResultsChanged;
+            }
+        }
+
         private void UpdateRenameField()
         {
             if (!renameInput.Enabled)
@@ -346,8 +381,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             );
         }
 
+        #endregion Private Methods
+
+
+
+        #region Public Classes
+
         public class OutputInfo
         {
+            #region Public Properties
+
             public string Description { get; }
 
             public bool Enabled { get; }
@@ -357,6 +400,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public string? Text { get; }
 
             public NoteType Type { get; }
+
+            #endregion Public Properties
+
+
+
+            #region Public Constructors
 
             public OutputInfo(
                 NoteType type,
@@ -373,7 +422,17 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 ReplacementText = replacementText;
             }
 
+            #endregion Public Constructors
+
+
+
+            #region Public Methods
+
             public bool IsValid() => Enabled && Text != null;
+
+            #endregion Public Methods
         }
+
+        #endregion Public Classes
     }
 }

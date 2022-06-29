@@ -5,7 +5,15 @@ namespace MusicLoverHandbook.Models.JSON
 {
     public class NoteDesrializationConverter : JsonConverter<NoteRawImportModel>
     {
+        #region Public Properties
+
         public override bool CanWrite => false;
+
+        #endregion Public Properties
+
+
+
+        #region Public Methods
 
         public override NoteRawImportModel? ReadJson(
             JsonReader reader,
@@ -37,6 +45,12 @@ namespace MusicLoverHandbook.Models.JSON
             throw new NotImplementedException();
         }
 
+        #endregion Public Methods
+
+
+
+        #region Private Methods
+
         private JObject? CutProp(JToken obj) => obj.First!.Values<JObject>().First();
 
         private JObject GetCuttedTree(JObject obj)
@@ -54,5 +68,7 @@ namespace MusicLoverHandbook.Models.JSON
 
             return token;
         }
+
+        #endregion Private Methods
     }
 }

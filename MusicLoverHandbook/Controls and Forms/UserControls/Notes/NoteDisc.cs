@@ -7,6 +7,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteDisc : NoteControlMidder
     {
+        #region Public Constructors
+
         public NoteDisc(
             IParentControl author,
             string text,
@@ -17,5 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             InitializeComponent();
             Icon = Properties.Resources.DiscIcon;
         }
+
+        #endregion Public Constructors
     }
 }

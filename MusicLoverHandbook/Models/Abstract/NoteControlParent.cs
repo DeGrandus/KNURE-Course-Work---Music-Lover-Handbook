@@ -9,9 +9,16 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent
     {
+        #region Private Fields
+
         private ObservableCollection<INoteControlChild> innerNotes = new();
 
+        #endregion Private Fields
+
+        #region Public Properties
+
         public Panel InnerContentPanel { get; }
+
         public ObservableCollection<INoteControlChild> InnerNotes
         {
             get => innerNotes;
@@ -35,7 +42,19 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public int Offset { get; set; }
 
+        #endregion Public Properties
+
+
+
+        #region Protected Properties
+
         protected TableLayoutPanel TableOffsetter { get; }
+
+        #endregion Protected Properties
+
+
+
+        #region Protected Constructors
 
         protected NoteControlParent(
             string text,
@@ -67,6 +86,12 @@ namespace MusicLoverHandbook.Models.Abstract
 
             Linker = new ContentLinker(this);
         }
+
+        #endregion Protected Constructors
+
+
+
+        #region Public Methods
 
         public void AddNote(NoteControl note, ContentLinker linker)
         {
@@ -185,15 +210,27 @@ namespace MusicLoverHandbook.Models.Abstract
             ResumeLayout();
         }
 
+        #endregion Public Methods
+
+
+
+        #region Protected Methods
+
         protected override void SetupLayout()
         {
             base.SetupLayout();
             TextLabel.DoubleClick += (sender, e) => OnDoubleClick();
         }
 
+        #endregion Protected Methods
+
+        #region Private Methods
+
         private void SetupLinker()
         {
             Linker = new ContentLinker(this);
         }
+
+        #endregion Private Methods
     }
 }

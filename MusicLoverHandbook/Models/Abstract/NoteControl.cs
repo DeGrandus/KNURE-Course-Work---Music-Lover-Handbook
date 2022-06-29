@@ -15,6 +15,8 @@ namespace MusicLoverHandbook.Models.Abstract
     [System.ComponentModel.DesignerCategory("Code")]
     public abstract class NoteControl : UserControl, INoteControl
     {
+        #region Private Fields
+
         private ToolTip ballonTip;
         private bool isDeleteShown;
         private bool isEditShown;
@@ -34,6 +36,11 @@ namespace MusicLoverHandbook.Models.Abstract
         private string noteDescription;
         private string noteText;
         private Color theme;
+
+        #endregion Private Fields
+
+        #region Public Properties
+
         ControlCollection INoteControl.Controls => Controls;
 
         public ButtonPanel DeleteButton { get; private set; }
@@ -136,11 +143,23 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public NoteCreationOrder? UsedCreationOrder { get; }
 
+        #endregion Public Properties
+
+
+
+        #region Protected Properties
+
         //protected virtual CertainTypedContractResolver ContractResolver =>
         //    new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
 
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
+
+        #endregion Protected Properties
+
+
+
+        #region Protected Constructors
 
         protected NoteControl(
             string text,
@@ -157,8 +176,15 @@ namespace MusicLoverHandbook.Models.Abstract
             InitValues(text, description);
         }
 
+        #endregion Protected Constructors
+
+
+
+        #region Public Methods
+
         public static explicit operator SimpleNoteModel(NoteControl fromNoteControl) =>
             new SimpleNoteModel(fromNoteControl);
+
         public virtual void ChangeSize(int size)
         {
             sizeS = size;
@@ -247,6 +273,12 @@ namespace MusicLoverHandbook.Models.Abstract
             return $@"{GetType().Name} : [ Name: {NoteName} | Desc: {NoteDescription} | Type: {NoteType} ]";
         }
 
+        #endregion Public Methods
+
+
+
+        #region Protected Methods
+
         protected void EditClick()
         {
             var mainForm = FindForm() as MainForm;
@@ -279,6 +311,12 @@ namespace MusicLoverHandbook.Models.Abstract
                         chain.AddFirst((SimpleNoteModel)asCtrl);
             }
             return chain;
+        }
+
+        protected virtual void InitValues(string text, string description)
+        {
+            NoteName = text;
+            NoteDescription = description;
         }
 
         protected virtual void SetupLayout()
@@ -354,29 +392,41 @@ namespace MusicLoverHandbook.Models.Abstract
             ResumeLayout();
         }
 
-        private void Setup_MainElements_Events()
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private void InitCustomization()
         {
-            EditButton.Click += (sender, e) => EditClick();
-            DeleteButton.Click += (sender, e) =>
+            foreach (
+                var control in new Control[] { TextLabel, InfoButton, DeleteButton, EditButton }
+            )
             {
-                if (this is INoteControlChild asChild)
-                {
-                    var box = MessageBox.Show(
-                        $"Are you sure you want to delete {NoteType} {NoteName}?",
-                        "Delete warning",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning
-                    );
-                    if (box == DialogResult.Yes)
-                    {
-                        if (asChild.ParentNote is INoteControlParent asParent)
-                            asParent.Linker.InnerNotes.Remove(asChild);
-                        else
-                            asChild.ParentNote.InnerNotes.Remove(asChild);
-                        FileManager.Instance.HistoryManager.UpdateHistory(asChild.GetFirstParent());
-                    }
-                }
-            };
+                control.MouseEnter += OnButtonMouseEnter;
+                control.MouseLeave += OnButtonMouseLeave;
+            }
+        }
+
+        private void OnButtonMouseEnter(object? sender, EventArgs e)
+        {
+            if (sender is Control control)
+                control.BackColor = ControlPaint.Light(control.BackColor, 0.4f);
+        }
+
+        private void OnButtonMouseLeave(object? sender, EventArgs e)
+        {
+            if (sender is Control control)
+                control.BackColor = ThemeColor;
+        }
+
+        private void RedrawMarked()
+        {
+            if (mainTable == null)
+                return;
+            if (IsMarked)
+                mainTable.Controls.Add(mark, 0, 0);
+            else
+                mainTable.Controls.Remove(mark);
         }
 
         private void Setup_MainElements()
@@ -420,6 +470,31 @@ namespace MusicLoverHandbook.Models.Abstract
             };
         }
 
+        private void Setup_MainElements_Events()
+        {
+            EditButton.Click += (sender, e) => EditClick();
+            DeleteButton.Click += (sender, e) =>
+            {
+                if (this is INoteControlChild asChild)
+                {
+                    var box = MessageBox.Show(
+                        $"Are you sure you want to delete {NoteType} {NoteName}?",
+                        "Delete warning",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning
+                    );
+                    if (box == DialogResult.Yes)
+                    {
+                        if (asChild.ParentNote is INoteControlParent asParent)
+                            asParent.Linker.InnerNotes.Remove(asChild);
+                        else
+                            asChild.ParentNote.InnerNotes.Remove(asChild);
+                        FileManager.Instance.HistoryManager.UpdateHistory(asChild.GetFirstParent());
+                    }
+                }
+            };
+        }
+
         private void Setup_ToolTip()
         {
             ballonTip = new ToolTip();
@@ -431,45 +506,6 @@ namespace MusicLoverHandbook.Models.Abstract
             ballonTip.InitialDelay = 100;
         }
 
-        protected virtual void InitValues(string text, string description)
-        {
-            NoteName = text;
-            NoteDescription = description;
-        }
-
-        private void InitCustomization()
-        {
-            foreach (
-                var control in new Control[] { TextLabel, InfoButton, DeleteButton, EditButton }
-            )
-            {
-                control.MouseEnter += OnButtonMouseEnter;
-                control.MouseLeave += OnButtonMouseLeave;
-            }
-        }
-
-        private void OnButtonMouseEnter(object? sender, EventArgs e)
-        {
-            if (sender is Control control)
-                control.BackColor = ControlPaint.Light(control.BackColor, 0.4f);
-        }
-
-        private void OnButtonMouseLeave(object? sender, EventArgs e)
-        {
-            if (sender is Control control)
-                control.BackColor = ThemeColor;
-        }
-
-        private void RedrawMarked()
-        {
-            if (mainTable == null)
-                return;
-            if (IsMarked)
-                mainTable.Controls.Add(mark, 0, 0);
-            else
-                mainTable.Controls.Remove(mark);
-        }
-
         private void ToogleViewing(bool isVis, Control toToggle)
         {
             if (!isVis)
@@ -478,6 +514,14 @@ namespace MusicLoverHandbook.Models.Abstract
                 toToggle.Show();
         }
 
+        #endregion Private Methods
+
+
+
+        #region Public Events
+
         public event ThemeChangeEventHandler? ColorChanged;
+
+        #endregion Public Events
     }
 }

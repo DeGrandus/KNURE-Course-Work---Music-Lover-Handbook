@@ -8,7 +8,15 @@ namespace MusicLoverHandbook.Logic.Notes
 {
     public class RawNoteManager
     {
+        #region Private Fields
+
         private MainForm? mainForm;
+
+        #endregion Private Fields
+
+
+
+        #region Public Constructors
 
         public RawNoteManager(MainForm mainForm)
         {
@@ -19,6 +27,12 @@ namespace MusicLoverHandbook.Logic.Notes
         {
             mainForm = null;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Methods
 
         public NoteControl RecreateFromImported(NoteRawImportModel model)
         {
@@ -46,7 +60,8 @@ namespace MusicLoverHandbook.Logic.Notes
                                         .Select(dataCluster => dataCluster.Type)
                                         .Any(
                                             clusterType =>
-                                                clusterType == type || clusterType.IsAssignableTo(type)
+                                                clusterType == type
+                                                || clusterType.IsAssignableTo(type)
                                         )
                             )
                 );
@@ -59,7 +74,9 @@ namespace MusicLoverHandbook.Logic.Notes
             foreach (var param in suitableConstructor.GetParameters())
             {
                 var modelDataCluster = modelData.Find(
-                    dataCluster => dataCluster.Type == param.ParameterType || dataCluster.Type.IsAssignableTo(param.ParameterType)
+                    dataCluster =>
+                        dataCluster.Type == param.ParameterType
+                        || dataCluster.Type.IsAssignableTo(param.ParameterType)
                 );
                 modelData.Remove(modelDataCluster);
                 orderedConstructorParamObjects.Add(modelDataCluster.Data);
@@ -79,5 +96,7 @@ namespace MusicLoverHandbook.Logic.Notes
 
             return recreated;
         }
+
+        #endregion Public Methods
     }
 }

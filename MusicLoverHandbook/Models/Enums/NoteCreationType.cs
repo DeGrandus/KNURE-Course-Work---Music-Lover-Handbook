@@ -1,5 +1,4 @@
 ﻿using MusicLoverHandbook.Models.Attributes;
-using System.Reflection;
 
 namespace MusicLoverHandbook.Models.Enums
 {
@@ -14,7 +13,15 @@ namespace MusicLoverHandbook.Models.Enums
 
     public class MissingRequiredAttributeException : Exception
     {
+        #region Public Properties
+
         public override string Message => base.Message;
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public MissingRequiredAttributeException(object source, Type missingAttirbute)
             : base(Decorate(source, missingAttirbute))
@@ -22,9 +29,17 @@ namespace MusicLoverHandbook.Models.Enums
             Source = source.ToString();
         }
 
+        #endregion Public Constructors
+
+
+
+        #region Private Methods
+
         private static string Decorate(object source, Type missing)
         {
             return $"{source.GetType()} \"{source}\" missing attribute: {missing}";
         }
+
+        #endregion Private Methods
     }
 }

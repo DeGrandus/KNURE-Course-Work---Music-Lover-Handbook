@@ -5,6 +5,8 @@ namespace MusicLoverHandbook.View.Forms
 {
     public partial class SettingsMenu : Form
     {
+        #region Public Constructors
+
         public SettingsMenu(MainForm mainForm)
         {
             InitializeComponent();
@@ -48,8 +50,9 @@ namespace MusicLoverHandbook.View.Forms
                 if (result == DialogResult.OK)
                     FileManager.Instance.SetMusicFilesFolderPath(selectFolderMenu.SelectedPath);
                 currentMusicFilesFolderField.Text = FileManager.Instance.MusicFilesFolderPath;
-
             };
         }
+
+        #endregion Public Constructors
     }
 }

@@ -2,9 +2,13 @@
 {
     public class RenderPanel : Panel
     {
+        #region Public Constructors
+
         public RenderPanel()
         {
             AutoScroll = true;
         }
+
+        #endregion Public Constructors
     }
 }

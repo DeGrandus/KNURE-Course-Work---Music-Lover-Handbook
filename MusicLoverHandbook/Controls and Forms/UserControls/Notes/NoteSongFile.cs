@@ -10,6 +10,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteSongFile : NoteControlChild
     {
+        #region Public Constructors
+
         public NoteSongFile(
             IParentControl song,
             string text,
@@ -27,13 +29,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 var splitted = Regex.Replace(desc, @"(\r|\n)+", "\r\n").Split("\r\n");
                 if (
                     splitted.Length > 0
-                    && ((Path.IsPathRooted(splitted[0])
-                    && File.Exists(splitted[0])) || FileManager.Instance.GetMusicFilePathByName(splitted[0]) is string)
+                    && (
+                        (Path.IsPathRooted(splitted[0]) && File.Exists(splitted[0]))
+                        || FileManager.Instance.GetMusicFilePathByName(splitted[0]) is string
+                    )
                 )
                 {
-                    Process.Start("explorer.exe", FileManager.Instance.GetMusicFilePathByName(splitted[0])??splitted[0]);
+                    Process.Start(
+                        "explorer.exe",
+                        FileManager.Instance.GetMusicFilePathByName(splitted[0]) ?? splitted[0]
+                    );
                 }
             };
         }
+
+        #endregion Public Constructors
     }
 }

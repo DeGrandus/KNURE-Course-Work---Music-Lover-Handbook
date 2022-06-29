@@ -7,6 +7,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public partial class NoteAdd : NoteControlChild
     {
+        #region Public Constructors
+
         public NoteAdd(NoteControlParent parent, string noteText, string noteDescription)
             : base(parent, noteText, noteDescription, NoteType.AddButton, null)
         {
@@ -16,6 +18,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.AddIcon;
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Protected Methods
 
         protected override LinkedList<SimpleNoteModel> GenerateNoteChain()
         {
@@ -58,5 +66,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             }
             return chain;
         }
+
+        #endregion Protected Methods
     }
 }

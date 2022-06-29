@@ -6,9 +6,17 @@ namespace MusicLoverHandbook.Models
 {
     public class FontContainer
     {
+        #region Public Properties
+
         public static FontContainer Instance { get; }
 
         public FontFamily[] LoadedFamilies { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         static FontContainer()
         {
@@ -71,5 +79,7 @@ namespace MusicLoverHandbook.Models
                 ;
             }
         }
+
+        #endregion Public Constructors
     }
 }

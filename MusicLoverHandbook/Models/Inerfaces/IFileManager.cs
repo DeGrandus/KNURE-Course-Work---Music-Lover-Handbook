@@ -5,12 +5,26 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface IFileManager
     {
+        #region Public Properties
+
         string DataFilePath { get; }
+        HistoryManager HistoryManager { get; }
         string MusicFilesFolderPath { get; }
 
         JsonSerializerSettings SerializerSettings { get; }
 
+        #endregion Public Properties
+
+
+
+        #region Public Methods
+
+        bool CheckMusicFilePathOrName(string filePath);
+
+        string CopyToMusicFolder(string filePath);
+
         string GetData();
+
         string GetData(string dataFilePath);
 
         string? GetMusicFilePathByName(string name);
@@ -23,23 +37,24 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
         bool IsMusicFilesFolderValid();
 
+        string MoveToMusicFolder(string filePath);
+
         List<NoteControl> RecreateNotesFromData();
 
         List<NoteControl> RecreateNotesFromData(string dataFilePath);
 
+        void ResetDataFilePathToDefault();
+
+        void ResetMusicFilesFolderPathToDefalut();
+
         void SetDataPath(string path);
 
-        string MoveToMusicFolder(string filePath);
         void SetMusicFilesFolderPath(string path);
 
         void WriteToDataFile(IParentControl parentingControl);
 
         void WriteToDataFile(IParentControl parentingControl, string dataFilePath);
-        string CopyToMusicFolder(string filePath);
-        bool CheckMusicFilePathOrName(string filePath);
 
-        void ResetDataFilePathToDefault();
-        void ResetMusicFilesFolderPathToDefalut();
-        HistoryManager HistoryManager { get; }
+        #endregion Public Methods
     }
 }

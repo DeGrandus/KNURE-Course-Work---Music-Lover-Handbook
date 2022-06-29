@@ -5,11 +5,19 @@ namespace MusicLoverHandbook.Models
 {
     public class SimpleNoteModel
     {
+        #region Public Properties
+
         public string Description { get; }
 
         public string Name { get; }
 
         public NoteType NoteType { get; }
+
+        #endregion Public Properties
+
+
+
+        #region Public Constructors
 
         public SimpleNoteModel(INoteControl note)
         {
@@ -24,5 +32,7 @@ namespace MusicLoverHandbook.Models
             Description = description;
             NoteType = noteType;
         }
+
+        #endregion Public Constructors
     }
 }

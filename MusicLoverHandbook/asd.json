@@ -1,11 +1,11 @@
 [
   {
     "Author": {
-  "InnerNotes": [],
-  "NoteDescription": "",
-  "NoteName": "Unknown Author",
-  "NoteType": "Author",
-  "UsedCreationOrder": "AuthorThenDisc"
-}
+      "InnerNotes": [],
+      "NoteDescription": "",
+      "NoteName": "Unknown Author",
+      "NoteType": "Author",
+      "UsedCreationOrder": "AuthorThenDisc"
+    }
   }
 ]
