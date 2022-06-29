@@ -12,8 +12,6 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Private Fields
 
-
-
         #region Public Constructors
 
         public TypeRestrictedContractResolver(params Type[] specials)
@@ -23,8 +21,6 @@ namespace MusicLoverHandbook.Models.JSON
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -39,8 +35,6 @@ namespace MusicLoverHandbook.Models.JSON
         ) => new TypeRestrictedContractResolver(r1.usedTypes.Concat(r2.usedTypes).ToArray());
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 

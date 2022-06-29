@@ -10,8 +10,6 @@ namespace MusicLoverHandbook.Models.Attributes
 
         #endregion Public Fields
 
-
-
         #region Public Constructors
 
         public OrderAttribute(params NoteType[] types)

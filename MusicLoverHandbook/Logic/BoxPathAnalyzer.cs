@@ -1,4 +1,4 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.Managers;
 using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
@@ -16,8 +16,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         private PathAnalyzerResultHandler? resultsChanged;
 
         #endregion Private Fields
-
-
 
         #region Public Constructors
 
@@ -42,8 +40,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -85,8 +81,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         }
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 
@@ -168,8 +162,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         );
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

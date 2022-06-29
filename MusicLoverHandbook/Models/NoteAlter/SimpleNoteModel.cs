@@ -1,7 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Inerfaces;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.NoteAlter
 {
     public class SimpleNoteModel
     {
@@ -14,8 +14,6 @@ namespace MusicLoverHandbook.Models
         public NoteType NoteType { get; }
 
         #endregion Public Properties
-
-
 
         #region Public Constructors
 

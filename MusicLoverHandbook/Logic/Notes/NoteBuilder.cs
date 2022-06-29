@@ -15,8 +15,6 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public NoteBuilder(MainForm form)
@@ -25,8 +23,6 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 

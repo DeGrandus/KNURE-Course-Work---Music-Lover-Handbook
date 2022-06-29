@@ -11,8 +11,6 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Public Properties
 
-
-
         #region Public Methods
 
         public override NoteRawImportModel? ReadJson(
@@ -46,8 +44,6 @@ namespace MusicLoverHandbook.Models.JSON
         }
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 

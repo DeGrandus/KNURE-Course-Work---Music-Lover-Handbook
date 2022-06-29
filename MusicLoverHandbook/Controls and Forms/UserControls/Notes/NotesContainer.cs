@@ -70,8 +70,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public NotesContainer(
@@ -118,8 +116,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 
         #endregion Public Constructors
 
-
-
         #region Public Methods
 
         public void Insert_AddNoteButton(NoteControlParent note)
@@ -140,8 +136,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         public void InvokeQuickSearch() => QSController.InvokeQuickSearch(qSTextBox.Text);
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 

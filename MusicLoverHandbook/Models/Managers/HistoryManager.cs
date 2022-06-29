@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.Managers
 {
     public class HistoryManager
     {
@@ -17,8 +17,6 @@ namespace MusicLoverHandbook.Models
         public static HistoryManager Instance;
 
         #endregion Public Fields
-
-
 
         #region Public Properties
 
@@ -32,15 +30,11 @@ namespace MusicLoverHandbook.Models
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         static HistoryManager() => Instance = new HistoryManager();
 
         #endregion Public Constructors
-
-
 
         #region Private Constructors
 
@@ -59,8 +53,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Private Constructors
-
-
 
         #region Public Methods
 
@@ -137,8 +129,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 

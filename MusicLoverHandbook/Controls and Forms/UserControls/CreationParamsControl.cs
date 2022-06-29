@@ -1,9 +1,9 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
+using MusicLoverHandbook.Models.Managers;
 using System.ComponentModel;
 using System.Data;
 
@@ -13,10 +13,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     {
         #region Private Fields
 
-        private bool canNameBeEmpty = false;
         private NoteType inputType;
         private bool isRenameInvalid = false;
-
         private BoxPathAnalyzer? pathAnalyzer;
         private string tipText = "";
         private bool useDescriptionPathAnalyzer;
@@ -74,8 +72,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Public Properties
 
-
-
         #region Private Properties
 
         private bool IsRenameFieldTextInvalid
@@ -126,8 +122,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -232,8 +226,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         }
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 
@@ -383,8 +375,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Methods
 
-
-
         #region Public Classes
 
         public class OutputInfo
@@ -402,8 +392,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             public NoteType Type { get; }
 
             #endregion Public Properties
-
-
 
             #region Public Constructors
 
@@ -423,8 +411,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             }
 
             #endregion Public Constructors
-
-
 
             #region Public Methods
 

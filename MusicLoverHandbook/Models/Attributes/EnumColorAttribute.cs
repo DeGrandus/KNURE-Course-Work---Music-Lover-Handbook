@@ -10,8 +10,6 @@
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public EnumColorAttribute(int alphaMain, int colorMain, int alphaLite, int colorLite)

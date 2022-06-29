@@ -14,8 +14,6 @@
 
             #endregion Public Properties
 
-
-
             #region Public Constructors
 
             public Taggable(TagDataType type, string? value = null)
@@ -28,8 +26,6 @@
             }
 
             #endregion Public Constructors
-
-
 
             #region Public Methods
 

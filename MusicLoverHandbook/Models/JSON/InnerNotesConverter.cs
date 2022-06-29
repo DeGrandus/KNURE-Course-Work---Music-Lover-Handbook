@@ -19,8 +19,6 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public InnerNotesConverter(JsonSerializerSettings usedSettings)
@@ -29,8 +27,6 @@ namespace MusicLoverHandbook.Models.JSON
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 

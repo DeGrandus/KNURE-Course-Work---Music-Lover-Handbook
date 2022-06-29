@@ -1,9 +1,9 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Controls_and_Forms.UserControls;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
+using MusicLoverHandbook.Models.NoteAlter;
 using MusicLoverHandbook.View.Forms;
 
 namespace MusicLoverHandbook.Logic
@@ -17,8 +17,6 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Private Fields
 
-
-
         #region Public Constructors
 
         public NoteCreationMenuController(MainForm mainForm)
@@ -28,8 +26,6 @@ namespace MusicLoverHandbook.Logic
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -69,8 +65,6 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Public Methods
 
-
-
         #region Public Classes
 
         public class NoteCreationResult
@@ -87,8 +81,6 @@ namespace MusicLoverHandbook.Logic
 
             #endregion Public Properties
 
-
-
             #region Public Constructors
 
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? resultNote)
@@ -98,8 +90,6 @@ namespace MusicLoverHandbook.Logic
             }
 
             #endregion Public Constructors
-
-
 
             #region Public Methods
 

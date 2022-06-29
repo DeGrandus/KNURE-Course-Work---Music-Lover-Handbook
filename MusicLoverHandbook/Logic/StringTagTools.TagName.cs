@@ -12,8 +12,6 @@
 
             #endregion Public Properties
 
-
-
             #region Public Constructors
 
             public TagName(TagDataType type, string? value = null) : base(type, value)

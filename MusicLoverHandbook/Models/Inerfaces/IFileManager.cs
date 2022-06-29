@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Managers;
 using Newtonsoft.Json;
 
 namespace MusicLoverHandbook.Models.Inerfaces
@@ -7,16 +8,13 @@ namespace MusicLoverHandbook.Models.Inerfaces
     {
         #region Public Properties
 
-        bool SaveOnClose { get; }
         string DataFilePath { get; }
         HistoryManager HistoryManager { get; }
         string MusicFilesFolderPath { get; }
-
+        bool SaveOnClose { get; }
         JsonSerializerSettings SerializerSettings { get; }
 
         #endregion Public Properties
-
-
 
         #region Public Methods
 

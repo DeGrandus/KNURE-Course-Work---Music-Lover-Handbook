@@ -1,7 +1,7 @@
-﻿using MusicLoverHandbook.Models;
-using MusicLoverHandbook.Models.Abstract;
+﻿using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
+using MusicLoverHandbook.Models.NoteAlter;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
@@ -20,8 +20,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
         }
 
         #endregion Public Constructors
-
-
 
         #region Protected Methods
 

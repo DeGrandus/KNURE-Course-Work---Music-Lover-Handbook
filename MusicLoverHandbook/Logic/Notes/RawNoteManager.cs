@@ -14,8 +14,6 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Private Fields
 
-
-
         #region Public Constructors
 
         public RawNoteManager(MainForm mainForm)
@@ -29,8 +27,6 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 

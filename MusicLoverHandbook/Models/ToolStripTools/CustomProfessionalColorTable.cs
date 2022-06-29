@@ -1,4 +1,4 @@
-﻿namespace MusicLoverHandbook.Models
+﻿namespace MusicLoverHandbook.Models.ToolStripTools
 {
     public class CustomProfessionalColorTable : ProfessionalColorTable
     {
@@ -17,8 +17,6 @@
         public override Color ImageMarginRevealedGradientMiddle => imageStripColor;
 
         #endregion Public Properties
-
-
 
         #region Public Constructors
 

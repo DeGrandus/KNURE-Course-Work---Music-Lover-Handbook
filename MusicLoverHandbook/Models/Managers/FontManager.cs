@@ -2,28 +2,26 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.Managers
 {
-    public class FontContainer
+    public class FontManager
     {
         #region Public Properties
 
-        public static FontContainer Instance { get; }
+        public static FontManager Instance { get; }
 
         public FontFamily[] LoadedFamilies { get; }
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
-        static FontContainer()
+        static FontManager()
         {
-            Instance = new FontContainer();
+            Instance = new FontManager();
         }
 
-        public FontContainer()
+        public FontManager()
         {
             var tempPath = Path.GetTempPath();
             var executingAssembly = Assembly.GetExecutingAssembly();

@@ -22,8 +22,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-
-
         #region Protected Constructors
 
         protected NoteControlChild(
@@ -41,8 +39,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Protected Constructors
-
-
 
         #region Public Methods
 
@@ -83,8 +79,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Methods
 
-
-
         #region Protected Methods
 
         protected override void InitValues(string text, string description)
@@ -104,8 +98,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Protected Methods
-
-
 
         #region Private Delegates
 

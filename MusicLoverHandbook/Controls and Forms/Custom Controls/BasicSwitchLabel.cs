@@ -8,8 +8,6 @@
 
         #endregion Public Fields
 
-
-
         #region Private Fields
 
         private string basicTooltipText = "";
@@ -78,8 +76,6 @@
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public BasicSwitchLabel()
@@ -134,15 +130,11 @@
 
         #endregion Public Constructors
 
-
-
         #region Public Methods
 
         public int? GetEventCount() => specialStateChanged?.GetInvocationList().Length;
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 
@@ -184,8 +176,6 @@
 
         #endregion Public Delegates
 
-
-
         #region Public Events
 
         public event StateChangeHandler SpecialStateChanged
@@ -195,8 +185,6 @@
         }
 
         #endregion Public Events
-
-
 
         #region Public Enums
 

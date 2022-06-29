@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.ToolStripTools;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
@@ -10,17 +11,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Fields
 
-
-
         #region Public Properties
 
         public ContextMenuStrip MenuStrip { get; set; }
 
         #endregion Public Properties
 
-
-
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public StripMenuButton()
         {
@@ -34,6 +31,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             };
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

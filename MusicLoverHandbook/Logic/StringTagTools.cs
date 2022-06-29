@@ -21,8 +21,6 @@ namespace MusicLoverHandbook.Logic
         //    + "# \n"
         //    + "# #####justempty";
 
-
-
         #region Public Methods
 
         public static Dictionary<TagName, TagValue> GetTagged(string source, char tagMarker)

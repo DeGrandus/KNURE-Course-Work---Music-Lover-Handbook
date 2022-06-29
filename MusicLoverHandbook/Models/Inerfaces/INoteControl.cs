@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Models.JSON;
+using MusicLoverHandbook.Models.NoteAlter;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
@@ -19,8 +20,6 @@ namespace MusicLoverHandbook.Models.Inerfaces
         new string NoteName { get; set; }
 
         #endregion Public Properties
-
-
 
         #region Public Methods
 

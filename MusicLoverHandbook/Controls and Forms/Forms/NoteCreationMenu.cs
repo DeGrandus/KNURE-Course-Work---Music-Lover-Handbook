@@ -6,6 +6,7 @@ using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
+using MusicLoverHandbook.Models.Managers;
 using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox;
 
@@ -13,10 +14,21 @@ namespace MusicLoverHandbook.View.Forms
 {
     public partial class NoteCreationMenu : Form
     {
+        #region Public Fields
+
         public LinkedList<CreationParamsControl> InputDataOrdered = new();
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
+
+        #endregion Public Fields
+
+        #region Private Fields
+
         private NoteCreationOrder creationOrder = NoteCreationOrder.AuthorThenDisc;
         private Label selectedCreationTypeLabel;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public NoteCreationOrder CreationOrder
         {
@@ -40,6 +52,10 @@ namespace MusicLoverHandbook.View.Forms
 
         public MainForm MainForm { get; }
 
+        #endregion Public Properties
+
+        #region Private Properties
+
         private List<CreationParamsControl> allInputs => InputDataOrdered.ToList();
 
         private Label SelectedCreationTypeLabel
@@ -56,6 +72,10 @@ namespace MusicLoverHandbook.View.Forms
             }
         }
 
+        #endregion Private Properties
+
+        #region Public Constructors + Destructors
+
         public NoteCreationMenu(MainForm mainForm)
         {
             InitializeComponent();
@@ -65,6 +85,10 @@ namespace MusicLoverHandbook.View.Forms
             Setup_SwitchButtons();
             SetupLayout();
         }
+
+        #endregion Public Constructors + Destructors
+
+        #region Private Methods
 
         private void ClearInputEvents()
         {
@@ -329,10 +353,20 @@ namespace MusicLoverHandbook.View.Forms
                 tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
         }
 
+        private void Setup_SwitchButtons()
+        {
+            selectedCreationTypeLabel = discInAuthorLabel;
+            discInAuthorLabel.Click += (sender, e) =>
+                CreationOrder = NoteCreationOrder.AuthorThenDisc;
+            authorInDiscLabel.Click += (sender, e) =>
+                CreationOrder = NoteCreationOrder.DiscThenAuthor;
+            allInputs.ForEach(x => x.InputNameBox.CheckTextValidation());
+        }
+
         private void SetupLayout()
         {
             StartPosition = FormStartPosition.Manual;
-            var fontfam = FontContainer.Instance.LoadedFamilies[0];
+            var fontfam = FontManager.Instance.LoadedFamilies[0];
             Font = new Font(fontfam, 12, GraphicsUnit.Point);
             Size = new Size(750, MainForm.Height - 20);
             MinimumSize = new Size(400, 750);
@@ -348,16 +382,6 @@ namespace MusicLoverHandbook.View.Forms
             Setup_Buttons();
             Setup_DragDrop();
             Setup_InputsBase();
-        }
-
-        private void Setup_SwitchButtons()
-        {
-            selectedCreationTypeLabel = discInAuthorLabel;
-            discInAuthorLabel.Click += (sender, e) =>
-                CreationOrder = NoteCreationOrder.AuthorThenDisc;
-            authorInDiscLabel.Click += (sender, e) =>
-                CreationOrder = NoteCreationOrder.DiscThenAuthor;
-            allInputs.ForEach(x => x.InputNameBox.CheckTextValidation());
         }
 
         private void SongInputStateChanged(SmartComboBox box, InputStatus state)
@@ -387,5 +411,7 @@ namespace MusicLoverHandbook.View.Forms
 
             InputSongFile.InputNameBox.CheckTextValidation();
         }
+
+        #endregion Private Methods
     }
 }

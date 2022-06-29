@@ -1,4 +1,4 @@
-﻿namespace MusicLoverHandbook.Models
+﻿namespace MusicLoverHandbook.Models.ToolStripTools
 {
     public class ColoredIconsBarRenderer : ToolStripProfessionalRenderer
     {

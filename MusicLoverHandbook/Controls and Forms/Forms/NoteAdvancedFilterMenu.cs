@@ -2,10 +2,10 @@
 using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.NoteAlter;
 using System.Data;
 using Timer = System.Windows.Forms.Timer;
 
@@ -18,8 +18,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public List<INoteControlChild> FinalizedOutput = new();
 
         #endregion Public Fields
-
-
 
         #region Private Fields
 
@@ -45,8 +43,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public MainForm MainForm { get; }
 
         #endregion Public Properties
-
-
 
         #region Private Properties
 
@@ -95,8 +91,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #endregion Public Constructors
 
-
-
         #region Public Methods
 
         public void ApplyFilterButton_Click(object? sender, EventArgs e)
@@ -124,8 +118,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         }
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 
@@ -158,8 +150,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                         select (
                             Head: lite.OriginalNoteRefference.Clone(),
                             LiteFind: from flattened in lite.OriginalNoteRefference.Flatten()
-                            where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
-                            select flattened
+                                      where FilteredNotesFinal.Any(f => f.Equals(flattened) && f != flattened)
+                                      select flattened
                         );
 
                     var output = new List<INoteControlChild>();
@@ -502,8 +494,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         );
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.Managers
 {
     public class FileManager : IFileManager
     {
@@ -24,6 +24,15 @@ namespace MusicLoverHandbook.Models
         public string DataFilePath { get; private set; }
         public HistoryManager HistoryManager => HistoryManager.Instance;
         public string MusicFilesFolderPath { get; private set; }
+
+        public bool SaveOnClose
+        {
+            get => settings.SaveOnClose; set
+            {
+                settings.SaveOnClose = value;
+                settings.Save();
+            }
+        }
 
         public JsonSerializerSettings SerializerSettings
         {
@@ -46,18 +55,7 @@ namespace MusicLoverHandbook.Models
             }
         }
 
-        public bool SaveOnClose
-        {
-            get => settings.SaveOnClose; set
-            {
-                settings.SaveOnClose = value;
-                settings.Save();
-            }
-        }
-
         #endregion Public Properties
-
-
 
         #region Public Constructors
 
@@ -67,8 +65,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Public Constructors
-
-
 
         #region Private Constructors
 
@@ -108,8 +104,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Private Constructors
-
-
 
         #region Public Methods
 

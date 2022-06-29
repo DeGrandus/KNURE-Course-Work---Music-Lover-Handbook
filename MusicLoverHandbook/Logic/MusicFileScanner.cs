@@ -36,8 +36,6 @@ namespace MusicLoverHandbook.Controller
 
         #endregion Public Methods
 
-
-
         #region Private Methods
 
         private static Dictionary<NoteType, string> GetDescriptions(

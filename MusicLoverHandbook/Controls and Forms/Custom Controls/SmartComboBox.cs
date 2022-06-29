@@ -3,7 +3,6 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
@@ -19,8 +18,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         public bool SkipNextErrorToolTip = false;
 
         #endregion Public Fields
-
-
 
         #region Private Fields
 
@@ -72,7 +69,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 BackColor = Color.FromArgb(255, Color.FromArgb((int)value));
                 tooltip.BackColor = ControlPaint.Light(BackColor, 0.8f);
                 status = value;
-                Debug.WriteLine($"Change State to {value} is {this}");
+                //Debug.WriteLine($"Change State to {value} is {this}");
 
                 OnStatusChanged();
                 ToggleActivity();
@@ -81,8 +78,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         }
 
         #endregion Public Properties
-
-
 
         #region Public Constructors
 
@@ -100,8 +95,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -168,16 +161,19 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Methods
 
+        #region Protected Methods
+
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
         }
 
+        #endregion Protected Methods
+
         #region Private Methods
 
         private void CheckForStatus()
         {
-            Debug.WriteLine("DAMN WHO ARE YOU: " + InputType);
             if (!CanBeEmpty && Text.Length == 0)
             {
                 Status = InputStatus.EMPTY_FIELD;
@@ -230,7 +226,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
-        private void OnItemSelected(object? sender, EventArgs e) { }
+        private void OnItemSelected(object? sender, EventArgs e)
+        {
+        }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
@@ -280,8 +278,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

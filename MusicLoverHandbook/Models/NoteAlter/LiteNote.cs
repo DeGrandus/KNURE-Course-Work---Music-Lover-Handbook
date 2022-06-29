@@ -3,7 +3,7 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using System.ComponentModel;
 
-namespace MusicLoverHandbook.Models
+namespace MusicLoverHandbook.Models.NoteAlter
 {
     [DesignerCategory("Code")]
     public class LiteNote : Control
@@ -19,8 +19,6 @@ namespace MusicLoverHandbook.Models
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public LiteNote(string name, string description, NoteControl noteRef)
@@ -34,8 +32,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -63,8 +59,6 @@ namespace MusicLoverHandbook.Models
         }
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 

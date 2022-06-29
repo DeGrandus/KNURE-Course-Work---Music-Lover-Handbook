@@ -22,8 +22,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public SideButtonsPanel(DockStyle dock)
@@ -33,8 +31,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 

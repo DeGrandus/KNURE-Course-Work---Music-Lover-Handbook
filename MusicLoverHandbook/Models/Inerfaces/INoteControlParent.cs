@@ -13,8 +13,6 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
         #endregion Public Properties
 
-
-
         #region Public Methods
 
         void AddNote(NoteControl note, ContentLinker linker);

@@ -21,8 +21,6 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Public Properties
 
-
-
         #region Private Properties
 
         private IEnumerable<INoteControlChild> searchInSource => container.CurrentlyActiveNotes;
@@ -37,8 +35,6 @@ namespace MusicLoverHandbook.Logic
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -66,8 +62,6 @@ namespace MusicLoverHandbook.Logic
         }
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 
@@ -143,8 +137,6 @@ namespace MusicLoverHandbook.Logic
         public delegate void QuickSearchResultHandler(IEnumerable<INoteControlChild> QSResult);
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

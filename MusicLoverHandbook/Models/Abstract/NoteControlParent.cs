@@ -1,6 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.NoteAlter;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -44,15 +45,11 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-
-
         #region Protected Properties
 
         protected TableLayoutPanel TableOffsetter { get; }
 
         #endregion Protected Properties
-
-
 
         #region Protected Constructors
 
@@ -88,8 +85,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Protected Constructors
-
-
 
         #region Public Methods
 
@@ -211,8 +206,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Public Methods
-
-
 
         #region Protected Methods
 

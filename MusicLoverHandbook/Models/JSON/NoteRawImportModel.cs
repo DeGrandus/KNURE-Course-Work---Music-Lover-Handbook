@@ -28,8 +28,6 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public NoteRawImportModel(
@@ -48,8 +46,6 @@ namespace MusicLoverHandbook.Models.JSON
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 

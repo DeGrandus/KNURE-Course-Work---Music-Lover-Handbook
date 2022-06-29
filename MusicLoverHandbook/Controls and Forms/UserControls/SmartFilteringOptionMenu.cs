@@ -1,8 +1,8 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.Forms;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
+using MusicLoverHandbook.Models.NoteAlter;
 using System.Data;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
@@ -16,8 +16,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         public BasicSwitchLabel SSLNSwitch;
 
         #endregion Public Fields
-
-
 
         #region Private Fields
 
@@ -47,8 +45,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, LiteNote[] oneTypedLites)
@@ -68,8 +64,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         }
 
         #endregion Public Constructors
-
-
 
         #region Private Methods
 
@@ -175,8 +169,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         );
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

@@ -15,8 +15,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-
-
         #region Protected Constructors
 
         protected NoteControlMidder(
@@ -31,8 +29,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Protected Constructors
-
-
 
         #region Public Methods
 

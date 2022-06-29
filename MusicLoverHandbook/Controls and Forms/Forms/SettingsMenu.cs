@@ -1,5 +1,5 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Forms;
-using MusicLoverHandbook.Models;
+using MusicLoverHandbook.Models.Managers;
 
 namespace MusicLoverHandbook.View.Forms
 {

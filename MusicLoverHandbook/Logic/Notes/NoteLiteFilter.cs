@@ -1,4 +1,4 @@
-﻿using MusicLoverHandbook.Models;
+﻿using MusicLoverHandbook.Models.NoteAlter;
 using System.Data;
 using System.Text.RegularExpressions;
 
@@ -14,8 +14,6 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public NoteLiteFilter(string byName, string byDesc)
@@ -27,8 +25,6 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         #endregion Public Constructors
-
-
 
         #region Public Methods
 
@@ -44,8 +40,6 @@ namespace MusicLoverHandbook.Logic.Notes
         }
 
         #endregion Public Methods
-
-
 
         #region Private Methods
 

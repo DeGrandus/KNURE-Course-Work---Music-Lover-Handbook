@@ -8,8 +8,6 @@
 
         #endregion Public Properties
 
-
-
         #region Public Constructors
 
         public StringValueAttribute(string value)

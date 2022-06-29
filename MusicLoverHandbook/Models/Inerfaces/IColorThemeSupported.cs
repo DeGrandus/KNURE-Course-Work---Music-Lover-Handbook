@@ -8,15 +8,11 @@
 
         #endregion Public Properties
 
-
-
         #region Public Delegates
 
         public delegate void ThemeChangeEventHandler(object? sender, ColorThemeEventArgs e);
 
         #endregion Public Delegates
-
-
 
         #region Public Events
 

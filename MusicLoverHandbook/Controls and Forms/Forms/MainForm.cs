@@ -4,6 +4,7 @@ using MusicLoverHandbook.Logic.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
+using MusicLoverHandbook.Models.Managers;
 using MusicLoverHandbook.Properties;
 using MusicLoverHandbook.View.Forms;
 using System.ComponentModel;
@@ -21,8 +22,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #endregion Public Fields
 
-
-
         #region Public Properties
 
         public NoteBuilder Builder { get; }
@@ -31,8 +30,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         public NotesContainer NotesContainer { get; }
 
         #endregion Public Properties
-
-
 
         #region Public Constructors
 
@@ -44,7 +41,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             Builder = new(this);
             NoteManager = new(this);
             NotesContainer = new NotesContainer(
-                contentPanel.MovingContentBox,
+                contentPanel.MovingBox,
                 qSTextBox,
                 qSSwitchLabel
             );
@@ -57,9 +54,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #endregion Public Constructors
 
-
-
         #region Private Methods
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            if (FileManager.Instance.SaveOnClose)
+                FileManager.Instance.WriteToDataFile(NotesContainer);
+            base.OnFormClosed(e);
+        }
+
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            SuspendLayout();
+            base.OnResizeBegin(e);
+        }
+
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            ResumeLayout();
+
+            base.OnResizeEnd(e);
+        }
 
         private void AdaptToSize()
         {
@@ -227,17 +242,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             ResumeLayout();
         }
-        protected override void OnResizeBegin(EventArgs e)
-        {
-            SuspendLayout();
-            base.OnResizeBegin(e);
-        }
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            ResumeLayout();
 
-            base.OnResizeEnd(e);
-        }
         private void FillWithNew(IEnumerable<INoteControlChild> newNotes)
         {
             NotesContainer.InnerNotes.Clear();
@@ -290,12 +295,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             }
             else
                 FileManager.Instance.WriteToDataFile(NotesContainer);
-        }
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            if (FileManager.Instance.SaveOnClose)
-                FileManager.Instance.WriteToDataFile(NotesContainer);
-            base.OnFormClosed(e);
         }
 
         private void Setup_AdvancedSearchButton()
@@ -450,7 +449,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void Setup_ReassignFonts()
         {
-            Font = new Font(FontContainer.Instance.LoadedFamilies[0], 15);
+            Font = new Font(FontManager.Instance.LoadedFamilies[0], 15);
             title.Font = ConvertToDesiredHeight(Font, title.Height);
             createNoteButton.Font = Font;
         }
@@ -493,14 +492,14 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             saveButton.BackColor = sortStripButton.BackColor;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font(
-                FontContainer.Instance.LoadedFamilies[0],
+                FontManager.Instance.LoadedFamilies[0],
                 saveButton.Height * 2 / 3,
                 GraphicsUnit.Pixel
             );
             loadButton.BackColor = sortStripButton.BackColor;
             loadButton.FlatStyle = FlatStyle.Flat;
             loadButton.Font = new Font(
-                FontContainer.Instance.LoadedFamilies[0],
+                FontManager.Instance.LoadedFamilies[0],
                 saveButton.Height * 2 / 3,
                 GraphicsUnit.Pixel
             );

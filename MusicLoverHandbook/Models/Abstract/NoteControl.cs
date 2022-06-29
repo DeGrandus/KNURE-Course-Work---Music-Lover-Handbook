@@ -5,6 +5,8 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.JSON;
+using MusicLoverHandbook.Models.Managers;
+using MusicLoverHandbook.Models.NoteAlter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
@@ -145,8 +147,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-
-
         #region Protected Properties
 
         //protected virtual CertainTypedContractResolver ContractResolver =>
@@ -156,8 +156,6 @@ namespace MusicLoverHandbook.Models.Abstract
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
         #endregion Protected Properties
-
-
 
         #region Protected Constructors
 
@@ -177,8 +175,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Protected Constructors
-
-
 
         #region Public Methods
 
@@ -275,8 +271,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Methods
 
-
-
         #region Protected Methods
 
         protected void EditClick()
@@ -324,7 +318,7 @@ namespace MusicLoverHandbook.Models.Abstract
             SuspendLayout();
             Controls.Remove(mainTable);
 
-            var font = FontContainer.Instance.LoadedFamilies[0];
+            var font = FontManager.Instance.LoadedFamilies[0];
             Font = new Font(font, sizeS * textSizeRatio, GraphicsUnit.Pixel);
 
             Padding = new Padding(0);
@@ -515,8 +509,6 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Private Methods
-
-
 
         #region Public Events
 
