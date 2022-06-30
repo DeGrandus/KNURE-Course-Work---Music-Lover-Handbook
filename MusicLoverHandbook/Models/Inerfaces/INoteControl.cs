@@ -5,7 +5,6 @@ namespace MusicLoverHandbook.Models.Inerfaces
 {
     public interface INoteControl
         : INote,
-          IColorThemeSupported,
           INoteSerializable,
           INoteWidelyComparable
     {

@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface IColorThemeSupported
+    public interface IColorThemeSupported : INoteControl
     {
         #region Public Properties
 

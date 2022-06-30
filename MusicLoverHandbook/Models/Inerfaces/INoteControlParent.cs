@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControlParent : INoteControl, IParentControl
+    public interface INoteControlParent : INoteControl
     {
         #region Public Properties
 
@@ -37,14 +37,5 @@ namespace MusicLoverHandbook.Models.Inerfaces
         void UpdateSize();
 
         #endregion Public Methods
-    }
-
-    public interface IParentControl
-    {
-        #region Public Properties
-
-        ObservableCollection<INoteControlChild> InnerNotes { get; }
-
-        #endregion Public Properties
     }
 }
