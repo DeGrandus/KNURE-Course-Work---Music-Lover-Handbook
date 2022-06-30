@@ -3,7 +3,7 @@ using MusicLoverHandbook.Models.Inerfaces;
 
 namespace MusicLoverHandbook.Models.JSON
 {
-    public class NoteRawImportModel : INote
+    public class NoteImportModel : INote
     {
         #region Public Properties
 
@@ -16,7 +16,7 @@ namespace MusicLoverHandbook.Models.JSON
                 (typeof(NoteCreationOrder), UsedCreationOrder),
             };
 
-        public List<NoteRawImportModel>? InnerNotes { get; set; }
+        public List<NoteImportModel>? InnerNotes { get; set; }
 
         public string NoteDescription { get; set; }
 
@@ -30,12 +30,12 @@ namespace MusicLoverHandbook.Models.JSON
 
         #region Public Constructors
 
-        public NoteRawImportModel(
+        public NoteImportModel(
             string noteName,
             string noteDescription,
             NoteType noteType,
             NoteCreationOrder usedCreationOrder,
-            NoteRawImportModel[]? innerNotes
+            NoteImportModel[]? innerNotes
         )
         {
             NoteName = noteName;

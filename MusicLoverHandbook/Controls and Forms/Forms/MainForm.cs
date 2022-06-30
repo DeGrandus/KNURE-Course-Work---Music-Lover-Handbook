@@ -25,7 +25,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         #region Public Properties
 
         public NoteBuilder Builder { get; }
-        public RawNoteManager NoteManager { get; }
+        public RawNoteManager RawNoteManager { get; }
 
         public NotesContainer NotesContainer { get; }
 
@@ -39,7 +39,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             CheckForIllegalCrossThreadCalls = false;
             MinimumSize = new Size(300, 565);
             Builder = new(this);
-            NoteManager = new(this);
+            RawNoteManager = new(this);
             NotesContainer = new NotesContainer(contentPanel.MovingBox, qSTextBox, qSSwitchLabel);
             FileManager.Instance.HistoryManager.UpdateHistory(NotesContainer);
 

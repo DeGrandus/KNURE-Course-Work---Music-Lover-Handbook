@@ -33,7 +33,7 @@ namespace MusicLoverHandbook.Logic
         {
             if (simpleModel.NoteType is NoteType inputType)
             {
-                CreationParamsControl? data = creationMenu.InputDataOrdered
+                CreationParamsControl? data = creationMenu.CreationParemControlsOrdered
                     .ToList()
                     .Find(x => x.InputType == inputType);
                 if (data == null)

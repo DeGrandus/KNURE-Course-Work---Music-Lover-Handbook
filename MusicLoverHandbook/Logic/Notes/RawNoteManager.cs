@@ -30,7 +30,7 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #region Public Methods
 
-        public NoteControl RecreateFromImported(NoteRawImportModel model)
+        public NoteControl RecreateFromImported(NoteImportModel model)
         {
             return RecreateFromImported(
                 model,
@@ -38,7 +38,7 @@ namespace MusicLoverHandbook.Logic.Notes
             );
         }
 
-        public NoteControl RecreateFromImported(NoteRawImportModel model, (Type, object?)[] adj)
+        public NoteControl RecreateFromImported(NoteImportModel model, (Type, object?)[] adj)
         {
             var modelData = model.ConstructorData.ToList();
             modelData = modelData.Concat(adj).ToList();

@@ -5,7 +5,7 @@ using MusicLoverHandbook.Models.Inerfaces;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlChild : NoteControl, INoteChild, INoteControlChild
+    public abstract class NoteControlChild : NoteControl, INoteControlChild
     {
         #region Private Fields
 
@@ -18,7 +18,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public IParentControl ParentNote { get; set; }
 
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+        INoteParent INoteChild.ParentNote => ParentNote as INoteParent ?? null;
 
         #endregion Public Properties
 
@@ -69,11 +69,11 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             var themeColor = () => type.GetColor() ?? Color.Transparent;
             if (inited)
-                ThemeColor = themeColor();
+                MainColor = themeColor();
             else
                 delayedSetup += () =>
                 {
-                    ThemeColor = themeColor();
+                    MainColor = themeColor();
                 };
         }
 

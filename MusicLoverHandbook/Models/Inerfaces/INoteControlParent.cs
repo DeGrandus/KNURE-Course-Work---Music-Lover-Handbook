@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControlParent : INoteControl
+    public interface INoteControlParent : INoteControl, IParentControl, INoteParent
     {
         #region Public Properties
 

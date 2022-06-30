@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlParent : NoteControl, INoteParent, INoteControlParent
+    public abstract class NoteControlParent : NoteControl, INoteControlParent
     {
         #region Private Fields
 

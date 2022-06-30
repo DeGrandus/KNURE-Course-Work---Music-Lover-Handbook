@@ -136,7 +136,7 @@ namespace MusicLoverHandbook.Models.Managers
         {
             var history = ReadHistory();
             var rawHistoryBranch = history[CurrentHistoryBranchIndex].ToObject<
-                List<NoteRawImportModel>
+                List<NoteImportModel>
             >(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
             return rawHistoryBranch!
                 .Select(b => new RawNoteManager().RecreateFromImported(b))

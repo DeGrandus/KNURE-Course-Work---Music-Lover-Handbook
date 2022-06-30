@@ -2,7 +2,7 @@
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface IParentControl : INoteControlParent
+    public interface IParentControl
     {
         #region Public Properties
 

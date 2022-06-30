@@ -10,7 +10,6 @@ using MusicLoverHandbook.Models.NoteAlter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using static MusicLoverHandbook.Models.Inerfaces.IColorThemeSupported;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -133,13 +132,12 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public Label TextLabel { get; private set; }
 
-        public Color ThemeColor
+        public Color MainColor
         {
             get => theme;
             set
             {
                 theme = value;
-                OnColorChanged();
             }
         }
 
@@ -190,7 +188,7 @@ namespace MusicLoverHandbook.Models.Abstract
         public INoteControl Clone()
         {
             var impToClone = Deserialize();
-            var manager = FindForm() is MainForm mf ? mf.NoteManager : new();
+            var manager = FindForm() is MainForm mf ? mf.RawNoteManager : new();
 
             Debug.WriteLine("Clonning before: " + this);
             var tes = manager.RecreateFromImported(impToClone);
@@ -198,9 +196,9 @@ namespace MusicLoverHandbook.Models.Abstract
             return tes;
         }
 
-        public NoteRawImportModel Deserialize()
+        public NoteImportModel Deserialize()
         {
-            return JsonConvert.DeserializeObject<NoteRawImportModel>(
+            return JsonConvert.DeserializeObject<NoteImportModel>(
                 Serialize(),
                 FileManager.Instance.SerializerSettings
             )!;
@@ -229,12 +227,6 @@ namespace MusicLoverHandbook.Models.Abstract
             action(this);
         }
 
-        public void OnColorChanged()
-        {
-            if (ColorChanged != null)
-                ColorChanged(this, new(ThemeColor));
-        }
-
         public bool RoughEquals(object? obj)
         {
             return Equals(obj)
@@ -256,7 +248,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public virtual void SetupColorTheme(NoteType type)
         {
-            ThemeColor = type.GetColor() ?? Color.Transparent;
+            MainColor = type.GetColor() ?? Color.Transparent;
         }
 
         public LiteNote SingleFlatten()
@@ -335,7 +327,7 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 Padding = new Padding(0),
                 Margin = new Padding(0),
-                BackColor = ControlPaint.Light(ThemeColor)
+                BackColor = ControlPaint.Light(MainColor)
             };
 
             var textPanel = new Panel() { Padding = new Padding(0), Margin = new Padding(0), };
@@ -410,7 +402,7 @@ namespace MusicLoverHandbook.Models.Abstract
         private void OnButtonMouseLeave(object? sender, EventArgs e)
         {
             if (sender is Control control)
-                control.BackColor = ThemeColor;
+                control.BackColor = MainColor;
         }
 
         private void RedrawMarked()
@@ -431,7 +423,7 @@ namespace MusicLoverHandbook.Models.Abstract
                 Padding = new Padding(0),
                 Margin = new Padding(0),
                 Text = NoteName,
-                BackColor = ThemeColor,
+                BackColor = MainColor,
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Dock = DockStyle.Fill
@@ -439,7 +431,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
             InfoButton = new ButtonPanel(ButtonType.Info, 0)
             {
-                BackColor = ControlPaint.Light(ThemeColor),
+                BackColor = ControlPaint.Light(MainColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 BackgroundImage = Properties.Resources.InfoIcon,
                 Size = new Size(sizeS, sizeS)
@@ -449,7 +441,7 @@ namespace MusicLoverHandbook.Models.Abstract
             ballonTip.SetToolTip(InfoButton, NoteDescription);
             DeleteButton = new ButtonPanel(ButtonType.Delete, 2)
             {
-                BackColor = ControlPaint.Light(ThemeColor),
+                BackColor = ControlPaint.Light(MainColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 BackgroundImage = Properties.Resources.DeleteIcon,
                 Size = new Size(sizeS, sizeS)
@@ -457,7 +449,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
             EditButton = new ButtonPanel(ButtonType.Edit, 1)
             {
-                BackColor = ControlPaint.Light(ThemeColor),
+                BackColor = ControlPaint.Light(MainColor),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 BackgroundImage = Properties.Resources.EditIcon,
                 Size = new Size(sizeS, sizeS),
@@ -510,10 +502,5 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Private Methods
 
-        #region Public Events
-
-        public event ThemeChangeEventHandler? ColorChanged;
-
-        #endregion Public Events
     }
 }

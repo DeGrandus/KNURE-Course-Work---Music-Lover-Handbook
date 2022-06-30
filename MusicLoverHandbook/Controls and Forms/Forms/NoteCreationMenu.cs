@@ -16,7 +16,7 @@ namespace MusicLoverHandbook.View.Forms
     {
         #region Public Fields
 
-        public LinkedList<CreationParamsControl> InputDataOrdered = new();
+        public LinkedList<CreationParamsControl> CreationParemControlsOrdered = new();
         public LinkedList<Action<SmartComboBox, InputStatus>> InputEventsOrdered = new();
 
         #endregion Public Fields
@@ -56,7 +56,7 @@ namespace MusicLoverHandbook.View.Forms
 
         #region Private Properties
 
-        private List<CreationParamsControl> allInputs => InputDataOrdered.ToList();
+        private List<CreationParamsControl> AllInputs => CreationParemControlsOrdered.ToList();
 
         private Label SelectedCreationTypeLabel
         {
@@ -80,7 +80,7 @@ namespace MusicLoverHandbook.View.Forms
         {
             InitializeComponent();
             MainForm = mainForm;
-            InputDataOrdered = new LinkedList<CreationParamsControl>();
+            CreationParemControlsOrdered = new LinkedList<CreationParamsControl>();
 
             Setup_SwitchButtons();
             SetupLayout();
@@ -92,14 +92,14 @@ namespace MusicLoverHandbook.View.Forms
 
         private void ClearInputEvents()
         {
-            foreach (var inp in InputDataOrdered)
+            foreach (var inp in CreationParemControlsOrdered)
                 inp.InputNameBox.ClearTempEvents();
         }
 
         private void FillWithData(Dictionary<NoteType, (string? Name, string? Description)> data)
         {
             if (
-                InputDataOrdered
+                CreationParemControlsOrdered
                     .Select(x => x.InputNameBox.Status)
                     .Where(x => x == InputStatus.OK || x == InputStatus.CREATION)
                     .Count() > 1
@@ -121,7 +121,7 @@ namespace MusicLoverHandbook.View.Forms
 
             foreach (var kp in data)
             {
-                var input = allInputs.Find(x => x.InputType == kp.Key);
+                var input = AllInputs.Find(x => x.InputType == kp.Key);
                 if (input == null)
                     continue;
 
@@ -138,7 +138,7 @@ namespace MusicLoverHandbook.View.Forms
 
         private void MainInputStateChanged(SmartComboBox box, InputStatus state)
         {
-            var secondary = InputDataOrdered?.First?.Next?.Value;
+            var secondary = CreationParemControlsOrdered?.First?.Next?.Value;
             if (secondary == null)
                 return;
 
@@ -200,7 +200,7 @@ namespace MusicLoverHandbook.View.Forms
                 try
                 {
                     FinalNote = MainForm.Builder.CreateNote(
-                        InputDataOrdered.Select(x => x.GetOutput()),
+                        CreationParemControlsOrdered.Select(x => x.GetOutput()),
                         creationOrder
                     );
                 }
@@ -279,11 +279,11 @@ namespace MusicLoverHandbook.View.Forms
         private void Setup_InputEvents()
         {
             ClearInputEvents();
-            if (InputEventsOrdered.First != null && InputDataOrdered.First != null)
+            if (InputEventsOrdered.First != null && CreationParemControlsOrdered.First != null)
             {
                 var action = InputEventsOrdered.First;
                 for (
-                    var input = InputDataOrdered.First;
+                    var input = CreationParemControlsOrdered.First;
                     input != null && action != null;
                     action = action.Next, input = input.Next
                 )
@@ -300,17 +300,17 @@ namespace MusicLoverHandbook.View.Forms
             Setup_InputsOrder();
             ClearInputEvents();
 
-            if (InputDataOrdered.First == null)
+            if (CreationParemControlsOrdered.First == null)
                 throw new Exception("Something went in Input Field Organization Setup");
 
             if (CreationOrder == NoteCreationOrder.AuthorThenDisc)
-                InputDataOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
+                CreationParemControlsOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
             else
-                InputDataOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
+                CreationParemControlsOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
 
-            foreach (var inp in InputDataOrdered)
+            foreach (var inp in CreationParemControlsOrdered)
             {
-                if (inp == InputDataOrdered.First.Value)
+                if (inp == CreationParemControlsOrdered.First.Value)
                     inp.InputNameBox.CanBeEmpty = false;
                 else
                     inp.InputNameBox.CanBeEmpty = true;
@@ -321,7 +321,7 @@ namespace MusicLoverHandbook.View.Forms
 
             Setup_InputEvents();
 
-            foreach (var input in allInputs)
+            foreach (var input in AllInputs)
             {
                 input.SetLabelFont(new Font(Font.FontFamily, 18, GraphicsUnit.Point));
                 input.InputNameBox.CheckTextValidation();
@@ -330,7 +330,7 @@ namespace MusicLoverHandbook.View.Forms
 
         private void Setup_InputsOrder()
         {
-            InputDataOrdered
+            CreationParemControlsOrdered
                 .ToList()
                 .ForEach(
                     x =>
@@ -340,17 +340,17 @@ namespace MusicLoverHandbook.View.Forms
                     }
                 );
 
-            InputDataOrdered.Clear();
+            CreationParemControlsOrdered.Clear();
             CreationParamsControl main = InputAuthor,
                 secondary = InputDisc;
             if (CreationOrder == NoteCreationOrder.DiscThenAuthor)
                 (main, secondary) = (secondary, main);
-            InputDataOrdered.AddLast(main);
-            InputDataOrdered.AddLast(secondary);
-            InputDataOrdered.AddLast(InputSong);
-            InputDataOrdered.AddLast(InputSongFile);
-            for (var inp = InputDataOrdered.First; inp != null; inp = inp.Next)
-                tableInputs.Controls.Add(inp.Value, 0, allInputs.IndexOf(inp.Value));
+            CreationParemControlsOrdered.AddLast(main);
+            CreationParemControlsOrdered.AddLast(secondary);
+            CreationParemControlsOrdered.AddLast(InputSong);
+            CreationParemControlsOrdered.AddLast(InputSongFile);
+            for (var inp = CreationParemControlsOrdered.First; inp != null; inp = inp.Next)
+                tableInputs.Controls.Add(inp.Value, 0, AllInputs.IndexOf(inp.Value));
         }
 
         private void Setup_SwitchButtons()
@@ -360,7 +360,7 @@ namespace MusicLoverHandbook.View.Forms
                 CreationOrder = NoteCreationOrder.AuthorThenDisc;
             authorInDiscLabel.Click += (sender, e) =>
                 CreationOrder = NoteCreationOrder.DiscThenAuthor;
-            allInputs.ForEach(x => x.InputNameBox.CheckTextValidation());
+            AllInputs.ForEach(x => x.InputNameBox.CheckTextValidation());
         }
 
         private void SetupLayout()

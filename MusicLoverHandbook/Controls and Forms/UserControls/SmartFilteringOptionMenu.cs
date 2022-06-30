@@ -19,7 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #region Private Fields
 
-        private AdvancedFilteringModeChangeEventHandler? advancedFilteringModeChange;
+        private AdvancedFilteringModeChangedHandler? advancedFilteringModeChange;
         private NoteAdvancedFilterMenu filterMenu;
         private bool isValid = true;
         private List<BasicSwitchLabel> options = new List<BasicSwitchLabel>();
@@ -163,7 +163,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #region Public Delegates
 
-        public delegate void AdvancedFilteringModeChangeEventHandler(
+        public delegate void AdvancedFilteringModeChangedHandler(
             BasicSwitchLabel self,
             bool isSpecial
         );
@@ -172,7 +172,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #region Public Events
 
-        public event AdvancedFilteringModeChangeEventHandler AdvancedFilteringModeChange
+        public event AdvancedFilteringModeChangedHandler AdvancedFilteringModeChange
         {
             add => advancedFilteringModeChange += value;
             remove => advancedFilteringModeChange -= value;

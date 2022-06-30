@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MusicLoverHandbook.Models.JSON
 {
-    public class NoteDesrializationConverter : JsonConverter<NoteRawImportModel>
+    public class NoteDesrializationConverter : JsonConverter<NoteImportModel>
     {
         #region Public Properties
 
@@ -13,10 +13,10 @@ namespace MusicLoverHandbook.Models.JSON
 
         #region Public Methods
 
-        public override NoteRawImportModel? ReadJson(
+        public override NoteImportModel? ReadJson(
             JsonReader reader,
             Type objectType,
-            NoteRawImportModel? existingValue,
+            NoteImportModel? existingValue,
             bool hasExistingValue,
             JsonSerializer serializer
         )
@@ -26,7 +26,7 @@ namespace MusicLoverHandbook.Models.JSON
 
             var obj = JObject.Load(reader);
             var repObj = GetCuttedTree(obj);
-            var noteImport = JsonConvert.DeserializeObject<NoteRawImportModel>(
+            var noteImport = JsonConvert.DeserializeObject<NoteImportModel>(
                 repObj.ToString(),
                 new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error }
             );
@@ -36,7 +36,7 @@ namespace MusicLoverHandbook.Models.JSON
 
         public override void WriteJson(
             JsonWriter writer,
-            NoteRawImportModel? value,
+            NoteImportModel? value,
             JsonSerializer serializer
         )
         {

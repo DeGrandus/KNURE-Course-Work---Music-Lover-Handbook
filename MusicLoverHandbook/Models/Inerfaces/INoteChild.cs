@@ -4,7 +4,7 @@
     {
         #region Public Properties
 
-        public INoteParent ParentNote { get; }
+        public new INoteParent ParentNote { get; }
 
         #endregion Public Properties
     }

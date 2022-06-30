@@ -5,13 +5,13 @@ using MusicLoverHandbook.Models.Inerfaces;
 namespace MusicLoverHandbook.Models.Abstract
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    public abstract class NoteControlMidder : NoteControlParent, INoteControlChild, INoteChild
+    public abstract class NoteControlMidder : NoteControlParent, INoteControlChild
     {
         #region Public Properties
 
         public IParentControl ParentNote { get; set; }
 
-        INoteParent INoteChild.ParentNote => (INoteParent)ParentNote;
+        INoteParent INoteChild.ParentNote => ParentNote as INoteParent ?? null;
 
         #endregion Public Properties
 
@@ -57,11 +57,11 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public override void SetupColorTheme(NoteType type)
         {
-            ThemeColor =
+            MainColor =
                 type.GetColor()
                 ?? (
                     ParentNote is IParentControl asParent
-                        ? asParent.InnerNotes.LastOrDefault()?.ThemeColor
+                        ? asParent.InnerNotes.LastOrDefault()?.MainColor
                         : null
                 )
                 ?? Color.Transparent;

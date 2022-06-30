@@ -15,13 +15,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
     {
         #region Public Fields
 
-        public List<INoteControlChild> FinalizedOutput = new();
+        public List<INoteControlChild> FinalizedOutput { get; private set; } = new();
 
         #endregion Public Fields
 
         #region Private Fields
 
-        private BasicFilterResultsChangeEventHandler? basicFilteringResultsChange;
+        private BasicFilterResultsChangedHandler? basicFilteringResultsChange;
         private List<BasicSwitchLabel> currentFilteredSwitch = new();
         private List<LiteNote> filteredNotesSwitchless;
         private List<LiteNote> initialNotes;
@@ -30,11 +30,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private BasicSwitchLabel smartFilterIncludeSwitch;
         private List<SmartFilteringOptionMenu> smartFilterOptions = new();
         private BasicSwitchLabel SSLNSwitch;
-
-        private Dictionary<
-            StringTagTools.TagName,
-            Dictionary<StringTagTools.TagValue, LiteNote[]>
-        > taggedInformation = new();
 
         #endregion Private Fields
 
@@ -489,7 +484,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #region Public Delegates
 
-        public delegate void BasicFilterResultsChangeEventHandler(
+        public delegate void BasicFilterResultsChangedHandler(
             List<LiteNote> prefilteredResults
         );
 
@@ -497,7 +492,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #region Public Events
 
-        public event BasicFilterResultsChangeEventHandler BasicFilterResultsChange
+        public event BasicFilterResultsChangedHandler BasicFilterResultsChange
         {
             add => basicFilteringResultsChange += value;
             remove => basicFilteringResultsChange -= value;

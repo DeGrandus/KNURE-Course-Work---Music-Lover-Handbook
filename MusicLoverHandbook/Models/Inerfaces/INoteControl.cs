@@ -3,13 +3,11 @@ using MusicLoverHandbook.Models.NoteAlter;
 
 namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControl
-        : INote,
-          INoteSerializable,
-          INoteWidelyComparable
+    public interface INoteControl : INote, INoteSerializable, INoteWidelyComparable
     {
         #region Public Properties
 
+        public Color MainColor { get; set; }
         Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
         public bool IsDeleteShown { get; set; }
@@ -39,7 +37,7 @@ namespace MusicLoverHandbook.Models.Inerfaces
 
         INoteControl Clone();
 
-        NoteRawImportModel Deserialize();
+        NoteImportModel Deserialize();
 
         string Serialize();
 

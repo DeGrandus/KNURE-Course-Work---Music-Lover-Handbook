@@ -1,10 +1,10 @@
 ﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteControlChild : INoteControl
+    public interface INoteControlChild : INoteControl, INoteChild
     {
         #region Public Properties
 
-        IParentControl ParentNote { get; set; }
+        new IParentControl ParentNote { get; set; }
 
         #endregion Public Properties
 

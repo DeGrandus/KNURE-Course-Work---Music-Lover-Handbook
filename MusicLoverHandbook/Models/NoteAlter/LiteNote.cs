@@ -85,7 +85,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
                 Height = MainHeight,
                 ColumnCount = 3,
                 RowCount = 1,
-                BackColor = OriginalNoteRefference.ThemeColor
+                BackColor = OriginalNoteRefference.MainColor
             };
             mainTable.ColumnStyles.Add(new(SizeType.Absolute, MainHeight));
             mainTable.ColumnStyles.Add(new(SizeType.Percent, 100));
@@ -98,7 +98,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
                 Padding = new(0),
                 BackColor =
                     OriginalNoteRefference.NoteType.GetLiteColor()
-                    ?? OriginalNoteRefference.ThemeColor,
+                    ?? OriginalNoteRefference.MainColor,
                 Dock = DockStyle.Fill,
                 BackgroundImage = Icon,
                 BackgroundImageLayout = ImageLayout.Stretch,
@@ -111,14 +111,14 @@ namespace MusicLoverHandbook.Models.NoteAlter
                 BackgroundImageLayout = ImageLayout.Stretch,
                 BackColor =
                     OriginalNoteRefference.NoteType.GetLiteColor()
-                    ?? OriginalNoteRefference.ThemeColor,
+                    ?? OriginalNoteRefference.MainColor,
                 Dock = DockStyle.Fill,
             };
             var tooltip = new ToolTip()
             {
                 BackColor = ControlPaint.Light(
                     OriginalNoteRefference.NoteType.GetLiteColor()
-                        ?? OriginalNoteRefference.ThemeColor
+                        ?? OriginalNoteRefference.MainColor
                 ),
                 IsBalloon = true,
                 InitialDelay = 50,
@@ -130,7 +130,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
                 Padding = new(0),
                 BackColor =
                     OriginalNoteRefference.NoteType.GetLiteColor()
-                    ?? OriginalNoteRefference.ThemeColor,
+                    ?? OriginalNoteRefference.MainColor,
                 Dock = DockStyle.Fill,
                 Text = NoteName,
                 Font = new Font(

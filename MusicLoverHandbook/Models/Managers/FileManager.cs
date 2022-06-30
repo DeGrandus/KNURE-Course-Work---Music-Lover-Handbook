@@ -183,7 +183,7 @@ namespace MusicLoverHandbook.Models.Managers
 
         public List<NoteControl> RecreateNotesFromData(string dataFilePath) =>
             (
-                from rawModel in JsonConvert.DeserializeObject<List<NoteRawImportModel>>(
+                from rawModel in JsonConvert.DeserializeObject<List<NoteImportModel>>(
                     GetData(dataFilePath),
                     SerializerSettings
                 ) ?? new()
@@ -198,7 +198,7 @@ namespace MusicLoverHandbook.Models.Managers
         {
             string data = GetData(dataFilePath);
             var rawNotes =
-                JsonConvert.DeserializeObject<List<NoteRawImportModel>>(data, SerializerSettings)
+                JsonConvert.DeserializeObject<List<NoteImportModel>>(data, SerializerSettings)
                 ?? new();
             var noteManager = new RawNoteManager();
             var output = rawNotes.Select(x => noteManager.RecreateFromImported(x)).ToList();

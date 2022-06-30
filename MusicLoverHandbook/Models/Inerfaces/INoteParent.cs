@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Models.Inerfaces
 {
-    public interface INoteParent
+    public interface INoteParent : INote
     {
         #region Public Properties
 
