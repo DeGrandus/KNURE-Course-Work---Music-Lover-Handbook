@@ -1,4 +1,5 @@
-﻿using MusicLoverHandbook.Models.Managers;
+﻿using MusicLoverHandbook.Models.Delegates;
+using MusicLoverHandbook.Models.Managers;
 using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
@@ -114,20 +115,20 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             watcher.Renamed += OnDefaultMusicFolderContentChanged;
             watcher.Deleted += OnDefaultMusicFolderContentChanged;
         }
-
+        private PathAnalyzerResult analyzingResult;
         private PathAnalyzerResult StringAnalyzer(string observedString)
         {
             if (FileManager.Instance.CheckMusicFilePathOrName(observedString))
             {
                 ReplacePath(Path.GetFileName(observedString));
-                return PathAnalyzerResult.File_InMusicFolder;
+                return analyzingResult = PathAnalyzerResult.File_InMusicFolder;
             }
             if (!Path.IsPathRooted(observedString))
-                return PathAnalyzerResult.IsNotAFile;
+                return analyzingResult = PathAnalyzerResult.IsNotAFile;
             if (!File.Exists(observedString))
-                return PathAnalyzerResult.File_DoesNotExist;
+                return analyzingResult = PathAnalyzerResult.File_DoesNotExist;
             if (Path.GetExtension(observedString).ToLower() != ".mp3")
-                return PathAnalyzerResult.File_NotMp3;
+                return analyzingResult = PathAnalyzerResult.File_NotMp3;
 
             observedFileWatcher!.Path = Path.GetFullPath(Path.GetDirectoryName(observedString)!);
             observedFileWatcher.Filter = Path.GetFileName(observedString);
@@ -145,21 +146,18 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                         .GetFiles(FileManager.Instance.MusicFilesFolderPath + '\\', "*.mp3")
                         .Any(f => Path.GetFileName(f) == Path.GetFileName(observedString))
                 )
-                    return PathAnalyzerResult.File_HasEquivalence;
+                    return analyzingResult = PathAnalyzerResult.File_HasEquivalence;
                 else
-                    return PathAnalyzerResult.File_NotInMusicFolder;
+                    return analyzingResult = PathAnalyzerResult.File_NotInMusicFolder;
 
-            return PathAnalyzerResult.File_InMusicFolder;
+            return analyzingResult = PathAnalyzerResult.File_InMusicFolder;
         }
 
         #endregion Private Methods
 
         #region Public Delegates
 
-        public delegate void PathAnalyzerResultHandler(
-            PathAnalyzerResult result,
-            string obeservedString
-        );
+        
 
         #endregion Public Delegates
 

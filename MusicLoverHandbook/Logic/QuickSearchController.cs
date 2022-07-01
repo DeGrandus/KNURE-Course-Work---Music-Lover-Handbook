@@ -1,4 +1,5 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
+using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using System.Diagnostics;
@@ -134,7 +135,6 @@ namespace MusicLoverHandbook.Logic
 
         #region Public Delegates
 
-        public delegate void QuickSearchResultHandler(IEnumerable<INoteControlChild> QSResult);
 
         #endregion Public Delegates
 

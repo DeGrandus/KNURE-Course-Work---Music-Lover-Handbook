@@ -4,6 +4,7 @@ namespace MusicLoverHandbook
 {
     internal static class Program
     {
+        internal static MainForm MainForm => new MainForm();
         #region Private Methods
 
         /// <summary>
@@ -16,7 +17,7 @@ namespace MusicLoverHandbook
             // see https://aka.ms/applicationconfiguration.
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            Application.Run(MainForm);
         }
 
         #endregion Private Methods

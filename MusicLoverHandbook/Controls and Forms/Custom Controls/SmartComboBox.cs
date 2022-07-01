@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -273,7 +274,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #region Public Delegates
 
-        public delegate void StateChangedEvent(SmartComboBox sender, InputStatus state);
 
         #endregion Public Delegates
 

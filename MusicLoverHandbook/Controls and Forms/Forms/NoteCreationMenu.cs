@@ -5,6 +5,7 @@ using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
+using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Managers;
 using System.Diagnostics;
@@ -304,9 +305,13 @@ namespace MusicLoverHandbook.View.Forms
                 throw new Exception("Something went in Input Field Organization Setup");
 
             if (CreationOrder == NoteCreationOrder.AuthorThenDisc)
-                CreationParemControlsOrdered.First.Value.SetDataSource<NoteAuthor>(MainForm.NotesContainer);
+                CreationParemControlsOrdered.First.Value.SetDataSource<NoteAuthor>(
+                    MainForm.NotesContainer
+                );
             else
-                CreationParemControlsOrdered.First.Value.SetDataSource<NoteDisc>(MainForm.NotesContainer);
+                CreationParemControlsOrdered.First.Value.SetDataSource<NoteDisc>(
+                    MainForm.NotesContainer
+                );
 
             foreach (var inp in CreationParemControlsOrdered)
             {

@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.Forms;
+using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.NoteAlter;
@@ -163,10 +164,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #region Public Delegates
 
-        public delegate void AdvancedFilteringModeChangedHandler(
-            BasicSwitchLabel self,
-            bool isSpecial
-        );
+        
 
         #endregion Public Delegates
 

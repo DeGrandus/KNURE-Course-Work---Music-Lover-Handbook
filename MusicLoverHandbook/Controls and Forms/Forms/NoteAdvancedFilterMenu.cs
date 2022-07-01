@@ -2,6 +2,7 @@
 using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
+using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
@@ -116,7 +117,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #region Private Methods
 
-        private NoteLiteFilter CreateBasicFilter() => new(byNameInput.Text, byDescInput.Text);
+        private NoteLiteFilter CreateBasicFilter => new(byNameInput.Text, byDescInput.Text);
 
         private List<INoteControlChild> CreateFinalizedOutput()
         {
@@ -267,7 +268,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void Filtering()
         {
-            FilteredNotesSwitchless = CreateBasicFilter().ApplyOn(initialNotes).ToList();
+            FilteredNotesSwitchless = CreateBasicFilter.ApplyOn(initialNotes).ToList();
             OnBasicFilteringResultsChange();
         }
 
@@ -484,9 +485,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #region Public Delegates
 
-        public delegate void BasicFilterResultsChangedHandler(
-            List<LiteNote> prefilteredResults
-        );
 
         #endregion Public Delegates
 

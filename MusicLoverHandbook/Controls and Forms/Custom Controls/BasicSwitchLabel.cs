@@ -1,4 +1,6 @@
-﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿using MusicLoverHandbook.Models.Delegates;
+
+namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public partial class BasicSwitchLabel : Label
     {
@@ -172,7 +174,6 @@
 
         #region Public Delegates
 
-        public delegate void StateChangeHandler(object? sender, bool IsSpecialState);
 
         #endregion Public Delegates
 
