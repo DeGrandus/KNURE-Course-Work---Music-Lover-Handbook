@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
-    public class BasicSwitchLabel : Label
+    public partial class BasicSwitchLabel : Label
     {
         #region Public Fields
 
@@ -184,15 +184,8 @@
             remove => specialStateChanged -= value;
         }
 
-        #endregion Public Events
-
-        #region Public Enums
-
-        public enum SwitchMode
-        {
-            Click,
-            DoubleClick
-        }
+#endregion Public Events
+#region Public Enums
 
         #endregion Public Enums
     }

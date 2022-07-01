@@ -93,7 +93,7 @@ namespace MusicLoverHandbook.Models.Managers
 
         public void UpdateHistory(IParentControl container)
         {
-            WriteHistory(container.InnerNotes.Cast<NoteControl>().ToList());
+            WriteHistory(container.InnerNotes.OfType<NoteControl>().ToList());
         }
 
         public void WriteHistory(List<NoteControl> notes)

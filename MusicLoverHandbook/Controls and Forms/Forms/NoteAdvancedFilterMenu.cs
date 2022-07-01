@@ -243,7 +243,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                     TextAlign = ContentAlignment.MiddleCenter,
                     BasicTooltipText = $"{type.ToString(true)} type isn't included",
                     SpecialTooltipText = $"{type.ToString(true)} type included",
-                    SwitchType = BasicSwitchLabel.SwitchMode.Click,
+                    SwitchType = SwitchMode.Click,
                     Tag = type,
                 };
 

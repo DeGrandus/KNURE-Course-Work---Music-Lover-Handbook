@@ -124,7 +124,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     Font = new(Font.FontFamily, 12),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Size = new(2, 50),
-                    SwitchType = BasicSwitchLabel.SwitchMode.Click,
+                    SwitchType = SwitchMode.Click,
                     BasicTooltipText = "No affect",
                     SpecialTooltipText =
                         $@"All occurances of ""{type.ToString(true)}"" will be selected in ""{FilterNoteType.ToString(true)}""",

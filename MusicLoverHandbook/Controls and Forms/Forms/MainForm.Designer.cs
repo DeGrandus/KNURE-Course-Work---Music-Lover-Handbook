@@ -195,7 +195,7 @@
             this.qSSwitchLabel.SpecialBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(191)))), ((int)(((byte)(214)))));
             this.qSSwitchLabel.SpecialState = false;
             this.qSSwitchLabel.SpecialTooltipText = "";
-            this.qSSwitchLabel.SwitchType = MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel.SwitchMode.DoubleClick;
+            this.qSSwitchLabel.SwitchType = MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SwitchMode.DoubleClick;
             this.qSSwitchLabel.TabIndex = 0;
             this.qSSwitchLabel.Text = "Quick search:";
             this.qSSwitchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
