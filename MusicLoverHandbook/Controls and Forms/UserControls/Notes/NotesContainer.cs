@@ -174,9 +174,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
                 child.ParentNote = this;
             }
 
-            PanelContainer.Controls.AddRange(
-                renderFinal.Reverse().OfType<Control>().ToArray()
-            );
+            PanelContainer.Controls.AddRange(renderFinal.Reverse().OfType<Control>().ToArray());
             PanelContainer.ResumeLayout();
         }
 

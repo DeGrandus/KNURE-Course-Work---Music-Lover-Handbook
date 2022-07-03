@@ -43,6 +43,7 @@ namespace MusicLoverHandbook.Logic.Notes
         #endregion Public Methods
 
         #region Private Methods
+
         private List<LiteNote> DescFiltering(List<LiteNote> inputLites, string rawcomp)
         {
             var lites = inputLites.ToList();

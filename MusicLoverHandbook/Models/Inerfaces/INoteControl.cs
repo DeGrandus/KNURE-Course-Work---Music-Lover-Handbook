@@ -7,12 +7,12 @@ namespace MusicLoverHandbook.Models.Inerfaces
     {
         #region Public Properties
 
-        public Color MainColor { get; set; }
         Control.ControlCollection Controls { get; }
         Image? Icon { get; set; }
         public bool IsDeleteShown { get; set; }
         public bool IsEditShown { get; set; }
         public bool IsInfoShown { get; set; }
+        public Color MainColor { get; set; }
         new string NoteDescription { get; set; }
         new string NoteName { get; set; }
 

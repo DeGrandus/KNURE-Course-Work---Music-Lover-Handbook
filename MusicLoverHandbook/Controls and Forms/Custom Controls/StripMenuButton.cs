@@ -1,5 +1,4 @@
-﻿using MusicLoverHandbook.Models;
-using MusicLoverHandbook.Models.ToolStripTools;
+﻿using MusicLoverHandbook.Models.ToolStripTools;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {

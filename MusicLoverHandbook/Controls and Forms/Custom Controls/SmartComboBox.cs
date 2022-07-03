@@ -272,10 +272,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Private Methods
 
-        #region Public Delegates
 
-
-        #endregion Public Delegates
 
         #region Public Events
 

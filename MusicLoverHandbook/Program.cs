@@ -4,7 +4,12 @@ namespace MusicLoverHandbook
 {
     internal static class Program
     {
+        #region Internal Properties
+
         internal static MainForm MainForm => new MainForm();
+
+        #endregion Internal Properties
+
         #region Private Methods
 
         /// <summary>

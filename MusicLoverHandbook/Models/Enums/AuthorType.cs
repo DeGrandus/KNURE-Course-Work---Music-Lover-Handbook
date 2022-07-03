@@ -1,3 +1,1 @@
-﻿namespace MusicLoverHandbook.Models.Enums
-{
-}
+﻿namespace MusicLoverHandbook.Models.Enums { }

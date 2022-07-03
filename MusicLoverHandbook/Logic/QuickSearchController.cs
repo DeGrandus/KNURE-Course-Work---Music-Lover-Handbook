@@ -133,10 +133,7 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Private Methods
 
-        #region Public Delegates
 
-
-        #endregion Public Delegates
 
         #region Public Events
 

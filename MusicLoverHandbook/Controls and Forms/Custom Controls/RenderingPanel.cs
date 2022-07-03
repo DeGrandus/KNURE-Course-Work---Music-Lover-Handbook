@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
+﻿namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {
     public partial class RenderingPanel : Panel
     {

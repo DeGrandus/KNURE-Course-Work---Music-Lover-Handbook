@@ -1,3 +1,0 @@
-﻿namespace MusicLoverHandbook.Models
-{
-}

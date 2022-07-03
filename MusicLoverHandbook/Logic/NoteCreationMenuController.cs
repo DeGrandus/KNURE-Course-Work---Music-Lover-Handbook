@@ -5,7 +5,6 @@ using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.NoteAlter;
 using MusicLoverHandbook.View.Forms;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Logic
 {

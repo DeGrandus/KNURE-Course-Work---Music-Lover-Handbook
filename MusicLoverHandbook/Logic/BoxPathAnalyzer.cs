@@ -85,6 +85,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #region Private Methods
 
+        private PathAnalyzerResult analyzingResult;
+
         private void Dispose_Watcher(FileSystemWatcher? watcher)
         {
             if (watcher == null)
@@ -115,7 +117,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             watcher.Renamed += OnDefaultMusicFolderContentChanged;
             watcher.Deleted += OnDefaultMusicFolderContentChanged;
         }
-        private PathAnalyzerResult analyzingResult;
+
         private PathAnalyzerResult StringAnalyzer(string observedString)
         {
             if (FileManager.Instance.CheckMusicFilePathOrName(observedString))
@@ -155,11 +157,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Methods
 
-        #region Public Delegates
 
-        
-
-        #endregion Public Delegates
 
         #region Public Events
 

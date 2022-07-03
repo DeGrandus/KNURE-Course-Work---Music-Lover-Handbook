@@ -1,7 +1,6 @@
 ﻿using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
 using MusicLoverHandbook.Logic;
 using MusicLoverHandbook.Logic.Notes;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.Managers;
@@ -25,9 +24,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         #region Public Properties
 
         public NoteBuilder Builder { get; }
-        public RawNoteManager RawNoteManager { get; }
-
         public NotesContainer NotesContainer { get; }
+        public RawNoteManager RawNoteManager { get; }
 
         #endregion Public Properties
 
@@ -628,6 +626,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             sortStripButton.MenuStrip = strip;
             strip.PerformLayout();
         }
+
         private void Setup_UndoRedoButtons()
         {
             undoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);

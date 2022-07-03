@@ -105,6 +105,12 @@ namespace MusicLoverHandbook.Models.Abstract
             }
         }
 
+        public Color MainColor
+        {
+            get => theme;
+            set { theme = value; }
+        }
+
         public string NoteDescription
         {
             get => noteDescription;
@@ -131,16 +137,6 @@ namespace MusicLoverHandbook.Models.Abstract
         public SideButtonsPanel SideButtons { get; private set; }
 
         public Label TextLabel { get; private set; }
-
-        public Color MainColor
-        {
-            get => theme;
-            set
-            {
-                theme = value;
-            }
-        }
-
         public NoteCreationOrder? UsedCreationOrder { get; }
 
         #endregion Public Properties
@@ -463,7 +459,6 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 if (this is INoteControlChild asChild)
                 {
-
                     var box = MessageBox.Show(
                         $"Are you sure you want to delete {NoteType} {NoteName}?",
                         "Delete warning",
@@ -475,7 +470,8 @@ namespace MusicLoverHandbook.Models.Abstract
                         if (asChild.ParentNote is IParentControl asParent)
                         {
                             asParent.InnerNotes.Remove(asChild);
-                            var container = (asParent as INoteControlChild)?.GetFirstParent() ?? asParent;
+                            var container =
+                                (asParent as INoteControlChild)?.GetFirstParent() ?? asParent;
                             FileManager.Instance.HistoryManager.UpdateHistory(container);
                         }
                     }
@@ -503,6 +499,5 @@ namespace MusicLoverHandbook.Models.Abstract
         }
 
         #endregion Private Methods
-
     }
 }

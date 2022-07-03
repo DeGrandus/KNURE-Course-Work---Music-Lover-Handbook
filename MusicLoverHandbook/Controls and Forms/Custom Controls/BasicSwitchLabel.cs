@@ -172,10 +172,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Private Methods
 
-        #region Public Delegates
 
-
-        #endregion Public Delegates
 
         #region Public Events
 
@@ -185,9 +182,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             remove => specialStateChanged -= value;
         }
 
-#endregion Public Events
-#region Public Enums
-
-        #endregion Public Enums
+        #endregion Public Events
     }
 }

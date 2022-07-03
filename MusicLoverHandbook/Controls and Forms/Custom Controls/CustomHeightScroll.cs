@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Timer = System.Windows.Forms.Timer;
+﻿using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 {

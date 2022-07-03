@@ -73,7 +73,9 @@ namespace MusicLoverHandbook.Logic.Notes
                     );
                     if (parent != null)
                     {
-                        Debug.WriteLine($"SETTINGS CONN {parent.GetType()} an {currentNote.GetType()} ");
+                        Debug.WriteLine(
+                            $"SETTINGS CONN {parent.GetType()} an {currentNote.GetType()} "
+                        );
                         parent.InnerNotes.Add((INoteControlChild)currentNote);
                         ((INoteControlChild)currentNote).ParentNote = parent;
                     }

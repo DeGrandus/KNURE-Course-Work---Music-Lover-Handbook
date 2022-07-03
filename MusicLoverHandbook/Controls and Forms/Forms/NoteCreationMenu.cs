@@ -3,13 +3,11 @@ using MusicLoverHandbook.Controls_and_Forms.Custom_Controls;
 using MusicLoverHandbook.Controls_and_Forms.Forms;
 using MusicLoverHandbook.Controls_and_Forms.UserControls;
 using MusicLoverHandbook.Controls_and_Forms.UserControls.Notes;
-using MusicLoverHandbook.Models;
 using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Delegates;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Managers;
 using System.Diagnostics;
-using static MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox;
 
 namespace MusicLoverHandbook.View.Forms
 {

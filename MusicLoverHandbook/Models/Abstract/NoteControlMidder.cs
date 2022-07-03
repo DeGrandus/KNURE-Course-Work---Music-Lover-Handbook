@@ -53,7 +53,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public IParentControl GetFirstParent()
         {
-            Debug.WriteLine("MIDDER: "+GetType());
+            Debug.WriteLine("MIDDER: " + GetType());
             Debug.WriteLine(this.ParentNote);
             return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
         }
