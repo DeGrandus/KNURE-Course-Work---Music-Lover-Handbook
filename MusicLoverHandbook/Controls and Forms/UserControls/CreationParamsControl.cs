@@ -91,7 +91,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             InputNameBox = boxName;
             InputNameBox.StatusChangedRepeatedly += (sender, state) =>
             {
-                renameSection.Enabled = state == InputStatus.OK;
+                renameSection.Enabled = state == InputStatus.OK || state == InputStatus.ANALOG;
                 if (!renameSection.Enabled)
                     renameCheck.Checked = false;
                 InputDescriptionBox.Enabled = state != InputStatus.UNKNOWN && !state.IsError();
@@ -145,7 +145,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                     );
                 else if (renameInput.Text.Length == 1)
                     throw new InvalidDataException(
-                        $"{InputType} cannot be renamed to \"{renameInput.Text}\". It is yoo short."
+                        $"{InputType} cannot be renamed to \"{renameInput.Text}\". It is too short."
                     );
                 else
                     throw new InvalidDataException(
@@ -360,6 +360,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             if (!renameInput.Enabled)
             {
                 renameInput.BackColor = Color.White;
+                renameInput.Text = "";
                 return;
             }
             IsRenameFieldTextInvalid =

@@ -175,7 +175,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             }
 
             PanelContainer.Controls.AddRange(
-                renderFinal.Reverse().Where(x => x is Control).Cast<Control>().ToArray()
+                renderFinal.Reverse().OfType<Control>().ToArray()
             );
             PanelContainer.ResumeLayout();
         }

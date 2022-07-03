@@ -1,5 +1,6 @@
 ﻿using MusicLoverHandbook.Models.NoteAlter;
 using System.Data;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace MusicLoverHandbook.Logic.Notes
@@ -148,12 +149,14 @@ namespace MusicLoverHandbook.Logic.Notes
             {
                 var descPartOrCheck = compStr.Replace(@"\|", "\n");
                 if (descPartOrCheck.Count(x => x == '|') == 0)
-                    filtered = applicationInfo.FilterFunc(filtered, compStr);
+                    filtered = applicationInfo.FilterFunc(filtered, compStr.Replace(@"\|", "|"));
                 else
                 {
                     var forOr = descPartOrCheck
                         .Split('|')
                         .Select(x => x.Replace("\n", @"|").Trim());
+                    Debug.WriteLine(String.Join(',', forOr));
+
                     var combFiltered = forOr
                         .Select(x => applicationInfo.FilterFunc(filtered, x))
                         .Aggregate((c, n) => c.Concat(n).ToList());

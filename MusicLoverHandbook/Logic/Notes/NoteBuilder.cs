@@ -3,6 +3,7 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 
 namespace MusicLoverHandbook.Logic.Notes
@@ -71,7 +72,11 @@ namespace MusicLoverHandbook.Logic.Notes
                         }
                     );
                     if (parent != null)
+                    {
+                        Debug.WriteLine($"SETTINGS CONN {parent.GetType()} an {currentNote.GetType()} ");
                         parent.InnerNotes.Add((INoteControlChild)currentNote);
+                        ((INoteControlChild)currentNote).ParentNote = parent;
+                    }
                 }
                 else if (currentInfo.ReplacementText != null)
                     currentNote.NoteName = currentInfo.ReplacementText;

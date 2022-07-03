@@ -628,7 +628,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             sortStripButton.MenuStrip = strip;
             strip.PerformLayout();
         }
-
         private void Setup_UndoRedoButtons()
         {
             undoButton.BackColor = ControlPaint.Light(advFilterButton.Parent.BackColor);

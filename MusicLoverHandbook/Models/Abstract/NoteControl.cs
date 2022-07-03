@@ -463,6 +463,7 @@ namespace MusicLoverHandbook.Models.Abstract
             {
                 if (this is INoteControlChild asChild)
                 {
+
                     var box = MessageBox.Show(
                         $"Are you sure you want to delete {NoteType} {NoteName}?",
                         "Delete warning",
@@ -471,11 +472,12 @@ namespace MusicLoverHandbook.Models.Abstract
                     );
                     if (box == DialogResult.Yes)
                     {
-                        if (asChild.ParentNote is INoteControlParent asParent)
-                            asParent.Linker.InnerNotes.Remove(asChild);
-                        else
-                            asChild.ParentNote.InnerNotes.Remove(asChild);
-                        FileManager.Instance.HistoryManager.UpdateHistory(asChild.GetFirstParent());
+                        if (asChild.ParentNote is IParentControl asParent)
+                        {
+                            asParent.InnerNotes.Remove(asChild);
+                            var container = (asParent as INoteControlChild)?.GetFirstParent() ?? asParent;
+                            FileManager.Instance.HistoryManager.UpdateHistory(container);
+                        }
                     }
                 }
             };

@@ -8,6 +8,7 @@ using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.NoteAlter;
 using System.Data;
+using System.Diagnostics;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
@@ -170,6 +171,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 List<INoteControlChild> retValues = new();
                 foreach (var smartFilter in smartFilterOptions)
                 {
+                    if (!smartFilter.IsValid)
+                        continue;
+
                     var loadedParents = new List<IParentControl>();
                     if (smartFilter.CurrentlySelectedTypeOption is null)
                         continue;
@@ -212,6 +216,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                                 is List<LiteNote> { Count: > 0 } childResults
                         )
                         {
+                            Debug.WriteLine("TEST");
+
                             retValues.AddRange(
                                 (
                                     from child in childResults
@@ -332,25 +338,43 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             InvokeFiltering();
         }
 
-        private void RemoveDuplications(List<INoteControlChild> notes)
-        {
-            var dupes =
-                from note in notes
-                from flat in note.Flatten()
-                group flat by flat.GetHashCode() into flatGroup
-                where flatGroup.Count() > 1
-                select flatGroup.Skip(1) into restInGroup
-                from restNote in restInGroup
-                select restNote;
-            foreach (var dupe in dupes)
-                if (notes.Contains((INoteControlChild)dupe.OriginalNoteRefference))
-                    notes.Remove((INoteControlChild)dupe.OriginalNoteRefference);
-                else if (
-                    dupe.OriginalNoteRefference is INoteControlChild dupeChild
-                    && dupeChild.ParentNote is IParentControl parenter
-                )
-                    parenter.InnerNotes.Remove(dupeChild);
-        }
+private void RemoveDuplications(List<INoteControlChild> notes)
+{
+    var lazyDupes =
+        from note in notes
+        from flatlite in note.Flatten()
+        group flatlite by flatlite.GetHashCode() into flatgroup
+        where flatgroup.Count() > 1
+        select flatgroup.Skip(1) into flatRest
+        from flatRestLite in flatRest
+        select flatRestLite;
+    var properDupes =
+        from lazyLite in lazyDupes
+        where
+            !GetParents((INoteControlChild)lazyLite.OriginalNoteRefference)
+                .OfType<INoteControl>()
+                .Any(p => lazyDupes.Any(r => p.RoughEquals(r)))
+        select lazyLite;
+    var checkout =
+        from flatnlite in notes
+        from lite in flatnlite.Flatten()
+        join dupe in properDupes on lite equals dupe
+        group lite by lite.GetHashCode() into groupped
+        where groupped.Count() > 1
+        from toDel in groupped
+            .OrderByDescending(
+                x => GetParents((INoteControlChild)x.OriginalNoteRefference).Count
+            )
+            .Skip(1)
+            .Select(x => x.OriginalNoteRefference)
+            .OfType<INoteControlChild>()
+        select toDel;
+    foreach (var ch in checkout)
+        if (notes.Contains(ch))
+            notes.Remove(ch);
+        else if (ch.ParentNote is IParentControl pc)
+            pc.InnerNotes.Remove(ch);
+}
 
         private void SetupLayout()
         {

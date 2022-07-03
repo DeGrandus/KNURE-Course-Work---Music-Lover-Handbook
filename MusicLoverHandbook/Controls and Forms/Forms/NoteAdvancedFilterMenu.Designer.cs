@@ -40,7 +40,6 @@
             this.previewFilteredPanel = new System.Windows.Forms.Panel();
             this.applyButtonsTable = new System.Windows.Forms.TableLayoutPanel();
             this.applyFilterButton = new System.Windows.Forms.Button();
-            this.applyFilterRoughButton = new System.Windows.Forms.Button();
             this.advFiltersFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.smartFiltersTable = new System.Windows.Forms.TableLayoutPanel();
             this.mainContentTable.SuspendLayout();
@@ -179,17 +178,15 @@
             // 
             // applyButtonsTable
             // 
-            this.applyButtonsTable.ColumnCount = 2;
-            this.applyButtonsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.applyButtonsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.applyButtonsTable.ColumnCount = 1;
+            this.applyButtonsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.applyButtonsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.applyButtonsTable.Controls.Add(this.applyFilterButton, 0, 0);
-            this.applyButtonsTable.Controls.Add(this.applyFilterRoughButton, 1, 0);
             this.applyButtonsTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.applyButtonsTable.Location = new System.Drawing.Point(3, 739);
             this.applyButtonsTable.Name = "applyButtonsTable";
             this.applyButtonsTable.RowCount = 1;
             this.applyButtonsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.applyButtonsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.applyButtonsTable.Size = new System.Drawing.Size(1330, 45);
             this.applyButtonsTable.TabIndex = 2;
             // 
@@ -201,23 +198,10 @@
             this.applyFilterButton.Location = new System.Drawing.Point(0, 0);
             this.applyFilterButton.Margin = new System.Windows.Forms.Padding(0);
             this.applyFilterButton.Name = "applyFilterButton";
-            this.applyFilterButton.Size = new System.Drawing.Size(665, 45);
+            this.applyFilterButton.Size = new System.Drawing.Size(1330, 45);
             this.applyFilterButton.TabIndex = 0;
             this.applyFilterButton.Text = "Apply filtering";
             this.applyFilterButton.UseVisualStyleBackColor = false;
-            // 
-            // applyFilterRoughButton
-            // 
-            this.applyFilterRoughButton.BackColor = System.Drawing.Color.LemonChiffon;
-            this.applyFilterRoughButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.applyFilterRoughButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.applyFilterRoughButton.Location = new System.Drawing.Point(665, 0);
-            this.applyFilterRoughButton.Margin = new System.Windows.Forms.Padding(0);
-            this.applyFilterRoughButton.Name = "applyFilterRoughButton";
-            this.applyFilterRoughButton.Size = new System.Drawing.Size(665, 45);
-            this.applyFilterRoughButton.TabIndex = 1;
-            this.applyFilterRoughButton.Text = "Apply rough filtering";
-            this.applyFilterRoughButton.UseVisualStyleBackColor = false;
             // 
             // advFiltersFlow
             // 
@@ -275,7 +259,6 @@
         private Panel previewFilteredPanel;
         private TableLayoutPanel applyButtonsTable;
         private Button applyFilterButton;
-        private Button applyFilterRoughButton;
         public Label titleLabel;
         private FlowLayoutPanel advFiltersFlow;
         private TableLayoutPanel smartFiltersTable;

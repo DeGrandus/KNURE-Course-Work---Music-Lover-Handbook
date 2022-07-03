@@ -1,6 +1,7 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
+using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -52,6 +53,8 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public IParentControl GetFirstParent()
         {
+            Debug.WriteLine("MIDDER: "+GetType());
+            Debug.WriteLine(this.ParentNote);
             return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
         }
 

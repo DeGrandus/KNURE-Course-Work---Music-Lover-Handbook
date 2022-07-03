@@ -61,8 +61,8 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                     .Concat(new[] { 0 })
                     .Aggregate((c, n) => c + n);
                 MovingBox.Height = h > Height ? h : Height;
-                Debug.WriteLine(MovingBox.Height);
-                Debug.WriteLine(Height);
+                //Debug.WriteLine(MovingBox.Height);
+                //Debug.WriteLine(Height);
                 if (MovingBox.Height <= Height)
                     MovingBox.Location = new(0, 0);
             };

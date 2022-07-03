@@ -56,7 +56,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
                 yPos = yPos < 0 ? 0 : yPos;
                 scrollButton.Location = new(scrollButton.Location.X, yPos);
                 var locationToProgress = (float)yPos / (float)(Height - scrollButton.Height);
-                Debug.WriteLine(locationToProgress);
+                //Debug.WriteLine(locationToProgress);
                 movingControl.Location = new(
                     0,
                     (int)(
