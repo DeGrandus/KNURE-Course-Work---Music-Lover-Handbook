@@ -132,6 +132,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             tempStatusChangedRepeatedly = null;
         }
 
+        public string Format(string toFormat)
+        {
+            return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]\\])\1+", "$1").Trim();
+        }
+
         public void SetSource(NoteControlParent parent)
         {
             SetSource<object>(parent);
@@ -207,11 +212,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Status = InputStatus.OK;
         }
 
-        public string Format(string toFormat)
-        {
-            return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]\\])\1+", "$1").Trim();
-        }
-
         private int? HasAnalog()
         {
             var inner = InnerData.Select(n => n.NoteName).ToList();
@@ -227,7 +227,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private void OnInputDetected(object? sender, EventArgs e) => CheckForStatus();
 
-        private void OnItemSelected(object? sender, EventArgs e) { }
+        private void OnItemSelected(object? sender, EventArgs e)
+        {
+        }
 
         private void OnLostFocus(object? sender, EventArgs e)
         {
