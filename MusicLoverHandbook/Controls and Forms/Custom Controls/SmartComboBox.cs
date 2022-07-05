@@ -209,7 +209,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         private string Format(string toFormat)
         {
-            return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]])+", "$1").Trim();
+            return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]\\])\1+", "$1").Trim();
         }
 
         private int? HasAnalog()
