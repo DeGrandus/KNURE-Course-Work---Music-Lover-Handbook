@@ -203,13 +203,13 @@
             this.applyFilterButton.Text = "Apply filtering";
             this.applyFilterButton.UseVisualStyleBackColor = false;
             // 
-            // advFiltersFlow
+            // smartFiltersFlow
             // 
             this.smartFiltersFlow.AutoScroll = true;
             this.smartFiltersFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.smartFiltersFlow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.smartFiltersFlow.Location = new System.Drawing.Point(3, 396);
-            this.smartFiltersFlow.Name = "advFiltersFlow";
+            this.smartFiltersFlow.Name = "smartFiltersFlow";
             this.smartFiltersFlow.Size = new System.Drawing.Size(1330, 337);
             this.smartFiltersFlow.TabIndex = 3;
             // 
@@ -237,7 +237,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NoteAdvancedFilterMenu";
-            this.Text = "NoteAdvancedFilterMenu";
+            this.Text = "Advanced Filtering";
             this.mainContentTable.ResumeLayout(false);
             this.filteringTable.ResumeLayout(false);
             this.filteringTable.PerformLayout();

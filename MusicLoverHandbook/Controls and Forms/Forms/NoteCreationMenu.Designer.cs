@@ -228,7 +228,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "NoteCreationMenu";
-            this.Text = "AddNoteMenu";
+            this.Text = "Notes Editor";
             this.title.ResumeLayout(false);
             this.tableInputs.ResumeLayout(false);
             this.dragDropPanel.ResumeLayout(false);
