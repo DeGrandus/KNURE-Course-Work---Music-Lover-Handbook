@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>diary.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     <None Remove="Resources\pencil.png" />
     <None Remove="Resources\trash.png" />
     <None Remove="Resources\vinyl.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="diary.ico" />
   </ItemGroup>
 
   <ItemGroup>

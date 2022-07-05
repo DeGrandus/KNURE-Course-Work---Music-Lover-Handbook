@@ -459,7 +459,8 @@ namespace MusicLoverHandbook.Models.Abstract
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning
                     );
-                    if (box == DialogResult.Yes)
+                    if (box == 
+                    DialogResult.Yes)
                     {
                         if (asChild.ParentNote is IParentControl asParent)
                         {

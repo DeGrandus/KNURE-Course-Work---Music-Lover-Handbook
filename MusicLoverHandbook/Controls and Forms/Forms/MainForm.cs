@@ -8,6 +8,7 @@ using MusicLoverHandbook.Properties;
 using MusicLoverHandbook.View.Forms;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MusicLoverHandbook.Controls_and_Forms.Forms
@@ -271,9 +272,11 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "JSON file|*.json";
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
-                FileManager.Instance.DataFilePath
+            openFileDialog.InitialDirectory = Path.GetFullPath(FileManager.Instance.DataFilePath);
+            openFileDialog.InitialDirectory = openFileDialog.InitialDirectory.Substring(
+                0,
+                openFileDialog.InitialDirectory.Length
+                    - Path.GetFileName(openFileDialog.InitialDirectory).Length
             );
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -289,9 +292,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 var saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "JSON file|*.json";
-                saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.InitialDirectory = Path.GetFileNameWithoutExtension(
+                saveFileDialog.InitialDirectory = Path.GetFullPath(
                     FileManager.Instance.DataFilePath
+                );
+                saveFileDialog.InitialDirectory = saveFileDialog.InitialDirectory.Substring(
+                    0,
+                    saveFileDialog.InitialDirectory.Length
+                        - Path.GetFileName(saveFileDialog.InitialDirectory).Length
                 );
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
