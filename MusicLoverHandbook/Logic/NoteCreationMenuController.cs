@@ -17,7 +17,17 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Private Fields
 
-        #region Public Constructors
+        #region Public Properties
+
+        public NoteCreationMenu NoteCreationMenu
+        {
+            get => default;
+            set { }
+        }
+
+        #endregion Public Properties
+
+        #region Public Constructors + Destructors
 
         public NoteCreationMenuController(MainForm mainForm)
         {
@@ -25,7 +35,7 @@ namespace MusicLoverHandbook.Logic
             this.mainForm = mainForm;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -65,7 +75,7 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Public Methods
 
-        #region Public Classes
+        #region Public Classes + Structs
 
         public class NoteCreationResult
         {
@@ -81,7 +91,7 @@ namespace MusicLoverHandbook.Logic
 
             #endregion Public Properties
 
-            #region Public Constructors
+            #region Public Constructors + Destructors
 
             public NoteCreationResult(MainForm mainForm, NoteControlMidder? resultNote)
             {
@@ -89,7 +99,7 @@ namespace MusicLoverHandbook.Logic
                 this.mainForm = mainForm;
             }
 
-            #endregion Public Constructors
+            #endregion Public Constructors + Destructors
 
             #region Public Methods
 
@@ -116,6 +126,6 @@ namespace MusicLoverHandbook.Logic
             #endregion Public Methods
         }
 
-        #endregion Public Classes
+        #endregion Public Classes + Structs
     }
 }

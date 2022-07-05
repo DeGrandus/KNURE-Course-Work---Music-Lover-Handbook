@@ -12,7 +12,7 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Private Fields
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public TypeRestrictedContractResolver(params Type[] specials)
         {
@@ -20,7 +20,7 @@ namespace MusicLoverHandbook.Models.JSON
             onlyNames = specials.SelectMany(x => x.GetProperties().Select(x => x.Name)).ToArray();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 

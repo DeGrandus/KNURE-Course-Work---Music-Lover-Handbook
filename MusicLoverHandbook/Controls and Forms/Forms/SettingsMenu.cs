@@ -5,7 +5,7 @@ namespace MusicLoverHandbook.View.Forms
 {
     public partial class SettingsMenu : Form
     {
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public SettingsMenu(MainForm mainForm)
         {
@@ -58,6 +58,6 @@ namespace MusicLoverHandbook.View.Forms
             };
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

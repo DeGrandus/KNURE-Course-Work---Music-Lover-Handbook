@@ -8,13 +8,13 @@
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public StringValueAttribute(string value)
         {
             Value = value;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

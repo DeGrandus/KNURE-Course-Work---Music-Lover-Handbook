@@ -40,7 +40,7 @@
             this.previewFilteredPanel = new System.Windows.Forms.Panel();
             this.applyButtonsTable = new System.Windows.Forms.TableLayoutPanel();
             this.applyFilterButton = new System.Windows.Forms.Button();
-            this.advFiltersFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.smartFiltersFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.smartFiltersTable = new System.Windows.Forms.TableLayoutPanel();
             this.mainContentTable.SuspendLayout();
             this.filteringTable.SuspendLayout();
@@ -53,7 +53,7 @@
             this.mainContentTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainContentTable.Controls.Add(this.filteringTable, 0, 0);
             this.mainContentTable.Controls.Add(this.applyButtonsTable, 0, 3);
-            this.mainContentTable.Controls.Add(this.advFiltersFlow, 0, 2);
+            this.mainContentTable.Controls.Add(this.smartFiltersFlow, 0, 2);
             this.mainContentTable.Controls.Add(this.smartFiltersTable, 0, 1);
             this.mainContentTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContentTable.Location = new System.Drawing.Point(0, 0);
@@ -205,13 +205,13 @@
             // 
             // advFiltersFlow
             // 
-            this.advFiltersFlow.AutoScroll = true;
-            this.advFiltersFlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.advFiltersFlow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.advFiltersFlow.Location = new System.Drawing.Point(3, 396);
-            this.advFiltersFlow.Name = "advFiltersFlow";
-            this.advFiltersFlow.Size = new System.Drawing.Size(1330, 337);
-            this.advFiltersFlow.TabIndex = 3;
+            this.smartFiltersFlow.AutoScroll = true;
+            this.smartFiltersFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.smartFiltersFlow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.smartFiltersFlow.Location = new System.Drawing.Point(3, 396);
+            this.smartFiltersFlow.Name = "advFiltersFlow";
+            this.smartFiltersFlow.Size = new System.Drawing.Size(1330, 337);
+            this.smartFiltersFlow.TabIndex = 3;
             // 
             // smartFiltersTable
             // 
@@ -260,7 +260,7 @@
         private TableLayoutPanel applyButtonsTable;
         private Button applyFilterButton;
         public Label titleLabel;
-        private FlowLayoutPanel advFiltersFlow;
+        private FlowLayoutPanel smartFiltersFlow;
         private TableLayoutPanel smartFiltersTable;
     }
 }

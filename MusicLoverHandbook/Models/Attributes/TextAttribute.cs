@@ -8,13 +8,13 @@
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public TextAttribute(string text)
         {
             Text = text;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

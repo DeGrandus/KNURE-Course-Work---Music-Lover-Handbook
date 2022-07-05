@@ -10,13 +10,13 @@ namespace MusicLoverHandbook.Models.Attributes
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public AssociatedNoteCreationTypeAttribute(NoteCreationOrder type)
         {
             Type = type;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

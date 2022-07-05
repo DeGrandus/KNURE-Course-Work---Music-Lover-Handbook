@@ -14,7 +14,7 @@ namespace MusicLoverHandbook.Models.Managers
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         static FontManager()
         {
@@ -78,6 +78,6 @@ namespace MusicLoverHandbook.Models.Managers
             }
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

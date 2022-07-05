@@ -7,7 +7,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
 {
     public partial class NoteAdd : NoteControlChild
     {
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteAdd(NoteControlParent parent, string noteText, string noteDescription)
             : base(parent, noteText, noteDescription, NoteType.AddButton, null)
@@ -19,7 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             TextLabel.DoubleClick += (sender, e) => EditClick();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Protected Methods
 

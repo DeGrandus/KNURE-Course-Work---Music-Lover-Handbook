@@ -10,7 +10,7 @@
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public EnumColorAttribute(int alphaMain, int colorMain, int alphaLite, int colorLite)
             : this(alphaMain, colorMain)
@@ -24,6 +24,6 @@
             ColorLite = null;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

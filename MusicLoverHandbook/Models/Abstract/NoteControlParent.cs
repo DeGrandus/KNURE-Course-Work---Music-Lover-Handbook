@@ -3,7 +3,6 @@ using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
 using MusicLoverHandbook.Models.NoteAlter;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -26,9 +25,6 @@ namespace MusicLoverHandbook.Models.Abstract
             set
             {
                 innerNotes = value;
-                Debug.WriteLine("Setting new Inner Notes: ");
-                Debug.WriteLine(String.Join("\n", value.Select(x => x.NoteName)));
-                Debug.WriteLine("Setting new Inner Notes END");
 
                 SetupLinker();
             }
@@ -51,7 +47,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Protected Properties
 
-        #region Protected Constructors
+        #region Protected Constructors + Destructors
 
         protected NoteControlParent(
             string text,
@@ -84,7 +80,7 @@ namespace MusicLoverHandbook.Models.Abstract
             Linker = new ContentLinker(this);
         }
 
-        #endregion Protected Constructors
+        #endregion Protected Constructors + Destructors
 
         #region Public Methods
 
@@ -201,7 +197,6 @@ namespace MusicLoverHandbook.Models.Abstract
                 .Aggregate((c, n) => c + n);
             var baseHeight = TextLabel.Size.Height;
             Size = IsOpened == true ? new(Width, innerHeight + baseHeight) : new(Width, baseHeight);
-            //Debug.WriteLine(Size);
             ResumeLayout();
         }
 

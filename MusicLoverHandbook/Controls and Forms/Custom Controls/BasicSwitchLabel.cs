@@ -78,7 +78,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public BasicSwitchLabel()
         {
@@ -130,7 +130,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             this.initialState = initialState;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -172,9 +172,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event StateChangeHandler SpecialStateChanged
         {
@@ -182,6 +180,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             remove => specialStateChanged -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -23,7 +22,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-        #region Protected Constructors
+        #region Protected Constructors + Destructors
 
         protected NoteControlChild(
             IParentControl parent,
@@ -39,7 +38,7 @@ namespace MusicLoverHandbook.Models.Abstract
             inited = true;
         }
 
-        #endregion Protected Constructors
+        #endregion Protected Constructors + Destructors
 
         #region Public Methods
 
@@ -63,8 +62,6 @@ namespace MusicLoverHandbook.Models.Abstract
 
         public IParentControl GetFirstParent()
         {
-            Debug.WriteLine(GetType());
-            Debug.WriteLine(ParentNote);
             return ParentNote is INoteControlChild child ? child.GetFirstParent() : ParentNote;
         }
 
@@ -102,10 +99,10 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Protected Methods
 
-        #region Private Delegates
+        #region Private Events + Delegates
 
         private delegate void DelayedSetup();
 
-        #endregion Private Delegates
+        #endregion Private Events + Delegates
     }
 }

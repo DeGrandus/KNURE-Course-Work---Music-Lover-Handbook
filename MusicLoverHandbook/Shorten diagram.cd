@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="MusicLoverHandbook.Properties.Resources" Collapsed="true">
-    <Position X="15.75" Y="10" Width="1.25" />
+    <Position X="38.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIABBQAAAAAAAAgAARkQIGAQAAAACAAAACgBAAJIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Properties.Settings" Collapsed="true">
-    <Position X="23.75" Y="8.5" Width="1.75" />
+    <Position X="32.25" Y="19.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAIAIAAAAAAAIAAAAAAFAAAAAAAAAQAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel" Collapsed="true">
-    <Position X="16.75" Y="15.75" Width="1.5" />
+    <Position X="21.75" Y="5.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -23,7 +23,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" Collapsed="true">
-    <Position X="15.25" Y="8.25" Width="1.5" />
+    <Position X="23.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\ButtonPanel.cs</FileName>
@@ -33,7 +33,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.CustomHeightScroll" Collapsed="true">
-    <Position X="18" Y="8.5" Width="1.75" />
+    <Position X="28.25" Y="3.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAACQYAQAAAAACAAgCEAAAAAEAAAAAAAIAAIAQAIAA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\CustomHeightScroll.cs</FileName>
@@ -43,91 +43,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.RenderingPanel" Collapsed="true">
-    <Position X="16.5" Y="7" Width="1.5" />
+    <Position X="26" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\RenderingPanel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SideButtonsPanel" Collapsed="true">
-    <Position X="8.5" Y="7.75" Width="1.5" />
-    <AssociationLine Name="deactivatedButtons" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10" Y="8.097" />
-        <Point X="10.375" Y="8.097" />
-        <Point X="10.375" Y="8.812" />
-        <Point X="10.417" Y="8.812" Type="JumpStart" />
-        <Point X="10.583" Y="8.812" Type="JumpEnd" />
-        <Point X="10.667" Y="8.812" Type="JumpStart" />
-        <Point X="10.833" Y="8.812" Type="JumpEnd" />
-        <Point X="11.479" Y="8.812" Type="JumpStart" />
-        <Point X="11.645" Y="8.812" Type="JumpEnd" />
-        <Point X="12.448" Y="8.812" Type="JumpStart" />
-        <Point X="12.614" Y="8.812" Type="JumpEnd" />
-        <Point X="13.167" Y="8.812" Type="JumpStart" />
-        <Point X="13.333" Y="8.812" Type="JumpEnd" />
-        <Point X="13.404" Y="8.812" Type="JumpStart" />
-        <Point X="13.698" Y="8.812" Type="JumpEnd" />
-        <Point X="13.917" Y="8.812" Type="JumpStart" />
-        <Point X="14.083" Y="8.812" Type="JumpEnd" />
-        <Point X="14.286" Y="8.812" Type="JumpStart" />
-        <Point X="14.583" Y="8.812" Type="JumpEnd" />
-        <Point X="15.25" Y="8.812" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="ActiveButtons" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10" Y="8.254" />
-        <Point X="10.292" Y="8.254" Type="JumpStart" />
-        <Point X="10.583" Y="8.254" Type="JumpEnd" />
-        <Point X="10.667" Y="8.254" Type="JumpStart" />
-        <Point X="10.833" Y="8.254" Type="JumpEnd" />
-        <Point X="11.479" Y="8.254" Type="JumpStart" />
-        <Point X="11.645" Y="8.254" Type="JumpEnd" />
-        <Point X="12.448" Y="8.254" Type="JumpStart" />
-        <Point X="12.614" Y="8.254" Type="JumpEnd" />
-        <Point X="13.167" Y="8.254" Type="JumpStart" />
-        <Point X="13.333" Y="8.254" Type="JumpEnd" />
-        <Point X="13.404" Y="8.254" Type="JumpStart" />
-        <Point X="13.698" Y="8.254" Type="JumpEnd" />
-        <Point X="13.917" Y="8.254" Type="JumpStart" />
-        <Point X="14.083" Y="8.254" Type="JumpEnd" />
-        <Point X="14.286" Y="8.254" Type="JumpStart" />
-        <Point X="14.583" Y="8.254" Type="JumpEnd" />
-        <Point X="15.25" Y="8.254" />
-        <Point X="15.25" Y="7.657" />
-        <Point X="15.542" Y="7.657" Type="JumpStart" />
-        <Point X="15.708" Y="7.657" Type="JumpEnd" />
-        <Point X="15.917" Y="7.657" Type="JumpStart" />
-        <Point X="16.083" Y="7.657" Type="JumpEnd" />
-        <Point X="16.5" Y="7.657" />
-        <Point X="16.5" Y="8.25" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="DeactivatedButtons" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10" Y="8.254" />
-        <Point X="10.375" Y="8.254" />
-        <Point X="10.375" Y="8.562" />
-        <Point X="10.417" Y="8.562" Type="JumpStart" />
-        <Point X="10.583" Y="8.562" Type="JumpEnd" />
-        <Point X="10.667" Y="8.562" Type="JumpStart" />
-        <Point X="10.833" Y="8.562" Type="JumpEnd" />
-        <Point X="11.479" Y="8.562" Type="JumpStart" />
-        <Point X="11.645" Y="8.562" Type="JumpEnd" />
-        <Point X="12.448" Y="8.562" Type="JumpStart" />
-        <Point X="12.614" Y="8.562" Type="JumpEnd" />
-        <Point X="13.167" Y="8.562" Type="JumpStart" />
-        <Point X="13.333" Y="8.562" Type="JumpEnd" />
-        <Point X="13.404" Y="8.562" Type="JumpStart" />
-        <Point X="13.698" Y="8.562" Type="JumpEnd" />
-        <Point X="13.917" Y="8.562" Type="JumpStart" />
-        <Point X="14.083" Y="8.562" Type="JumpEnd" />
-        <Point X="14.286" Y="8.562" Type="JumpStart" />
-        <Point X="14.583" Y="8.562" Type="JumpEnd" />
-        <Point X="15.25" Y="8.562" />
-      </Path>
-    </AssociationLine>
+    <Position X="21.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAQAAABEAABAAAAAAAAAAASAAAAAAAAgAYAAQAA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\SideButtonsPanel.cs</FileName>
@@ -140,96 +63,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SmartComboBox" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="20" Y="4.25" Width="1.5" />
-    <AssociationLine Name="InnerData" Type="MusicLoverHandbook.Models.Abstract.NoteControl" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20" Y="4.875" />
-        <Point X="19.974" Y="4.875" Type="JumpStart" />
-        <Point X="19.672" Y="4.875" Type="JumpEnd" />
-        <Point X="18.279" Y="4.875" Type="JumpStart" />
-        <Point X="18.113" Y="4.875" Type="JumpEnd" />
-        <Point X="14.645" Y="4.875" Type="JumpStart" />
-        <Point X="14.218" Y="4.875" Type="JumpEnd" />
-        <Point X="14.185" Y="4.875" Type="JumpStart" />
-        <Point X="14.019" Y="4.875" Type="JumpEnd" />
-        <Point X="13.974" Y="4.875" Type="JumpStart" />
-        <Point X="13.808" Y="4.875" Type="JumpEnd" />
-        <Point X="13.083" Y="4.875" Type="JumpStart" />
-        <Point X="12.917" Y="4.875" Type="JumpEnd" />
-        <Point X="12.802" Y="4.875" Type="JumpStart" />
-        <Point X="12.479" Y="4.875" Type="JumpEnd" />
-        <Point X="11.833" Y="4.875" Type="JumpStart" />
-        <Point X="11.667" Y="4.875" Type="JumpEnd" />
-        <Point X="11.562" Y="4.875" />
-        <Point X="11.562" Y="10" />
-        <Point X="10.75" Y="10" />
-        <Point X="10.75" Y="12.875" />
-        <Point X="11.011" Y="12.875" Type="JumpStart" />
-        <Point X="11.177" Y="12.875" Type="JumpEnd" />
-        <Point X="11.241" Y="12.875" Type="JumpStart" />
-        <Point X="11.407" Y="12.875" Type="JumpEnd" />
-        <Point X="11.562" Y="12.875" />
-        <Point X="11.562" Y="13.25" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.06" Y="0.179" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="InputType" Type="MusicLoverHandbook.Models.Enums.NoteType" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20.719" Y="4.941" />
-        <Point X="20.719" Y="9.8" />
-        <Point X="21" Y="9.8" />
-        <Point X="21" Y="10.941" />
-        <Point X="20.198" Y="10.941" />
-        <Point X="20.198" Y="11.25" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="NoteParent" Type="MusicLoverHandbook.Models.Abstract.NoteControlParent" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20" Y="4.875" />
-        <Point X="19.974" Y="4.875" Type="JumpStart" />
-        <Point X="19.672" Y="4.875" Type="JumpEnd" />
-        <Point X="18.279" Y="4.875" Type="JumpStart" />
-        <Point X="18.113" Y="4.875" Type="JumpEnd" />
-        <Point X="14.645" Y="4.875" Type="JumpStart" />
-        <Point X="14.218" Y="4.875" Type="JumpEnd" />
-        <Point X="14.185" Y="4.875" Type="JumpStart" />
-        <Point X="14.019" Y="4.875" Type="JumpEnd" />
-        <Point X="14" Y="4.875" />
-        <Point X="14" Y="10" />
-        <Point X="13.698" Y="10" Type="JumpStart" />
-        <Point X="13.404" Y="10" Type="JumpEnd" />
-        <Point X="13.25" Y="10" />
-        <Point X="13.25" Y="15.063" />
-        <Point X="13.5" Y="15.063" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="NotesContainer" Type="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NotesContainer" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20" Y="4.844" />
-        <Point X="19.974" Y="4.844" Type="JumpStart" />
-        <Point X="19.672" Y="4.844" Type="JumpEnd" />
-        <Point X="18.279" Y="4.844" Type="JumpStart" />
-        <Point X="18.113" Y="4.844" Type="JumpEnd" />
-        <Point X="14.562" Y="4.844" />
-        <Point X="14.562" Y="2.812" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.116" Y="0.061" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="Status" Type="MusicLoverHandbook.Models.Enums.InputStatus" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20.328" Y="4.941" />
-        <Point X="20.328" Y="7.062" />
-        <Point X="20.636" Y="7.062" Type="JumpStart" />
-        <Point X="20.802" Y="7.062" Type="JumpEnd" />
-        <Point X="20.917" Y="7.062" Type="JumpStart" />
-        <Point X="21.083" Y="7.062" Type="JumpEnd" />
-        <Point X="21.25" Y="7.062" />
-      </Path>
-    </AssociationLine>
+    <Position X="23.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>GAxoIgAMAAABAAAAACoAwAAAgMigAAAAAAAgQCQEBCA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\SmartComboBox.cs</FileName>
@@ -247,165 +81,26 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.StripMenuButton" Collapsed="true">
-    <Position X="5.5" Y="14.75" Width="1.5" />
+    <Position X="7.25" Y="22.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Controls and Forms\Custom Controls\StripMenuButton.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" Collapsed="true">
-    <Position X="6.5" Y="10.25" Width="1.25" />
-    <AssociationLine Name="NotesContainer" Type="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NotesContainer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="7.75" Y="10.625" />
-        <Point X="7.917" Y="10.625" Type="JumpStart" />
-        <Point X="8.208" Y="10.625" Type="JumpEnd" />
-        <Point X="8.5" Y="10.625" />
-        <Point X="8.5" Y="11.621" />
-        <Point X="10.417" Y="11.621" Type="JumpStart" />
-        <Point X="10.583" Y="11.621" Type="JumpEnd" />
-        <Point X="10.667" Y="11.621" Type="JumpStart" />
-        <Point X="10.833" Y="11.621" Type="JumpEnd" />
-        <Point X="11.011" Y="11.621" Type="JumpStart" />
-        <Point X="11.177" Y="11.621" Type="JumpEnd" />
-        <Point X="11.241" Y="11.621" Type="JumpStart" />
-        <Point X="11.407" Y="11.621" Type="JumpEnd" />
-        <Point X="11.698" Y="11.621" Type="JumpStart" />
-        <Point X="12.021" Y="11.621" Type="JumpEnd" />
-        <Point X="12.153" Y="11.621" Type="JumpStart" />
-        <Point X="12.32" Y="11.621" Type="JumpEnd" />
-        <Point X="12.761" Y="11.621" Type="JumpStart" />
-        <Point X="13.083" Y="11.621" Type="JumpEnd" />
-        <Point X="13.167" Y="11.621" Type="JumpStart" />
-        <Point X="13.458" Y="11.621" Type="JumpEnd" />
-        <Point X="13.487" Y="11.621" />
-        <Point X="13.487" Y="5.719" />
-        <Point X="13.532" Y="5.719" Type="JumpStart" />
-        <Point X="13.698" Y="5.719" Type="JumpEnd" />
-        <Point X="13.808" Y="5.719" Type="JumpStart" />
-        <Point X="14.185" Y="5.719" Type="JumpEnd" />
-        <Point X="14.218" Y="5.719" Type="JumpStart" />
-        <Point X="14.453" Y="5.719" Type="JumpEnd" />
-        <Point X="14.562" Y="5.719" />
-        <Point X="14.562" Y="2.812" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.12" Y="0.06" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm">
+    <Position X="7.75" Y="3.75" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>RQECiSAGwTEAAABQIQGDMgkiAICJQAgABwCIDQAAQwA=</HashCode>
+      <HashCode>RQECiSAGwTEAAABQIQGDMgkiAICJQAgABwAIDQAgQwA=</HashCode>
       <FileName>Controls and Forms\Forms\MainForm.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Builder" />
-      <Property Name="RawNoteManager" />
       <Property Name="NotesContainer" />
+      <Property Name="RawNoteManager" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.Forms.NoteAdvancedFilterMenu" Collapsed="true">
-    <Position X="11" Y="10.25" Width="2" />
-    <AssociationLine Name="FinalizedOutput" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.531" Y="10.25" />
-        <Point X="12.531" Y="6.875" />
-        <Point X="11.833" Y="6.875" Type="JumpStart" />
-        <Point X="11.667" Y="6.875" Type="JumpEnd" />
-        <Point X="11.645" Y="6.875" Type="JumpStart" />
-        <Point X="11.367" Y="6.875" Type="JumpEnd" />
-        <Point X="11.25" Y="6.875" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="currentFilteredSwitch" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.045" Y="0.145" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="smartFilterIncludeSwitch" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.938" Y="10.941" />
-        <Point X="12.938" Y="16.938" />
-        <Point X="16.616" Y="16.938" />
-        <Point X="16.616" Y="16.375" />
-        <Point X="16.75" Y="16.375" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="SSLNSwitch" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.BasicSwitchLabel" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.094" Y="10.941" />
-        <Point X="11.094" Y="15.906" />
-        <Point X="12.791" Y="15.906" />
-        <Point X="12.791" Y="16.757" />
-        <Point X="12.823" Y="16.757" Type="JumpStart" />
-        <Point X="13.021" Y="16.757" Type="JumpEnd" />
-        <Point X="14.167" Y="16.757" Type="JumpStart" />
-        <Point X="14.333" Y="16.757" Type="JumpEnd" />
-        <Point X="16.375" Y="16.757" />
-        <Point X="16.375" Y="16.125" />
-        <Point X="16.417" Y="16.125" Type="JumpStart" />
-        <Point X="16.583" Y="16.125" Type="JumpEnd" />
-        <Point X="16.75" Y="16.125" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="MainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.473" Y="10.941" />
-        <Point X="12.473" Y="11.621" />
-        <Point X="12.32" Y="11.621" Type="JumpStart" />
-        <Point X="12.153" Y="11.621" Type="JumpEnd" />
-        <Point X="12.021" Y="11.621" Type="JumpStart" />
-        <Point X="11.698" Y="11.621" Type="JumpEnd" />
-        <Point X="11.407" Y="11.621" Type="JumpStart" />
-        <Point X="11.241" Y="11.621" Type="JumpEnd" />
-        <Point X="11.177" Y="11.621" Type="JumpStart" />
-        <Point X="11.011" Y="11.621" Type="JumpEnd" />
-        <Point X="10.833" Y="11.621" Type="JumpStart" />
-        <Point X="10.667" Y="11.621" Type="JumpEnd" />
-        <Point X="10.583" Y="11.621" Type="JumpStart" />
-        <Point X="10.417" Y="11.621" Type="JumpEnd" />
-        <Point X="8.208" Y="11.621" Type="JumpStart" />
-        <Point X="8.042" Y="11.621" Type="JumpEnd" />
-        <Point X="8" Y="11.621" />
-        <Point X="8" Y="9.875" />
-        <Point X="7.766" Y="9.875" Type="JumpStart" />
-        <Point X="7.599" Y="9.875" Type="JumpEnd" />
-        <Point X="7.49" Y="9.875" />
-        <Point X="7.49" Y="10.25" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.096" Y="0.05" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="FilteredNotesSwitchless" Type="MusicLoverHandbook.Models.NoteAlter.LiteNote" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13" Y="10.698" />
-        <Point X="13.167" Y="10.698" Type="JumpStart" />
-        <Point X="13.333" Y="10.698" Type="JumpEnd" />
-        <Point X="13.375" Y="10.698" />
-        <Point X="13.375" Y="14.241" />
-        <Point X="13.663" Y="14.241" Type="JumpStart" />
-        <Point X="13.829" Y="14.241" Type="JumpEnd" />
-        <Point X="14.167" Y="14.241" Type="JumpStart" />
-        <Point X="14.333" Y="14.241" Type="JumpEnd" />
-        <Point X="14.604" Y="14.241" Type="JumpStart" />
-        <Point X="14.771" Y="14.241" Type="JumpEnd" />
-        <Point X="15.292" Y="14.241" Type="JumpStart" />
-        <Point X="15.458" Y="14.241" Type="JumpEnd" />
-        <Point X="16.5" Y="14.241" />
-        <Point X="16.5" Y="16.691" />
-        <Point X="16.533" Y="16.691" Type="JumpStart" />
-        <Point X="16.699" Y="16.691" Type="JumpEnd" />
-        <Point X="19.5" Y="16.691" />
-        <Point X="19.5" Y="16.5" />
-        <Point X="20.182" Y="16.5" Type="JumpStart" />
-        <Point X="20.348" Y="16.5" Type="JumpEnd" />
-        <Point X="20.885" Y="16.5" Type="JumpStart" />
-        <Point X="21.052" Y="16.5" Type="JumpEnd" />
-        <Point X="21.625" Y="16.5" />
-        <Point X="21.625" Y="17.188" />
-        <Point X="21.25" Y="17.188" />
-      </Path>
-    </AssociationLine>
+    <Position X="14.25" Y="3.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAIEAUQgBqgGAUAEAJCIAIAGQCqRCABERGCQGgqAgQA=</HashCode>
       <FileName>Controls and Forms\Forms\NoteAdvancedFilterMenu.cs</FileName>
@@ -426,75 +121,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.View.Forms.NoteCreationMenu" Collapsed="true">
-    <Position X="13.75" Y="10.25" Width="1.75" />
-    <AssociationLine Name="CreationOrder" Type="MusicLoverHandbook.Models.Enums.NoteCreationOrder" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="14.5" Y="10.25" />
-        <Point X="14.5" Y="4.486" />
-        <Point X="17" Y="4.486" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.063" Y="0.01" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="FinalNote" Type="MusicLoverHandbook.Models.Abstract.NoteControlMidder" ManuallyRouted="true">
-      <Path>
-        <Point X="13.75" Y="10.494" />
-        <Point X="13.698" Y="10.494" Type="JumpStart" />
-        <Point X="13.404" Y="10.494" Type="JumpEnd" />
-        <Point X="13.332" Y="10.494" />
-        <Point X="13.332" Y="15.625" />
-        <Point X="14.25" Y="15.625" />
-        <Point X="14.25" Y="15.75" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="MainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="14.5" Y="10.25" />
-        <Point X="14.5" Y="9.875" />
-        <Point X="14.453" Y="9.875" Type="JumpStart" />
-        <Point X="14.286" Y="9.875" Type="JumpEnd" />
-        <Point X="14.083" Y="9.875" Type="JumpStart" />
-        <Point X="13.917" Y="9.875" Type="JumpEnd" />
-        <Point X="13.698" Y="9.875" Type="JumpStart" />
-        <Point X="13.404" Y="9.875" Type="JumpEnd" />
-        <Point X="13.333" Y="9.875" Type="JumpStart" />
-        <Point X="13.167" Y="9.875" Type="JumpEnd" />
-        <Point X="12.614" Y="9.875" Type="JumpStart" />
-        <Point X="12.448" Y="9.875" Type="JumpEnd" />
-        <Point X="11.645" Y="9.875" Type="JumpStart" />
-        <Point X="11.479" Y="9.875" Type="JumpEnd" />
-        <Point X="10.833" Y="9.875" Type="JumpStart" />
-        <Point X="10.667" Y="9.875" Type="JumpEnd" />
-        <Point X="10.583" Y="9.875" Type="JumpStart" />
-        <Point X="10.417" Y="9.875" Type="JumpEnd" />
-        <Point X="8.208" Y="9.875" Type="JumpStart" />
-        <Point X="7.917" Y="9.875" Type="JumpEnd" />
-        <Point X="7.766" Y="9.875" Type="JumpStart" />
-        <Point X="7.599" Y="9.875" Type="JumpEnd" />
-        <Point X="7.49" Y="9.875" />
-        <Point X="7.49" Y="10.25" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.098" Y="0.048" Height="0.182" Width="0.851" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="AllInputs" Type="MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.828" Y="10.941" />
-        <Point X="13.828" Y="14.316" />
-        <Point X="14.167" Y="14.316" Type="JumpStart" />
-        <Point X="14.333" Y="14.316" Type="JumpEnd" />
-        <Point X="14.604" Y="14.316" Type="JumpStart" />
-        <Point X="14.771" Y="14.316" Type="JumpEnd" />
-        <Point X="15.292" Y="14.316" Type="JumpStart" />
-        <Point X="15.458" Y="14.316" Type="JumpEnd" />
-        <Point X="17.667" Y="14.316" Type="JumpStart" />
-        <Point X="17.833" Y="14.316" Type="JumpEnd" />
-        <Point X="18.375" Y="14.316" />
-        <Point X="18.375" Y="13.941" />
-      </Path>
-    </AssociationLine>
+    <Position X="17" Y="3.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AEbAAYgJQqAzEAgBAAiAAAiKAYCIAKAEIKIACAAAAAA=</HashCode>
       <FileName>Controls and Forms\Forms\NoteCreationMenu.cs</FileName>
@@ -510,113 +137,35 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.View.Forms.SettingsMenu" Collapsed="true">
-    <Position X="8.75" Y="10.25" Width="1.5" />
+    <Position X="12" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAACAIEAAAoACAAACCAACAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls and Forms\Forms\SettingsMenu.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NoteAdd" Collapsed="true">
-    <Position X="9" Y="16" Width="1.5" />
+    <Position X="15.25" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACCAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NoteAdd.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NoteAuthor" Collapsed="true">
-    <Position X="5.75" Y="17" Width="1.5" />
+    <Position X="17.5" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NoteAuthor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NoteDisc" Collapsed="true">
-    <Position X="8" Y="17" Width="1.5" />
+    <Position X="19.75" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NoteDisc.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NotesContainer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13.25" Y="2.25" Width="1.5" />
-    <AssociationLine Name="advancedFilteredNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="14.102" Y="2.812" />
-        <Point X="14.102" Y="6.5" />
-        <Point X="14.083" Y="6.5" Type="JumpStart" />
-        <Point X="13.808" Y="6.5" Type="JumpEnd" />
-        <Point X="13.698" Y="6.5" Type="JumpStart" />
-        <Point X="13.404" Y="6.5" Type="JumpEnd" />
-        <Point X="13.333" Y="6.5" Type="JumpStart" />
-        <Point X="13.167" Y="6.5" Type="JumpEnd" />
-        <Point X="11.833" Y="6.5" Type="JumpStart" />
-        <Point X="11.667" Y="6.5" Type="JumpEnd" />
-        <Point X="11.645" Y="6.5" Type="JumpStart" />
-        <Point X="11.479" Y="6.5" Type="JumpEnd" />
-        <Point X="11.25" Y="6.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="partialInnerNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.891" Y="2.812" />
-        <Point X="13.891" Y="6.688" />
-        <Point X="13.698" Y="6.688" Type="JumpStart" />
-        <Point X="13.404" Y="6.688" Type="JumpEnd" />
-        <Point X="13.333" Y="6.688" Type="JumpStart" />
-        <Point X="13.167" Y="6.688" Type="JumpEnd" />
-        <Point X="11.833" Y="6.688" Type="JumpStart" />
-        <Point X="11.667" Y="6.688" Type="JumpEnd" />
-        <Point X="11.645" Y="6.688" Type="JumpStart" />
-        <Point X="11.479" Y="6.688" Type="JumpEnd" />
-        <Point X="11.25" Y="6.688" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="AdvancedFilteredNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.891" Y="2.812" />
-        <Point X="13.891" Y="5.812" />
-        <Point X="13.698" Y="5.812" Type="JumpStart" />
-        <Point X="13.404" Y="5.812" Type="JumpEnd" />
-        <Point X="13.333" Y="5.812" Type="JumpStart" />
-        <Point X="13.167" Y="5.812" Type="JumpEnd" />
-        <Point X="11.833" Y="5.812" Type="JumpStart" />
-        <Point X="11.667" Y="5.812" Type="JumpEnd" />
-        <Point X="11.645" Y="5.812" Type="JumpStart" />
-        <Point X="11.479" Y="5.812" Type="JumpEnd" />
-        <Point X="11.25" Y="5.812" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="CurrentlyActiveNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.891" Y="2.812" />
-        <Point X="13.891" Y="6" />
-        <Point X="13.698" Y="6" Type="JumpStart" />
-        <Point X="13.404" Y="6" Type="JumpEnd" />
-        <Point X="13.333" Y="6" Type="JumpStart" />
-        <Point X="13.167" Y="6" Type="JumpEnd" />
-        <Point X="11.833" Y="6" Type="JumpStart" />
-        <Point X="11.667" Y="6" Type="JumpEnd" />
-        <Point X="11.645" Y="6" Type="JumpStart" />
-        <Point X="11.479" Y="6" Type="JumpEnd" />
-        <Point X="11.25" Y="6" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="PartialInnerNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="14.301" Y="2.812" />
-        <Point X="14.301" Y="6.375" />
-        <Point X="14.185" Y="6.375" Type="JumpStart" />
-        <Point X="13.808" Y="6.375" Type="JumpEnd" />
-        <Point X="13.698" Y="6.375" Type="JumpStart" />
-        <Point X="13.404" Y="6.375" Type="JumpEnd" />
-        <Point X="13.333" Y="6.375" Type="JumpStart" />
-        <Point X="13.167" Y="6.375" Type="JumpEnd" />
-        <Point X="11.833" Y="6.375" Type="JumpStart" />
-        <Point X="11.667" Y="6.375" Type="JumpEnd" />
-        <Point X="11.645" Y="6.375" Type="JumpStart" />
-        <Point X="11.479" Y="6.375" Type="JumpEnd" />
-        <Point X="11.25" Y="6.375" />
-      </Path>
-    </AssociationLine>
+    <Position X="16" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAFAACAIACAIAEAICAQAAAAVACAAAAAQIACIQ=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NotesContainer.cs</FileName>
@@ -634,29 +183,21 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NoteSong" Collapsed="true">
-    <Position X="10.25" Y="17" Width="1.5" />
+    <Position X="22" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NoteSong.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NoteSongFile" Collapsed="true">
-    <Position X="6.75" Y="16" Width="1.5" />
+    <Position X="13" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls and Forms\UserControls\Notes\NoteSongFile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl" Collapsed="true">
-    <Position X="18" Y="13.25" Width="2" />
-    <AssociationLine Name="InputType" Type="MusicLoverHandbook.Models.Enums.NoteType" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="18.469" Y="13.25" />
-        <Point X="18.469" Y="10.875" />
-        <Point X="20.198" Y="10.875" />
-        <Point X="20.198" Y="11.25" />
-      </Path>
-    </AssociationLine>
+    <Position X="24.25" Y="12.75" Width="2" />
     <TypeIdentifier>
       <HashCode>CACpMCAAACAcaAEgBAiABACCAAAFEAQAAABAABZEQBA=</HashCode>
       <FileName>Controls and Forms\UserControls\CreationParamsControl.cs</FileName>
@@ -669,35 +210,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.SmartFilteringOptionMenu" Collapsed="true">
-    <Position X="20.75" Y="13.25" Width="2.25" />
-    <AssociationLine Name="filterMenu" Type="MusicLoverHandbook.Controls_and_Forms.Forms.NoteAdvancedFilterMenu" ManuallyRouted="true">
-      <Path>
-        <Point X="22.531" Y="13.25" />
-        <Point X="22.531" Y="13.044" />
-        <Point X="21.615" Y="13.044" Type="JumpStart" />
-        <Point X="21.448" Y="13.044" Type="JumpEnd" />
-        <Point X="21.083" Y="13.044" Type="JumpStart" />
-        <Point X="20.917" Y="13.044" Type="JumpEnd" />
-        <Point X="20.583" Y="13.044" Type="JumpStart" />
-        <Point X="20.417" Y="13.044" Type="JumpEnd" />
-        <Point X="19.646" Y="13.044" Type="JumpStart" />
-        <Point X="19.479" Y="13.044" Type="JumpEnd" />
-        <Point X="18.583" Y="13.044" Type="JumpStart" />
-        <Point X="18.386" Y="13.044" Type="JumpEnd" />
-        <Point X="13.958" Y="13.044" Type="JumpStart" />
-        <Point X="13.663" Y="13.044" Type="JumpEnd" />
-        <Point X="13.458" Y="13.044" Type="JumpStart" />
-        <Point X="13.167" Y="13.044" Type="JumpEnd" />
-        <Point X="13.083" Y="13.044" Type="JumpStart" />
-        <Point X="12.761" Y="13.044" Type="JumpEnd" />
-        <Point X="12.021" Y="13.044" Type="JumpStart" />
-        <Point X="11.855" Y="13.044" Type="JumpEnd" />
-        <Point X="11.645" Y="13.044" Type="JumpStart" />
-        <Point X="11.479" Y="13.044" Type="JumpEnd" />
-        <Point X="11.324" Y="13.044" />
-        <Point X="11.324" Y="10.941" />
-      </Path>
-    </AssociationLine>
+    <Position X="27" Y="12.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AEAFAQAIACIICAAAAAiQgAACgAAAABAAAAAAIAgAAQA=</HashCode>
       <FileName>Controls and Forms\UserControls\SmartFilteringOptionMenu.cs</FileName>
@@ -714,7 +227,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.BoxPathAnalyzer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="21.25" Y="15.25" Width="1.5" />
+    <Position X="25.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAghAAGAAQAAgAIAAEgACACCAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Logic\BoxPathAnalyzer.cs</FileName>
@@ -725,12 +238,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Logic.Notes.NoteBuilder" Collapsed="true">
-    <Position X="6.5" Y="8.25" Width="1.25" />
-    <AssociationLine Name="MainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.096" Y="0.049" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="5" Y="11.25" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Logic\Notes\NoteBuilder.cs</FileName>
@@ -740,24 +248,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Logic.Notes.NoteLiteFilter" Collapsed="true">
-    <Position X="11.25" Y="15.25" Width="1.5" />
+    <Position X="36.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAACAABAAAAAAABAAAQAAgAAA=</HashCode>
       <FileName>Logic\Notes\NoteLiteFilter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Logic.Notes.RawNoteManager" Collapsed="true">
-    <Position X="5.5" Y="12.25" Width="1.5" />
-    <AssociationLine Name="mainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.187" Y="12.25" />
-        <Point X="6.187" Y="11.875" />
-        <Point X="6.667" Y="11.875" Type="JumpStart" />
-        <Point X="6.833" Y="11.875" Type="JumpEnd" />
-        <Point X="7.333" Y="11.875" />
-        <Point X="7.333" Y="10.941" />
-      </Path>
-    </AssociationLine>
+    <Position X="4.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
       <FileName>Logic\Notes\RawNoteManager.cs</FileName>
@@ -767,19 +265,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Controller.MusicFileScanner" Collapsed="true">
-    <Position X="23.5" Y="6.5" Width="1.5" />
+    <Position X="35" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Logic\MusicFileScanner.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Logic.NoteCreationMenuController" Collapsed="true">
-    <Position X="8" Y="12.25" Width="2.25" />
-    <AssociationLine Name="mainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.058" Y="0.105" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="8.5" Y="1.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAgAAEAAAAAAIAAAAAAAABAAAAAA=</HashCode>
       <FileName>Logic\NoteCreationMenuController.cs</FileName>
@@ -790,46 +283,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Logic.QuickSearchController" Collapsed="true">
-    <Position X="10.75" Y="1.5" Width="1.75" />
-    <AssociationLine Name="container" Type="MusicLoverHandbook.Controls_and_Forms.UserControls.Notes.NotesContainer" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10.938" Y="2.062" />
-        <Point X="10.938" Y="2.469" />
-        <Point X="12.667" Y="2.469" Type="JumpStart" />
-        <Point X="12.833" Y="2.469" Type="JumpEnd" />
-        <Point X="13.25" Y="2.469" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="searchResults" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10.938" Y="2.062" />
-        <Point X="10.938" Y="2.469" />
-        <Point X="10.844" Y="2.469" />
-        <Point X="10.844" Y="3.878" />
-        <Point X="10.833" Y="3.878" Type="JumpStart" />
-        <Point X="10.667" Y="3.878" Type="JumpEnd" />
-        <Point X="9.75" Y="3.878" />
-        <Point X="9.75" Y="5.375" />
-        <Point X="10.438" Y="5.375" />
-        <Point X="10.438" Y="5.75" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="searchInSource" Type="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="10.75" Y="1.953" />
-        <Point X="10.453" Y="1.953" />
-        <Point X="10.453" Y="3.75" />
-        <Point X="9.6" Y="3.75" />
-        <Point X="9.6" Y="5.014" />
-        <Point X="9.583" Y="5.014" Type="JumpStart" />
-        <Point X="9.417" Y="5.014" Type="JumpEnd" />
-        <Point X="9.375" Y="5.014" />
-        <Point X="9.375" Y="7.312" />
-        <Point X="9.417" Y="7.312" Type="JumpStart" />
-        <Point X="9.583" Y="7.312" Type="JumpEnd" />
-        <Point X="9.75" Y="7.312" />
-      </Path>
-    </AssociationLine>
+    <Position X="19" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>hAAAAABAAEAAQABAAAAAgAAIAAAAAEAAAAAAAAAABAA=</HashCode>
       <FileName>Logic\QuickSearchController.cs</FileName>
@@ -843,7 +297,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Logic.StringTagTools" Collapsed="true">
-    <Position X="25.25" Y="5.75" Width="1.5" />
+    <Position X="35" Y="3.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -853,128 +307,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Abstract.NoteControl" Collapsed="true">
-    <Position X="11.25" Y="13.25" Width="1.5" />
-    <AssociationLine Name="DeleteButton" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.75" Y="13.75" />
-        <Point X="12.761" Y="13.75" Type="JumpStart" />
-        <Point X="13.083" Y="13.75" Type="JumpEnd" />
-        <Point X="13.25" Y="13.75" />
-        <Point X="13.25" Y="9.316" />
-        <Point X="13.404" Y="9.316" Type="JumpStart" />
-        <Point X="13.698" Y="9.316" Type="JumpEnd" />
-        <Point X="13.917" Y="9.316" Type="JumpStart" />
-        <Point X="14.083" Y="9.316" Type="JumpEnd" />
-        <Point X="14.286" Y="9.316" Type="JumpStart" />
-        <Point X="14.583" Y="9.316" Type="JumpEnd" />
-        <Point X="17.125" Y="9.316" />
-        <Point X="17.125" Y="8.5" />
-        <Point X="16.75" Y="8.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="EditButton" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.75" Y="13.75" />
-        <Point X="12.761" Y="13.75" Type="JumpStart" />
-        <Point X="13.083" Y="13.75" Type="JumpEnd" />
-        <Point X="13.25" Y="13.75" />
-        <Point X="13.25" Y="9.316" />
-        <Point X="13.404" Y="9.316" Type="JumpStart" />
-        <Point X="13.698" Y="9.316" Type="JumpEnd" />
-        <Point X="13.917" Y="9.316" Type="JumpStart" />
-        <Point X="14.083" Y="9.316" Type="JumpEnd" />
-        <Point X="14.286" Y="9.316" Type="JumpStart" />
-        <Point X="14.583" Y="9.316" Type="JumpEnd" />
-        <Point X="17.125" Y="9.316" />
-        <Point X="17.125" Y="8.375" />
-        <Point X="16.75" Y="8.375" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="InfoButton" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.ButtonPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.75" Y="13.75" />
-        <Point X="12.761" Y="13.75" Type="JumpStart" />
-        <Point X="13.083" Y="13.75" Type="JumpEnd" />
-        <Point X="13.25" Y="13.75" />
-        <Point X="13.25" Y="9.316" />
-        <Point X="13.404" Y="9.316" Type="JumpStart" />
-        <Point X="13.698" Y="9.316" Type="JumpEnd" />
-        <Point X="13.917" Y="9.316" Type="JumpStart" />
-        <Point X="14.083" Y="9.316" Type="JumpEnd" />
-        <Point X="14.286" Y="9.316" Type="JumpStart" />
-        <Point X="14.583" Y="9.316" Type="JumpEnd" />
-        <Point X="17.125" Y="9.316" />
-        <Point X="17.125" Y="8.625" />
-        <Point X="16.75" Y="8.625" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="NoteType" Type="MusicLoverHandbook.Models.Enums.NoteType" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.938" Y="13.25" />
-        <Point X="11.938" Y="11.438" />
-        <Point X="12.153" Y="11.438" Type="JumpStart" />
-        <Point X="12.32" Y="11.438" Type="JumpEnd" />
-        <Point X="12.39" Y="11.438" Type="JumpStart" />
-        <Point X="12.556" Y="11.438" Type="JumpEnd" />
-        <Point X="12.761" Y="11.437" Type="JumpStart" />
-        <Point X="13.083" Y="11.438" Type="JumpEnd" />
-        <Point X="13.167" Y="11.437" Type="JumpStart" />
-        <Point X="13.57" Y="11.438" Type="JumpEnd" />
-        <Point X="13.663" Y="11.438" Type="JumpStart" />
-        <Point X="13.911" Y="11.438" Type="JumpEnd" />
-        <Point X="13.924" Y="11.438" Type="JumpStart" />
-        <Point X="14.091" Y="11.438" Type="JumpEnd" />
-        <Point X="15.938" Y="11.438" />
-        <Point X="15.938" Y="11.624" />
-        <Point X="18.386" Y="11.624" Type="JumpStart" />
-        <Point X="18.583" Y="11.624" Type="JumpEnd" />
-        <Point X="18.625" Y="11.624" />
-        <Point X="18.625" Y="11.438" />
-        <Point X="19" Y="11.438" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="SideButtons" Type="MusicLoverHandbook.Controls_and_Forms.Custom_Controls.SideButtonsPanel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.938" Y="13.25" />
-        <Point X="11.938" Y="12" />
-        <Point X="11.864" Y="12" Type="JumpStart" />
-        <Point X="11.698" Y="12" Type="JumpEnd" />
-        <Point X="11.407" Y="12" Type="JumpStart" />
-        <Point X="11.241" Y="12" Type="JumpEnd" />
-        <Point X="11.177" Y="12" Type="JumpStart" />
-        <Point X="11.011" Y="12" Type="JumpEnd" />
-        <Point X="10.833" Y="12" Type="JumpStart" />
-        <Point X="10.667" Y="12" Type="JumpEnd" />
-        <Point X="10.583" Y="12" Type="JumpStart" />
-        <Point X="10.417" Y="12" Type="JumpEnd" />
-        <Point X="8.125" Y="12" />
-        <Point X="8.125" Y="8.096" />
-        <Point X="8.5" Y="8.096" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="UsedCreationOrder" Type="MusicLoverHandbook.Models.Enums.NoteCreationOrder" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.938" Y="13.25" />
-        <Point X="11.938" Y="11.438" />
-        <Point X="12.153" Y="11.438" Type="JumpStart" />
-        <Point X="12.32" Y="11.438" Type="JumpEnd" />
-        <Point X="12.39" Y="11.438" Type="JumpStart" />
-        <Point X="12.556" Y="11.438" Type="JumpEnd" />
-        <Point X="12.761" Y="11.437" Type="JumpStart" />
-        <Point X="13.083" Y="11.438" Type="JumpEnd" />
-        <Point X="13.25" Y="11.438" />
-        <Point X="13.25" Y="4.875" />
-        <Point X="13.808" Y="4.875" Type="JumpStart" />
-        <Point X="13.974" Y="4.875" Type="JumpEnd" />
-        <Point X="14.019" Y="4.875" Type="JumpStart" />
-        <Point X="14.185" Y="4.875" Type="JumpEnd" />
-        <Point X="14.369" Y="4.875" />
-        <Point X="14.369" Y="4.348" />
-        <Point X="14.479" Y="4.348" Type="JumpStart" />
-        <Point X="14.645" Y="4.348" Type="JumpEnd" />
-        <Point X="17" Y="4.348" />
-      </Path>
-    </AssociationLine>
+    <Position X="17.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AwChwSBQIBsAA4BFlAYGAAGASCFANIAAABAGABEAsBE=</HashCode>
       <FileName>Models\Abstract\NoteControl.cs</FileName>
@@ -990,47 +323,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlChild" Collapsed="true">
-    <Position X="8" Y="14.75" Width="1.5" />
-    <AssociationLine Name="ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.IParentControl" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8" Y="15.007" />
-        <Point X="7.625" Y="15.007" />
-        <Point X="7.625" Y="11.368" />
-        <Point X="7.416" Y="11.368" Type="JumpStart" />
-        <Point X="7.25" Y="11.368" Type="JumpEnd" />
-        <Point X="7.156" Y="11.368" Type="JumpStart" />
-        <Point X="6.989" Y="11.368" Type="JumpEnd" />
-        <Point X="6.833" Y="11.368" Type="JumpStart" />
-        <Point X="6.667" Y="11.368" Type="JumpEnd" />
-        <Point X="5.987" Y="11.368" />
-        <Point X="5.987" Y="6.95" />
-        <Point X="6.167" Y="6.95" Type="JumpStart" />
-        <Point X="6.333" Y="6.95" Type="JumpEnd" />
-        <Point X="6.417" Y="6.95" Type="JumpStart" />
-        <Point X="6.583" Y="6.95" Type="JumpEnd" />
-        <Point X="6.625" Y="6.95" />
-        <Point X="6.625" Y="4.062" />
-        <Point X="6.583" Y="4.062" Type="JumpStart" />
-        <Point X="6.417" Y="4.062" Type="JumpEnd" />
-        <Point X="6.25" Y="4.062" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="INoteChild.ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.INoteParent" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9.156" Y="14.75" />
-        <Point X="9.156" Y="13.062" />
-        <Point X="10.5" Y="13.062" />
-        <Point X="10.5" Y="7.747" />
-        <Point X="9.5" Y="7.747" />
-        <Point X="9.5" Y="3.625" />
-        <Point X="10.37" Y="3.625" Type="JumpStart" />
-        <Point X="10.536" Y="3.625" Type="JumpEnd" />
-        <Point X="10.761" Y="3.625" Type="JumpStart" />
-        <Point X="10.927" Y="3.625" Type="JumpEnd" />
-        <Point X="11.062" Y="3.625" />
-        <Point X="11.062" Y="4" />
-      </Path>
-    </AssociationLine>
+    <Position X="14" Y="14.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAAACABAAACAIAAgAAAAAgAAAAAQEEA=</HashCode>
       <FileName>Models\Abstract\NoteControlChild.cs</FileName>
@@ -1042,59 +335,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlMidder" Collapsed="true">
-    <Position X="13.5" Y="15.75" Width="1.5" />
-    <AssociationLine Name="ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.IParentControl" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.5" Y="15.892" />
-        <Point X="13" Y="15.892" />
-        <Point X="13" Y="11.191" />
-        <Point X="12.99" Y="11.191" Type="JumpStart" />
-        <Point X="12.761" Y="11.191" Type="JumpEnd" />
-        <Point X="12.556" Y="11.191" Type="JumpStart" />
-        <Point X="12.39" Y="11.191" Type="JumpEnd" />
-        <Point X="12.32" Y="11.191" Type="JumpStart" />
-        <Point X="12.153" Y="11.191" Type="JumpEnd" />
-        <Point X="11.864" Y="11.191" Type="JumpStart" />
-        <Point X="11.698" Y="11.191" Type="JumpEnd" />
-        <Point X="11.407" Y="11.191" Type="JumpStart" />
-        <Point X="11.241" Y="11.191" Type="JumpEnd" />
-        <Point X="11.177" Y="11.191" Type="JumpStart" />
-        <Point X="11.011" Y="11.191" Type="JumpEnd" />
-        <Point X="10.833" Y="11.191" Type="JumpStart" />
-        <Point X="10.667" Y="11.191" Type="JumpEnd" />
-        <Point X="10.583" Y="11.191" Type="JumpStart" />
-        <Point X="10.417" Y="11.191" Type="JumpEnd" />
-        <Point X="8.583" Y="11.191" Type="JumpStart" />
-        <Point X="8.417" Y="11.191" Type="JumpEnd" />
-        <Point X="8.208" Y="11.191" Type="JumpStart" />
-        <Point X="7.917" Y="11.191" Type="JumpEnd" />
-        <Point X="7.416" Y="11.191" Type="JumpStart" />
-        <Point X="7.25" Y="11.191" Type="JumpEnd" />
-        <Point X="7.156" Y="11.191" Type="JumpStart" />
-        <Point X="6.989" Y="11.191" Type="JumpEnd" />
-        <Point X="6.833" Y="11.191" Type="JumpStart" />
-        <Point X="6.667" Y="11.191" Type="JumpEnd" />
-        <Point X="6.25" Y="11.191" />
-        <Point X="6.25" Y="4.062" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="INoteChild.ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.INoteParent" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.5" Y="16.096" />
-        <Point X="13.021" Y="16.096" Type="JumpStart" />
-        <Point X="12.708" Y="16.096" Type="JumpEnd" />
-        <Point X="11.083" Y="16.096" Type="JumpStart" />
-        <Point X="10.917" Y="16.096" Type="JumpEnd" />
-        <Point X="10.75" Y="16.096" />
-        <Point X="10.75" Y="7.747" />
-        <Point X="11.479" Y="7.747" Type="JumpStart" />
-        <Point X="11.645" Y="7.747" Type="JumpEnd" />
-        <Point X="11.75" Y="7.747" />
-        <Point X="11.75" Y="3.625" />
-        <Point X="11.062" Y="3.625" />
-        <Point X="11.062" Y="4" />
-      </Path>
-    </AssociationLine>
+    <Position X="19.75" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACABAAAAAAAAggAAAAgAAAAAQEAA=</HashCode>
       <FileName>Models\Abstract\NoteControlMidder.cs</FileName>
@@ -1106,26 +347,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlParent" Collapsed="true">
-    <Position X="13.5" Y="14.5" Width="1.5" />
-    <AssociationLine Name="INoteParent.InnerNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteChild" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="13.746" Y="14.5" />
-        <Point X="13.746" Y="11.191" />
-        <Point X="13.615" Y="11.191" />
-        <Point X="13.615" Y="4.875" />
-        <Point X="13.808" Y="4.875" Type="JumpStart" />
-        <Point X="13.974" Y="4.875" Type="JumpEnd" />
-        <Point X="14" Y="4.875" />
-        <Point X="14" Y="3.5" />
-        <Point X="13.974" Y="3.5" Type="JumpStart" />
-        <Point X="13.808" Y="3.5" Type="JumpEnd" />
-        <Point X="13.312" Y="3.5" />
-        <Point X="13.312" Y="4" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.71" Y="0.117" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="19.75" Y="14.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQQAABCAAAEEEQACAABAQAQAkEABAQAAAAEIoAA=</HashCode>
       <FileName>Models\Abstract\NoteControlParent.cs</FileName>
@@ -1139,7 +361,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.AssociatedNoteCreationTypeAttribute" Collapsed="true">
-    <Position X="18" Y="10" Width="2.75" />
+    <Position X="8" Y="19.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\ConnectedNoteCreationTypeAttribute.cs</FileName>
@@ -1149,80 +371,70 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.AssociatedTypeAttribute" Collapsed="true">
-    <Position X="26.25" Y="15.25" Width="2" />
+    <Position X="19.5" Y="19.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\ConnectedNoteTypeAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.EnumColorAttribute" Collapsed="true">
-    <Position X="21.5" Y="10" Width="1.75" />
+    <Position X="11.5" Y="19.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\EnumColorAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.ErrorStateAttribute" Collapsed="true">
-    <Position X="26.5" Y="10" Width="1.75" />
+    <Position X="22.25" Y="19.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\ErrorStateAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.InformationCarrierAttribute" Collapsed="true">
-    <Position X="26" Y="14.25" Width="2.25" />
+    <Position X="16.5" Y="19.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\InformationCarrierAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.OrderAttribute" Collapsed="true">
-    <Position X="26.75" Y="12.75" Width="1.5" />
+    <Position X="26.75" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Attributes\OrderAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.StringValueAttribute" Collapsed="true">
-    <Position X="24" Y="10" Width="1.75" />
+    <Position X="14" Y="19.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Models\Attributes\StringValueAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Attributes.TextAttribute" Collapsed="true">
-    <Position X="26.75" Y="11.75" Width="1.25" />
+    <Position X="24.75" Y="19.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Models\Attributes\TextAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Enums.MissingRequiredAttributeException" Collapsed="true">
-    <Position X="23.5" Y="13" Width="2.75" />
+    <Position X="10.25" Y="22.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAgAAA=</HashCode>
       <FileName>Models\Enums\NoteCreationType.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Extensions.CustomExtensions" Collapsed="true">
-    <Position X="25.25" Y="6.5" Width="1.5" />
+    <Position X="36.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQEAAAAAAAAEAAAAAAAAAgARAACAAAAAAAAAIAA=</HashCode>
       <FileName>Models\Extensions\CustomExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.JSON.InnerNotesConverter" Collapsed="true">
-    <Position X="27.25" Y="5.25" Width="1.75" />
-    <AssociationLine Name="usedSettings" Type="Newtonsoft.Json.JsonSerializerSettings" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="27.656" Y="5.25" />
-        <Point X="27.656" Y="4.875" />
-        <Point X="28.042" Y="4.875" Type="JumpStart" />
-        <Point X="28.208" Y="4.875" Type="JumpEnd" />
-        <Point X="28.312" Y="4.875" />
-        <Point X="28.312" Y="2.312" />
-      </Path>
-    </AssociationLine>
+    <Position X="28.25" Y="15.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAA=</HashCode>
       <FileName>Models\JSON\InnerNotesConverter.cs</FileName>
@@ -1232,29 +444,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.JSON.NoteDesrializationConverter" Collapsed="true">
-    <Position X="23.25" Y="14.75" Width="2.25" />
+    <Position X="25.25" Y="17" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQQAAAEAEAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\JSON\NoteDesrializationConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.JSON.NoteImportModel" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="18" Y="5.25" Width="1.5" />
-    <AssociationLine Name="NoteType" Type="MusicLoverHandbook.Models.Enums.NoteType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="18.844" Y="5.812" />
-        <Point X="18.844" Y="6.529" />
-        <Point X="19.199" Y="6.529" />
-        <Point X="19.199" Y="7.987" />
-        <Point X="18.958" Y="7.987" Type="JumpStart" />
-        <Point X="18.792" Y="7.987" Type="JumpEnd" />
-        <Point X="17.75" Y="7.987" />
-        <Point X="17.75" Y="10.871" />
-        <Point X="18.588" Y="10.871" />
-        <Point X="18.588" Y="11.438" />
-        <Point X="19" Y="11.438" />
-      </Path>
-    </AssociationLine>
+    <Position X="20.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAIAAIAAgAEAAAAAAAAQAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>Models\JSON\NoteImportModel.cs</FileName>
@@ -1269,36 +466,14 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.JSON.TypeRestrictedContractResolver" Collapsed="true">
-    <Position X="15.75" Y="12.25" Width="2.5" />
+    <Position X="26.25" Y="6.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAABAACAAAAAAAAAIAAAAAAAAAAAgA=</HashCode>
       <FileName>Models\JSON\TypeRestrictedContractResolver.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Managers.FileManager" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="25.75" Y="4.25" Width="1.25" />
-    <AssociationLine Name="HistoryManager" Type="MusicLoverHandbook.Models.Managers.HistoryManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="26.74" Y="4.25" />
-        <Point X="26.74" Y="2.875" />
-        <Point X="26.347" Y="2.875" Type="JumpStart" />
-        <Point X="26.181" Y="2.875" Type="JumpEnd" />
-        <Point X="25.934" Y="2.875" Type="JumpStart" />
-        <Point X="25.768" Y="2.875" Type="JumpEnd" />
-        <Point X="25.312" Y="2.875" />
-        <Point X="25.312" Y="3.5" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.979" Y="0.044" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="SerializerSettings" Type="Newtonsoft.Json.JsonSerializerSettings" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="26.264" Y="4.25" />
-        <Point X="26.264" Y="2.188" />
-        <Point X="26.75" Y="2.188" />
-      </Path>
-    </AssociationLine>
+    <Position X="29.5" Y="19.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAEBkCMAAAQAAQgAAAAFCCAEIAQAAQAiAAACA=</HashCode>
       <FileName>Models\Managers\FileManager.cs</FileName>
@@ -1312,7 +487,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Models.Managers.FontManager" Collapsed="true">
-    <Position X="22.25" Y="3.75" Width="1.25" />
+    <Position X="27.25" Y="9.25" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAA=</HashCode>
       <FileName>Models\Managers\FontManager.cs</FileName>
@@ -1325,15 +500,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.Managers.HistoryManager" Collapsed="true">
-    <Position X="24" Y="3.5" Width="1.5" />
-    <AssociationLine Name="Instance" Type="MusicLoverHandbook.Models.Managers.HistoryManager" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="25.125" Y="3.5" />
-        <Point X="25.125" Y="3.25" />
-        <Point X="24.688" Y="3.25" />
-        <Point X="24.688" Y="3.5" />
-      </Path>
-    </AssociationLine>
+    <Position X="29.5" Y="21.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgEgAAACAAABAAAAAAAAAAAAkAAAAAAASAAAQAAAIAA=</HashCode>
       <FileName>Models\Managers\HistoryManager.cs</FileName>
@@ -1343,20 +510,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.NoteAlter.LiteNote" Collapsed="true">
-    <Position X="20" Y="16.75" Width="1.25" />
-    <AssociationLine Name="NoteType" Type="MusicLoverHandbook.Models.Enums.NoteType" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="20.265" Y="16.75" />
-        <Point X="20.265" Y="15.562" />
-        <Point X="19.958" Y="15.562" Type="JumpStart" />
-        <Point X="19.792" Y="15.562" Type="JumpEnd" />
-        <Point X="17.75" Y="15.562" />
-        <Point X="17.75" Y="13.191" />
-        <Point X="18.5" Y="13.191" />
-        <Point X="18.5" Y="11.438" />
-        <Point X="19" Y="11.438" />
-      </Path>
-    </AssociationLine>
+    <Position X="12.25" Y="11.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AACAASAABAAAAgAEgAAAAAAAAIAAAIAAAAAAAAEAABE=</HashCode>
       <FileName>Models\NoteAlter\LiteNote.cs</FileName>
@@ -1367,24 +521,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.NoteAlter.SimpleNoteModel" Collapsed="true">
-    <Position X="22" Y="11.5" Width="1.5" />
-    <AssociationLine Name="NoteType" Type="MusicLoverHandbook.Models.Enums.NoteType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="22.75" Y="12.062" />
-        <Point X="22.75" Y="12.309" />
-        <Point X="21.615" Y="12.309" Type="JumpStart" />
-        <Point X="21.448" Y="12.309" Type="JumpEnd" />
-        <Point X="21.083" Y="12.309" Type="JumpStart" />
-        <Point X="20.917" Y="12.309" Type="JumpEnd" />
-        <Point X="20.583" Y="12.309" Type="JumpStart" />
-        <Point X="20.417" Y="12.309" Type="JumpEnd" />
-        <Point X="19.646" Y="12.309" Type="JumpStart" />
-        <Point X="19.479" Y="12.309" Type="JumpEnd" />
-        <Point X="18.625" Y="12.309" />
-        <Point X="18.625" Y="11.438" />
-        <Point X="19" Y="11.438" />
-      </Path>
-    </AssociationLine>
+    <Position X="22" Y="15" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\NoteAlter\SimpleNoteModel.cs</FileName>
@@ -1394,28 +531,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MusicLoverHandbook.Models.ToolStripTools.ColoredIconsBarRenderer" Collapsed="true">
-    <Position X="24.25" Y="7.25" Width="2" />
+    <Position X="35" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ToolStripTools\ColoredIconsBarRenderer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.ToolStripTools.CustomProfessionalColorTable" Collapsed="true">
-    <Position X="23.5" Y="5.75" Width="1.5" />
+    <Position X="38.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAIAAAAAAAAAAAAABACA=</HashCode>
       <FileName>Models\ToolStripTools\CustomProfessionalColorTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicLoverHandbook.Models.ContentLinker" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="14.25" Y="13.25" Width="1.5" />
-    <AssociationLine Name="LinkingParent" Type="MusicLoverHandbook.Models.Abstract.NoteControlParent" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="15.375" Y="13.812" />
-        <Point X="15.375" Y="14.812" />
-        <Point X="15" Y="14.812" />
-      </Path>
-    </AssociationLine>
+    <Position X="14.5" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ContentLinker.cs</FileName>
@@ -1426,34 +556,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MusicLoverHandbook.Program" Collapsed="true">
-    <Position X="17.25" Y="2" Width="1.25" />
-    <AssociationLine Name="MainForm" Type="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="17.875" Y="2" />
-        <Point X="17.875" Y="1.625" />
-        <Point X="12.75" Y="1.625" />
-        <Point X="12.75" Y="3.75" />
-        <Point X="11.833" Y="3.75" Type="JumpStart" />
-        <Point X="11.667" Y="3.75" Type="JumpEnd" />
-        <Point X="11.145" Y="3.75" Type="JumpStart" />
-        <Point X="10.979" Y="3.75" Type="JumpEnd" />
-        <Point X="10.927" Y="3.75" Type="JumpStart" />
-        <Point X="10.761" Y="3.75" Type="JumpEnd" />
-        <Point X="9.583" Y="3.75" Type="JumpStart" />
-        <Point X="9.417" Y="3.75" Type="JumpEnd" />
-        <Point X="6.5" Y="3.75" />
-        <Point X="6.5" Y="8.008" />
-        <Point X="8" Y="8.008" />
-        <Point X="8" Y="9.875" />
-        <Point X="7.766" Y="9.875" Type="JumpStart" />
-        <Point X="7.599" Y="9.875" Type="JumpEnd" />
-        <Point X="7.49" Y="9.875" />
-        <Point X="7.49" Y="10.25" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="-0.185" Y="0.042" Height="0.182" Width="1.133" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="5" Y="9.25" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
@@ -1463,107 +566,63 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Newtonsoft.Json.JsonSerializerSettings" Collapsed="true">
-    <Position X="26.75" Y="1.75" Width="1.75" />
+    <Position X="28.25" Y="17.5" Width="1.75" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Windows.Forms.Panel" Collapsed="true">
-    <Position X="16.25" Y="5.75" Width="1.5" />
+    <Position X="25" Y="2.25" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Windows.Forms.ComboBox" Collapsed="true">
-    <Position X="20" Y="2.75" Width="1.5" />
+    <Position X="23.25" Y="8.25" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Windows.Forms.UserControl" Collapsed="true">
-    <Position X="14.25" Y="11.5" Width="1.5" />
+    <Position X="20.25" Y="11.25" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Windows.Forms.Form" Collapsed="true">
-    <Position X="8.5" Y="8.75" Width="1.5" />
+    <Position X="12.5" Y="2.25" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Windows.Forms.Control" Collapsed="true">
-    <Position X="19.25" Y="14.75" Width="1.25" />
+    <Position X="12.25" Y="10.25" Width="1.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Newtonsoft.Json.JsonConverter" Collapsed="true">
-    <Position X="24" Y="1.75" Width="1.25" />
+    <Position X="27" Y="14.25" Width="1.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Attribute" Collapsed="true">
-    <Position X="27.5" Y="8.75" Width="1.25" />
+    <Position X="17.5" Y="18.25" Width="1.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.Exception" Collapsed="true">
-    <Position X="24.5" Y="11.75" Width="1.25" />
+    <Position X="11" Y="21.25" Width="1.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Newtonsoft.Json.JsonConverter&lt;T&gt;" Collapsed="true">
-    <Position X="21.75" Y="5" Width="1.75" />
-    <InheritanceLine Type="Newtonsoft.Json.JsonConverter" ManuallyRouted="true">
-      <Path>
-        <Point X="24.625" Y="2.312" />
-        <Point X="24.625" Y="2.642" />
-        <Point X="25.851" Y="2.642" />
-        <Point X="25.851" Y="3.175" />
-        <Point X="26.181" Y="3.175" Type="JumpStart" />
-        <Point X="26.347" Y="3.175" Type="JumpEnd" />
-        <Point X="26.657" Y="3.175" Type="JumpStart" />
-        <Point X="26.823" Y="3.175" Type="JumpEnd" />
-        <Point X="27.156" Y="3.175" />
-        <Point X="27.156" Y="3.728" />
-        <Point X="26.823" Y="3.728" Type="JumpStart" />
-        <Point X="26.657" Y="3.728" Type="JumpEnd" />
-        <Point X="26.347" Y="3.728" Type="JumpStart" />
-        <Point X="26.181" Y="3.728" Type="JumpEnd" />
-        <Point X="22.625" Y="3.728" />
-        <Point X="22.625" Y="5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="25.5" Y="15.5" Width="1.75" />
     <TypeIdentifier />
   </Class>
   <Class Name="Newtonsoft.Json.Serialization.DefaultContractResolver" Collapsed="true">
-    <Position X="16" Y="11" Width="2" />
+    <Position X="26.5" Y="5.25" Width="2" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="System.Windows.Forms.Button" Collapsed="true">
-    <Position X="5.75" Y="13.25" Width="1.25" />
+    <Position X="7.25" Y="21.25" Width="1.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="System.Drawing.FontFamily" Collapsed="true">
-    <Position X="22.25" Y="1.75" Width="1.25" />
+    <Position X="29.25" Y="9.25" Width="1.25" />
     <TypeIdentifier />
   </Class>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.IFileManager" Collapsed="true">
-    <Position X="27.5" Y="6.75" Width="1.5" />
-    <AssociationLine Name="HistoryManager" Type="MusicLoverHandbook.Models.Managers.HistoryManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="28.109" Y="6.75" />
-        <Point X="28.109" Y="6.375" />
-        <Point X="27" Y="6.375" />
-        <Point X="27" Y="5.625" />
-        <Point X="26.99" Y="5.625" Type="JumpStart" />
-        <Point X="26.823" Y="5.625" Type="JumpEnd" />
-        <Point X="24.5" Y="5.625" />
-        <Point X="24.5" Y="4.062" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.41" Y="0.108" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="SerializerSettings" Type="Newtonsoft.Json.JsonSerializerSettings" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="27.5" Y="7.031" />
-        <Point X="27" Y="7.031" />
-        <Point X="27" Y="5.062" />
-        <Point X="27.5" Y="5.062" />
-        <Point X="27.5" Y="2.312" />
-      </Path>
-    </AssociationLine>
+    <Position X="30.75" Y="17.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAEBkCMAAAQAAAgAAAAFACAEIAQAAQAiAAACA=</HashCode>
       <FileName>Models\Inerfaces\IFileManager.cs</FileName>
@@ -1574,55 +633,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INote" Collapsed="true">
-    <Position X="8.75" Y="2.75" Width="1.5" />
-    <AssociationLine Name="NoteType" Type="MusicLoverHandbook.Models.Enums.NoteType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9.562" Y="3.312" />
-        <Point X="9.562" Y="3.702" />
-        <Point X="10.761" Y="3.702" Type="JumpStart" />
-        <Point X="10.927" Y="3.702" Type="JumpEnd" />
-        <Point X="12.917" Y="3.702" Type="JumpStart" />
-        <Point X="13.083" Y="3.702" Type="JumpEnd" />
-        <Point X="13.229" Y="3.702" Type="JumpStart" />
-        <Point X="13.395" Y="3.702" Type="JumpEnd" />
-        <Point X="13.808" Y="3.702" Type="JumpStart" />
-        <Point X="14.185" Y="3.702" Type="JumpEnd" />
-        <Point X="14.218" Y="3.702" Type="JumpStart" />
-        <Point X="14.384" Y="3.702" Type="JumpEnd" />
-        <Point X="14.479" Y="3.702" Type="JumpStart" />
-        <Point X="14.645" Y="3.702" Type="JumpEnd" />
-        <Point X="19.755" Y="3.702" />
-        <Point X="19.755" Y="7.05" />
-        <Point X="19.844" Y="7.05" />
-        <Point X="19.844" Y="9.75" />
-        <Point X="19.458" Y="9.75" Type="JumpStart" />
-        <Point X="19.292" Y="9.75" Type="JumpEnd" />
-        <Point X="17.75" Y="9.75" />
-        <Point X="17.75" Y="10.875" />
-        <Point X="19.312" Y="10.875" />
-        <Point X="19.312" Y="11.25" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="UsedCreationOrder" Type="MusicLoverHandbook.Models.Enums.NoteCreationOrder" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9.562" Y="3.312" />
-        <Point X="9.562" Y="3.695" />
-        <Point X="10.761" Y="3.695" Type="JumpStart" />
-        <Point X="10.927" Y="3.695" Type="JumpEnd" />
-        <Point X="12.917" Y="3.695" Type="JumpStart" />
-        <Point X="13.083" Y="3.695" Type="JumpEnd" />
-        <Point X="13.229" Y="3.695" Type="JumpStart" />
-        <Point X="13.395" Y="3.695" Type="JumpEnd" />
-        <Point X="13.808" Y="3.695" Type="JumpStart" />
-        <Point X="14.185" Y="3.695" Type="JumpEnd" />
-        <Point X="14.218" Y="3.695" Type="JumpStart" />
-        <Point X="14.384" Y="3.695" Type="JumpEnd" />
-        <Point X="14.479" Y="3.695" Type="JumpStart" />
-        <Point X="14.645" Y="3.695" Type="JumpEnd" />
-        <Point X="17.875" Y="3.695" />
-        <Point X="17.875" Y="4" />
-      </Path>
-    </AssociationLine>
+    <Position X="14.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>Models\Inerfaces\INote.cs</FileName>
@@ -1633,40 +644,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteChild" Collapsed="true">
-    <Position X="12.25" Y="4" Width="1.5" />
-    <InheritanceLine Type="MusicLoverHandbook.Models.Inerfaces.INote" ManuallyRouted="true" FixedFromPoint="true">
-      <Path>
-        <Point X="9.25" Y="3.312" />
-        <Point X="9.25" Y="3.553" />
-        <Point X="9.479" Y="3.553" Type="JumpStart" />
-        <Point X="9.645" Y="3.553" Type="JumpEnd" />
-        <Point X="10.37" Y="3.553" Type="JumpStart" />
-        <Point X="10.536" Y="3.553" Type="JumpEnd" />
-        <Point X="10.761" Y="3.553" Type="JumpStart" />
-        <Point X="10.927" Y="3.553" Type="JumpEnd" />
-        <Point X="11.667" Y="3.553" Type="JumpStart" />
-        <Point X="11.833" Y="3.553" Type="JumpEnd" />
-        <Point X="12.667" Y="3.553" Type="JumpStart" />
-        <Point X="12.833" Y="3.553" Type="JumpEnd" />
-        <Point X="13" Y="3.553" />
-        <Point X="13" Y="4" />
-      </Path>
-    </InheritanceLine>
-    <AssociationLine Name="ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.INoteParent" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.719" Y="4.691" />
-        <Point X="12.719" Y="5.238" />
-        <Point X="11.833" Y="5.238" Type="JumpStart" />
-        <Point X="11.667" Y="5.238" Type="JumpEnd" />
-        <Point X="11.645" Y="5.238" Type="JumpStart" />
-        <Point X="11.479" Y="5.238" Type="JumpEnd" />
-        <Point X="11.188" Y="5.238" />
-        <Point X="11.188" Y="4.691" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.06" Y="0.023" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="18.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Models\Inerfaces\INoteChild.cs</FileName>
@@ -1676,58 +654,28 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControl" Collapsed="true">
-    <Position X="7.5" Y="4" Width="1.75" />
-    <InheritanceLine Type="MusicLoverHandbook.Models.Inerfaces.INote" FixedFromPoint="true">
-      <Path>
-        <Point X="9.25" Y="3.312" />
-        <Point X="9.25" Y="3.695" />
-        <Point X="8.375" Y="3.695" />
-        <Point X="8.375" Y="4" />
-      </Path>
-    </InheritanceLine>
-    <InheritanceLine Type="MusicLoverHandbook.Models.Inerfaces.INoteWidelyComparable" ManuallyRouted="true">
-      <Path>
-        <Point X="7.25" Y="3.312" />
-        <Point X="7.25" Y="3.743" />
-        <Point X="8.375" Y="3.743" />
-        <Point X="8.375" Y="4" />
-      </Path>
-    </InheritanceLine>
+    <Position X="13.75" Y="6.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAgAAgAAEAAAAAAASAAAEAAAAAAkAAEAgAE=</HashCode>
       <FileName>Models\Inerfaces\INoteControl.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteSerializable" Collapsed="true">
-    <Position X="11" Y="2.75" Width="1.5" />
+    <Position X="12.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Models\Inerfaces\INoteControl.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteWidelyComparable" Collapsed="true">
-    <Position X="6.25" Y="2.75" Width="2" />
+    <Position X="17.5" Y="5.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Inerfaces\INoteControl.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControlChild">
-    <Position X="9.75" Y="5.75" Width="1.5" />
-    <AssociationLine Name="ParentNote" Type="MusicLoverHandbook.Models.Inerfaces.IParentControl" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9.75" Y="7.308" />
-        <Point X="9.583" Y="7.308" Type="JumpStart" />
-        <Point X="9.417" Y="7.308" Type="JumpEnd" />
-        <Point X="9.375" Y="7.308" />
-        <Point X="9.375" Y="5.388" />
-        <Point X="7.281" Y="5.388" />
-        <Point X="7.281" Y="4.062" />
-        <Point X="6.583" Y="4.062" Type="JumpStart" />
-        <Point X="6.417" Y="4.062" Type="JumpEnd" />
-        <Point X="6.25" Y="4.062" />
-      </Path>
-    </AssociationLine>
+    <Position X="16" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAgAAAAAQAAA=</HashCode>
       <FileName>Models\Inerfaces\INoteControlChild.cs</FileName>
@@ -1737,7 +685,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControlParent" Collapsed="true">
-    <Position X="6.75" Y="5.75" Width="1.75" />
+    <Position X="12.75" Y="8.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAABAAAAEAAAACAABAQAAAkAAAAQAAAAEIAAA=</HashCode>
       <FileName>Models\Inerfaces\INoteControlParent.cs</FileName>
@@ -1747,30 +695,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteParent" Collapsed="true">
-    <Position X="10" Y="4" Width="1.5" />
-    <InheritanceLine Type="MusicLoverHandbook.Models.Inerfaces.INote" FixedFromPoint="true">
-      <Path>
-        <Point X="9.25" Y="3.312" />
-        <Point X="9.25" Y="3.695" />
-        <Point X="10.75" Y="3.695" />
-        <Point X="10.75" Y="4" />
-      </Path>
-    </InheritanceLine>
-    <AssociationLine Name="InnerNotes" Type="MusicLoverHandbook.Models.Inerfaces.INoteChild" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.188" Y="4.691" />
-        <Point X="11.188" Y="5.229" />
-        <Point X="11.479" Y="5.229" Type="JumpStart" />
-        <Point X="11.645" Y="5.229" Type="JumpEnd" />
-        <Point X="11.667" Y="5.229" Type="JumpStart" />
-        <Point X="11.833" Y="5.229" Type="JumpEnd" />
-        <Point X="12.562" Y="5.229" />
-        <Point X="12.562" Y="4.691" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.043" Y="0.187" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="16.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Inerfaces\INoteParent.cs</FileName>
@@ -1780,27 +705,14 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.IParentControl" Collapsed="true">
-    <Position X="4.75" Y="3.5" Width="1.5" />
+    <Position X="21" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Inerfaces\IParentControl.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicLoverHandbook.Models.Inerfaces.ISmartComboBox" Collapsed="true">
-    <Position X="21.25" Y="8.25" Width="1.5" />
-    <AssociationLine Name="InputType" Type="MusicLoverHandbook.Models.Enums.NoteType" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="21.875" Y="8.812" />
-        <Point X="21.875" Y="9.75" />
-        <Point X="21.25" Y="9.75" />
-        <Point X="21.25" Y="11.688" />
-        <Point X="21.083" Y="11.688" Type="JumpStart" />
-        <Point X="20.917" Y="11.688" Type="JumpEnd" />
-        <Point X="20.583" Y="11.688" Type="JumpStart" />
-        <Point X="20.417" Y="11.688" Type="JumpEnd" />
-        <Point X="20.25" Y="11.688" />
-      </Path>
-    </AssociationLine>
+    <Position X="20.25" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Inerfaces\ISmartComboBox.cs</FileName>
@@ -1811,35 +723,35 @@
     </ShowAsAssociation>
   </Interface>
   <Enum Name="MusicLoverHandbook.Controls_and_Forms.UserControls.PathAnalyzerResult" Collapsed="true">
-    <Position X="24.5" Y="16.25" Width="1.75" />
+    <Position X="28.5" Y="10.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgEAAAAAgAAAAIAAAAAAAAAAAAABAAEAAAAA=</HashCode>
       <FileName>Models\Enums\PathAnalyzerResult.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MusicLoverHandbook.Models.Enums.ButtonType" Collapsed="true">
-    <Position X="14.75" Y="5.25" Width="1.25" />
+    <Position X="24" Y="5.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAACAAAAAEAAAAA=</HashCode>
       <FileName>Models\Enums\ButtonType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MusicLoverHandbook.Models.Enums.InputStatus" Collapsed="true">
-    <Position X="21.25" Y="6.75" Width="1.25" />
+    <Position X="20.5" Y="9.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgBAwAAABAQAAAAAAAAAAAAAAAAQBAAAAAAA=</HashCode>
       <FileName>Models\Enums\InputState.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MusicLoverHandbook.Models.Enums.NoteCreationOrder" Collapsed="true">
-    <Position X="17" Y="4" Width="1.75" />
+    <Position X="14.75" Y="11.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Models\Enums\NoteCreationType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MusicLoverHandbook.Models.Enums.NoteType" Collapsed="true">
-    <Position X="19" Y="11.25" Width="1.25" />
+    <Position X="18.25" Y="11" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAgAAAAAAEAAAAAAQIAAAAA=</HashCode>
       <FileName>Models\Enums\NoteType.cs</FileName>

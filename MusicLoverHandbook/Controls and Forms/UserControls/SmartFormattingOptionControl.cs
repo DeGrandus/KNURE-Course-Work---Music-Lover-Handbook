@@ -8,7 +8,7 @@ using System.Data;
 
 namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    public partial class SmartFilteringOptionMenu : UserControl
+    public partial class SmartFormattingOptionControl : UserControl
     {
         #region Public Fields
 
@@ -46,9 +46,12 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
-        public SmartFilteringOptionMenu(NoteAdvancedFilterMenu filterMenu, LiteNote[] oneTypedLites)
+        public SmartFormattingOptionControl(
+            NoteAdvancedFilterMenu filterMenu,
+            LiteNote[] oneTypedLites
+        )
         {
             InitializeComponent();
 
@@ -64,7 +67,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             SetupLayout();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Private Methods
 
@@ -162,9 +165,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event AdvancedFilteringModeChangedHandler AdvancedFilteringModeChange
         {
@@ -172,6 +173,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             remove => advancedFilteringModeChange -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }

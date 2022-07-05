@@ -80,7 +80,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public SmartComboBox()
         {
@@ -95,7 +95,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             LostFocus += OnLostFocus;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -272,9 +272,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event StateChangedEvent StatusChanged
         {
@@ -294,6 +292,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             remove => tempStatusChangedRepeatedly -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }

@@ -3,12 +3,11 @@ using MusicLoverHandbook.Models.Abstract;
 using MusicLoverHandbook.Models.Enums;
 using MusicLoverHandbook.Models.Extensions;
 using MusicLoverHandbook.Models.Inerfaces;
-using System.Diagnostics;
 using static MusicLoverHandbook.Controls_and_Forms.UserControls.CreationParamsControl;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
-    public class NoteBuilder
+    public class NoteCreationManager
     {
         #region Public Properties
 
@@ -16,19 +15,19 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
-        public NoteBuilder(MainForm form)
+        public NoteCreationManager(MainForm form)
         {
             MainForm = form;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
         public NoteControlMidder CreateNote(
-            IEnumerable<OutputInfo> infoOrdered,
+            IEnumerable<OutputInfo> infoCollection,
             NoteCreationOrder creationOrder
         )
         {
@@ -47,7 +46,7 @@ namespace MusicLoverHandbook.Logic.Notes
             )
             {
                 var currentType = currentNode.Value;
-                var currentInfo = infoOrdered.ToList().Find(x => x.Type == currentType);
+                var currentInfo = infoCollection.ToList().Find(x => x.Type == currentType);
 
                 if (currentInfo == null || !currentInfo.IsValid())
                     continue;
@@ -73,9 +72,6 @@ namespace MusicLoverHandbook.Logic.Notes
                     );
                     if (parent != null)
                     {
-                        Debug.WriteLine(
-                            $"SETTINGS CONN {parent.GetType()} an {currentNote.GetType()} "
-                        );
                         parent.InnerNotes.Add((INoteControlChild)currentNote);
                         ((INoteControlChild)currentNote).ParentNote = parent;
                     }

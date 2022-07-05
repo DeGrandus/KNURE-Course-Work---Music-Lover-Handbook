@@ -12,7 +12,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public ButtonPanel(ButtonType type, int orderIndex)
         {
@@ -21,6 +21,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Margin = Padding = new Padding(0);
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

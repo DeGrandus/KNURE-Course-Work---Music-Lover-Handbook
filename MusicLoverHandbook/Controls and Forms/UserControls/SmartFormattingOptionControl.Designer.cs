@@ -1,6 +1,6 @@
 ﻿namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 {
-    partial class SmartFilteringOptionMenu
+    partial class SmartFormattingOptionControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

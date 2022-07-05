@@ -19,14 +19,14 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public InnerNotesConverter(JsonSerializerSettings usedSettings)
         {
             this.usedSettings = usedSettings;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 

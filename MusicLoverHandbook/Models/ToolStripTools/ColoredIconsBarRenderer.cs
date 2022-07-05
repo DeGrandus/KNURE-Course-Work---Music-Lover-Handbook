@@ -2,11 +2,11 @@
 {
     public class ColoredIconsBarRenderer : ToolStripProfessionalRenderer
     {
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public ColoredIconsBarRenderer(Color iconsBarColor)
             : base(new CustomProfessionalColorTable(iconsBarColor)) { }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

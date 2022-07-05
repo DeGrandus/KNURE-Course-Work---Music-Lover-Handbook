@@ -2,7 +2,7 @@
 {
     public static partial class StringTagTools
     {
-        #region Public Classes
+        #region Public Classes + Structs
 
         public class TagValue : Taggable
         {
@@ -12,16 +12,16 @@
 
             #endregion Public Properties
 
-            #region Public Constructors
+            #region Public Constructors + Destructors
 
             public TagValue(TagDataType type, string? value = null) : base(type, value)
             {
                 Type = TagType.Value;
             }
 
-            #endregion Public Constructors
+            #endregion Public Constructors + Destructors
         }
 
-        #endregion Public Classes
+        #endregion Public Classes + Structs
     }
 }

@@ -10,13 +10,13 @@ namespace MusicLoverHandbook.Models.Attributes
 
         #endregion Public Fields
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public OrderAttribute(params NoteType[] types)
         {
             Order = new LinkedList<NoteType>(types);
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

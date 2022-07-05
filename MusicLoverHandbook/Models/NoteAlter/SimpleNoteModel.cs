@@ -15,7 +15,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public SimpleNoteModel(INoteControl note)
         {
@@ -31,6 +31,6 @@ namespace MusicLoverHandbook.Models.NoteAlter
             NoteType = noteType;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

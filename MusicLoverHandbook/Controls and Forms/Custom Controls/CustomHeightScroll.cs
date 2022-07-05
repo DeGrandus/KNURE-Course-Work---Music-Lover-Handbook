@@ -23,7 +23,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
 
         #endregion Private Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public CustomHeightScroll(Control viewingControl, Control dynamicControl)
         {
@@ -66,7 +66,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             };
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Protected Methods
 

@@ -28,7 +28,7 @@ namespace MusicLoverHandbook.Models.JSON
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteImportModel(
             string noteName,
@@ -45,7 +45,7 @@ namespace MusicLoverHandbook.Models.JSON
             InnerNotes = innerNotes?.ToList();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 

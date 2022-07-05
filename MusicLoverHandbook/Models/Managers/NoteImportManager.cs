@@ -6,7 +6,7 @@ using MusicLoverHandbook.Models.JSON;
 
 namespace MusicLoverHandbook.Logic.Notes
 {
-    public class RawNoteManager
+    public class NoteImportManager
     {
         #region Private Fields
 
@@ -14,19 +14,19 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Private Fields
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
-        public RawNoteManager(MainForm mainForm)
+        public NoteImportManager(MainForm mainForm)
         {
             this.mainForm = mainForm;
         }
 
-        public RawNoteManager()
+        public NoteImportManager()
         {
             mainForm = null;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -63,7 +63,8 @@ namespace MusicLoverHandbook.Logic.Notes
                 );
             if (suitableConstructor == null)
                 throw new Exception(
-                    $"Note recreation error: NoteType:[ {model.NoteType} ] do not have suitable constructor for given mathcing data"
+                    $"Note recreation error: NoteType:[ {model.NoteType} ] "
+                        + $"do not have suitable constructor for given mathcing data"
                 );
 
             List<object?> orderedConstructorParamObjects = new();

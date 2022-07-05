@@ -19,7 +19,7 @@ namespace MusicLoverHandbook.Models.Enums
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public MissingRequiredAttributeException(object source, Type missingAttirbute)
             : base(Decorate(source, missingAttirbute))
@@ -27,7 +27,7 @@ namespace MusicLoverHandbook.Models.Enums
             Source = source.ToString();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Private Methods
 

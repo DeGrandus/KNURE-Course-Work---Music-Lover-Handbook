@@ -16,7 +16,7 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #endregion Public Properties
 
-        #region Protected Constructors
+        #region Protected Constructors + Destructors
 
         protected NoteControlMidder(
             IParentControl parent,
@@ -29,7 +29,7 @@ namespace MusicLoverHandbook.Models.Abstract
             ParentNote = parent;
         }
 
-        #endregion Protected Constructors
+        #endregion Protected Constructors + Destructors
 
         #region Public Methods
 

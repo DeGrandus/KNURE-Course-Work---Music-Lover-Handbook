@@ -15,7 +15,7 @@ namespace MusicLoverHandbook.Models
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public ContentLinker(NoteControlParent linkingParent)
         {
@@ -30,7 +30,7 @@ namespace MusicLoverHandbook.Models
                 InnerNotes.Add(cont);
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Private Methods
 

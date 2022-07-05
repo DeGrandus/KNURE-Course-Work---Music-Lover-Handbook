@@ -8,13 +8,13 @@
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public AssociatedTypeAttribute(Type noteType)
         {
             Type = noteType;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

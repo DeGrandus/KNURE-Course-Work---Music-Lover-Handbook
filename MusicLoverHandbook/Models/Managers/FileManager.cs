@@ -58,16 +58,16 @@ namespace MusicLoverHandbook.Models.Managers
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         static FileManager()
         {
             Instance = new FileManager();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
-        #region Private Constructors
+        #region Private Constructors + Destructors
 
         private FileManager()
         {
@@ -104,7 +104,7 @@ namespace MusicLoverHandbook.Models.Managers
             DataFilePath = datapath;
         }
 
-        #endregion Private Constructors
+        #endregion Private Constructors + Destructors
 
         #region Public Methods
 
@@ -187,7 +187,7 @@ namespace MusicLoverHandbook.Models.Managers
                     GetData(dataFilePath),
                     SerializerSettings
                 ) ?? new()
-                let manager = new RawNoteManager()
+                let manager = new NoteImportManager()
                 select manager.RecreateFromImported(rawModel)
             ).ToList();
 
@@ -200,7 +200,7 @@ namespace MusicLoverHandbook.Models.Managers
             var rawNotes =
                 JsonConvert.DeserializeObject<List<NoteImportModel>>(data, SerializerSettings)
                 ?? new();
-            var noteManager = new RawNoteManager();
+            var noteManager = new NoteImportManager();
             var output = rawNotes.Select(x => noteManager.RecreateFromImported(x)).ToList();
             return output;
         }

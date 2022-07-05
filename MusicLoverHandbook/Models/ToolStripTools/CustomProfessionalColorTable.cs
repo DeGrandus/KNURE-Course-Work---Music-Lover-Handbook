@@ -18,13 +18,13 @@
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public CustomProfessionalColorTable(Color imageStripColor)
         {
             this.imageStripColor = imageStripColor;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

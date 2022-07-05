@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="MusicLoverHandbook.Controls_and_Forms.Forms.MainForm" Collapsed="true">
+    <Position X="12.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RQECiSCGwTEAAABQIQGDMhkiAICJQAgAFwAIDQAgQwA=</HashCode>
+      <FileName>Controls and Forms\Forms\MainForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="NoteAdvancedFilterMenu" />
+      <Property Name="NoteCreationMenu" />
+      <Property Name="SettingsMenu" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MusicLoverHandbook.Controls_and_Forms.Forms.NoteAdvancedFilterMenu">
+    <Position X="9" Y="11.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAIEAUQgBigGAUAEAJCIAIAGACqRCgBERGCQGgqAgQA=</HashCode>
+      <FileName>Controls and Forms\Forms\NoteAdvancedFilterMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.View.Forms.NoteCreationMenu">
+    <Position X="14.75" Y="5.5" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AEbAAYgJQqAzEAgBAAiAAAiKAYCIAKAEIKIACAAAAAA=</HashCode>
+      <FileName>Controls and Forms\Forms\NoteCreationMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.View.Forms.SettingsMenu" Collapsed="true">
+    <Position X="12.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAIEAAAoACAAACCAACAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls and Forms\Forms\SettingsMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Controls_and_Forms.UserControls.BoxPathAnalyzer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAghAAGAAQAAgAIAAEgACACCAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Logic\BoxPathAnalyzer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Controller.MusicFileScanner" Collapsed="true">
+    <Position X="22.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MusicFileScanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Logic.NoteCreationMenuController">
+    <Position X="15.25" Y="16" Width="3" />
+    <NestedTypes>
+      <Class Name="MusicLoverHandbook.Logic.NoteCreationMenuController.NoteCreationResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Logic\NoteCreationMenuController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAgAAEBAAAAAIAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Logic\NoteCreationMenuController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="NoteCreationMenu" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MusicLoverHandbook.Logic.QuickSearchController" Collapsed="true">
+    <Position X="24" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAAAABAAEAAQABAAAAAgAAIAAAAAEAAAAAAAAAABAA=</HashCode>
+      <FileName>Logic\QuickSearchController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Abstract.NoteControl" Collapsed="true">
+    <Position X="6.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwChwSBQIBsAA4BFlAYGAAGASCFANIAAABAGABEAsBE=</HashCode>
+      <FileName>Models\Abstract\NoteControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlChild" Collapsed="true">
+    <Position X="5.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAACABAAACAIAAgAAAAAgAAAAAQEEA=</HashCode>
+      <FileName>Models\Abstract\NoteControlChild.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlMidder" Collapsed="true">
+    <Position X="7.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACABAAAAAAAAggAAAAgAAAAAQEAA=</HashCode>
+      <FileName>Models\Abstract\NoteControlMidder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Abstract.NoteControlParent" Collapsed="true">
+    <Position X="7.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQQAABCAAAEEEQACAABAQAQAkEABAQAAAAEIoAA=</HashCode>
+      <FileName>Models\Abstract\NoteControlParent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.JSON.InnerNotesConverter" Collapsed="true">
+    <Position X="25.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAA=</HashCode>
+      <FileName>Models\JSON\InnerNotesConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.JSON.NoteDesrializationConverter" Collapsed="true">
+    <Position X="25.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAEAEAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\JSON\NoteDesrializationConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.JSON.NoteImportModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAIAAIAAgAEAAAAAAAAQAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\JSON\NoteImportModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.JSON.TypeRestrictedContractResolver" Collapsed="true">
+    <Position X="22.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAABAACAAAAAAAAAIAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\JSON\TypeRestrictedContractResolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Managers.FileManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAEBkCMAAAQAAQgAAAAFCCAEIAQAAQAiAAACA=</HashCode>
+      <FileName>Models\Managers\FileManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Managers.FontManager" Collapsed="true">
+    <Position X="24" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAA=</HashCode>
+      <FileName>Models\Managers\FontManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.Managers.HistoryManager" Collapsed="true">
+    <Position X="18" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgEgAAACAAABAAAAAAAAAAAAkACAAAAASAAAQAAAIAA=</HashCode>
+      <FileName>Models\Managers\HistoryManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FileManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.NoteAlter.LiteNote" Collapsed="true">
+    <Position X="20.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAASAABAAAAgAEgAAAAAAAAIAAAIAAAAAAAAEAABE=</HashCode>
+      <FileName>Models\NoteAlter\LiteNote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.NoteAlter.SimpleNoteModel" Collapsed="true">
+    <Position X="20.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\NoteAlter\SimpleNoteModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Models.ContentLinker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContentLinker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MusicLoverHandbook.Logic.Notes.NoteBuilder" Collapsed="true">
+    <Position X="24" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\Notes\NoteBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Logic.Notes.NoteLiteFilter" Collapsed="true">
+    <Position X="22.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAACAABAAAAAAABAAAQAAgAAA=</HashCode>
+      <FileName>Logic\Notes\NoteLiteFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicLoverHandbook.Logic.Notes.RawNoteManager" Collapsed="true">
+    <Position X="25.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Logic\Notes\RawNoteManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.IFileManager" Collapsed="true">
+    <Position X="15" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAEBkCMAAAQAAAgAAAAFACAEIAQAAQAiAAACA=</HashCode>
+      <FileName>Models\Inerfaces\IFileManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INote" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\Inerfaces\INote.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteChild" Collapsed="true">
+    <Position X="11.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\Inerfaces\INoteChild.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControl" Collapsed="true">
+    <Position X="6.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAgAAgAAEAAAAAAASAAAEAAAAAAkAAEAgAE=</HashCode>
+      <FileName>Models\Inerfaces\INoteControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControlChild" Collapsed="true">
+    <Position X="8.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAgAAAAAQAAA=</HashCode>
+      <FileName>Models\Inerfaces\INoteControlChild.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteControlParent" Collapsed="true">
+    <Position X="5.75" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAABAAAAEAAAACAABAQAAAkAAAAQAAAAEIAAA=</HashCode>
+      <FileName>Models\Inerfaces\INoteControlParent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteParent" Collapsed="true">
+    <Position X="9" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Inerfaces\INoteParent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.IParentControl" Collapsed="true">
+    <Position X="3.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Inerfaces\IParentControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteSerializable" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Inerfaces\INoteSerializable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicLoverHandbook.Models.Inerfaces.INoteWidelyComparable" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Inerfaces\INoteWidelyComparable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

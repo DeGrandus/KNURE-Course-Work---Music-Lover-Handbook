@@ -10,7 +10,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteSongFile : NoteControlChild
     {
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteSongFile(
             IParentControl song,
@@ -43,6 +43,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             };
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

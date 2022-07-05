@@ -82,7 +82,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public CreationParamsControl()
         {
@@ -121,7 +121,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             SetLabel(InputType.ToString(true));
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -376,7 +376,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Methods
 
-        #region Public Classes
+        #region Public Classes + Structs
 
         public class OutputInfo
         {
@@ -394,7 +394,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
             #endregion Public Properties
 
-            #region Public Constructors
+            #region Public Constructors + Destructors
 
             public OutputInfo(
                 NoteType type,
@@ -411,7 +411,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                 ReplacementText = replacementText;
             }
 
-            #endregion Public Constructors
+            #endregion Public Constructors + Destructors
 
             #region Public Methods
 
@@ -420,6 +420,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             #endregion Public Methods
         }
 
-        #endregion Public Classes
+        #endregion Public Classes + Structs
     }
 }

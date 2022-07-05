@@ -14,12 +14,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 {
     public partial class NoteAdvancedFilterMenu : Form
     {
-        #region Public Fields
-
-        public List<INoteControlChild> FinalizedOutput { get; private set; } = new();
-
-        #endregion Public Fields
-
         #region Private Fields
 
         private BasicFilterResultsChangedHandler? basicFilteringResultsChange;
@@ -29,24 +23,27 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         private int previewUpdatingCooldown = 100;
         private Timer previewUpdatingTimer;
         private BasicSwitchLabel smartFilterIncludeSwitch;
-        private List<SmartFilteringOptionMenu> smartFilterOptions = new();
+        private List<SmartFormattingOptionControl> smartFilterOptions = new();
         private BasicSwitchLabel SSLNSwitch;
 
         #endregion Private Fields
 
         #region Public Properties
 
+        public List<INoteControlChild> FinalizedOutput { get; private set; } = new();
         public MainForm MainForm { get; }
 
         #endregion Public Properties
 
         #region Private Properties
 
+        private NoteLiteFilter CreateBasicFilter => new(byNameInput.Text, byDescInput.Text);
+
         private List<LiteNote> FilteredNotesFinal
         {
             get =>
                 (
-                    from switchlessNote in FilteredNotesSwitchless
+                    from switchlessNote in FilteredsNotesSwitchless
                     where
                         currentFilteredSwitch
                             .Find(
@@ -59,7 +56,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 ).ToList();
         }
 
-        private List<LiteNote> FilteredNotesSwitchless
+        private List<LiteNote> FilteredsNotesSwitchless
         {
             get => filteredNotesSwitchless;
             set
@@ -73,7 +70,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #endregion Private Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteAdvancedFilterMenu(MainForm mainForm)
         {
@@ -85,7 +82,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             SetupLayout();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -116,8 +113,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
         #endregion Public Methods
 
         #region Private Methods
-
-        private NoteLiteFilter CreateBasicFilter => new(byNameInput.Text, byDescInput.Text);
 
         private List<INoteControlChild> CreateFinalizedOutput()
         {
@@ -232,7 +227,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private IEnumerable<BasicSwitchLabel> CreateSwitchButtons()
         {
-            var types = FilteredNotesSwitchless
+            var types = FilteredsNotesSwitchless
                 .Select(x => x.OriginalNoteRefference.NoteType)
                 .Distinct();
             foreach (var type in types)
@@ -273,7 +268,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         private void Filtering()
         {
-            FilteredNotesSwitchless = CreateBasicFilter.ApplyOn(initialNotes).ToList();
+            FilteredsNotesSwitchless = CreateBasicFilter.ApplyOn(initialNotes).ToList();
             OnBasicFilteringResultsChange();
         }
 
@@ -320,16 +315,16 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 .GroupBy(x => x.OriginalNoteRefference.NoteType)
                 .Select(x => x.ToArray());
 
-            smartFilterOptions = new List<SmartFilteringOptionMenu>();
+            smartFilterOptions = new List<SmartFormattingOptionControl>();
             foreach (var oneTyped in advancedWorkWith)
                 smartFilterOptions.Add(
-                    new SmartFilteringOptionMenu(this, oneTyped)
+                    new SmartFormattingOptionControl(this, oneTyped)
                     {
-                        Size = new(200, advFiltersFlow.Height),
+                        Size = new(200, smartFiltersFlow.Height),
                     }
                 );
-            advFiltersFlow.Controls.Clear();
-            advFiltersFlow.Controls.AddRange(smartFilterOptions.ToArray());
+            smartFiltersFlow.Controls.Clear();
+            smartFiltersFlow.Controls.AddRange(smartFilterOptions.ToArray());
         }
 
         private void OnInputTextChanged(object? sender, EventArgs e)
@@ -406,13 +401,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             };
 
             noteTypeSelectFlow.BackColor = previewFilteredPanel.BackColor;
-            advFiltersFlow.BackColor = previewFilteredPanel.BackColor;
+            smartFiltersFlow.BackColor = previewFilteredPanel.BackColor;
             BackColor = ControlPaint.LightLight(previewFilteredPanel.BackColor);
 
             initialNotes = MainForm.NotesContainer.InnerNotes.SelectMany(x => x.Flatten()).ToList();
             initialNotes.ForEach(x => x.Dock = DockStyle.Top);
 
-            FilteredNotesSwitchless = initialNotes;
+            FilteredsNotesSwitchless = initialNotes;
 
             byNameInput.TextChanged += OnInputTextChanged;
             byDescInput.TextChanged += OnInputTextChanged;
@@ -426,7 +421,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             smartFiltersTable.Controls.Add(smartFilterIncludeSwitch, 1, 0);
             smartFilterIncludeSwitch.SpecialStateChanged += (sender, state) =>
             {
-                advFiltersFlow.Visible = state;
+                smartFiltersFlow.Visible = state;
             };
             SSLNSwitch = new(Color.OrangeRed, Color.LightGreen, true)
             {
@@ -506,9 +501,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event BasicFilterResultsChangedHandler BasicFilterResultsChange
         {
@@ -516,6 +509,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             remove => basicFilteringResultsChange -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }

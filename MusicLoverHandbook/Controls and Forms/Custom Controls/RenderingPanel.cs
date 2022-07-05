@@ -2,9 +2,13 @@
 {
     public partial class RenderingPanel : Panel
     {
-        #region Public Constructors
+        #region Public Fields
 
         public Panel MovingBox;
+
+        #endregion Public Fields
+
+        #region Public Constructors + Destructors
 
         public RenderingPanel()
         {
@@ -43,6 +47,10 @@
             Controls.Add(mainTable);
         }
 
+        #endregion Public Constructors + Destructors
+
+        #region Protected Methods
+
         protected override void OnHandleCreated(EventArgs e)
         {
             var width = MovingBox.Width;
@@ -67,6 +75,6 @@
             base.OnHandleCreated(e);
         }
 
-        #endregion Public Constructors
+        #endregion Protected Methods
     }
 }

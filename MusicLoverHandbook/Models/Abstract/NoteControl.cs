@@ -9,7 +9,6 @@ using MusicLoverHandbook.Models.Managers;
 using MusicLoverHandbook.Models.NoteAlter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
 
 namespace MusicLoverHandbook.Models.Abstract
 {
@@ -143,15 +142,13 @@ namespace MusicLoverHandbook.Models.Abstract
 
         #region Protected Properties
 
-        //protected virtual CertainTypedContractResolver ContractResolver =>
-        //    new CertainTypedContractResolver(typeof(INote));
         protected virtual int sizeS { get; private set; } = 70;
 
         protected virtual float textSizeRatio { get; private set; } = 0.5f;
 
         #endregion Protected Properties
 
-        #region Protected Constructors
+        #region Protected Constructors + Destructors
 
         protected NoteControl(
             string text,
@@ -168,7 +165,7 @@ namespace MusicLoverHandbook.Models.Abstract
             InitValues(text, description);
         }
 
-        #endregion Protected Constructors
+        #endregion Protected Constructors + Destructors
 
         #region Public Methods
 
@@ -185,11 +182,8 @@ namespace MusicLoverHandbook.Models.Abstract
         {
             var impToClone = Deserialize();
             var manager = FindForm() is MainForm mf ? mf.RawNoteManager : new();
-
-            Debug.WriteLine("Clonning before: " + this);
-            var tes = manager.RecreateFromImported(impToClone);
-            Debug.WriteLine("Clonning after: " + tes);
-            return tes;
+            var cloned = manager.RecreateFromImported(impToClone);
+            return cloned;
         }
 
         public NoteImportModel Deserialize()

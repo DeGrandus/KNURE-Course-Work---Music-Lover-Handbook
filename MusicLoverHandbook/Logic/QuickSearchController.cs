@@ -28,14 +28,14 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Private Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public QuickSearchController(NotesContainer container)
         {
             this.container = container;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -133,9 +133,7 @@ namespace MusicLoverHandbook.Logic
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event QuickSearchResultHandler ResultsChanged
         {
@@ -143,6 +141,6 @@ namespace MusicLoverHandbook.Logic
             remove => resultsChanged -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }

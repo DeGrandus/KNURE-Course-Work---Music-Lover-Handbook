@@ -23,13 +23,32 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
         #region Public Properties
 
-        public NoteBuilder Builder { get; }
+        public NoteCreationManager Builder { get; }
+
+        public NoteAdvancedFilterMenu NoteAdvancedFilterMenu
+        {
+            get => default;
+            set { }
+        }
+
+        public NoteCreationMenu NoteCreationMenu
+        {
+            get => default;
+            set { }
+        }
+
         public NotesContainer NotesContainer { get; }
-        public RawNoteManager RawNoteManager { get; }
+        public NoteImportManager RawNoteManager { get; }
+
+        public SettingsMenu SettingsMenu
+        {
+            get => default;
+            set { }
+        }
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public MainForm()
         {
@@ -46,9 +65,9 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             SetupLayout();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
-        #region Private Methods
+        #region Protected Methods
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
@@ -69,6 +88,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             base.OnResizeEnd(e);
         }
+
+        #endregion Protected Methods
+
+        #region Private Methods
 
         private void AdaptToSize()
         {
@@ -431,6 +454,13 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             createNoteButton.Click += CreateNoteButton_Click;
         }
 
+        private void Setup_Fonts()
+        {
+            Font = new Font(FontManager.Instance.LoadedFamilies[0], 15);
+            title.Font = ConvertToDesiredHeight(Font, title.Height);
+            createNoteButton.Font = Font;
+        }
+
         private void Setup_QSSwitch()
         {
             qSSwitchLabel.BasicTooltipText = "[ Match only names ]";
@@ -439,13 +469,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             {
                 qSPanel.BackColor = qSSwitchLabel.BackColor;
             };
-        }
-
-        private void Setup_ReassignFonts()
-        {
-            Font = new Font(FontManager.Instance.LoadedFamilies[0], 15);
-            title.Font = ConvertToDesiredHeight(Font, title.Height);
-            createNoteButton.Font = Font;
         }
 
         private void Setup_SaveButtonStateTimer()
@@ -586,17 +609,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
             var reversiveSortCheck = new CheckBox()
             {
                 Text = "Reverse",
-                Tag = (IEnumerable<INoteControlChild> children) =>
-                {
-                    var t = children.ToArray().Reverse();
-
-                    Debug.WriteLine("REVERSE BLOCK");
-                    Debug.WriteLine(string.Join(", ", children));
-                    Debug.WriteLine("------------");
-                    Debug.WriteLine(string.Join(", ", t));
-                    Debug.WriteLine("REVERSE BLOCK END");
-                    return t;
-                }
+                Tag = (IEnumerable<INoteControlChild> children) => children.ToArray().Reverse()
             };
             var applyFilteringButton = new ToolStripButton() { Text = "Apply sorting" };
             applyFilteringButton.Click += (sender, e) =>
@@ -606,7 +619,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
                 var filtersConverted = new List<object?>() { filter, reverse }.OfType<
                     Func<IEnumerable<INoteControlChild>, IEnumerable<INoteControlChild>>
                 >();
-                Debug.WriteLine(string.Join(", ", filtersConverted));
                 NotesContainer.Filters = filtersConverted.ToList();
             };
             var clearFilteringButton = new ToolStripButton() { Text = "Clear filters" };
@@ -683,7 +695,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Forms
 
             Setup_BasicTooltips();
 
-            Setup_ReassignFonts();
+            Setup_Fonts();
         }
 
         #endregion Private Methods

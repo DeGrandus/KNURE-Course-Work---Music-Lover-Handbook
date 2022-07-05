@@ -24,19 +24,25 @@ namespace MusicLoverHandbook.Models.Managers
 
         public int CurrentHistoryLength { get; private set; } = 0;
 
+        public FileManager FileManager
+        {
+            get => default;
+            set { }
+        }
+
         public FileStream HistoryFileStream { get; }
 
         public int MaxHistoryLength { get; } = Settings.Default.MaxHistoryCapacity;
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         static HistoryManager() => Instance = new HistoryManager();
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
-        #region Private Constructors
+        #region Private Constructors + Destructors
 
         private HistoryManager()
         {
@@ -52,7 +58,7 @@ namespace MusicLoverHandbook.Models.Managers
             );
         }
 
-        #endregion Private Constructors
+        #endregion Private Constructors + Destructors
 
         #region Public Methods
 
@@ -140,7 +146,7 @@ namespace MusicLoverHandbook.Models.Managers
                 List<NoteImportModel>
             >(JsonSerializer.Create(FileManager.Instance.SerializerSettings));
             return rawHistoryBranch!
-                .Select(b => new RawNoteManager().RecreateFromImported(b))
+                .Select(b => new NoteImportManager().RecreateFromImported(b))
                 .ToList();
         }
 

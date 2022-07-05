@@ -19,7 +19,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public LiteNote(string name, string description, NoteControl noteRef)
         {
@@ -31,7 +31,7 @@ namespace MusicLoverHandbook.Models.NoteAlter
             SetupLayout();
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -59,16 +59,6 @@ namespace MusicLoverHandbook.Models.NoteAlter
         }
 
         #endregion Public Methods
-
-        #region Protected Methods
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            base.OnPaint(e);
-        }
-
-        #endregion Protected Methods
 
         #region Private Methods
 

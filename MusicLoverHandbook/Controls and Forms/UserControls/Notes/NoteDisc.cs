@@ -7,7 +7,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
     [System.ComponentModel.DesignerCategory("Code")]
     public partial class NoteDisc : NoteControlMidder
     {
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteDisc(
             IParentControl author,
@@ -20,6 +20,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls.Notes
             Icon = Properties.Resources.DiscIcon;
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
     }
 }

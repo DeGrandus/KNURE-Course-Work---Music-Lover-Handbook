@@ -15,17 +15,17 @@ namespace MusicLoverHandbook.Logic.Notes
 
         #endregion Public Properties
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public NoteLiteFilter(string byName, string byDesc)
         {
-            var andSpliting = (string by) =>
+            var andSplitting = (string by) =>
                 by != "" ? by.Split(";").Select(x => x.ToLower().Trim()).ToArray() : new[] { "" };
-            NameCompareStrings = andSpliting(byName);
-            DescriptionCompareStrings = andSpliting(byDesc);
+            NameCompareStrings = andSplitting(byName);
+            DescriptionCompareStrings = andSplitting(byDesc);
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -102,6 +102,7 @@ namespace MusicLoverHandbook.Logic.Notes
                         .Trim()
                         .ToLower();
                     tagname = tagname.ToLower().Trim();
+
                     var queryTagNames = data.Select(x => x);
                     if (tagname != "#")
                         queryTagNames =

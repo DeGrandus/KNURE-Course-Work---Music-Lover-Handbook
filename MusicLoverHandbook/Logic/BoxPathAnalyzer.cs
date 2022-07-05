@@ -8,6 +8,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
     {
         #region Private Fields
 
+        private PathAnalyzerResult analyzingResult;
         private TextBox box;
 
         private FileSystemWatcher? defaultWatcher;
@@ -18,7 +19,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Fields
 
-        #region Public Constructors
+        #region Public Constructors + Destructors
 
         public BoxPathAnalyzer(TextBox analyzeBox)
         {
@@ -40,7 +41,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             Setup_WatcherEvents(observedFileWatcher);
         }
 
-        #endregion Public Constructors
+        #endregion Public Constructors + Destructors
 
         #region Public Methods
 
@@ -84,8 +85,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
         #endregion Public Methods
 
         #region Private Methods
-
-        private PathAnalyzerResult analyzingResult;
 
         private void Dispose_Watcher(FileSystemWatcher? watcher)
         {
@@ -157,9 +156,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
 
         #endregion Private Methods
 
-
-
-        #region Public Events
+        #region Public Events + Delegates
 
         public event PathAnalyzerResultHandler ResultsChanged
         {
@@ -167,6 +164,6 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
             remove => resultsChanged -= value;
         }
 
-        #endregion Public Events
+        #endregion Public Events + Delegates
     }
 }
