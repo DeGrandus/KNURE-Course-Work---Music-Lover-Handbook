@@ -104,6 +104,10 @@ namespace MusicLoverHandbook.Controls_and_Forms.UserControls
                             .Find(x => x.NoteName == InputNameBox.Text)
                             ?.NoteDescription ?? "";
             };
+            renameInput.LostFocus += (sender, e) =>
+            {
+                renameInput.Text = InputNameBox.Format(renameInput.Text);
+            };
             UpdateRenameSection();
             renameCheck.CheckedChanged += (sender, e) =>
             {

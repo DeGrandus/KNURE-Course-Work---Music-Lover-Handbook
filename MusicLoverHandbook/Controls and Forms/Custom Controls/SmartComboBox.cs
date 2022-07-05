@@ -207,7 +207,7 @@ namespace MusicLoverHandbook.Controls_and_Forms.Custom_Controls
             Status = InputStatus.OK;
         }
 
-        private string Format(string toFormat)
+        public string Format(string toFormat)
         {
             return Regex.Replace(toFormat, @"([ ;^*@%!+-/|\.,><'""$#№(){}\[\]\\])\1+", "$1").Trim();
         }
