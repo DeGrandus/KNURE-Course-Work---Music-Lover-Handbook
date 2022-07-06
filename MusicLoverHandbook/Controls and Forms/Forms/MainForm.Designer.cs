@@ -226,7 +226,7 @@
             this.advFilterButton.Name = "advFilterButton";
             this.advFilterButton.Size = new System.Drawing.Size(475, 44);
             this.advFilterButton.TabIndex = 1;
-            this.advFilterButton.Text = "Advanced Search";
+            this.advFilterButton.Text = "Advanced Filtering";
             this.advFilterButton.UseVisualStyleBackColor = true;
             // 
             // sortStripButton
